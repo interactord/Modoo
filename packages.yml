@@ -1,0 +1,4 @@
+packages:
+  RIBs:
+    url: https://github.com/uber/RIBs
+    branch: master

@@ -1,0 +1,32 @@
+# fileHeader
+--header strip
+
+# indent
+--indent 2
+
+# numberFormatting
+--decimalgrouping 3
+--hexgrouping "ignore"
+
+# redundantSelf
+# Reference `self` explicitly
+--self remove
+
+# ranges
+--ranges no-space
+
+# trailingCommas
+--commas inline
+
+# unusedArguments
+--stripunusedargs always
+
+# wrapArguments
+--wrapparameters after-first
+
+# Disabled rules
+--disable redundantInit
+--disable void
+
+# Excluded files
+--exclude bin,Carthage,Frameworks,vendor,Pods

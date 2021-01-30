@@ -1,0 +1,57 @@
+targets:
+  Application:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+      - path: Resources
+      - path: Supporting Files
+    dependencies:
+      - sdk: Foundation.framework
+      - sdk: UIKit.framework
+      - target: Base
+      - package: RIBs
+    attributes:
+      ProvisioningStyle: Manual
+    preBuildScripts:
+      - name: SwiftLint
+        script: |
+          if [[ -z "${GITHUB_WORKFLOW}" ]]; then
+          ${PODS_ROOT}/SwiftLint/swiftlint lint \
+            --config "${SRCROOT}/.swiftlint.yml" \
+            --path "${SRCROOT}/Projects/Application"
+          fi
+    settings:
+      base:
+        PRODUCT_NAME: Application
+        PRODUCT_BUNDLE_IDENTIFIER: com.modoo.ios
+        MARKETING_VERSION: 0.1.0
+        CURRENT_PROJECT_VERSION: 1
+        INFOPLIST_FILE: "$(SRCROOT)/Projects/Application/Supporting Files/Info.plist"
+        TARGETED_DEVICE_FAMILY: 1
+        DEVELOPMENT_TEM: FNDVP9SLK2
+        PROVISIONING_PROFILE_SPECIFIER: "match AppStore com.modoo.ios.release"
+        CODE_SIGN_ENTITLEMENTS: ${SRCROOT}/Projects/Application/Supporting Files/Application.entitlements
+      config:
+        degug:
+          CODE_SIGN_IDENTITY: Apple Developer
+        release:
+          CODE_SIGN_IDENTITY: Apple Distribution
+
+  ApplicationTests:
+    templates: [UnitTest]
+    templateAttributes:
+      testTarget: Application
+
+schemes:
+  Application:
+    build:
+      targets:
+        Application: all
+        ApplicationTests: [test]
+    run:
+      environmentVariables:
+        OS_ACTIVITY_MODE: disable
+    test:
+      gatherCoverageData: true
+      targets: [ApplicationTests]
