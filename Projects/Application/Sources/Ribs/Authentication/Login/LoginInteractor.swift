@@ -7,7 +7,7 @@ protocol LoginPresentable: Presentable {
   var listener: LoginPresentableListener? { get set }
 }
 
-protocol LoginListener: AnyObject {
+protocol LoginListener: class {
   func didLogin()
 }
 
@@ -25,6 +25,6 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
 
 extension LoginInteractor: LoginPresentableListener {
   func login() {
-    print("login")
+    listener?.didLogin()
   }
 }

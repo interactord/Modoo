@@ -1,6 +1,6 @@
 import RIBs
 
-protocol RootInteractable: Interactable, LoginListener {
+protocol RootInteractable: Interactable, LoginListener, OnboardListener {
 	var router: RootRouting? { get set }
 	var listener: RootListener? { get set }
 }
@@ -12,12 +12,17 @@ protocol RootViewControllable: ViewControllable {
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
 	private let loginBuilder: LoginBuildable
-	private var login: Routing?
+	private var login: ViewableRouting?
+	private let onboardBuilder: OnboardBuildable
+	private var onboard: ViewableRouting?
+	private var currentChild: ViewableRouting?
 
 	init(interactor: RootInteractable,
 	     viewController: RootViewControllable,
-	     loginBuilder: LoginBuildable) {
+	     loginBuilder: LoginBuildable,
+	     onboardBuilder: OnboardBuildable) {
 		self.loginBuilder = loginBuilder
+		self.onboardBuilder = onboardBuilder
 		super.init(interactor: interactor,
 		           viewController: viewController)
 		interactor.router = self
@@ -25,18 +30,56 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
 
 	override func didLoad() {
 		super.didLoad()
+		routeLogin()
+	}
 
-		let login = loginBuilder.build(withListener: interactor)
-		self.login = self
+	func cleanupViews() {
+		guard let currentChild = currentChild else { return }
 
-		attachChild(login)
-
-		viewController.present(viewController: login.viewControllable)
+		viewController.dismiss(viewController: currentChild.viewControllable)
 	}
 }
 
 // MARK: RootRouting
 
 extension RootRouter: RootRouting {
-	func routeToLoggedIn() {}
+	func routeToLoggedIn() {
+		routeOnboard()
+	}
+}
+
+// MARK: - Inner Method
+
+private extension RootRouter {
+	func routeLogin() {
+		detachCurrentChild()
+
+		let login = loginBuilder.build(withListener: interactor)
+		self.login = login
+		currentChild = login
+
+		attachChild(login)
+
+		viewController.present(viewController: login.viewControllable)
+	}
+
+	func routeOnboard() {
+		detachCurrentChild()
+
+		let onboard = onboardBuilder.build(withListener: interactor)
+		self.onboard = onboard
+		currentChild = onboard
+
+		attachChild(onboard)
+
+		viewController.present(viewController: onboard.viewControllable)
+	}
+
+	func detachCurrentChild() {
+		guard let currentChild = currentChild else { return }
+
+		detachChild(currentChild)
+		viewController.dismiss(viewController: currentChild.viewControllable)
+		self.currentChild = nil
+	}
 }
