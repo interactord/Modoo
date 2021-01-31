@@ -20,18 +20,12 @@ schemes:
     build:
       targets:
         Application: test
-        Base: test
-        Testing: test
     test:
       gatherCoverageData: true
       targets:
         - ApplicationTests
-        - BaseTests
-        - TestingTests
 
 include:
   - packages.yml
   - Projects/workspace.yml
   - Projects/Application/project.yml
-  - Projects/Base/project.yml
-  - Projects/Testing/project.yml

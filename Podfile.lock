@@ -1,5 +1,4 @@
 PODS:
-  - Nimble (9.0.0)
   - PINCache (3.0.3):
     - PINCache/Arc-exception-safe (= 3.0.3)
     - PINCache/Core (= 3.0.3)
@@ -15,7 +14,6 @@ PODS:
   - PINRemoteImage/PINCache (3.0.3):
     - PINCache (~> 3.0.3)
     - PINRemoteImage/Core
-  - Quick (3.0.0)
   - SwiftLint (0.42.0)
   - Texture (3.0.0):
     - Texture/AssetsLibrary (= 3.0.0)
@@ -39,30 +37,24 @@ PODS:
     - Texture/Core
 
 DEPENDENCIES:
-  - Nimble
-  - Quick
   - SwiftLint
   - Texture
 
 SPEC REPOS:
   trunk:
-    - Nimble
     - PINCache
     - PINOperation
     - PINRemoteImage
-    - Quick
     - SwiftLint
     - Texture
 
 SPEC CHECKSUMS:
-  Nimble: 3b4ec3fd40f1dc178058e0981107721c615643d8
   PINCache: 7a8fc1a691173d21dbddbf86cd515de6efa55086
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
   PINRemoteImage: f1295b29f8c5e640e25335a1b2bd9d805171bd01
-  Quick: 6d9559f40647bc4d510103842ef2fdd882d753e2
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
 
-PODFILE CHECKSUM: f54ce4d028832c93235a80b5d0ca7400cb84c72f
+PODFILE CHECKSUM: 0d92297b1381a6b6fcdea9ba9e1a73f03921360c
 
 COCOAPODS: 1.10.1
