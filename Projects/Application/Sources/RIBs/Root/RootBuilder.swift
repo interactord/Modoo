@@ -8,8 +8,7 @@ final class RootComponent: Component<RootDependency> {
   let rootViewController: RootViewController
 
   init(dependency: RootDependency,
-       rootViewController: RootViewController)
-  {
+       rootViewController: RootViewController) {
     self.rootViewController = rootViewController
 
     super.init(dependency: dependency)

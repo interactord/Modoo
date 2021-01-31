@@ -10,7 +10,8 @@ protocol RootPresentable: Presentable {
   var listener: RootPresentableListener? { get set }
 }
 
-protocol RootListener: class {}
+protocol RootListener: class {
+}
 
 final class RootInteractor: PresentableInteractor<RootPresentable>, RootPresentableListener {
   weak var router: RootRouting?
