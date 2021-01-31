@@ -16,6 +16,7 @@ opt_in_rules:
   - redundant_nil_coalescing
 disabled_rules:
   - todo
+  - vertical_parameter_alignment
 excluded:
   - Carthage
   - Pods
