@@ -6,7 +6,6 @@ targetTemplates:
       - path: ${target_name}/Sources
     dependencies:
       - sdk: Foundation.framework
-      - target: Base
     settings:
       PRODUCT_NAME: ${target_name}
       PRODUCT_BUNDLE_IDENTIFIER: $(PRODUCT_NAME)
@@ -23,7 +22,8 @@ targetTemplates:
       - path: ${testTarget}/Tests
     dependencies:
       - target: ${testTarget}
-      - target: Testing
+      - package: Quick
+      - package: Nimble
     settings:
       WRAPPER_EXTENSION: xctest
       PRODUCT_NAME: ${target_name}

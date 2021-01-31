@@ -2,3 +2,9 @@ packages:
   RIBs:
     url: https://github.com/uber/RIBs
     branch: master
+  Quick:
+    url: https://github.com/Quick/Quick
+    branch: master
+  Nimble:
+    url: https://github.com/Quick/Nimble
+    branch: master
