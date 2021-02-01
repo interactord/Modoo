@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ featue/* ]
+  pull_request: 
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: macOS-latest 
+    env:
+      PROJECT: Modoo.xcworkspace
+      SCHEME: AllTests
+      CODECOV_PACKAGE_NAME: Modoo
+      SDK: iphonesimulator
+      DESTINATION: platform=iOS Simulator,name=iPhone 11 Pro,OS=latest
+  
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install brewfile
+      run: brew bundle --file=./Brewfile
+    
+    - name: Install Gemfile
+      run: bundle install
+
+    - name: Generate Xcode Project
+      run: make project
+    
+    - name: Build and Test with Xcode
+      run: |
+        set -o pipefail && xcodebuild clean build test \
+          -workspace "$PROJECT" \
+          -scheme "$SCHEME" \
+          -sdk "$SDK" \
+          -destination "$DESTINATION" \
+          -configuration Debug \
+          -enableCodeCoverage YES
+          CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -f `xcpretty-travis-formatter`
+    
+    - name: Update Code coverage
+      run: |
+        bash <(curl -s https://codecov.io/bash) \
+          -X xcodeplist \
+          -J "$CODECOV_PACKAGE_NAME"
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
