@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
+<coverage line-rate="0.9268292682926830" branch-rate="1.0000000000000000" lines-covered="152" lines-valid="164" branches-covered="0" branches-valid="0" complexity="0.0" timestamp="1612168293" version="Slather 2.6.1">
+  <sources>
+    <source>/Users/sangbongmoon/workspace/Modoo</source>
+  </sources>
+  <packages>
+    <package name="Projects.Application.Sources.Entry" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+      <classes>
+        <class name="AppComponent" filename="Projects/Application/Sources/Entry/AppComponent.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="4" branch="false" hits="15"/>
+            <line number="5" branch="false" hits="15"/>
+            <line number="6" branch="false" hits="15"/>
+          </lines>
+        </class>
+        <class name="AppDelegate" filename="Projects/Application/Sources/Entry/AppDelegate.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="10" branch="false" hits="1"/>
+            <line number="11" branch="false" hits="1"/>
+            <line number="12" branch="false" hits="1"/>
+            <line number="13" branch="false" hits="1"/>
+            <line number="14" branch="false" hits="1"/>
+            <line number="15" branch="false" hits="1"/>
+            <line number="16" branch="false" hits="1"/>
+            <line number="17" branch="false" hits="1"/>
+            <line number="18" branch="false" hits="1"/>
+            <line number="19" branch="false" hits="1"/>
+          </lines>
+        </class>
+        <class name="main" filename="Projects/Application/Sources/Entry/main.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="3" branch="false" hits="1"/>
+            <line number="4" branch="false" hits="1"/>
+            <line number="5" branch="false" hits="1"/>
+            <line number="6" branch="false" hits="1"/>
+            <line number="7" branch="false" hits="1"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="Projects.Application.Sources.RIBs.Authentication.Login" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+      <classes>
+        <class name="LoginBuilder" filename="Projects/Application/Sources/RIBs/Authentication/Login/LoginBuilder.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="20" branch="false" hits="1"/>
+            <line number="21" branch="false" hits="1"/>
+            <line number="22" branch="false" hits="1"/>
+            <line number="28" branch="false" hits="1"/>
+            <line number="29" branch="false" hits="1"/>
+            <line number="30" branch="false" hits="1"/>
+            <line number="31" branch="false" hits="1"/>
+            <line number="32" branch="false" hits="1"/>
+            <line number="33" branch="false" hits="1"/>
+            <line number="34" branch="false" hits="1"/>
+            <line number="35" branch="false" hits="1"/>
+          </lines>
+        </class>
+        <class name="LoginInteractor" filename="Projects/Application/Sources/RIBs/Authentication/Login/LoginInteractor.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="26" branch="false" hits="9"/>
+            <line number="27" branch="false" hits="9"/>
+            <line number="28" branch="false" hits="9"/>
+            <line number="29" branch="false" hits="9"/>
+            <line number="41" branch="false" hits="1"/>
+            <line number="42" branch="false" hits="1"/>
+            <line number="43" branch="false" hits="1"/>
+          </lines>
+        </class>
+        <class name="LoginRouter" filename="Projects/Application/Sources/RIBs/Authentication/Login/LoginRouter.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="20" branch="false" hits="8"/>
+            <line number="21" branch="false" hits="8"/>
+            <line number="22" branch="false" hits="8"/>
+            <line number="23" branch="false" hits="8"/>
+          </lines>
+        </class>
+        <class name="LoginViewController" filename="Projects/Application/Sources/RIBs/Authentication/Login/LoginViewController.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="16" branch="false" hits="1"/>
+            <line number="17" branch="false" hits="1"/>
+            <line number="18" branch="false" hits="1"/>
+            <line number="19" branch="false" hits="1"/>
+            <line number="20" branch="false" hits="1"/>
+            <line number="21" branch="false" hits="1"/>
+            <line number="22" branch="false" hits="1"/>
+            <line number="23" branch="false" hits="1"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="Projects.Application.Sources.RIBs.Onboard" line-rate="0.6521739130434783" branch-rate="1.0000000000000000" complexity="0.0">
+      <classes>
+        <class name="OnboardBuilder" filename="Projects/Application/Sources/RIBs/Onboard/OnboardBuilder.swift" line-rate="0.2727272727272727" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="20" branch="false" hits="1"/>
+            <line number="21" branch="false" hits="1"/>
+            <line number="22" branch="false" hits="1"/>
+            <line number="28" branch="false" hits="0"/>
+            <line number="29" branch="false" hits="0"/>
+            <line number="30" branch="false" hits="0"/>
+            <line number="31" branch="false" hits="0"/>
+            <line number="32" branch="false" hits="0"/>
+            <line number="33" branch="false" hits="0"/>
+            <line number="34" branch="false" hits="0"/>
+            <line number="35" branch="false" hits="0"/>
+          </lines>
+        </class>
+        <class name="OnboardInteractor" filename="Projects/Application/Sources/RIBs/Onboard/OnboardInteractor.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="24" branch="false" hits="4"/>
+            <line number="25" branch="false" hits="4"/>
+            <line number="26" branch="false" hits="4"/>
+            <line number="27" branch="false" hits="4"/>
+          </lines>
+        </class>
+        <class name="OnboardRouter" filename="Projects/Application/Sources/RIBs/Onboard/OnboardRouter.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="20" branch="false" hits="4"/>
+            <line number="21" branch="false" hits="4"/>
+            <line number="22" branch="false" hits="4"/>
+            <line number="23" branch="false" hits="4"/>
+          </lines>
+        </class>
+        <class name="OnboardViewController" filename="Projects/Application/Sources/RIBs/Onboard/OnboardViewController.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="14" branch="false" hits="4"/>
+            <line number="15" branch="false" hits="4"/>
+            <line number="16" branch="false" hits="4"/>
+            <line number="17" branch="false" hits="4"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+    <package name="Projects.Application.Sources.RIBs.Root" line-rate="0.9569892473118280" branch-rate="1.0000000000000000" complexity="0.0">
+      <classes>
+        <class name="RootBuilder" filename="Projects/Application/Sources/RIBs/Root/RootBuilder.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="16" branch="false" hits="15"/>
+            <line number="17" branch="false" hits="15"/>
+            <line number="18" branch="false" hits="15"/>
+            <line number="19" branch="false" hits="15"/>
+            <line number="20" branch="false" hits="15"/>
+            <line number="45" branch="false" hits="1"/>
+            <line number="46" branch="false" hits="1"/>
+            <line number="47" branch="false" hits="1"/>
+            <line number="53" branch="false" hits="1"/>
+            <line number="54" branch="false" hits="1"/>
+            <line number="55" branch="false" hits="1"/>
+            <line number="56" branch="false" hits="1"/>
+            <line number="57" branch="false" hits="1"/>
+            <line number="58" branch="false" hits="1"/>
+            <line number="59" branch="false" hits="1"/>
+            <line number="60" branch="false" hits="1"/>
+            <line number="61" branch="false" hits="1"/>
+            <line number="62" branch="false" hits="1"/>
+            <line number="63" branch="false" hits="1"/>
+            <line number="64" branch="false" hits="1"/>
+            <line number="65" branch="false" hits="1"/>
+            <line number="66" branch="false" hits="1"/>
+            <line number="67" branch="false" hits="1"/>
+            <line number="68" branch="false" hits="1"/>
+          </lines>
+        </class>
+        <class name="RootInteractor" filename="Projects/Application/Sources/RIBs/Root/RootInteractor.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="27" branch="false" hits="3"/>
+            <line number="28" branch="false" hits="3"/>
+            <line number="29" branch="false" hits="3"/>
+            <line number="30" branch="false" hits="3"/>
+            <line number="37" branch="false" hits="1"/>
+            <line number="38" branch="false" hits="1"/>
+            <line number="39" branch="false" hits="1"/>
+            <line number="40" branch="false" hits="1"/>
+            <line number="46" branch="false" hits="1"/>
+            <line number="47" branch="false" hits="1"/>
+            <line number="48" branch="false" hits="1"/>
+          </lines>
+        </class>
+        <class name="RootRouter" filename="Projects/Application/Sources/RIBs/Root/RootRouter.swift" line-rate="1.0000000000000000" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="28" branch="false" hits="8"/>
+            <line number="29" branch="false" hits="8"/>
+            <line number="30" branch="false" hits="8"/>
+            <line number="31" branch="false" hits="8"/>
+            <line number="32" branch="false" hits="8"/>
+            <line number="33" branch="false" hits="8"/>
+            <line number="34" branch="false" hits="8"/>
+            <line number="35" branch="false" hits="8"/>
+            <line number="39" branch="false" hits="8"/>
+            <line number="40" branch="false" hits="8"/>
+            <line number="41" branch="false" hits="8"/>
+            <line number="42" branch="false" hits="8"/>
+            <line number="44" branch="false" hits="15"/>
+            <line number="45" branch="false" hits="15"/>
+            <line number="46" branch="false" hits="6"/>
+            <line number="47" branch="false" hits="6"/>
+            <line number="48" branch="false" hits="6"/>
+            <line number="49" branch="false" hits="6"/>
+            <line number="64" branch="false" hits="4"/>
+            <line number="65" branch="false" hits="4"/>
+            <line number="66" branch="false" hits="4"/>
+            <line number="72" branch="false" hits="8"/>
+            <line number="73" branch="false" hits="8"/>
+            <line number="74" branch="false" hits="8"/>
+            <line number="75" branch="false" hits="8"/>
+            <line number="76" branch="false" hits="8"/>
+            <line number="77" branch="false" hits="8"/>
+            <line number="78" branch="false" hits="8"/>
+            <line number="79" branch="false" hits="8"/>
+            <line number="80" branch="false" hits="8"/>
+            <line number="81" branch="false" hits="8"/>
+            <line number="82" branch="false" hits="8"/>
+            <line number="84" branch="false" hits="4"/>
+            <line number="85" branch="false" hits="4"/>
+            <line number="86" branch="false" hits="4"/>
+            <line number="87" branch="false" hits="4"/>
+            <line number="88" branch="false" hits="4"/>
+            <line number="89" branch="false" hits="4"/>
+            <line number="90" branch="false" hits="4"/>
+            <line number="91" branch="false" hits="4"/>
+            <line number="92" branch="false" hits="4"/>
+            <line number="93" branch="false" hits="4"/>
+            <line number="94" branch="false" hits="4"/>
+          </lines>
+        </class>
+        <class name="RootViewController" filename="Projects/Application/Sources/RIBs/Root/RootViewController.swift" line-rate="0.7333333333333333" branch-rate="1.0000000000000000" complexity="0.0">
+          <methods/>
+          <lines>
+            <line number="16" branch="false" hits="1"/>
+            <line number="17" branch="false" hits="1"/>
+            <line number="18" branch="false" hits="1"/>
+            <line number="19" branch="false" hits="1"/>
+            <line number="25" branch="false" hits="1"/>
+            <line number="26" branch="false" hits="1"/>
+            <line number="27" branch="false" hits="1"/>
+            <line number="28" branch="false" hits="1"/>
+            <line number="29" branch="false" hits="1"/>
+            <line number="30" branch="false" hits="1"/>
+            <line number="31" branch="false" hits="1"/>
+            <line number="33" branch="false" hits="0"/>
+            <line number="34" branch="false" hits="0"/>
+            <line number="35" branch="false" hits="0"/>
+            <line number="36" branch="false" hits="0"/>
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>
