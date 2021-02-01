@@ -1,32 +1,29 @@
-# fileHeader
---header strip
+# Current version of SwiftFormat used at Airbnb: 0.47.4
 
-# indent
---indent 2
+# options
+--self remove # redundantSelf
+--importgrouping testable-bottom # sortedImports
+--commas always # trailingCommas
+--trimwhitespace always # trailingSpace
+--indent 2 #indent
+--ifdef no-indent #indent
+--wraparguments before-first # wrapArguments
+--wrapparameters before-first # wrapArguments
+--wrapcollections before-first # wrapArguments
+--wrapconditions before-first # wrapArguments
+--closingparen same-line # wrapArguments
+--funcattributes prev-line # wrapAttributes
+--typeattributes prev-line # wrapAttributes
+--structthreshold 20 # organizeDeclarations
+--enumthreshold 20 # organizeDeclarations
+--organizetypes class,struct,enum,extension # organizeDeclarations
+--extensionacl on-declarations # extensionAccessControl
+--swiftversion 5.1
 
-# numberFormatting
---decimalgrouping 3
---hexgrouping "ignore"
+# rules
+--rules anyObjectProtocol,redundantParens,redundantReturn,redundantSelf,sortedImports,strongifiedSelf,trailingCommas,trailingSpace,wrapArguments,wrapMultilineStatementBraces,indent,wrapAttributes,organizeDeclarations,markTypes,extensionAccessControl,duplicateImports
 
-# redundantSelf
-# Reference `self` explicitly
---self remove
-
-# ranges
---ranges no-space
-
-# trailingCommas
---commas inline
-
-# unusedArguments
---stripunusedargs always
-
-# wrapArguments
---wrapparameters after-first
-
-# Disabled rules
---disable redundantInit
---disable void
 
 # Excluded files
 --exclude bin,Carthage,Frameworks,vendor,Pods
+

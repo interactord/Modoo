@@ -20,6 +20,13 @@ targets:
             --config "${SRCROOT}/.swiftlint.yml" \
             --path "${SRCROOT}/Projects/Application"
           fi
+      - name: SwiftFormat
+        script: |
+          if which swiftformat >/dev/null; then
+          swiftformat .
+          else
+          echo "warning: SwiftFormat not installed, brew install swiftformat"
+          fi
     settings:
       base:
         PRODUCT_NAME: Application

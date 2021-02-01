@@ -1,25 +1,34 @@
-@testable import Application
-import UIKit
 import RIBs
-import RxSwift
 import RxRelay
+import RxSwift
+import UIKit
+@testable import Application
+
+// MARK: - RootViewControllableMock
 
 class RootViewControllableMock: ViewControllableMock, RootPresentable {
+  // MARK: Variables
 
-	// MARK: Variables
-	var listener: RootPresentableListener?
+  var listener: RootPresentableListener?
 
-	override init() {
-		super.init()
-	}
+  // MARK: Function Handler
+
+  var presentHandler: (() -> Void)?
+  var presentCallCount: Int = 0
+  var dismissHandler: (() -> Void)?
+  var dismissCallCount: Int = 0
 }
 
-// MARK: - RootPresentable
+// MARK: RootViewControllable
 
-extension RootViewControllableMock {
-	func present(viewController: ViewControllable) {
-	}
+extension RootViewControllableMock: RootViewControllable {
+  func present(viewController _: ViewControllable) {
+    presentCallCount += 1
+    presentHandler?()
+  }
 
-	func dismiss(viewController: ViewControllable) {
-	}
+  func dismiss(viewController _: ViewControllable) {
+    dismissCallCount += 1
+    dismissHandler?()
+  }
 }

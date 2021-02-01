@@ -2,8 +2,11 @@ import RIBs
 import RxSwift
 import UIKit
 
-protocol OnboardPresentableListener: AnyObject {
-}
+// MARK: - OnboardPresentableListener
+
+protocol OnboardPresentableListener: AnyObject {}
+
+// MARK: - OnboardViewController
 
 final class OnboardViewController: UITabBarController, OnboardPresentable, OnboardViewControllable {
   weak var listener: OnboardPresentableListener?

@@ -1,1 +1,2 @@
 brew "xcodegen"
+brew "swiftformat"
