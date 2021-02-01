@@ -1,4 +1,5 @@
 PODS:
+  - BonMot (5.6.0)
   - PINCache (3.0.3):
     - PINCache/Arc-exception-safe (= 3.0.3)
     - PINCache/Core (= 3.0.3)
@@ -37,11 +38,13 @@ PODS:
     - Texture/Core
 
 DEPENDENCIES:
+  - BonMot
   - SwiftLint
   - Texture
 
 SPEC REPOS:
   trunk:
+    - BonMot
     - PINCache
     - PINOperation
     - PINRemoteImage
@@ -49,12 +52,13 @@ SPEC REPOS:
     - Texture
 
 SPEC CHECKSUMS:
+  BonMot: 2217a66e5ddc6a8d2ffb759fe8c85a8528e0d3e7
   PINCache: 7a8fc1a691173d21dbddbf86cd515de6efa55086
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
   PINRemoteImage: f1295b29f8c5e640e25335a1b2bd9d805171bd01
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
 
-PODFILE CHECKSUM: 0d92297b1381a6b6fcdea9ba9e1a73f03921360c
+PODFILE CHECKSUM: 23aba46dcdcd87d72e943e4b12b87b751fac4406
 
 COCOAPODS: 1.10.1

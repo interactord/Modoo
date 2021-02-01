@@ -4,7 +4,11 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'Application' do
+  # UI
   pod 'Texture'
+  pod 'BonMot'
+
+  # Misc.
   pod 'SwiftLint'
 end
 
