@@ -1,6 +1,6 @@
+import AsyncDisplayKit
 import RIBs
 import RxSwift
-import UIKit
 
 // MARK: - LoginPresentableListener
 
@@ -10,15 +10,30 @@ protocol LoginPresentableListener: AnyObject {
 
 // MARK: - LoginViewController
 
-final class LoginViewController: UIViewController, LoginPresentable, LoginViewControllable {
+final class LoginViewController: ASDKViewController<LoginContainerNode>, LoginPresentable, LoginViewControllable {
+
+  // MARK: Lifecycle
+
+  override init() {
+    super.init(node: .init())
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  deinit {
+    print("LoginController deinit...")
+  }
+
+  // MARK: Internal
+
   weak var listener: LoginPresentableListener?
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .blue
-
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [listener] in
-      listener?.login()
-    }
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [listener] in
+//      listener?.login()
+//    }
   }
 }
