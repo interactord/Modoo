@@ -1,7 +1,7 @@
 # Modoo
 
 [![Swift Version][swift-image]][swift-url]
-[![Build Status][travis-image]][travis-url]
+![Build Status][github-action-image]
 [![codecov][codecov-image]][codecov-url]
 [![License][license-image]][license-url]
 
@@ -25,9 +25,8 @@ $ make project
 ```
 
 [swift-url]: https://swift.org/
-[swift-image]:https://img.shields.io/badge/swift-5.0-orange.svg
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/interactord/Modoo
+[swift-image]:https://img.shields.io/badge/swift-5.3-orange.svg
+[github-action-image]: https://github.com/interactord/Modoo/workflows/CI/badge.svg
 [codecov-image]: https://codecov.io/gh/interactord/Modoo/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/interactord/Modoo
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
