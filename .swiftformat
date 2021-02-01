@@ -1,6 +1,7 @@
 # Current version of SwiftFormat used at Airbnb: 0.47.4
 
 # options
+--header strip #removeFileHeaderDescription - (local)
 --self remove # redundantSelf
 --importgrouping testable-bottom # sortedImports
 --commas always # trailingCommas
@@ -21,7 +22,7 @@
 --swiftversion 5.1
 
 # rules
---rules fileHeader,anyObjectProtocol,redundantParens,redundantReturn,redundantSelf,sortedImports,strongifiedSelf,trailingCommas,trailingSpace,wrapArguments,wrapMultilineStatementBraces,indent,wrapAttributes,organizeDeclarations,markTypes,extensionAccessControl,duplicateImports,initCoderUnavailable
+--rules fileHeader,initCoderUnavailable,anyObjectProtocol,redundantParens,redundantReturn,redundantSelf,sortedImports,strongifiedSelf,trailingCommas,trailingSpace,wrapArguments,wrapMultilineStatementBraces,indent,wrapAttributes,organizeDeclarations,markTypes,extensionAccessControl,duplicateImports,initCoderUnavailable
 
 
 # Excluded files
