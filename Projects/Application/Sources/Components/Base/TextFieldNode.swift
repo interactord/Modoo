@@ -17,6 +17,7 @@ final class TextFieldNode: ASDisplayNode {
     style.height = .init(unit: .points, value: getLineHeight())
   }
 
+  @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
