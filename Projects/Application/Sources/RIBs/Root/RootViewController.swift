@@ -3,6 +3,7 @@ import RxSwift
 import UIKit
 
 protocol RootPresentableListener: class {
+	func didLogin()
 }
 
 final class RootViewController: UIViewController, RootPresentable {
