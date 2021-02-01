@@ -16,14 +16,10 @@ class RoutingMock: ViewableRouting, Routing {
 
   // MARK: Internal
 
-  // MARK: Variables
-
   var viewControllable: ViewControllable
   var interactableSetCallCount = 0
   var childrenSetCallCount = 0
   var lifecycleSubjectSetCallCount = 0
-  // MARK: Function Handlers
-
   var loadHandler: (() -> Void)?
   var loadCallCount = 0
   var attachChildHandler: ((_ child: Routing) -> Void)?
