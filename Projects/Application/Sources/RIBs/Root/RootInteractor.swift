@@ -13,7 +13,7 @@ protocol RootPresentable: Presentable {
 protocol RootListener: class {
 }
 
-final class RootInteractor: PresentableInteractor<RootPresentable>, RootPresentableListener {
+final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable {
   weak var router: RootRouting?
   weak var listener: RootListener?
 
@@ -28,9 +28,9 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootPresenta
   }
 }
 
-// MARK: RootInteractable
+// MARK: RootPresentableListener
 
-extension RootInteractor: RootInteractable {
+extension RootInteractor: RootPresentableListener {
   func didLogin() {
     router?.routeToLoggedIn()
   }
