@@ -37,6 +37,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
 		guard let currentChild = currentChild else { return }
 
 		viewController.dismiss(viewController: currentChild.viewControllable)
+		self.currentChild = nil
 	}
 }
 
@@ -52,7 +53,7 @@ extension RootRouter: RootRouting {
 
 private extension RootRouter {
 	func routeLogin() {
-		detachCurrentChild()
+		cleanupViews()
 
 		let login = loginBuilder.build(withListener: interactor)
 		self.login = login
@@ -64,7 +65,7 @@ private extension RootRouter {
 	}
 
 	func routeOnboard() {
-		detachCurrentChild()
+		cleanupViews()
 
 		let onboard = onboardBuilder.build(withListener: interactor)
 		self.onboard = onboard
@@ -73,13 +74,5 @@ private extension RootRouter {
 		attachChild(onboard)
 
 		viewController.present(viewController: onboard.viewControllable)
-	}
-
-	func detachCurrentChild() {
-		guard let currentChild = currentChild else { return }
-
-		detachChild(currentChild)
-		viewController.dismiss(viewController: currentChild.viewControllable)
-		self.currentChild = nil
 	}
 }
