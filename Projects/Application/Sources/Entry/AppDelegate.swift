@@ -2,8 +2,10 @@ import RIBs
 import UIKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
+
+  // MARK: Internal
+
   var window: UIWindow?
-  private var launchRouter: LaunchRouting?
 
   func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     let window = UIWindow()
@@ -15,4 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     return true
   }
+
+  // MARK: Private
+
+  private var launchRouter: LaunchRouting?
+
 }

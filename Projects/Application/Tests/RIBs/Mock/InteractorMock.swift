@@ -3,19 +3,27 @@ import RxRelay
 import RxSwift
 
 class InteractorMock: Interactable {
-	// MARK: Variables
-	private let active = BehaviorRelay<Bool>(value: false)
-	var isActive: Bool { active.value }
-	var isActiveStream: Observable<Bool> { active.asObservable() }
 
-	init() {
-	}
+  // MARK: Lifecycle
 
-	func activate() {
-		active.accept(true)
-	}
+  init() {}
 
-	func deactivate() {
-		active.accept(false)
-	}
+  // MARK: Internal
+
+  var isActive: Bool { active.value }
+  var isActiveStream: Observable<Bool> { active.asObservable() }
+
+  func activate() {
+    active.accept(true)
+  }
+
+  func deactivate() {
+    active.accept(false)
+  }
+
+  // MARK: Private
+
+  // MARK: Variables
+
+  private let active = BehaviorRelay<Bool>(value: false)
 }

@@ -2,9 +2,13 @@ import RIBs
 import RxSwift
 import UIKit
 
-protocol LoginPresentableListener: class {
+// MARK: - LoginPresentableListener
+
+protocol LoginPresentableListener: AnyObject {
   func login()
 }
+
+// MARK: - LoginViewController
 
 final class LoginViewController: UIViewController, LoginPresentable, LoginViewControllable {
   weak var listener: LoginPresentableListener?
