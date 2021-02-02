@@ -5,7 +5,7 @@ import UIKit
 // MARK: - RootPresentableListener
 
 protocol RootPresentableListener: AnyObject {
-  func didLogin()
+  func routeToLogin()
 }
 
 // MARK: - RootViewController
@@ -26,7 +26,6 @@ extension RootViewController: RootViewControllable {
     let uiViewController = viewController.uiviewController
     uiViewController.isModalInPresentation = true
     uiViewController.modalPresentationStyle = .fullScreen
-
     present(uiViewController, animated: false)
   }
 

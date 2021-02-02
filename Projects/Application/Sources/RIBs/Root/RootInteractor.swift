@@ -43,7 +43,7 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
 // MARK: RootPresentableListener
 
 extension RootInteractor: RootPresentableListener {
-  func didLogin() {
+  func routeToLogin() {
     router?.routeToLoggedIn()
   }
 }

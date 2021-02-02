@@ -24,9 +24,15 @@ class LoginInteractorSpec: QuickSpec {
     }
 
     describe("LoginInteractor") {
-      it("login 메서드가 호출 할 경우 listener의 didLoginCallCount는 1이 된다") {
-        interactor.login()
-        expect(listener.didLoginCallCount) == 1
+
+      describe("login 실행시") {
+        beforeEach {
+          interactor.login()
+        }
+
+        it("listener didLoginCallCount는 1이디") {
+          expect(listener.didLoginCallCount) == 1
+        }
       }
     }
   }
