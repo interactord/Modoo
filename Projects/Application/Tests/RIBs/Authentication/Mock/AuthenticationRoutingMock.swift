@@ -8,8 +8,10 @@ import RxSwift
 class AuthenticationRoutingMock: RoutingMock {
   var cleanupViewsCallCount = 0
   var cleanupViewsHandler: (() -> Void)?
-  var routeLoginCallCount = 0
-  var routeLoginHandler: (() -> Void)?
+  var routeToLoginCallCount = 0
+  var routeToLoginHandler: (() -> Void)?
+  var routeToRegisterCallCount = 0
+  var routeToRegisterHandler: (() -> Void)?
 }
 
 // MARK: AuthenticationRouting
@@ -20,8 +22,13 @@ extension AuthenticationRoutingMock: AuthenticationRouting {
     cleanupViewsHandler?()
   }
 
-  func routeLogin() {
-    routeLoginCallCount += 1
-    routeLoginHandler?()
+  func routeToLogin() {
+    routeToLoginCallCount += 1
+    routeToLoginHandler?()
+  }
+
+  func routeToRegister() {
+    routeToRegisterCallCount += 1
+    routeToRegisterHandler?()
   }
 }

@@ -5,26 +5,21 @@ import RxSwift
 
 // MARK: - RootInteractableMock
 
-class RootInteractableMock: InteractableMock, RootInteractable {
-
-  // MARK: Lifecycle
-
-  override init() {
-    super.init()
-  }
-
-  // MARK: Internal
-
-  // MARK: Variables
+class RootInteractableMock: InteractableMock {
 
   var router: RootRouting?
   var listener: RootListener?
-
-  // MARK: Function Handler
-
   var routeToLoginCallCount: Int = 0
   var routeToLoginHandler: (() -> Void)?
 
+}
+
+// MARK: RootInteractable
+
+extension RootInteractableMock: RootInteractable {
+  func routeToLoggedIn() {
+    routeToLogin()
+  }
 }
 
 // MARK: RootPresentableListener

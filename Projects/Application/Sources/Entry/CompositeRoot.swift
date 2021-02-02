@@ -15,6 +15,9 @@ struct CompositeRoot {
     BuilderContainer.register(
       builder: LoginBuilderAdapter.self,
       with: LoginBuilderBuilderID)
+    BuilderContainer.register(
+      builder: RegisterBuilderAdapter.self,
+      with: RegisterBuilderID)
   }
 
 }

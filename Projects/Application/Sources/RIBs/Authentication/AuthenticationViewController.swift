@@ -40,4 +40,8 @@ extension AuthenticationViewController: AuthenticationViewControllable {
     setViewControllers([viewController.uiviewController], animated: false)
   }
 
+  func pushViewController(viewController: ViewControllable, with animated: Bool) {
+    pushViewController(viewController.uiviewController, animated: animated)
+  }
+
 }

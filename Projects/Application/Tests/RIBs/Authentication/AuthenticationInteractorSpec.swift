@@ -11,12 +11,18 @@ class AuthenticationInteractorSpec: QuickSpec {
     var viewController: AuthenticationViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
     var listener: AuthenticationListenerMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var router: AuthenticationRoutingMock!
 
     beforeEach {
       viewController = AuthenticationViewControllableMock()
       listener = AuthenticationListenerMock()
       interactor = AuthenticationInteractor(presenter: viewController)
+      router = AuthenticationRoutingMock(
+        interactable: interactor,
+        viewControllable: viewController)
       interactor.listener = listener
+      interactor.router = router
       interactor.activate()
     }
 
@@ -28,6 +34,16 @@ class AuthenticationInteractorSpec: QuickSpec {
 
         it("listener routeToLoginCallCount는 1이다") {
           expect(listener.routeToLoginCallCount) == 1
+        }
+      }
+
+      context("didRegister 실행시") {
+        beforeEach {
+          interactor.didRegister()
+        }
+
+        it("router routeToLoginCallCount는 1이다") {
+          expect(router.routeToRegisterCallCount) == 1
         }
       }
     }
