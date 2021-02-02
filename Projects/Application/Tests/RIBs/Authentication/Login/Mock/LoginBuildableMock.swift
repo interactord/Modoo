@@ -5,17 +5,9 @@ import RIBs
 
 class LoginBuildableMock: Builder<LoginDependency> {
 
-  // MARK: Lifecycle
-
   init() {
-    super.init(dependency: component)
+    super.init(dependency: LoginDependencyMock())
   }
-
-  // MARK: Private
-
-  private let component = RootComponent(
-    dependency: AppComponent(),
-    rootViewController: RootViewController())
 
 }
 

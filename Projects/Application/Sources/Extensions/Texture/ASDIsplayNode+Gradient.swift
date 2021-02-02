@@ -41,7 +41,7 @@ extension ASDisplayNode {
 
   // MARK: Private
 
-  private var  hasEmptyGradientLayer: Bool {
+  private var hasEmptyGradientLayer: Bool {
     guard layer.sublayers?.first(where: { $0 is CAGradientLayer }) != nil else { return false }
     return true
   }

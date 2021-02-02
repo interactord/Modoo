@@ -22,16 +22,16 @@ class RootInteractableMock: InteractableMock, RootInteractable {
 
   // MARK: Function Handler
 
-  var didLoginCallCount: Int = 0
-  var didLoginHandler: (() -> Void)?
+  var routeToLoginCallCount: Int = 0
+  var routeToLoginHandler: (() -> Void)?
 
 }
 
 // MARK: RootPresentableListener
 
 extension RootInteractableMock: RootPresentableListener {
-  func didLogin() {
-    didLoginCallCount += 1
-    didLoginHandler?()
+  func routeToLogin() {
+    routeToLoginCallCount += 1
+    routeToLoginHandler?()
   }
 }

@@ -25,9 +25,13 @@ final class RootComponent: Component<RootDependency> {
 
 }
 
-// MARK: LoginDependency
+// MARK: RootDependency
 
-extension RootComponent: LoginDependency {}
+extension RootComponent: RootDependency {}
+
+// MARK: AuthenticationDependency
+
+extension RootComponent: AuthenticationDependency {}
 
 // MARK: OnboardDependency
 
@@ -57,13 +61,16 @@ extension RootBuilder: RootBuildable {
     let component = RootComponent(
       dependency: dependency,
       rootViewController: viewController)
-    let loginBuilder = LoginBuilder(dependency: component)
+
+    let authenticationBuilderType: AuthenticationBuilderAdapter.Type = BuilderContainer.resolve(for: AuthenticationBuilderID)
+    let authenticationBuilder = authenticationBuilderType.init(dependency: component)
     let onboardBuilder = OnboardBuilder(dependency: component)
 
     return RootRouter(
       interactor: interactor,
       viewController: viewController,
-      loginBuilder: loginBuilder,
+      authenticationBuilder: authenticationBuilder,
       onboardBuilder: onboardBuilder)
+
   }
 }
