@@ -16,8 +16,6 @@ class WindowMock: UIWindow {
 
   // MARK: Private
 
-  // MARK: Variables
-
   private var internalIsKeyWindow: Bool = false
   private var internalRootViewController: UIViewController?
 }

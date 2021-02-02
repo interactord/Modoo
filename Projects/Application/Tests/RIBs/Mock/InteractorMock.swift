@@ -23,7 +23,5 @@ class InteractorMock: Interactable {
 
   // MARK: Private
 
-  // MARK: Variables
-
   private let active = BehaviorRelay<Bool>(value: false)
 }
