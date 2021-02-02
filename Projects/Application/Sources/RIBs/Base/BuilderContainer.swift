@@ -16,7 +16,7 @@ class BuilderContainer: BuilderContainable {
   static let shared = BuilderContainer()
 
   static func register<T: Buildable>(builder: T.Type, with id: String) {
-    shared.container.merge([id: builder]){ $1 }
+    shared.container[id] = builder
   }
 
   static func resolve<T>(for id: String) -> T.Type {

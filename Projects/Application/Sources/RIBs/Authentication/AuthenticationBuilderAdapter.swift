@@ -1,6 +1,6 @@
 import RIBs
 
-let AuthenticationBuilderID = "AuthenticationBuilder"
+let AuthenticationBuilderID = "AuthenticationBuilderID"
 
 // MARK: - AuthenticationBuilderAdapter
 
@@ -10,6 +10,7 @@ final class AuthenticationBuilderAdapter: Builder<AuthenticationDependency> {
   }
 
   private weak var listener: AuthenticationListener?
+
 }
 
 // MARK: AuthenticationListener
