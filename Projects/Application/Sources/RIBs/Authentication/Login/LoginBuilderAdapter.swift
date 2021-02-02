@@ -28,6 +28,9 @@ extension LoginBuilderAdapter: LoginListener {
     listener?.didLogin()
   }
 
+  func didRegister() {
+    listener?.didRegister()
+  }
 }
 
 // MARK: LoginBuildable

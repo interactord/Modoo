@@ -5,7 +5,8 @@ import RxSwift
 // MARK: - LoginPresentableListener
 
 protocol LoginPresentableListener: AnyObject {
-  func login()
+  func loginAction()
+  func registerAction()
 }
 
 // MARK: - LoginViewController
@@ -33,8 +34,18 @@ final class LoginViewController: ASDKViewController<LoginContainerNode>, LoginPr
 
   override func viewDidLoad() {
     super.viewDidLoad()
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [listener] in
-//      listener?.login()
-//    }
+
+    node.dontHaveAccountButton.addTarget(self, action: #selector(onRegister), forControlEvents: .touchUpInside)
+    node.loginButton.addTarget(self, action: #selector(onLogin), forControlEvents: .touchUpInside)
+  }
+
+  @objc
+  func onLogin(sender: Any) {
+    listener?.loginAction()
+  }
+
+  @objc
+  func onRegister(sender: Any) {
+    listener?.registerAction()
   }
 }
