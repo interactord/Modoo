@@ -15,7 +15,8 @@ class AuthenticationRouterSpec: QuickSpec {
       router = AuthenticationRouter(
         interactor: AuthenticationInteractableMock(),
         viewController: viewController,
-        loginBuilder: LoginBuildableMock())
+        loginBuilder: LoginBuildableMock(),
+        registerBuilder: RegisterBuildableMock())
     }
 
     describe("AuthenticationRouter") {
@@ -33,9 +34,9 @@ class AuthenticationRouterSpec: QuickSpec {
         }
       }
 
-      context("routeLogin 실행시") {
+      context("routeToLogin 실행시") {
         beforeEach {
-          router.routeLogin()
+          router.routeToLogin()
         }
 
         it("viewController setRootViewControllerCallCount는 1이다") {
@@ -47,9 +48,25 @@ class AuthenticationRouterSpec: QuickSpec {
         }
       }
 
-      context("routeLogin 실행시") {
+      context("routeToRegister 실행시") {
         beforeEach {
-          router.routeLogin()
+          router.routeToRegister()
+        }
+
+        it("viewController pushViewControllerCallCount는 1이다") {
+          expect(viewController.pushViewControllerCallCount) == 1
+        }
+
+        it("viewController viewControllers는 1이다") {
+          expect(viewController.viewControllers) == 1
+        }
+      }
+
+      // MARK: 통합 테스트
+
+      context("routeToLogin 실행시") {
+        beforeEach {
+          router.routeToLogin()
         }
 
         context("cleanupViews 실행시") {
@@ -59,6 +76,16 @@ class AuthenticationRouterSpec: QuickSpec {
 
           it("viewController viewControllers는 0이다") {
             expect(viewController.viewControllers) == 0
+          }
+        }
+
+        context("routeToRegister 실행시") {
+          beforeEach {
+            router.routeToRegister()
+          }
+
+          it("viewController viewControllers는 2이다") {
+            expect(viewController.viewControllers) == 2
           }
         }
       }

@@ -23,6 +23,7 @@ extension AuthenticationBuildableMock: AuthenticationBuildable {
     return AuthenticationRouter(
       interactor: interactor,
       viewController: viewController,
-      loginBuilder: LoginBuildableMock())
+      loginBuilder: LoginBuildableMock(),
+      registerBuilder: RegisterBuildableMock())
   }
 }

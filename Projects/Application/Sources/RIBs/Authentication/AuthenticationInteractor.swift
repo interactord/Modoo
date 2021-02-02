@@ -5,7 +5,8 @@ import RxSwift
 
 protocol AuthenticationRouting: ViewableRouting {
   func cleanupViews()
-  func routeLogin()
+  func routeToLogin()
+  func routeToRegister()
 }
 
 // MARK: - AuthenticationPresentable
@@ -17,12 +18,12 @@ protocol AuthenticationPresentable: Presentable {
 // MARK: - AuthenticationListener
 
 protocol AuthenticationListener: AnyObject {
-  func routeToLogin()
+  func routeToLoggedIn()
 }
 
 // MARK: - AuthenticationInteractor
 
-final class AuthenticationInteractor: PresentableInteractor<AuthenticationPresentable>, AuthenticationInteractable {
+final class AuthenticationInteractor: PresentableInteractor<AuthenticationPresentable>, AuthenticationInteractable, AuthenticationPresentableListener {
 
   // MARK: Lifecycle
 
@@ -36,12 +37,12 @@ final class AuthenticationInteractor: PresentableInteractor<AuthenticationPresen
   weak var router: AuthenticationRouting?
   weak var listener: AuthenticationListener?
 
-}
-
-// MARK: AuthenticationPresentableListener
-
-extension AuthenticationInteractor: AuthenticationPresentableListener {
   func didLogin() {
-    listener?.routeToLogin()
+    listener?.routeToLoggedIn()
   }
+
+  func didRegister() {
+    router?.routeToRegister()
+  }
+
 }

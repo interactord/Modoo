@@ -6,14 +6,6 @@ let AuthenticationBuilderID = "AuthenticationBuilder"
 
 final class AuthenticationBuilderAdapter: Builder<AuthenticationDependency> {
 
-  // MARK: Lifecycle
-
-  override init(dependency: AuthenticationDependency) {
-    super.init(dependency: dependency)
-  }
-
-  // MARK: Private
-
   private final class Component: RIBs.Component<AuthenticationDependency>, AuthenticationDependency {
   }
 
@@ -23,8 +15,9 @@ final class AuthenticationBuilderAdapter: Builder<AuthenticationDependency> {
 // MARK: AuthenticationListener
 
 extension AuthenticationBuilderAdapter: AuthenticationListener {
-  func routeToLogin() {
-    listener?.routeToLogin()
+
+  func routeToLoggedIn() {
+    listener?.routeToLoggedIn()
   }
 
 }
