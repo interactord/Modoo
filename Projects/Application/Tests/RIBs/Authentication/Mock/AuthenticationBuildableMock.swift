@@ -5,8 +5,8 @@ import RIBs
 
 class AuthenticationBuildableMock: Builder<AuthenticationDependency> {
 
-  override init(dependency: AuthenticationDependency) {
-    super.init(dependency: dependency)
+  init() {
+    super.init(dependency: AuthenticationDependencyMock())
   }
 
 }
@@ -20,6 +20,9 @@ extension AuthenticationBuildableMock: AuthenticationBuildable {
     let interactor = AuthenticationInteractor(presenter: viewController)
     interactor.listener = listener
 
-    return AuthenticationRouter(interactor: interactor, viewController: viewController)
+    return AuthenticationRouter(
+      interactor: interactor,
+      viewController: viewController,
+      loginBuilder: LoginBuildableMock())
   }
 }

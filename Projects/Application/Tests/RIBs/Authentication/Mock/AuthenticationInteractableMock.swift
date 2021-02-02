@@ -4,7 +4,9 @@ import RxSwift
 
 @testable import Application
 
-class AuthenticationInteractableMock: InteractableMock, AuthenticationInteractable {
+// MARK: - AuthenticationInteractableMock
+
+class AuthenticationInteractableMock: InteractableMock {
 
   // MARK: Lifecycle
 
@@ -16,5 +18,18 @@ class AuthenticationInteractableMock: InteractableMock, AuthenticationInteractab
 
   var router: AuthenticationRouting?
   var listener: AuthenticationListener?
+
+  var didLoginCallCount = 0
+  var didLoginHandler: (() -> Void)?
+
+}
+
+// MARK: AuthenticationInteractable
+
+extension AuthenticationInteractableMock: AuthenticationInteractable {
+  func didLogin() {
+    didLoginCallCount += 1
+    didLoginHandler?()
+  }
 
 }

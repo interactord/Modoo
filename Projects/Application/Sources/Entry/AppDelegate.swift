@@ -6,6 +6,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   // MARK: Internal
 
   var window: UIWindow?
+  var compositeRoot = CompositeRoot()
 
   func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     let window = UIWindow()

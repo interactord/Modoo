@@ -2,7 +2,7 @@ import RIBs
 
 // MARK: - RootInteractable
 
-protocol RootInteractable: Interactable, LoginListener, OnboardListener {
+protocol RootInteractable: Interactable, AuthenticationListener, OnboardListener {
   var router: RootRouting? { get set }
   var listener: RootListener? { get set }
 }
@@ -23,10 +23,10 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
   init(
     interactor: RootInteractable,
     viewController: RootViewControllable,
-    loginBuilder: LoginBuildable,
+    authenticationBuilder: AuthenticationBuildable,
     onboardBuilder: OnboardBuildable)
   {
-    self.loginBuilder = loginBuilder
+    self.authenticationBuilder = authenticationBuilder
     self.onboardBuilder = onboardBuilder
     super.init(
       interactor: interactor,
@@ -38,20 +38,19 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
 
   override func didLoad() {
     super.didLoad()
-    routeLogin()
+    routerAuthentication()
   }
 
   func cleanupViews() {
     guard let currentChild = currentChild else { return }
-
     viewController.dismiss(viewController: currentChild.viewControllable)
     self.currentChild = nil
   }
 
   // MARK: Private
 
-  private let loginBuilder: LoginBuildable
-  private var login: ViewableRouting?
+  private let authenticationBuilder: AuthenticationBuildable
+  private var authentication: ViewableRouting?
   private let onboardBuilder: OnboardBuildable
   private var onboard: ViewableRouting?
   private var currentChild: ViewableRouting?
@@ -69,16 +68,16 @@ extension RootRouter: RootRouting {
 // MARK: - Inner Method
 
 extension RootRouter {
-  fileprivate func routeLogin() {
+  fileprivate func routerAuthentication() {
     cleanupViews()
 
-    let login = loginBuilder.build(withListener: interactor)
-    self.login = login
-    currentChild = login
+    let authentication = authenticationBuilder.build(withListener: interactor)
+    self.authentication = authentication
+    currentChild = authentication
 
-    attachChild(login)
+    attachChild(authentication)
 
-    viewController.present(viewController: login.viewControllable)
+    viewController.present(viewController: authentication.viewControllable)
   }
 
   fileprivate func routeOnboard() {

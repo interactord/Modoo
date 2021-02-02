@@ -10,6 +10,16 @@ protocol AuthenticationDependency: Dependency {
 final class AuthenticationComponent: Component<AuthenticationDependency> {
 }
 
+// MARK: AuthenticationDependency
+
+extension AuthenticationComponent: AuthenticationDependency {
+}
+
+// MARK: LoginDependency
+
+extension AuthenticationComponent: LoginDependency {
+}
+
 // MARK: - AuthenticationBuildable
 
 protocol AuthenticationBuildable: Buildable {
@@ -29,11 +39,17 @@ final class AuthenticationBuilder: Builder<AuthenticationDependency>, Authentica
   // MARK: Internal
 
   func build(withListener listener: AuthenticationListener) -> AuthenticationRouting {
-    _ = AuthenticationComponent(dependency: dependency)
     let viewController = AuthenticationViewController()
     let interactor = AuthenticationInteractor(presenter: viewController)
     interactor.listener = listener
 
-    return AuthenticationRouter(interactor: interactor, viewController: viewController)
+    let component = AuthenticationComponent(dependency: dependency)
+    let loginBuilderType: LoginBuilderAdapter.Type = BuilderContainer.resolve(for: LoginBuilderBuilderID)
+    let loginBuilder = loginBuilderType.init(dependency: component)
+
+    return AuthenticationRouter(
+      interactor: interactor,
+      viewController: viewController,
+      loginBuilder: loginBuilder)
   }
 }

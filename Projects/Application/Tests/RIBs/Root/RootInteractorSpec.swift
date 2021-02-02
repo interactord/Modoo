@@ -20,16 +20,22 @@ class RootInteractorSpec: QuickSpec {
     }
 
     describe("RootInteractor") {
-      context("로그인이 되었을 경우") {
-        it("attachChildCallCount 가 1이 된다") {
-          interactor.didLogin()
+      context("routeToLogin 실행시") {
+        beforeEach {
+          interactor.routeToLogin()
+        }
+
+        it("router attachChildCallCount는 1이다") {
           expect(router.attachChildCallCount) == 1
         }
       }
 
-      context("deactivate 될 경우") {
-        it("cleanup 메서드가 호출이 된다") {
+      context("deactivate 실행시") {
+        beforeEach {
           interactor.deactivate()
+        }
+
+        it("router cleanupVieRwCallCount는 1이다") {
           expect(router.cleanupViewCallCount) == 1
         }
       }
