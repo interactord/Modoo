@@ -16,7 +16,7 @@ final class RegisterViewController: UIViewController, RegisterPresentable {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    view.backgroundColor = .green
+    view.backgroundColor = .gray
   }
 }
 

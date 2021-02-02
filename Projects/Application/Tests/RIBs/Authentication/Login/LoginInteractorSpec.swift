@@ -25,13 +25,23 @@ class LoginInteractorSpec: QuickSpec {
 
     describe("LoginInteractor") {
 
-      describe("login 실행시") {
+      describe("loginAction 실행시") {
         beforeEach {
-          interactor.login()
+          interactor.loginAction()
         }
 
         it("listener didLoginCallCount는 1이디") {
           expect(listener.didLoginCallCount) == 1
+        }
+      }
+
+      describe("registerAction 실행시") {
+        beforeEach {
+          interactor.registerAction()
+        }
+
+        it("listener didRegisterCallCount는 1이디") {
+          expect(listener.didRegisterCallCount) == 1
         }
       }
     }
