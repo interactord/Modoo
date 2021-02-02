@@ -20,6 +20,16 @@ class RootInteractorSpec: QuickSpec {
     }
 
     describe("RootInteractor") {
+      context("routeToLoggedIn 실행시") {
+        beforeEach {
+          interactor.routeToLoggedIn()
+        }
+
+        it("router attachChildCallCount는 1이다") {
+          expect(router.attachChildCallCount) == 1
+        }
+      }
+
       context("routeToLogin 실행시") {
         beforeEach {
           interactor.routeToLogin()

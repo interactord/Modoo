@@ -5,8 +5,7 @@ class AuthenticationListenerMock: AuthenticationListener {
   var routeToLoginCallCount = 0
   var routeToLoginHandler: (() -> Void)?
 
-
-  func routeToLogin() {
+  func routeToLoggedIn() {
     routeToLoginCallCount += 1
     routeToLoginHandler?()
   }

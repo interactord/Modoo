@@ -11,10 +11,12 @@ import RxSwift
 class AuthenticationViewControllableMock: ViewControllableMock, AuthenticationPresentable {
 
   var viewControllers = 0
-  var setRootViewControllerCallCount: Int = 0
+  var setRootViewControllerCallCount = 0
   var setRootViewControllerHandler: (() -> Void)?
-  var clearChildViewControllersCallCount: Int = 0
+  var clearChildViewControllersCallCount = 0
   var clearChildViewControllersHandler: (() -> Void)?
+  var pushViewControllerCallCount = 0
+  var pushViewControllerHandler: (() -> Void)?
 
   var listener: AuthenticationPresentableListener?
 }
@@ -22,6 +24,7 @@ class AuthenticationViewControllableMock: ViewControllableMock, AuthenticationPr
 // MARK: AuthenticationViewControllable
 
 extension AuthenticationViewControllableMock: AuthenticationViewControllable {
+
   func setRootViewController(viewController: ViewControllable) {
     viewControllers += 1
     setRootViewControllerCallCount += 1
@@ -32,5 +35,11 @@ extension AuthenticationViewControllableMock: AuthenticationViewControllable {
     viewControllers = 0
     clearChildViewControllersCallCount += 1
     clearChildViewControllersHandler?()
+  }
+
+  func pushViewController(viewController: ViewControllable, with animated: Bool) {
+    viewControllers += 1
+    pushViewControllerCallCount += 1
+    pushViewControllerHandler?()
   }
 }

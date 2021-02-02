@@ -20,6 +20,11 @@ extension AuthenticationComponent: AuthenticationDependency {
 extension AuthenticationComponent: LoginDependency {
 }
 
+// MARK: RegisterDependency
+
+extension AuthenticationComponent: RegisterDependency {
+}
+
 // MARK: - AuthenticationBuildable
 
 protocol AuthenticationBuildable: Buildable {
@@ -45,11 +50,12 @@ final class AuthenticationBuilder: Builder<AuthenticationDependency>, Authentica
 
     let component = AuthenticationComponent(dependency: dependency)
     let loginBuilderType: LoginBuilderAdapter.Type = BuilderContainer.resolve(for: LoginBuilderBuilderID)
-    let loginBuilder = loginBuilderType.init(dependency: component)
+    let registerBuilderType: RegisterBuilderAdapter.Type = BuilderContainer.resolve(for: RegisterBuilderID)
 
     return AuthenticationRouter(
       interactor: interactor,
       viewController: viewController,
-      loginBuilder: loginBuilder)
+      loginBuilder: loginBuilderType.init(dependency: component),
+      registerBuilder: registerBuilderType.init(dependency: component))
   }
 }

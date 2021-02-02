@@ -20,7 +20,7 @@ protocol RootListener: AnyObject {}
 
 // MARK: - RootInteractor
 
-final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable {
+final class RootInteractor: PresentableInteractor<RootPresentable> {
 
   // MARK: Lifecycle
 
@@ -38,6 +38,15 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
     super.willResignActive()
     router?.cleanupViews()
   }
+}
+
+// MARK: RootInteractable
+
+extension RootInteractor: RootInteractable {
+  func routeToLoggedIn() {
+    router?.routeToLoggedIn()
+  }
+
 }
 
 // MARK: RootPresentableListener
