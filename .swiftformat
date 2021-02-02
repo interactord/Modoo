@@ -1,6 +1,7 @@
 # Current version of SwiftFormat used at Airbnb: 0.47.4
 
 # options
+--header skip #removeFileHeaderDescription - (local)
 --self remove # redundantSelf
 --importgrouping testable-bottom # sortedImports
 --commas always # trailingCommas
