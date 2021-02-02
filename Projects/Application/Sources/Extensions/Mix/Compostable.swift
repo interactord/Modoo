@@ -19,4 +19,5 @@ extension UIEdgeInsets: Compostable {
         right: current.right + next.right)
     }
   }
+
 }
