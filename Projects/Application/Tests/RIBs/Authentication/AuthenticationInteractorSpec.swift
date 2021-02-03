@@ -27,23 +27,33 @@ class AuthenticationInteractorSpec: QuickSpec {
     }
 
     describe("AuthenticationInteractor") {
-      context("didLogin 실행시") {
+      context("routeToLoggedIn 실행시") {
         beforeEach {
-          interactor.didLogin()
+          interactor.routeToLoggedIn()
         }
 
         it("listener routeToLoginCallCount는 1이다") {
-          expect(listener.routeToLoginCallCount) == 1
+          expect(listener.routeToLoggedInCallCount) == 1
         }
       }
 
-      context("didRegister 실행시") {
+      context("routeToRegister 실행시") {
         beforeEach {
-          interactor.didRegister()
+          interactor.routeToRegister()
+        }
+
+        it("router routeToRegisterCallCount는 1이다") {
+          expect(router.routeToRegisterCallCount) == 1
+        }
+      }
+
+      context("routeToLogin 실행시") {
+        beforeEach {
+          interactor.routeToLogin()
         }
 
         it("router routeToLoginCallCount는 1이다") {
-          expect(router.routeToRegisterCallCount) == 1
+          expect(router.routeToLoginCallCount) == 1
         }
       }
     }

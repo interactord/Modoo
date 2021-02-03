@@ -2,18 +2,19 @@
 
 class LoginListenerMock: LoginListener {
 
-  var didLoginCallCount: Int = 0
-  var didLoginHandler: (() -> Void)?
-  var didRegisterCallCount: Int = 0
-  var didRegisterHandler: (() -> Void)?
+  var routeToLoggedInCallCount = 0
+  var routeToLoggedIninHandler: (() -> Void)?
+  var routeToRegisterCallCount = 0
+  var routeToRegisterHandler: (() -> Void)?
 
-  func didLogin() {
-    didLoginCallCount += 1
-    didLoginHandler?()
+  func routeToLoggedIn() {
+    routeToLoggedInCallCount += 1
+    routeToLoggedIninHandler?()
   }
 
-  func didRegister() {
-    didRegisterCallCount += 1
-    didRegisterHandler?()
+  func routeToRegister() {
+    routeToRegisterCallCount += 1
+    routeToRegisterHandler?()
   }
+
 }

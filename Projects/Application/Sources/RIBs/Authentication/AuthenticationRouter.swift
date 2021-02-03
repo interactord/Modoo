@@ -13,8 +13,9 @@ protocol AuthenticationInteractable: Interactable, LoginListener, RegisterListen
 
 protocol AuthenticationViewControllable: ViewControllable {
   func setRootViewController(viewController: ViewControllable)
-  func clearChildViewControllers(with animated: Bool)
-  func pushViewController(viewController: ViewControllable, with animated: Bool)
+  func clearChildViewControllers()
+  func pushViewController(viewController: ViewControllable)
+  func popToRootViewController()
 }
 
 // MARK: - AuthenticationRouter
@@ -41,8 +42,8 @@ final class AuthenticationRouter: ViewableRouter<AuthenticationInteractable, Aut
   override func didLoad() {
     super.didLoad()
 
-//    routeToLogin()
-    routeToRegister()
+    routeToLogin()
+//    routeToRegister()
   }
 
   // MARK: Private
@@ -61,21 +62,24 @@ extension AuthenticationRouter: AuthenticationRouting {
   // MARK: Internal
 
   func cleanupViews() {
-    viewController.clearChildViewControllers(with: false)
+    viewController.clearChildViewControllers()
   }
 
   func routeToLogin() {
+    guard login == nil else {
+      viewController.popToRootViewController()
+      return
+    }
+
     let login = loginBuilder.build(withListener: interactor)
     self.login = login
-
     attachChild(login)
-
     viewController.setRootViewController(viewController: login.viewControllable)
   }
 
   func routeToRegister() {
     let register = getRegister()
-    viewController.pushViewController(viewController: register.viewControllable, with: true)
+    viewController.pushViewController(viewController: register.viewControllable)
   }
 
   // MARK: Private

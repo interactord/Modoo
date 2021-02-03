@@ -30,8 +30,8 @@ class LoginInteractorSpec: QuickSpec {
           interactor.loginAction()
         }
 
-        it("listener didLoginCallCount는 1이디") {
-          expect(listener.didLoginCallCount) == 1
+        it("listener routeToLoggedInCallCount는 1이디") {
+          expect(listener.routeToLoggedInCallCount) == 1
         }
       }
 
@@ -40,8 +40,8 @@ class LoginInteractorSpec: QuickSpec {
           interactor.registerAction()
         }
 
-        it("listener didRegisterCallCount는 1이디") {
-          expect(listener.didRegisterCallCount) == 1
+        it("listener routeToRegisterCallCount는 1이디") {
+          expect(listener.routeToRegisterCallCount) == 1
         }
       }
     }

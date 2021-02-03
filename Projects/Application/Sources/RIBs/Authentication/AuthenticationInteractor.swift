@@ -37,12 +37,16 @@ final class AuthenticationInteractor: PresentableInteractor<AuthenticationPresen
   weak var router: AuthenticationRouting?
   weak var listener: AuthenticationListener?
 
-  func didLogin() {
-    listener?.routeToLoggedIn()
+  func routeToLogin() {
+    router?.routeToLogin()
   }
 
-  func didRegister() {
+  func routeToRegister() {
     router?.routeToRegister()
+  }
+
+  func routeToLoggedIn() {
+    listener?.routeToLoggedIn()
   }
 
 }

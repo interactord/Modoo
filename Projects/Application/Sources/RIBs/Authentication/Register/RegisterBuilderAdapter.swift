@@ -15,6 +15,13 @@ final class RegisterBuilderAdapter: Builder<RegisterDependency> {
 // MARK: RegisterListener
 
 extension RegisterBuilderAdapter: RegisterListener {
+  func routeToLoggedIn() {
+    listener?.routeToLoggedIn()
+  }
+
+  func routeToLogin() {
+    listener?.routeToLogin()
+  }
 }
 
 // MARK: RegisterBuildable
