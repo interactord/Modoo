@@ -24,6 +24,10 @@ $ brew bundle --file=./Brewfile
 $ make project
 ```
 
+## 사용 라이브러리
+
+- RIBs: Rx6.0.0이 업데이트 되지 않아, fork 떠서 추가하게 되었습니다.
+
 [swift-url]: https://swift.org/
 [swift-image]:https://img.shields.io/badge/swift-5.3-orange.svg
 [github-action-image]: https://github.com/interactord/Modoo/workflows/CI/badge.svg

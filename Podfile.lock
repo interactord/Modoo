@@ -15,6 +15,22 @@ PODS:
   - PINRemoteImage/PINCache (3.0.3):
     - PINCache (~> 3.0.3)
     - PINRemoteImage/Core
+  - ReactorKit (3.0.0):
+    - RxSwift (~> 6.0)
+    - WeakMapTable (~> 1.1)
+  - RIBs (0.9.3):
+    - RxRelay (~> 6.0.0)
+    - RxSwift (~> 6.0.0)
+  - RxCocoa (6.0.0):
+    - RxRelay (= 6.0.0)
+    - RxSwift (= 6.0.0)
+  - RxRelay (6.0.0):
+    - RxSwift (= 6.0.0)
+  - RxSwift (6.0.0)
+  - RxTexture2 (1.3.0):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+    - Texture (~> 3.0)
   - SwiftLint (0.42.0)
   - Texture (3.0.0):
     - Texture/AssetsLibrary (= 3.0.0)
@@ -36,9 +52,13 @@ PODS:
     - Texture/Core
   - Texture/Video (3.0.0):
     - Texture/Core
+  - WeakMapTable (1.2.0)
 
 DEPENDENCIES:
   - BonMot
+  - ReactorKit
+  - RIBs (from `https://github.com/interactord/RIBs`, branch `master`)
+  - RxTexture2
   - SwiftLint
   - Texture
 
@@ -48,17 +68,40 @@ SPEC REPOS:
     - PINCache
     - PINOperation
     - PINRemoteImage
+    - ReactorKit
+    - RxCocoa
+    - RxRelay
+    - RxSwift
+    - RxTexture2
     - SwiftLint
     - Texture
+    - WeakMapTable
+
+EXTERNAL SOURCES:
+  RIBs:
+    :branch: master
+    :git: https://github.com/interactord/RIBs
+
+CHECKOUT OPTIONS:
+  RIBs:
+    :commit: 4a3dbf83d2b905d5f9c239888743e905d87971af
+    :git: https://github.com/interactord/RIBs
 
 SPEC CHECKSUMS:
   BonMot: 2217a66e5ddc6a8d2ffb759fe8c85a8528e0d3e7
   PINCache: 7a8fc1a691173d21dbddbf86cd515de6efa55086
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
   PINRemoteImage: f1295b29f8c5e640e25335a1b2bd9d805171bd01
+  ReactorKit: 5348c9881dcb546605b451e32759dccc9937d36e
+  RIBs: dd8df1129289d51ed4fec6e2127613d9eaba204e
+  RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
+  RxRelay: 8d593be109c06ea850df027351beba614b012ffb
+  RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
+  RxTexture2: afc37076fc7ac380642d569533ed858d296732fe
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
+  WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 23aba46dcdcd87d72e943e4b12b87b751fac4406
+PODFILE CHECKSUM: 594a7b0cc3ff60c9fa5eb3d40fdaa129259cd7d9
 
 COCOAPODS: 1.10.1

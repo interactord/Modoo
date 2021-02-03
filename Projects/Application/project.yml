@@ -9,7 +9,6 @@ targets:
     dependencies:
       - sdk: Foundation.framework
       - sdk: UIKit.framework
-      - package: RIBs
     attributes:
       ProvisioningStyle: Manual
     preBuildScripts:
