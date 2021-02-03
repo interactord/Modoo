@@ -41,7 +41,8 @@ final class AuthenticationRouter: ViewableRouter<AuthenticationInteractable, Aut
   override func didLoad() {
     super.didLoad()
 
-    routeToLogin()
+//    routeToLogin()
+    routeToRegister()
   }
 
   // MARK: Private
