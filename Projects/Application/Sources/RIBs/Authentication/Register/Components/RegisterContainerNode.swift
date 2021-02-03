@@ -1,8 +1,8 @@
 import AsyncDisplayKit
 
-// MARK: - LoginContainerNode
+// MARK: - RegisterContainerNode
 
-final class LoginContainerNode: ASDisplayNode {
+final class RegisterContainerNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
@@ -13,14 +13,22 @@ final class LoginContainerNode: ASDisplayNode {
     backgroundColor = .systemPink
   }
 
+  @available(*, unavailable)
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  deinit {
+    print("RegisterContainerNode deinit...")
+  }
+
   // MARK: Internal
 
-  private(set) lazy var logoNode: ASImageNode = {
-    let node = ASImageNode()
-    node.image = #imageLiteral(resourceName: "instargram-logo")
-    node.tintColor = Const.logoTintColor
-    node.contentMode = .scaleAspectFit
-    node.style.preferredSize = Const.logoSize
+  private(set) lazy var plusButton: ASButtonNode = {
+    let node = ASButtonNode()
+    node.setImage(#imageLiteral(resourceName: "register-photo"), for: .normal)
+    node.tintColor = Const.plusButtonTintColor
+    node.style.preferredSize = Const.plusButtonSize
     return node
   }()
 
@@ -36,23 +44,28 @@ final class LoginContainerNode: ASDisplayNode {
     return node
   }()
 
-  private(set) lazy var loginButton: FormPrimaryButtonNode = {
-    let node = FormPrimaryButtonNode(title: "Log in")
+  private(set) lazy var fullNameInputNode: FormInputNode = {
+    let node = FormInputNode(placeholderText: "Fullname", keyboardType: .default)
     node.style.preferredLayoutSize = Const.formElementPreferredLayoutSize
     return node
   }()
 
-  private(set) lazy var forgetPasswordButton: FormSecondaryButtonNode = {
-    let node = FormSecondaryButtonNode(
-      firstPart: "Forget your password?",
-      secondPart: "Get help signing in.")
+  private(set) lazy var usernameInputNode: FormInputNode = {
+    let node = FormInputNode(placeholderText: "Username", keyboardType: .default)
+    node.style.preferredLayoutSize = Const.formElementPreferredLayoutSize
     return node
   }()
 
-  private(set) lazy var dontHaveAccountButton: FormSecondaryButtonNode = {
+  private(set) lazy var signUpButton: FormPrimaryButtonNode = {
+    let node = FormPrimaryButtonNode(title: "Sign Up")
+    node.style.preferredLayoutSize = Const.formElementPreferredLayoutSize
+    return node
+  }()
+
+  private(set) lazy var alreadyHaveAccountButton: FormSecondaryButtonNode = {
     let node = FormSecondaryButtonNode(
-      firstPart: "Don't have account?",
-      secondPart: "Register")
+      firstPart: "Already have account?",
+      secondPart: "Sign Up")
     return node
   }()
 
@@ -73,9 +86,9 @@ final class LoginContainerNode: ASDisplayNode {
   private struct Const {
     static let gradientStartColor = UIColor.systemPurple.cgColor
     static let gradientEndColor = UIColor.systemBlue.cgColor
-    static let logoTintColor = UIColor.white
-    static let layoutContentPadding = UIEdgeInsets(top: 100, left: 30, bottom: 0, right: 30)
-    static let logoSize = CGSize(width: 220, height: 80)
+    static let plusButtonTintColor = UIColor.white
+    static let layoutContentPadding = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
+    static let plusButtonSize = CGSize(width: 140, height: 140)
     static let formElementPreferredLayoutSize = ASLayoutSize(
       width: .init(unit: .fraction, value: 1),
       height: .init(unit: .points, value: 50))
@@ -87,11 +100,11 @@ final class LoginContainerNode: ASDisplayNode {
 
 // MARK: - LayoutSpec
 
-extension LoginContainerNode {
+extension RegisterContainerNode {
 
   // MARK: Internal
 
-  override func layoutSpecThatFits(_ constrainedSize: AsyncDisplayKit.ASSizeRange) -> ASLayoutSpec {
+  override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
     let contentLayout = ASStackLayoutSpec(
       direction: .vertical,
       spacing: .zero,
@@ -99,11 +112,13 @@ extension LoginContainerNode {
       alignItems: .center,
       children: [
         headerContentLayoutSpec(),
-        dontHaveAccountButton,
+        alreadyHaveAccountButton,
       ])
+
     let contentLayoutWithPadding = ASInsetLayoutSpec(
       insets: .merge(list: [Const.layoutContentPadding, safeAreaInsets]),
       child: contentLayout)
+
     return ASBackgroundLayoutSpec(child: contentLayoutWithPadding, background: backgroundNode)
   }
 
@@ -116,8 +131,7 @@ extension LoginContainerNode {
       justifyContent: .start,
       alignItems: .center,
       children: [
-        logoNode,
-        formGroupLayoutSpec(),
+        plusButton, formGroupLayoutSpec(),
       ])
   }
 
@@ -130,7 +144,9 @@ extension LoginContainerNode {
       children: [
         emailInputNode,
         passwordInputNode,
-        loginButton, forgetPasswordButton,
+        fullNameInputNode,
+        usernameInputNode,
+        signUpButton,
       ])
   }
 }
