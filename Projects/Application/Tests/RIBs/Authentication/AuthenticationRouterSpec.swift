@@ -88,6 +88,36 @@ class AuthenticationRouterSpec: QuickSpec {
             expect(viewController.viewControllers) == 2
           }
         }
+
+        context("routeToLogin 실행시") {
+          beforeEach {
+            router.routeToLogin()
+          }
+
+          it("viewController viewControllers는 1이다") {
+            expect(viewController.viewControllers) == 1
+          }
+        }
+      }
+
+      context("routeToRegister 실행시") {
+        beforeEach {
+          router.routeToRegister()
+        }
+
+        context("routeToRegister 실행시") {
+          beforeEach {
+            router.routeToRegister()
+          }
+
+          it("viewController viewControllers는 2이다") {
+            expect(viewController.viewControllers) == 2
+          }
+
+          it("router childrenRouter의 갯수는 1이다") {
+            expect(router.children.count) == 1
+          }
+        }
       }
     }
   }

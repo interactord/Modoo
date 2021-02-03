@@ -17,6 +17,8 @@ class AuthenticationViewControllableMock: ViewControllableMock, AuthenticationPr
   var clearChildViewControllersHandler: (() -> Void)?
   var pushViewControllerCallCount = 0
   var pushViewControllerHandler: (() -> Void)?
+  var popToRootViewControllerCallCount = 0
+  var popToRootViewControllerHandler: (() -> Void)?
 
   var listener: AuthenticationPresentableListener?
 }
@@ -31,15 +33,21 @@ extension AuthenticationViewControllableMock: AuthenticationViewControllable {
     setRootViewControllerHandler?()
   }
 
-  func clearChildViewControllers(with animated: Bool) {
+  func clearChildViewControllers() {
     viewControllers = 0
     clearChildViewControllersCallCount += 1
     clearChildViewControllersHandler?()
   }
 
-  func pushViewController(viewController: ViewControllable, with animated: Bool) {
+  func pushViewController(viewController: ViewControllable) {
     viewControllers += 1
     pushViewControllerCallCount += 1
     pushViewControllerHandler?()
+  }
+
+  func popToRootViewController() {
+    viewControllers = 1
+    popToRootViewControllerCallCount += 1
+    popToRootViewControllerHandler?()
   }
 }

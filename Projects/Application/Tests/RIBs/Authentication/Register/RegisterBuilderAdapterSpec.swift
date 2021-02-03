@@ -21,8 +21,24 @@ class RegisterBuilderAdapterSpec: QuickSpec {
         _ = adapter.build(withListener: listener)
       }
 
-      it("크래시 테스트") {
-        expect(1) == 1
+      context("routeToLogin 실행시") {
+        beforeEach {
+          adapter.routeToLogin()
+        }
+
+        it("listener routeToLogInCallCount는 1이다") {
+          expect(listener.routeToLogInCallCount) == 1
+        }
+      }
+    }
+
+    context("routeToLoggedIn 실행시") {
+      beforeEach {
+        adapter.routeToLoggedIn()
+      }
+
+      it("listener routeToLoggedInCallCount는 1이다") {
+        expect(listener.routeToLoggedInCallCount) == 1
       }
     }
   }

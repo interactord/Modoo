@@ -3,8 +3,7 @@ import RxSwift
 
 // MARK: - RegisterRouting
 
-protocol RegisterRouting: ViewableRouting {
-}
+protocol RegisterRouting: ViewableRouting {}
 
 // MARK: - RegisterPresentable
 
@@ -15,6 +14,8 @@ protocol RegisterPresentable: Presentable {
 // MARK: - RegisterListener
 
 protocol RegisterListener: AnyObject {
+  func routeToLogin()
+  func routeToLoggedIn()
 }
 
 // MARK: - RegisterInteractor
@@ -38,4 +39,12 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
 // MARK: RegisterPresentableListener
 
 extension RegisterInteractor: RegisterPresentableListener {
+  func joinAction() {
+    listener?.routeToLoggedIn()
+  }
+
+  func signUpAction() {
+    listener?.routeToLogin()
+  }
+
 }
