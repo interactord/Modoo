@@ -2,6 +2,9 @@ DerivedData/
 .DS_Store
 .idea
 
+# Slather
+build/
+
 ## Various settings
 *.pbxuser
 !default.pbxuser
