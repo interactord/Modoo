@@ -21,23 +21,23 @@ class LoginBuilderAdapterSpec: QuickSpec {
         _ = adapter.build(withListener: listener)
       }
 
-      context("didLogin 호출시") {
+      context("routeToLoggedIn 호출시") {
         beforeEach {
-          adapter.didLogin()
+          adapter.routeToLoggedIn()
         }
 
-        it("listener didLoginCallCount는 1이다") {
-          expect(listener.didLoginCallCount) == 1
+        it("listener routeToLoggedInCallCount는 1이다") {
+          expect(listener.routeToLoggedInCallCount) == 1
         }
       }
 
-      context("didRegister 호출시") {
+      context("routeToRegister 호출시") {
         beforeEach {
-          adapter.didRegister()
+          adapter.routeToRegister()
         }
 
-        it("listener didRegisterCallCount는 1이다") {
-          expect(listener.didRegisterCallCount) == 1
+        it("listener routeToRegisterCallCount는 1이다") {
+          expect(listener.routeToRegisterCallCount) == 1
         }
       }
     }

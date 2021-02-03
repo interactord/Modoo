@@ -24,12 +24,12 @@ final class LoginBuilderAdapter: Builder<LoginDependency> {
 // MARK: LoginListener
 
 extension LoginBuilderAdapter: LoginListener {
-  func didLogin() {
-    listener?.didLogin()
+  func routeToLoggedIn() {
+    listener?.routeToLoggedIn()
   }
 
-  func didRegister() {
-    listener?.didRegister()
+  func routeToRegister() {
+    listener?.routeToRegister()
   }
 }
 

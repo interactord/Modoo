@@ -27,7 +27,7 @@ class AuthenticationAdaptorSpec: QuickSpec {
         }
 
         it("authenticationListener routeToLoginCallCount는 1이다") {
-          expect(listener.routeToLoginCallCount) == 1
+          expect(listener.routeToLoggedInCallCount) == 1
         }
       }
     }

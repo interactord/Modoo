@@ -14,8 +14,8 @@ protocol LoginPresentable: Presentable {
 // MARK: - LoginListener
 
 protocol LoginListener: AnyObject {
-  func didLogin()
-  func didRegister()
+  func routeToLoggedIn()
+  func routeToRegister()
 }
 
 // MARK: - LoginInteractor
@@ -40,10 +40,10 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
 
 extension LoginInteractor: LoginPresentableListener {
   func loginAction() {
-    listener?.didLogin()
+    listener?.routeToLoggedIn()
   }
 
   func registerAction() {
-    listener?.didRegister()
+    listener?.routeToRegister()
   }
 }
