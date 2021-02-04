@@ -14,7 +14,7 @@ protocol LoginPresentable: Presentable {
 // MARK: - LoginListener
 
 protocol LoginListener: AnyObject {
-  func routeToLoggedIn()
+  func routeToOnboard()
   func routeToRegister()
 }
 
@@ -29,6 +29,10 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
     presenter.listener = self
   }
 
+  deinit {
+    print("LoginInteractor deinit...")
+  }
+
   // MARK: Internal
 
   weak var router: LoginRouting?
@@ -40,7 +44,7 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
 
 extension LoginInteractor: LoginPresentableListener {
   func loginAction() {
-    listener?.routeToLoggedIn()
+    listener?.routeToOnboard()
   }
 
   func registerAction() {

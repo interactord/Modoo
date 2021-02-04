@@ -22,17 +22,28 @@ class RegisterInteractorSpec: QuickSpec {
         viewControllable: viewController)
       interactor.listener = listener
       interactor.router = router
-      interactor.activate()
+
     }
 
-    describe("RegisterInteractorSpec") {
+    describe("RegisterInteractor activate 실행시") {
+      beforeEach {
+        interactor.activate()
+      }
+
+      afterEach {
+        interactor = nil
+        viewController = nil
+        listener = nil
+        router = nil
+      }
+
       context("joinAction 실행시") {
         beforeEach {
           interactor.joinAction()
         }
 
-        it("listener routeToLoggedInCallCount는 1이다") {
-          expect(listener.routeToLoggedInCallCount) == 1
+        it("listener routeToOnboardCallCount는 1이다") {
+          expect(listener.routeToOnboardCallCount) == 1
         }
       }
 

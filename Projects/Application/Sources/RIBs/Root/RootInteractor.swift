@@ -5,7 +5,8 @@ import RxSwift
 
 protocol RootRouting: ViewableRouting {
   func cleanupViews()
-  func routeToLoggedIn()
+  func routeToAuthentication()
+  func routeToOnboard()
 }
 
 // MARK: - RootPresentable
@@ -43,16 +44,16 @@ final class RootInteractor: PresentableInteractor<RootPresentable> {
 // MARK: RootInteractable
 
 extension RootInteractor: RootInteractable {
-  func routeToLoggedIn() {
-    router?.routeToLoggedIn()
+  func routeToAuthentication() {
+    router?.routeToAuthentication()
   }
 
+  func routeToOnboard() {
+    router?.routeToOnboard()
+  }
 }
 
 // MARK: RootPresentableListener
 
 extension RootInteractor: RootPresentableListener {
-  func routeToLogin() {
-    router?.routeToLoggedIn()
-  }
 }

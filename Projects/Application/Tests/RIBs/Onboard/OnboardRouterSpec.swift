@@ -15,9 +15,16 @@ class OnboardRouterSpec: QuickSpec {
       router = OnboardRouter(
         interactor: OnboardInteractableMock(),
         viewController: viewController)
-      router.didLoad()
+    }
+    afterEach {
+      viewController = nil
+      router = nil
     }
 
-    describe("OnboardRouter") {}
+    describe("OnboardRouter didLoad 실행시") {
+      beforeEach {
+        router.didLoad()
+      }
+    }
   }
 }

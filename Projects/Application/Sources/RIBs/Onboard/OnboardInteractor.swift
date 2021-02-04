@@ -13,7 +13,8 @@ protocol OnboardPresentable: Presentable {
 
 // MARK: - OnboardListener
 
-protocol OnboardListener: AnyObject {}
+protocol OnboardListener: AnyObject {
+}
 
 // MARK: - OnboardInteractor
 
@@ -26,6 +27,10 @@ final class OnboardInteractor: PresentableInteractor<OnboardPresentable>, Onboar
     presenter.listener = self
   }
 
+  deinit {
+    print("OnboardInteractor deinit...")
+  }
+
   // MARK: Internal
 
   weak var router: OnboardRouting?
@@ -35,4 +40,5 @@ final class OnboardInteractor: PresentableInteractor<OnboardPresentable>, Onboar
 
 // MARK: OnboardPresentableListener
 
-extension OnboardInteractor: OnboardPresentableListener {}
+extension OnboardInteractor: OnboardPresentableListener {
+}

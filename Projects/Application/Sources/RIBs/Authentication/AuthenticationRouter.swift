@@ -13,7 +13,6 @@ protocol AuthenticationInteractable: Interactable, LoginListener, RegisterListen
 
 protocol AuthenticationViewControllable: ViewControllable {
   func setRootViewController(viewController: ViewControllable)
-  func clearChildViewControllers()
   func pushViewController(viewController: ViewControllable)
   func popToRootViewController()
 }
@@ -37,6 +36,10 @@ final class AuthenticationRouter: ViewableRouter<AuthenticationInteractable, Aut
     interactor.router = self
   }
 
+  deinit {
+    print("AuthenticationRouter deinit")
+  }
+
   // MARK: Internal
 
   override func didLoad() {
@@ -49,49 +52,42 @@ final class AuthenticationRouter: ViewableRouter<AuthenticationInteractable, Aut
   // MARK: Private
 
   private let loginBuilder: LoginBuildable
-  private var login: ViewableRouting?
   private let registerBuilder: RegisterBuildable
-  private var register: ViewableRouting?
-
+  private weak var loginRouting: ViewableRouting?
+  private weak var registerRoutring: ViewableRouting?
 }
 
 // MARK: AuthenticationRouting
 
 extension AuthenticationRouter: AuthenticationRouting {
 
-  // MARK: Internal
-
   func cleanupViews() {
-    viewController.clearChildViewControllers()
+    guard let registerRoutring = registerRoutring else { return }
+
+    detachChild(registerRoutring)
+    viewController.popToRootViewController()
   }
 
   func routeToLogin() {
-    guard login == nil else {
-      viewController.popToRootViewController()
-      return
-    }
+    cleanupViews()
 
-    let login = loginBuilder.build(withListener: interactor)
-    self.login = login
-    attachChild(login)
-    viewController.setRootViewController(viewController: login.viewControllable)
+    guard loginRouting == nil else { return }
+
+    let loginRouting = loginBuilder.build(withListener: interactor)
+    attachChild(loginRouting)
+    self.loginRouting = loginRouting
+
+    viewController.setRootViewController(viewController: loginRouting.viewControllable)
   }
 
   func routeToRegister() {
-    let register = getRegister()
-    viewController.pushViewController(viewController: register.viewControllable)
-  }
+    cleanupViews()
 
-  // MARK: Private
+    let registerRoutring = registerBuilder.build(withListener: interactor)
+    attachChild(registerRoutring)
+    self.registerRoutring = registerRoutring
 
-  private func getRegister() -> ViewableRouting {
-    if let register = register { return register }
-
-    let register = registerBuilder.build(withListener: interactor)
-    self.register = register
-    attachChild(register)
-
-    return register
+    viewController.pushViewController(viewController: registerRoutring.viewControllable)
   }
 
 }

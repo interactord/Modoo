@@ -20,18 +20,22 @@ class LoginBuilderAdapterSpec: QuickSpec {
         listener = LoginListenerMock()
         _ = adapter.build(withListener: listener)
       }
+      afterEach {
+        adapter = nil
+        listener = nil
+      }
 
-      context("routeToLoggedIn 호출시") {
+      context("routeToOnboard 실행시") {
         beforeEach {
-          adapter.routeToLoggedIn()
+          adapter.routeToOnboard()
         }
 
-        it("listener routeToLoggedInCallCount는 1이다") {
-          expect(listener.routeToLoggedInCallCount) == 1
+        it("listener routeToOnboardCallCount는 1이다") {
+          expect(listener.routeToOnboardCallCount) == 1
         }
       }
 
-      context("routeToRegister 호출시") {
+      context("routeToRegister 실행시") {
         beforeEach {
           adapter.routeToRegister()
         }

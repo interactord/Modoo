@@ -5,18 +5,27 @@ import UIKit
 // MARK: - RootPresentableListener
 
 protocol RootPresentableListener: AnyObject {
-  func routeToLogin()
 }
 
 // MARK: - RootViewController
 
 final class RootViewController: UIViewController, RootPresentable {
+
+  // MARK: Lifecycle
+
+  deinit {
+    print("RootViewController deinit...")
+  }
+
+  // MARK: Internal
+
   weak var listener: RootPresentableListener?
 
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .red
   }
+
 }
 
 // MARK: RootViewControllable

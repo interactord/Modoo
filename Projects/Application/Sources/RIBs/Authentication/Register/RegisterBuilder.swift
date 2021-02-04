@@ -24,6 +24,9 @@ final class RegisterBuilder: Builder<RegisterDependency> {
     super.init(dependency: dependency)
   }
 
+  deinit {
+    print("RegisterBuilder deinit...")
+  }
 }
 
 // MARK: RegisterBuildable

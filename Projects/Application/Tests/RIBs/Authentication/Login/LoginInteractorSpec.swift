@@ -20,10 +20,19 @@ class LoginInteractorSpec: QuickSpec {
       listener = LoginListenerMock()
       interactor.router = router
       interactor.listener = listener
-      interactor.activate()
+    }
+    afterEach {
+      interactor = nil
+      viewController = nil
+      router = nil
+      listener = nil
     }
 
-    describe("LoginInteractor") {
+    describe("LoginInteractor activate 실행시") {
+
+      beforeEach {
+        interactor.activate()
+      }
 
       describe("loginAction 실행시") {
         beforeEach {
@@ -31,7 +40,7 @@ class LoginInteractorSpec: QuickSpec {
         }
 
         it("listener routeToLoggedInCallCount는 1이디") {
-          expect(listener.routeToLoggedInCallCount) == 1
+          expect(listener.routeToOnboardCallCount) == 1
         }
       }
 

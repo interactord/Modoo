@@ -5,10 +5,10 @@ import Quick
 
 class OnboardInteractorSpec: QuickSpec {
   override func spec() {
-    // swiftlint:disable:next implicitly_unwrapped_optional
+    // swiftlint:disable implicitly_unwrapped_optional
     var interactor: OnboardInteractor!
+    // swiftlint:disable implicitly_unwrapped_optional
     var viewController: OnboardViewControllableMock!
-    // swiftlint:disable:previous implicitly_unwrapped_optional
 
     beforeEach {
       viewController = OnboardViewControllableMock()
@@ -17,7 +17,12 @@ class OnboardInteractorSpec: QuickSpec {
         interactable: interactor,
         viewControllable: viewController)
     }
+    afterEach {
+      interactor = nil
+      viewController = nil
+    }
 
-    describe("OnboardInteractor") {}
+    describe("OnboardInteractor") {
+    }
   }
 }

@@ -2,19 +2,19 @@ import Nimble
 import Quick
 @testable import Application
 
-class RegisterRouterSpec: QuickSpec {
+class LoginRouterSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
-    var router: RegisterRouter!
+    var router: LoginRouter!
     // swiftlint:disable implicitly_unwrapped_optional
-    var viewController: RegisterViewControllableMock!
+    var viewController: LoginViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var interactor: RegisterInteractableMock!
+    var interactor: LoginInteractableMock!
 
     beforeEach {
-      interactor = RegisterInteractableMock()
-      viewController = RegisterViewControllableMock()
-      router = RegisterRouter(interactor: interactor, viewController: viewController)
+      interactor = LoginInteractableMock()
+      viewController = LoginViewControllableMock()
+      router = LoginRouter(interactor: interactor, viewController: viewController)
     }
     afterEach {
       router = nil

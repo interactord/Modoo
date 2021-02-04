@@ -13,21 +13,28 @@ class AuthenticationAdaptorSpec: QuickSpec {
     let id = "AuthenticationAdaptorSpecID"
     BuilderContainer.register(builder: AuthenticationBuilderAdapter.self, with: id)
 
-    describe("AuthenticationBuilderAdapter") {
+    beforeEach {
+      let builderType: AuthenticationBuilderAdapter.Type = BuilderContainer.resolve(for: id)
+      adapter = builderType.init(dependency: AuthenticationDependencyMock())
+      listener = AuthenticationListenerMock()
+    }
+    afterEach {
+      adapter = nil
+      listener = nil
+    }
+
+    describe("AuthenticationBuilderAdapter 빌드시") {
       beforeEach {
-        let builderType: AuthenticationBuilderAdapter.Type = BuilderContainer.resolve(for: id)
-        adapter = builderType.init(dependency: AuthenticationDependencyMock())
-        listener = AuthenticationListenerMock()
         _ = adapter.build(withListener: listener)
       }
 
-      context("routeToLoggedIn 호출 시") {
+      context("routeToOnboard 호출 시") {
         beforeEach {
-          adapter.routeToLoggedIn()
+          adapter.routeToOnboard()
         }
 
-        it("authenticationListener routeToLoginCallCount는 1이다") {
-          expect(listener.routeToLoggedInCallCount) == 1
+        it("authenticationListener routeToOnboardCallCount는 1이다") {
+          expect(listener.routeToOnboardCallCount) == 1
         }
       }
     }

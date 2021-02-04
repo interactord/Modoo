@@ -6,6 +6,14 @@ let AuthenticationBuilderID = "AuthenticationBuilderID"
 
 final class AuthenticationBuilderAdapter: Builder<AuthenticationDependency> {
 
+  // MARK: Lifecycle
+
+  deinit {
+    print("AuthenticationBuilderAdapter deinit")
+  }
+
+  // MARK: Private
+
   private final class Component: RIBs.Component<AuthenticationDependency>, AuthenticationDependency {
   }
 
@@ -17,8 +25,8 @@ final class AuthenticationBuilderAdapter: Builder<AuthenticationDependency> {
 
 extension AuthenticationBuilderAdapter: AuthenticationListener {
 
-  func routeToLoggedIn() {
-    listener?.routeToLoggedIn()
+  func routeToOnboard() {
+    listener?.routeToOnboard()
   }
 
 }

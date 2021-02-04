@@ -13,11 +13,19 @@ class RegisterBuilderAdapterSpec: QuickSpec {
     let id = "LoginBuilderAdapterSpecID"
     BuilderContainer.register(builder: LoginBuilderAdapter.self, with: id)
 
-    describe("RegisterBuilderAdapter") {
+    beforeEach {
+      let builderType: RegisterBuilderAdapter.Type = BuilderContainer.resolve(for: RegisterBuilderID)
+      adapter = builderType.init(dependency: RegisterDependencyMock())
+      listener = RegisterListenerMock()
+    }
+    afterEach {
+      adapter = nil
+      listener = nil
+    }
+
+    describe("RegisterBuilderAdapter build 실행시") {
+
       beforeEach {
-        let builderType: RegisterBuilderAdapter.Type = BuilderContainer.resolve(for: RegisterBuilderID)
-        adapter = builderType.init(dependency: RegisterDependencyMock())
-        listener = RegisterListenerMock()
         _ = adapter.build(withListener: listener)
       }
 
@@ -30,15 +38,15 @@ class RegisterBuilderAdapterSpec: QuickSpec {
           expect(listener.routeToLogInCallCount) == 1
         }
       }
-    }
 
-    context("routeToLoggedIn 실행시") {
-      beforeEach {
-        adapter.routeToLoggedIn()
-      }
+      context("routeToOnboard 실행시") {
+        beforeEach {
+          adapter.routeToOnboard()
+        }
 
-      it("listener routeToLoggedInCallCount는 1이다") {
-        expect(listener.routeToLoggedInCallCount) == 1
+        it("listener routeToOnboardCallCount는 1이다") {
+          expect(listener.routeToOnboardCallCount) == 1
+        }
       }
     }
   }

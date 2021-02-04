@@ -15,7 +15,7 @@ protocol RegisterPresentable: Presentable {
 
 protocol RegisterListener: AnyObject {
   func routeToLogin()
-  func routeToLoggedIn()
+  func routeToOnboard()
 }
 
 // MARK: - RegisterInteractor
@@ -29,6 +29,10 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
     presenter.listener = self
   }
 
+  deinit {
+    print("RegisterInteractor deinit...")
+  }
+
   // MARK: Internal
 
   weak var router: RegisterRouting?
@@ -40,7 +44,7 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
 
 extension RegisterInteractor: RegisterPresentableListener {
   func joinAction() {
-    listener?.routeToLoggedIn()
+    listener?.routeToOnboard()
   }
 
   func signUpAction() {

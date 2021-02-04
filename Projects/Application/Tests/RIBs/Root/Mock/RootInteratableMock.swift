@@ -5,28 +5,27 @@ import RxSwift
 
 // MARK: - RootInteractableMock
 
-class RootInteractableMock: InteractableMock {
+class RootInteractableMock: InteractableMock, RootPresentableListener {
 
   var router: RootRouting?
   var listener: RootListener?
-  var routeToLoginCallCount: Int = 0
-  var routeToLoginHandler: (() -> Void)?
+  var routeToOnboardCallCount: Int = 0
+  var routeToOnboardHandler: (() -> Void)?
+  var routeToAuthenticationCallCount: Int = 0
+  var routeToAuthenticationHandler: (() -> Void)?
 
 }
 
 // MARK: RootInteractable
 
 extension RootInteractableMock: RootInteractable {
-  func routeToLoggedIn() {
-    routeToLogin()
+  func routeToOnboard() {
+    routeToOnboardCallCount += 1
+    routeToOnboardHandler?()
   }
-}
 
-// MARK: RootPresentableListener
-
-extension RootInteractableMock: RootPresentableListener {
-  func routeToLogin() {
-    routeToLoginCallCount += 1
-    routeToLoginHandler?()
+  func routeToAuthentication() {
+    routeToAuthenticationCallCount += 1
+    routeToAuthenticationHandler?()
   }
 }

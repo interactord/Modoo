@@ -28,15 +28,9 @@ class AuthenticationViewControllableMock: ViewControllableMock, AuthenticationPr
 extension AuthenticationViewControllableMock: AuthenticationViewControllable {
 
   func setRootViewController(viewController: ViewControllable) {
-    viewControllers += 1
+    viewControllers = 1
     setRootViewControllerCallCount += 1
     setRootViewControllerHandler?()
-  }
-
-  func clearChildViewControllers() {
-    viewControllers = 0
-    clearChildViewControllersCallCount += 1
-    clearChildViewControllersHandler?()
   }
 
   func pushViewController(viewController: ViewControllable) {

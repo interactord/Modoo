@@ -23,17 +23,26 @@ class AuthenticationInteractorSpec: QuickSpec {
         viewControllable: viewController)
       interactor.listener = listener
       interactor.router = router
-      interactor.activate()
+    }
+    afterEach {
+      interactor = nil
+      viewController = nil
+      listener = nil
+      router = nil
     }
 
-    describe("AuthenticationInteractor") {
-      context("routeToLoggedIn 실행시") {
+    describe("AuthenticationInteractor activate 실행시") {
+      beforeEach {
+        interactor.activate()
+      }
+
+      context("routeToOnboard 실행시") {
         beforeEach {
-          interactor.routeToLoggedIn()
+          interactor.routeToOnboard()
         }
 
-        it("listener routeToLoginCallCount는 1이다") {
-          expect(listener.routeToLoggedInCallCount) == 1
+        it("listener routeToOnboardCallCount는 1이다") {
+          expect(listener.routeToOnboardCallCount) == 1
         }
       }
 
