@@ -1,8 +1,8 @@
 @testable import Application
 
 class RegisterListenerMock: RegisterListener {
-  var routeToLoggedInCallCount = 0
-  var routeToLoggedIninHandler: (() -> Void)?
+  var routeToOnboardCallCount = 0
+  var routeToOnboardHandler: (() -> Void)?
   var routeToLogInCallCount = 0
   var routeToLogIninHandler: (() -> Void)?
 
@@ -11,9 +11,9 @@ class RegisterListenerMock: RegisterListener {
     routeToLogIninHandler?()
   }
 
-  func routeToLoggedIn() {
-    routeToLoggedInCallCount += 1
-    routeToLoggedIninHandler?()
+  func routeToOnboard() {
+    routeToOnboardCallCount += 1
+    routeToOnboardHandler?()
   }
 
 }

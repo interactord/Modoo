@@ -41,6 +41,10 @@ final class AuthenticationBuilder: Builder<AuthenticationDependency>, Authentica
     super.init(dependency: dependency)
   }
 
+  deinit {
+    print("AuthenticationBuilder deinit")
+  }
+
   // MARK: Internal
 
   func build(withListener listener: AuthenticationListener) -> AuthenticationRouting {
@@ -58,4 +62,5 @@ final class AuthenticationBuilder: Builder<AuthenticationDependency>, Authentica
       loginBuilder: loginBuilderType.init(dependency: component),
       registerBuilder: registerBuilderType.init(dependency: component))
   }
+
 }

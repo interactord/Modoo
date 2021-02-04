@@ -17,6 +17,10 @@ class RootRouterSpec: QuickSpec {
         authenticationBuilder: AuthenticationBuildableMock(),
         onboardBuilder: OnboardBuildableMock())
     }
+    afterEach {
+      viewController = nil
+      router = nil
+    }
 
     describe("RootRouter") {
       context("didLoad 실행시") {
@@ -48,9 +52,9 @@ class RootRouterSpec: QuickSpec {
           }
         }
 
-        context("routeToLoggedIn 실행시") {
+        context("routeToAuthentication 실행시") {
           beforeEach {
-            router.routeToLoggedIn()
+            router.routeToAuthentication()
           }
 
           it("viewController presentCallCount는 2이다") {
@@ -63,7 +67,7 @@ class RootRouterSpec: QuickSpec {
 
         context("routeToLoggedIn 실행시") {
           beforeEach {
-            router.routeToLoggedIn()
+            router.routeToOnboard()
           }
 
           it("viewController presentCallCount는 2이다") {

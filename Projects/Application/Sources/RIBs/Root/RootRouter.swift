@@ -38,57 +38,46 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
 
   override func didLoad() {
     super.didLoad()
-    routerAuthentication()
-  }
-
-  func cleanupViews() {
-    guard let currentChild = currentChild else { return }
-    viewController.dismiss(viewController: currentChild.viewControllable)
-    self.currentChild = nil
+    routeToOnboard()
   }
 
   // MARK: Private
 
   private let authenticationBuilder: AuthenticationBuildable
-  private var authentication: ViewableRouting?
   private let onboardBuilder: OnboardBuildable
-  private var onboard: ViewableRouting?
-  private var currentChild: ViewableRouting?
+  private weak var currentChild: ViewableRouting?
 
 }
 
 // MARK: RootRouting
 
 extension RootRouter: RootRouting {
-  func routeToLoggedIn() {
-    routeOnboard()
+  func cleanupViews() {
+    guard let currentChild = currentChild else { return }
+
+    detachChild(currentChild)
+    viewController.dismiss(viewController: currentChild.viewControllable)
+
+    self.currentChild = nil
+  }
+
+  func routeToOnboard() {
+    present(routing: onboardBuilder.build(withListener: interactor))
+  }
+
+  func routeToAuthentication() {
+    present(routing: authenticationBuilder.build(withListener: interactor))
   }
 }
 
-// MARK: - Inner Method
-
 extension RootRouter {
-  fileprivate func routerAuthentication() {
+
+  private func present(routing: ViewableRouting) {
     cleanupViews()
+    currentChild = routing
+    attachChild(routing)
 
-    let authentication = authenticationBuilder.build(withListener: interactor)
-    self.authentication = authentication
-    currentChild = authentication
-
-    attachChild(authentication)
-
-    viewController.present(viewController: authentication.viewControllable)
+    viewController.present(viewController: routing.viewControllable)
   }
 
-  fileprivate func routeOnboard() {
-    cleanupViews()
-
-    let onboard = onboardBuilder.build(withListener: interactor)
-    self.onboard = onboard
-    currentChild = onboard
-
-    attachChild(onboard)
-
-    viewController.present(viewController: onboard.viewControllable)
-  }
 }

@@ -14,6 +14,14 @@ protocol AuthenticationPresentableListener: AnyObject {
 
 final class AuthenticationViewController: UINavigationController, AuthenticationPresentable {
 
+  // MARK: Lifecycle
+
+  deinit {
+    print("AuthenticationViewController deinit")
+  }
+
+  // MARK: Internal
+
   weak var listener: AuthenticationPresentableListener?
 
   override func viewDidAppear(_ animated: Bool) {
@@ -21,6 +29,7 @@ final class AuthenticationViewController: UINavigationController, Authentication
 
     applyUIPreferences()
   }
+
 }
 
 extension AuthenticationViewController {
@@ -33,10 +42,6 @@ extension AuthenticationViewController {
 // MARK: AuthenticationViewControllable
 
 extension AuthenticationViewController: AuthenticationViewControllable {
-
-  func clearChildViewControllers() {
-    setViewControllers([], animated: false)
-  }
 
   func setRootViewController(viewController: ViewControllable) {
     setViewControllers([viewController.uiviewController], animated: false)

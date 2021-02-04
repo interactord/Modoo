@@ -19,9 +19,9 @@ class AuthenticationInteractableMock: InteractableMock {
   var router: AuthenticationRouting?
   var listener: AuthenticationListener?
   var routeToLogInCallCount = 0
-  var routeToLogIninHandler: (() -> Void)?
-  var routeToLoggedInCallCount = 0
-  var routeToLoggedIninHandler: (() -> Void)?
+  var routeToLogInHandler: (() -> Void)?
+  var routeToOnboardCallCount = 0
+  var routeToOnboardHandler: (() -> Void)?
   var routeToRegisterCallCount = 0
   var routeToRegisterHandler: (() -> Void)?
 
@@ -30,14 +30,15 @@ class AuthenticationInteractableMock: InteractableMock {
 // MARK: AuthenticationInteractable
 
 extension AuthenticationInteractableMock: AuthenticationInteractable {
+
   func routeToLogin() {
     routeToLogInCallCount += 1
-    routeToLoggedIninHandler?()
+    routeToLogInHandler?()
   }
 
-  func routeToLoggedIn() {
-    routeToLoggedInCallCount += 1
-    routeToLoggedIninHandler?()
+  func routeToOnboard() {
+    routeToOnboardCallCount += 1
+    routeToOnboardHandler?()
   }
 
   func routeToRegister() {

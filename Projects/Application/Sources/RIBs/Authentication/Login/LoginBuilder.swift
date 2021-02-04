@@ -20,6 +20,10 @@ final class LoginBuilder: Builder<LoginDependency> {
   override init(dependency: LoginDependency) {
     super.init(dependency: dependency)
   }
+
+  deinit {
+    print("LoginBuilder deinit...")
+  }
 }
 
 // MARK: LoginBuildable

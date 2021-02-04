@@ -20,6 +20,10 @@ final class RegisterRouter: ViewableRouter<RegisterInteractable, RegisterViewCon
     super.init(interactor: interactor, viewController: viewController)
     interactor.router = self
   }
+
+  deinit {
+    print("RegisterRouter deinit...")
+  }
 }
 
 // MARK: RegisterRouting

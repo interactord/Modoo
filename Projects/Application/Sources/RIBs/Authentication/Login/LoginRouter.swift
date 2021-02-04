@@ -19,4 +19,8 @@ final class LoginRouter: ViewableRouter<LoginInteractable, LoginViewControllable
     super.init(interactor: interactor, viewController: viewController)
     interactor.router = self
   }
+
+  deinit {
+    print("LoginRouter deinit...")
+  }
 }
