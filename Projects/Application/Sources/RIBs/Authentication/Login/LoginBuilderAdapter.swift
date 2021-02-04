@@ -12,6 +12,10 @@ final class LoginBuilderAdapter: Builder<LoginDependency> {
     super.init(dependency: dependency)
   }
 
+  deinit {
+    print("LoginBuilderAdapter deinit...")
+  }
+
   // MARK: Private
 
   private final class Component: RIBs.Component<LoginDependency>, LoginDependency {
@@ -24,8 +28,8 @@ final class LoginBuilderAdapter: Builder<LoginDependency> {
 // MARK: LoginListener
 
 extension LoginBuilderAdapter: LoginListener {
-  func routeToLoggedIn() {
-    listener?.routeToLoggedIn()
+  func routeToOnboard() {
+    listener?.routeToOnboard()
   }
 
   func routeToRegister() {

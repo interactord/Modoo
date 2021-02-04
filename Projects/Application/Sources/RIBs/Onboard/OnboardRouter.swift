@@ -21,4 +21,8 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
     super.init(interactor: interactor, viewController: viewController)
     interactor.router = self
   }
+
+  deinit {
+    print("OnboardRouter deinit...")
+  }
 }

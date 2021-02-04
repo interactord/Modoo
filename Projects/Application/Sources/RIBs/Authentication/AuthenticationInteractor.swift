@@ -18,18 +18,22 @@ protocol AuthenticationPresentable: Presentable {
 // MARK: - AuthenticationListener
 
 protocol AuthenticationListener: AnyObject {
-  func routeToLoggedIn()
+  func routeToOnboard()
 }
 
 // MARK: - AuthenticationInteractor
 
-final class AuthenticationInteractor: PresentableInteractor<AuthenticationPresentable>, AuthenticationInteractable, AuthenticationPresentableListener {
+final class AuthenticationInteractor: PresentableInteractor<AuthenticationPresentable>, AuthenticationInteractable {
 
   // MARK: Lifecycle
 
   override init(presenter: AuthenticationPresentable) {
     super.init(presenter: presenter)
     presenter.listener = self
+  }
+
+  deinit {
+    print("AuthenticationInteractor deinit")
   }
 
   // MARK: Internal
@@ -45,8 +49,13 @@ final class AuthenticationInteractor: PresentableInteractor<AuthenticationPresen
     router?.routeToRegister()
   }
 
-  func routeToLoggedIn() {
-    listener?.routeToLoggedIn()
+  func routeToOnboard() {
+    listener?.routeToOnboard()
   }
 
+}
+
+// MARK: AuthenticationPresentableListener
+
+extension AuthenticationInteractor: AuthenticationPresentableListener {
 }

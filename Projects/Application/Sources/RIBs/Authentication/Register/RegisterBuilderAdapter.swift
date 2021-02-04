@@ -6,17 +6,26 @@ let RegisterBuilderID = "RegisterBuilderID"
 
 final class RegisterBuilderAdapter: Builder<RegisterDependency> {
 
+  // MARK: Lifecycle
+
+  deinit {
+    print("RegisterBuilderAdapter deinit...")
+  }
+
+  // MARK: Private
+
   private final class Component: RIBs.Component<RegisterDependency>, RegisterDependency {
   }
 
   private weak var listener: RegisterListener?
+
 }
 
 // MARK: RegisterListener
 
 extension RegisterBuilderAdapter: RegisterListener {
-  func routeToLoggedIn() {
-    listener?.routeToLoggedIn()
+  func routeToOnboard() {
+    listener?.routeToOnboard()
   }
 
   func routeToLogin() {

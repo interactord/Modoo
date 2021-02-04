@@ -20,13 +20,13 @@ final class RegisterViewController: ASDKViewController<RegisterContainerNode>, R
     super.init(node: .init())
   }
 
+  deinit {
+    print("RegisterViewController deinit...")
+  }
+
   @available(*, unavailable)
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-
-  deinit {
-    print("RegisterViewController deinit...")
   }
 
   // MARK: Internal

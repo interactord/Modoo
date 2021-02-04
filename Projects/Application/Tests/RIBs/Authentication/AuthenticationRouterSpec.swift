@@ -18,19 +18,27 @@ class AuthenticationRouterSpec: QuickSpec {
         loginBuilder: LoginBuildableMock(),
         registerBuilder: RegisterBuildableMock())
     }
+    afterEach {
+      router = nil
+      viewController = nil
+    }
 
-    describe("AuthenticationRouter") {
+    describe("AuthenticationRouter didLoad 실행시") {
+      beforeEach {
+        router.didLoad()
+      }
+
       context("cleanupViews 실행시") {
         beforeEach {
           router.cleanupViews()
         }
 
-        it("viewController clearChildViewControllersCallCount는 1이다") {
-          expect(viewController.clearChildViewControllersCallCount) == 1
+        it("viewController popToRootViewControllerCallCount는 0이다") {
+          expect(viewController.popToRootViewControllerCallCount) == 0
         }
 
-        it("viewController viewControllers는 0이다") {
-          expect(viewController.viewControllers) == 0
+        it("viewController viewControllers는 1이다") {
+          expect(viewController.viewControllers) == 1
         }
       }
 
@@ -58,7 +66,7 @@ class AuthenticationRouterSpec: QuickSpec {
         }
 
         it("viewController viewControllers는 1이다") {
-          expect(viewController.viewControllers) == 1
+          expect(viewController.viewControllers) == 2
         }
       }
 
@@ -75,7 +83,7 @@ class AuthenticationRouterSpec: QuickSpec {
           }
 
           it("viewController viewControllers는 0이다") {
-            expect(viewController.viewControllers) == 0
+            expect(viewController.viewControllers) == 1
           }
         }
 
@@ -115,7 +123,7 @@ class AuthenticationRouterSpec: QuickSpec {
           }
 
           it("router childrenRouter의 갯수는 1이다") {
-            expect(router.children.count) == 1
+            expect(router.children.count) == 2
           }
         }
       }

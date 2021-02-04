@@ -16,27 +16,36 @@ class RootInteractorSpec: QuickSpec {
       interactor = RootInteractor(presenter: viewController)
       router = RootRoutingMock(interactable: interactor, viewControllable: viewController)
       interactor.router = router
-      interactor.activate()
+    }
+    afterEach {
+      interactor = nil
+      viewController = nil
+      router = nil
     }
 
-    describe("RootInteractor") {
-      context("routeToLoggedIn 실행시") {
+    describe("RootInteractor activate실행시") {
+
+      beforeEach {
+        interactor.activate()
+      }
+
+      context("routeToOnboard 실행시") {
         beforeEach {
-          interactor.routeToLoggedIn()
+          interactor.routeToOnboard()
         }
 
-        it("router attachChildCallCount는 1이다") {
-          expect(router.attachChildCallCount) == 1
+        it("router routeToOnboardCallCount는 1이다") {
+          expect(router.routeToOnboardCallCount) == 1
         }
       }
 
-      context("routeToLogin 실행시") {
+      context("routeToAuthentication 실행시") {
         beforeEach {
-          interactor.routeToLogin()
+          interactor.routeToAuthentication()
         }
 
-        it("router attachChildCallCount는 1이다") {
-          expect(router.attachChildCallCount) == 1
+        it("router routeToAuthenticationCallCount는 1이다") {
+          expect(router.routeToAuthenticationCallCount) == 1
         }
       }
 
@@ -45,7 +54,7 @@ class RootInteractorSpec: QuickSpec {
           interactor.deactivate()
         }
 
-        it("router cleanupVieRwCallCount는 1이다") {
+        it("router cleanupViewCallCount는 1이다") {
           expect(router.cleanupViewCallCount) == 1
         }
       }
