@@ -18,7 +18,9 @@ extension RegisterBuildableMock: RegisterBuildable {
     _ = RegisterComponent(dependency: dependency)
 
     let viewController = RegisterViewController()
-    let interactor = RegisterInteractor(presenter: viewController)
+    let interactor = RegisterInteractor(
+      presenter: viewController,
+      initialState: .init())
     interactor.listener = listener
     return RegisterRouter(interactor: interactor, viewController: viewController)
   }

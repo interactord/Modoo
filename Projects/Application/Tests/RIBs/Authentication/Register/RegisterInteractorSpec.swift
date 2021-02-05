@@ -16,44 +16,47 @@ class RegisterInteractorSpec: QuickSpec {
     beforeEach {
       viewController = RegisterViewControllableMock()
       listener = RegisterListenerMock()
-      interactor = RegisterInteractor(presenter: viewController)
+      interactor = RegisterInteractor(
+        presenter: viewController,
+        initialState: .init())
       router = RegisterRoutingMock(
         interactable: interactor,
         viewControllable: viewController)
       interactor.listener = listener
       interactor.router = router
-
+    }
+    afterEach {
+      interactor = nil
+      viewController = nil
+      listener = nil
+      router = nil
     }
 
     describe("RegisterInteractor activate 실행시") {
       beforeEach {
         interactor.activate()
       }
-
       afterEach {
-        interactor = nil
-        viewController = nil
-        listener = nil
-        router = nil
+        interactor.deactivate()
       }
 
-      context("joinAction 실행시") {
+      context("signUp action 이벤트 발생시") {
         beforeEach {
-          interactor.joinAction()
+          interactor.action.onNext(.signUp)
         }
 
-        it("listener routeToOnboardCallCount는 1이다") {
-          expect(listener.routeToOnboardCallCount) == 1
+        it("listener routeToOnboardCallCount가 1이다") {
+          expect(listener.routeToOnboardCallCount).toEventually(equal(1), timeout: .milliseconds(300))
         }
       }
 
-      context("signUpAction 실행시") {
+      context("register action 이벤트 발생시") {
         beforeEach {
-          interactor.signUpAction()
+          interactor.action.onNext(.login)
         }
 
-        it("listener routeToLogin는 1이다") {
-          expect(listener.routeToLogInCallCount) == 1
+        it("listener routeToLogInCallCount가 1이다") {
+          expect(listener.routeToLogInCallCount).toEventually(equal(1), timeout: .milliseconds(300))
         }
       }
     }

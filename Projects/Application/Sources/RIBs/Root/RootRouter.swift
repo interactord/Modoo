@@ -38,7 +38,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
 
   override func didLoad() {
     super.didLoad()
-    routeToOnboard()
+    routeToAuthentication()
   }
 
   // MARK: Private
