@@ -36,7 +36,7 @@ final class LoginContainerNode: ASDisplayNode {
     return node
   }()
 
-  private(set) lazy var loginButton: FormPrimaryButtonNode = {
+  private(set) lazy var loginButtonNode: FormPrimaryButtonNode = {
     let node = FormPrimaryButtonNode(title: "Log in")
     node.style.preferredLayoutSize = Const.formElementPreferredLayoutSize
     return node
@@ -49,7 +49,7 @@ final class LoginContainerNode: ASDisplayNode {
     return node
   }()
 
-  private(set) lazy var dontHaveAccountButton: FormSecondaryButtonNode = {
+  private(set) lazy var dontHaveAccountButtonNode: FormSecondaryButtonNode = {
     let node = FormSecondaryButtonNode(
       firstPart: "Don't have account?",
       secondPart: "Register")
@@ -99,7 +99,7 @@ extension LoginContainerNode {
       alignItems: .center,
       children: [
         headerContentLayoutSpec(),
-        dontHaveAccountButton,
+        dontHaveAccountButtonNode,
       ])
     let contentLayoutWithPadding = ASInsetLayoutSpec(
       insets: .merge(list: [Const.layoutContentPadding, safeAreaInsets]),
@@ -130,7 +130,7 @@ extension LoginContainerNode {
       children: [
         emailInputNode,
         passwordInputNode,
-        loginButton, forgetPasswordButton,
+        loginButtonNode, forgetPasswordButton,
       ])
   }
 }

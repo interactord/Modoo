@@ -1,13 +1,35 @@
 import AsyncDisplayKit
+import ReactorKit
 import RIBs
+import RxCocoa
 import RxSwift
 import UIKit
+
+// MARK: - RegisterPresentableAction
+
+enum RegisterPresentableAction {
+  case signUp
+  case login
+}
+
+// MARK: - RegisterPresentableState
+
+struct RegisterPresentableState: Equatable {
+  let email = ""
+  let paswword = ""
+  let fullName = ""
+  let userName = ""
+}
 
 // MARK: - RegisterPresentableListener
 
 protocol RegisterPresentableListener: AnyObject {
-  func joinAction()
-  func signUpAction()
+  typealias Action = RegisterPresentableAction
+  typealias State = RegisterPresentableState
+
+  var action: ActionSubject<Action> { get }
+  var state: Observable<State> { get }
+  var currentState: State { get }
 }
 
 // MARK: - RegisterViewController
@@ -32,26 +54,39 @@ final class RegisterViewController: ASDKViewController<RegisterContainerNode>, R
   // MARK: Internal
 
   weak var listener: RegisterPresentableListener?
+  let disposeBag = DisposeBag()
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    node.signUpButton.addTarget(self, action: #selector(onJoin), forControlEvents: .touchUpInside)
-    node.alreadyHaveAccountButton.addTarget(self, action: #selector(onSignUp), forControlEvents: .touchUpInside)
+    bind(listener: listener)
   }
 
-  @objc
-  func onSignUp(sender: Any) {
-    listener?.signUpAction()
-  }
-
-  @objc
-  func onJoin(sender: Any) {
-    listener?.joinAction()
-  }
 }
 
 // MARK: RegisterViewControllable
 
 extension RegisterViewController: RegisterViewControllable {
+}
+
+// MARK: Binding
+
+extension RegisterViewController {
+
+  private func bind(listener: RegisterPresentableListener?) {
+    guard let listener = listener else { return }
+    bindAction(listener: listener)
+  }
+
+  private func bindAction(listener: RegisterPresentableListener) {
+    node.signUpButton.rx.tap
+      .map{ _ in .signUp }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node.alreadyHaveAccountButton.rx.tap
+      .map{ _ in .login }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+  }
 }

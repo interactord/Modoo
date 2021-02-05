@@ -1,3 +1,4 @@
+import ReactorKit
 import RIBs
 import RxSwift
 
@@ -20,11 +21,16 @@ protocol LoginListener: AnyObject {
 
 // MARK: - LoginInteractor
 
-final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInteractable {
+final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInteractable
+{
 
   // MARK: Lifecycle
 
-  override init(presenter: LoginPresentable) {
+  init(
+    presenter: LoginPresentable,
+    initialState: LoginPresentableState)
+  {
+    self.initialState = initialState
     super.init(presenter: presenter)
     presenter.listener = self
   }
@@ -35,19 +41,62 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
 
   // MARK: Internal
 
+  typealias Action = LoginPresentableAction
+  typealias State = LoginPresentableState
+
+  enum Mutation: Equatable {
+    case requestLogin
+    case register
+  }
+
   weak var router: LoginRouting?
   weak var listener: LoginListener?
 
+  let initialState: LoginPresentableState
+
 }
 
-// MARK: LoginPresentableListener
+// MARK: LoginPresentableListener, Reactor
 
-extension LoginInteractor: LoginPresentableListener {
-  func loginAction() {
-    listener?.routeToOnboard()
+extension LoginInteractor: LoginPresentableListener, Reactor {
+
+  // MARK: Internal
+
+  func mutate(action: Action) -> Observable<Mutation> {
+    switch action {
+    case .login:
+      return  mutatingRequestLogin()
+    case .register:
+      return  .just(.register)
+    }
   }
 
-  func registerAction() {
+  func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+    mutation
+      .withUnretained(self)
+      .flatMap{ owner, mutation -> Observable<Mutation> in
+        switch mutation {
+        case .requestLogin:
+          return owner.transformingRequestLogin()
+        case .register:
+          return owner.transformingRegister()
+        }
+      }
+  }
+
+  // MARK: Private
+
+  private func mutatingRequestLogin() -> Observable<Mutation> {
+    .just(.requestLogin)
+  }
+
+  private func transformingRequestLogin() -> Observable<Mutation> {
+    listener?.routeToOnboard()
+    return .empty()
+  }
+
+  private func transformingRegister() -> Observable<Mutation> {
     listener?.routeToRegister()
+    return .empty()
   }
 }

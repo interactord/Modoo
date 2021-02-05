@@ -6,12 +6,12 @@ use_frameworks!
 target 'Application' do
   #Framework
   pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
+  pod 'ReactorKit'
 
   # UI
   pod 'Texture'
   pod 'RxTexture2'
   pod 'BonMot'
-  pod 'ReactorKit'
 
   # Misc.
   pod 'SwiftLint'

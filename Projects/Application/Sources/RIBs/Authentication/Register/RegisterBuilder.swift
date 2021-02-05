@@ -34,7 +34,9 @@ final class RegisterBuilder: Builder<RegisterDependency> {
 extension RegisterBuilder: RegisterBuildable {
   func build(withListener listener: RegisterListener) -> RegisterRouting {
     let viewController = RegisterViewController()
-    let interactor = RegisterInteractor(presenter: viewController)
+    let interactor = RegisterInteractor(
+      presenter: viewController,
+      initialState: .init())
     interactor.listener = listener
     return RegisterRouter(interactor: interactor, viewController: viewController)
   }
