@@ -1,17 +1,42 @@
 import AsyncDisplayKit
+import ReactorKit
 import RIBs
+import RxCocoa
 import RxSwift
+import RxTexture2
+
+// MARK: - LoginPresentableAction
+
+enum LoginPresentableAction {
+  case login
+  case register
+}
+
+// MARK: - LoginPresentableState
+
+struct LoginPresentableState: Equatable {
+  let inputEmail = ""
+  let inputPassword = ""
+}
 
 // MARK: - LoginPresentableListener
 
 protocol LoginPresentableListener: AnyObject {
-  func loginAction()
-  func registerAction()
+  typealias Action = LoginPresentableAction
+  typealias State = LoginPresentableState
+
+  var action: ActionSubject<Action> { get }
+  var state: Observable<State> { get }
+  var currentState: State { get }
 }
 
 // MARK: - LoginViewController
 
-final class LoginViewController: ASDKViewController<LoginContainerNode>, LoginPresentable, LoginViewControllable {
+final class LoginViewController:
+  ASDKViewController<LoginContainerNode>,
+  LoginPresentable,
+  LoginViewControllable
+{
 
   // MARK: Lifecycle
 
@@ -30,22 +55,34 @@ final class LoginViewController: ASDKViewController<LoginContainerNode>, LoginPr
 
   // MARK: Internal
 
+  let disposeBag = DisposeBag()
+
   weak var listener: LoginPresentableListener?
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    node.dontHaveAccountButton.addTarget(self, action: #selector(onRegister), forControlEvents: .touchUpInside)
-    node.loginButton.addTarget(self, action: #selector(onLogin), forControlEvents: .touchUpInside)
+    bind(listener: listener)
   }
 
-  @objc
-  func onLogin(sender: Any) {
-    listener?.loginAction()
+}
+
+extension LoginViewController {
+
+  private func bind(listener: LoginPresentableListener?) {
+    guard let listener = listener else { return }
+    bindAction(listener: listener)
   }
 
-  @objc
-  func onRegister(sender: Any) {
-    listener?.registerAction()
+  private func bindAction(listener: LoginPresentableListener) {
+    node.dontHaveAccountButtonNode.rx.tap
+      .map { _ in .register}
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node.loginButtonNode.rx.tap
+      .map { _ in .login }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
   }
 }

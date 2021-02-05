@@ -15,9 +15,10 @@ class LoginInteractorSpec: QuickSpec {
 
     beforeEach {
       viewController = LoginViewControllableMock()
-      interactor = LoginInteractor(presenter: viewController)
+      interactor = LoginInteractor(presenter: viewController, initialState: .init())
       router = LoginRoutingMock(interactable: interactor, viewControllable: viewController)
       listener = LoginListenerMock()
+      viewController.listener = interactor
       interactor.router = router
       interactor.listener = listener
     }
@@ -33,24 +34,27 @@ class LoginInteractorSpec: QuickSpec {
       beforeEach {
         interactor.activate()
       }
+      afterEach {
+        interactor.deactivate()
+      }
 
-      describe("loginAction 실행시") {
+      context("login action 이벤트 발생시") {
         beforeEach {
-          interactor.loginAction()
+          interactor.action.onNext(.login)
         }
 
-        it("listener routeToLoggedInCallCount는 1이디") {
-          expect(listener.routeToOnboardCallCount) == 1
+        it("listener routeToOnboardCallCount가 1이다") {
+          expect(listener.routeToOnboardCallCount).toEventually(equal(1), timeout: .milliseconds(300))
         }
       }
 
-      describe("registerAction 실행시") {
+      context("register action 이벤트 발생시") {
         beforeEach {
-          interactor.registerAction()
+          interactor.action.onNext(.register)
         }
 
-        it("listener routeToRegisterCallCount는 1이디") {
-          expect(listener.routeToRegisterCallCount) == 1
+        it("listener routeToRegisterCallCount가 호출이 된다") {
+          expect(listener.routeToRegisterCallCount).toEventually(equal(1), timeout: .milliseconds(300))
         }
       }
     }
