@@ -54,7 +54,7 @@ final class AuthenticationRouter: ViewableRouter<AuthenticationInteractable, Aut
   private let loginBuilder: LoginBuildable
   private let registerBuilder: RegisterBuildable
   private weak var loginRouting: ViewableRouting?
-  private weak var registerRoutring: ViewableRouting?
+  private weak var registerRouting: ViewableRouting?
 }
 
 // MARK: AuthenticationRouting
@@ -62,7 +62,7 @@ final class AuthenticationRouter: ViewableRouter<AuthenticationInteractable, Aut
 extension AuthenticationRouter: AuthenticationRouting {
 
   func cleanupViews() {
-    guard let registerRoutring = registerRoutring else { return }
+    guard let registerRoutring = registerRouting else { return }
 
     detachChild(registerRoutring)
     viewController.popToRootViewController()
@@ -83,11 +83,11 @@ extension AuthenticationRouter: AuthenticationRouting {
   func routeToRegister() {
     cleanupViews()
 
-    let registerRoutring = registerBuilder.build(withListener: interactor)
-    attachChild(registerRoutring)
-    self.registerRoutring = registerRoutring
+    let registerRouting = registerBuilder.build(withListener: interactor)
+    attachChild(registerRouting)
+    self.registerRouting = registerRouting
 
-    viewController.pushViewController(viewController: registerRoutring.viewControllable)
+    viewController.pushViewController(viewController: registerRouting.viewControllable)
   }
 
 }
