@@ -32,10 +32,7 @@ protocol LoginPresentableListener: AnyObject {
 
 // MARK: - LoginViewController
 
-final class LoginViewController:
-  ASDKViewController<LoginContainerNode>,
-  LoginPresentable,
-  LoginViewControllable
+final class LoginViewController: ASDKViewController<LoginContainerNode>, LoginPresentable, LoginViewControllable
 {
 
   // MARK: Lifecycle
@@ -50,7 +47,7 @@ final class LoginViewController:
   }
 
   deinit {
-    print("LoginController deinit...")
+    print("LoginViewController deinit...")
   }
 
   // MARK: Internal
@@ -61,7 +58,6 @@ final class LoginViewController:
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
     bind(listener: listener)
   }
 
@@ -76,7 +72,7 @@ extension LoginViewController {
 
   private func bindAction(listener: LoginPresentableListener) {
     node.dontHaveAccountButtonNode.rx.tap
-      .map { _ in .register}
+      .map{ _ in .register }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 

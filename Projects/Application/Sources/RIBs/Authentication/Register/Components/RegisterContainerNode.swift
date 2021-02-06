@@ -57,17 +57,12 @@ final class RegisterContainerNode: ASDisplayNode {
   }()
 
   private(set) lazy var signUpButton: FormPrimaryButtonNode = {
-    let node = FormPrimaryButtonNode(title: "Sign Up")
+    let node = FormPrimaryButtonNode(type: .signUp)
     node.style.preferredLayoutSize = Const.formElementPreferredLayoutSize
     return node
   }()
 
-  private(set) lazy var alreadyHaveAccountButton: FormSecondaryButtonNode = {
-    let node = FormSecondaryButtonNode(
-      firstPart: "Already have account?",
-      secondPart: "Sign Up")
-    return node
-  }()
+  let alreadyHaveAccountButton = FormSecondaryButtonNode(type: .signUp)
 
   override func layoutDidFinish() {
     super.layoutDidFinish()
