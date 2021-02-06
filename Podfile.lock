@@ -24,6 +24,12 @@ PODS:
   - RxCocoa (6.0.0):
     - RxRelay (= 6.0.0)
     - RxSwift (= 6.0.0)
+  - RxKeyboard (2.0.0):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxOptional (5.0.1):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.0.0):
     - RxSwift (= 6.0.0)
   - RxSwift (6.0.0)
@@ -58,6 +64,8 @@ DEPENDENCIES:
   - BonMot
   - ReactorKit
   - RIBs (from `https://github.com/interactord/RIBs`, branch `master`)
+  - RxKeyboard
+  - RxOptional
   - RxTexture2
   - SwiftLint
   - Texture
@@ -70,6 +78,8 @@ SPEC REPOS:
     - PINRemoteImage
     - ReactorKit
     - RxCocoa
+    - RxKeyboard
+    - RxOptional
     - RxRelay
     - RxSwift
     - RxTexture2
@@ -95,6 +105,8 @@ SPEC CHECKSUMS:
   ReactorKit: 5348c9881dcb546605b451e32759dccc9937d36e
   RIBs: dd8df1129289d51ed4fec6e2127613d9eaba204e
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
+  RxKeyboard: 4f5863f43b4ff0cbb2a20b94688d6b80c8a43c14
+  RxOptional: e0b39f0863c25c4bfeea83cb35102a5244d048b3
   RxRelay: 8d593be109c06ea850df027351beba614b012ffb
   RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
   RxTexture2: afc37076fc7ac380642d569533ed858d296732fe
@@ -102,6 +114,6 @@ SPEC CHECKSUMS:
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: a83af935ef453d3d970f34db6768028b66cf0c82
+PODFILE CHECKSUM: d36cce38947ccef6709d9544ffaadeaa8750a3ac
 
 COCOAPODS: 1.10.1
