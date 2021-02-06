@@ -18,6 +18,7 @@ class RegisterViewControllerSpec: QuickSpec {
     describe("RegisterViewController viewLoad 호출시") {
       beforeEach {
         viewController.viewDidLoad()
+        viewController.viewDidLayoutSubviews()
       }
 
       it("ing...") {

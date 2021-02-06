@@ -57,14 +57,12 @@ final class FormTextInputReactor {
     var statue: Status = .wrong
   }
 
-  let initialState = State()
-
-  // MARK: Private
-
-  private struct Const {
+  struct Const {
     static let passwordMinimumValidCount = 6
     static let plainMinimumValidCount = 3
   }
+
+  let initialState = State()
 
 }
 

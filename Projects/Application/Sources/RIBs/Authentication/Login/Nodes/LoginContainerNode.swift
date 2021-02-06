@@ -65,20 +65,16 @@ final class LoginContainerNode: ASDisplayNode {
 extension LoginContainerNode {
   private func observeFormField() {
     guard
-      let emailValidObservable =
-      emailInputNode.reactor?.state.map({ $0.statue == .valid }),
-      let passwordObservable =
-      passwordInputNode.reactor?.state.map({ $0.statue == .valid })
+      let emailValidObservable = emailInputNode.reactor?.state.map({ $0.statue == .valid }),
+      let emailInputTextView = emailInputNode.textView,
+      let passwordObservable = passwordInputNode.reactor?.state.map({ $0.statue == .valid }),
+      let passwordInputTextView = passwordInputNode.textView
     else { return }
 
     Observable.combineLatest(emailValidObservable, passwordObservable) { ($0, $1) }
       .map { $0 && $1 }
       .bind(to: loginButtonNode.rx.isEnabled)
       .disposed(by: disposeBag)
-
-    guard
-      let emailInputTextView = emailInputNode.textView,
-      let passwordInputTextView = passwordInputNode.textView else { return }
 
     let backgroundScheduler = SerialDispatchQueueScheduler(qos: .default)
     emailInputTextView.rx.controlEvent([.editingDidEndOnExit, .editingDidEnd])
@@ -110,7 +106,7 @@ extension LoginContainerNode {
       alignItems: .stretch,
       children: [
         logoAreaLayoutSpec(),
-        inputFiledAreaLayoutSpec(),
+        inputFieldAreaLayoutSpec(),
         flexibleSpacingLayout,
         dontHaveAccountButtonNode,
       ])
@@ -126,7 +122,7 @@ extension LoginContainerNode {
 
   // MARK: Private
 
-  private func inputFiledAreaLayoutSpec() -> ASLayoutSpec {
+  private func inputFieldAreaLayoutSpec() -> ASLayoutSpec {
     ASStackLayoutSpec(
       direction: .vertical,
       spacing: Const.inputFieldSpacing,
