@@ -4,14 +4,16 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'Application' do
-  #Framework
+  # Core
   pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
   pod 'ReactorKit'
+  pod 'RxOptional'
 
   # UI
   pod 'Texture'
   pod 'RxTexture2'
   pod 'BonMot'
+  pod 'RxKeyboard'
 
   # Misc.
   pod 'SwiftLint'
