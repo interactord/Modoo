@@ -79,12 +79,12 @@ extension RegisterViewController {
   }
 
   private func bindAction(listener: RegisterPresentableListener) {
-    node.signUpButton.rx.tap
+    node.signUpButtonNode.rx.tap
       .map{ _ in .signUp }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.alreadyHaveAccountButton.rx.tap
+    node.alreadyHaveAccountButtonNode.rx.tap
       .map{ _ in .login }
       .bind(to: listener.action)
       .disposed(by: disposeBag)

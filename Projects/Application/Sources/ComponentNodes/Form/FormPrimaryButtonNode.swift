@@ -16,6 +16,7 @@ final class FormPrimaryButtonNode: ASButtonNode {
     backgroundColor = Const.backgroundColor
     borderWidth = 1.0
     cornerRadius = Const.connerRadius
+    borderColor = Const.disabledStateColor.cgColor
     style.height = Const.height
   }
 
