@@ -1,10 +1,11 @@
 import RIBs
 
-import MediaPickerPlatform
+import Domain
 
 // MARK: - RegisterDependency
 
 protocol RegisterDependency: Dependency {
+  var mediaPickerUseCase: MediaPickerUseCase { get }
 }
 
 // MARK: - RegisterComponent
@@ -35,7 +36,7 @@ final class RegisterBuilder: Builder<RegisterDependency> {
 
 extension RegisterBuilder: RegisterBuildable {
   func build(withListener listener: RegisterListener) -> RegisterRouting {
-    let viewController = RegisterViewController(mediaPickerUseCase: MediaPickerPlatform.UseCase())
+    let viewController = RegisterViewController(mediaPickerUseCase: dependency.mediaPickerUseCase)
     let interactor = RegisterInteractor(
       presenter: viewController,
       initialState: .init())

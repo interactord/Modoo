@@ -5,6 +5,7 @@ import Domain
 // MARK: - RootDependency
 
 protocol RootDependency: Dependency {
+  var useCaseProvider: UseCaseProviderType { get }
 }
 
 // MARK: - RootComponent
@@ -31,11 +32,19 @@ final class RootComponent: Component<RootDependency> {
 // MARK: RootDependency
 
 extension RootComponent: RootDependency {
+  var useCaseProvider: UseCaseProviderType {
+    dependency.useCaseProvider
+  }
+
 }
 
 // MARK: AuthenticationDependency
 
-extension RootComponent: AuthenticationDependency {}
+extension RootComponent: AuthenticationDependency {
+  var mediaPickerUseCase: MediaPickerUseCase {
+    dependency.useCaseProvider.mediaPickerUseCase
+  }
+}
 
 // MARK: OnboardDependency
 

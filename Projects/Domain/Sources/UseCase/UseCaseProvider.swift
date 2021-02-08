@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - UseCaseProviderType
 
-protocol UseCaseProviderType {
+public protocol UseCaseProviderType {
   var mediaPickerUseCase: MediaPickerUseCase { get }
 }
 
