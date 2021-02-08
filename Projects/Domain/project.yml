@@ -1,0 +1,22 @@
+targets:
+  Domain:
+    type: framework
+    platform: iOS
+    sources:
+      - path: Sources
+    dependencies:
+      - sdk: Foundation.framework
+      - sdk: UIKit.framework
+    settings:
+      PRODUCT_NAME: Domain
+      PRODUCT_BUNDLE_IDENTIFIER: $(PRODUCT_NAME)
+      INFOPLIST_FILE: $(SRCROOT)/Projects/Info.plist
+    scheme:
+      testTargets:
+        - DomainTests
+      gatherCoverageData: true
+
+  DomainTests:
+    templates: [UnitTest]
+    templateAttributes:
+      testTarget: Domain
