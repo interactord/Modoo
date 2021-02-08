@@ -1,3 +1,4 @@
+import Domain
 import RIBs
 
 let RegisterBuilderID = "RegisterBuilderID"
@@ -15,6 +16,10 @@ final class RegisterBuilderAdapter: Builder<RegisterDependency> {
   // MARK: Private
 
   private final class Component: RIBs.Component<RegisterDependency>, RegisterDependency {
+    var mediaPickerUseCase: MediaPickerUseCase {
+      dependency.mediaPickerUseCase
+    }
+
   }
 
   private weak var listener: RegisterListener?
