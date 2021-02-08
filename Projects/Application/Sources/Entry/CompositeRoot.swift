@@ -1,8 +1,5 @@
 import RIBs
 
-import Domain
-import MediaPickerPlatform
-
 struct CompositeRoot {
 
   // MARK: Lifecycle
@@ -14,8 +11,8 @@ struct CompositeRoot {
   // MARK: Internal
 
   var appComponent: AppComponent {
-    let mediaPickerUseCase = MediaPickerPlatform.UseCase()
-    let useCaseProvider = Domain.UseCaseProvider(mediaPickerUseCase: mediaPickerUseCase)
+    let mediaPickerUseCase = MediaPickerPlatformUseCase()
+    let useCaseProvider = UseCaseProvider(mediaPickerUseCase: mediaPickerUseCase)
 
     return AppComponent(useCaseProvider: useCaseProvider)
   }

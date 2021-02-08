@@ -1,9 +1,9 @@
 import RxSwift
 import UIKit
 
-// MARK: - MediaPicker
+// MARK: - MediaPickerPlatform
 
-final public class MediaPicker: NSObject {
+final class MediaPickerPlatform: NSObject {
 
   // MARK: Lifecycle
 
@@ -28,11 +28,11 @@ final public class MediaPicker: NSObject {
   private var currentAction: MediaPickerAction?
 }
 
-extension MediaPicker {
+extension MediaPickerPlatform {
 
-  // MARK: Public
+  // MARK: Internal
 
-  public func selectImage(
+  func selectImage(
     targetViewController: UIViewController?,
     source: UIImagePickerController.SourceType = .photoLibrary,
     allowsEditing: Bool = false) -> Observable<(UIImage?, UIImage?)>
@@ -71,8 +71,8 @@ extension MediaPicker {
 
 // MARK: UINavigationControllerDelegate, UIImagePickerControllerDelegate
 
-extension MediaPicker: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-  public func imagePickerController(
+extension MediaPickerPlatform: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+  func imagePickerController(
     _ picker: UIImagePickerController,
     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any])
   {
@@ -89,7 +89,7 @@ extension MediaPicker: UINavigationControllerDelegate, UIImagePickerControllerDe
     }
   }
 
-  public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+  func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     DispatchQueue.main.async { [weak self] in
       self?.targetViewController?.dismiss(animated: true)
       self?.targetViewController = nil

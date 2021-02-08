@@ -1,7 +1,5 @@
 import RIBs
 
-import Domain
-
 // MARK: - RootDependency
 
 protocol RootDependency: Dependency {

@@ -1,4 +1,3 @@
-import MediaPickerPlatform
 import Nimble
 import Quick
 
@@ -14,7 +13,7 @@ class RegisterViewControllerSpec: QuickSpec {
     var listenerMock: RegisterListenerMock!
 
     beforeEach {
-      viewController = RegisterViewController(mediaPickerUseCase: MediaPickerPlatform.UseCase())
+      viewController = RegisterViewController(mediaPickerUseCase: MediaPickerPlatformUseCase())
       interactor = RegisterInteractor(presenter: viewController, initialState: .init())
       listenerMock = RegisterListenerMock()
       interactor.listener = listenerMock

@@ -1,4 +1,3 @@
-import Domain
 import RIBs
 
 // MARK: - AuthenticationDependency

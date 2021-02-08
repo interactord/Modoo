@@ -2,53 +2,33 @@ platform :ios, '13.0'
 
 inhibit_all_warnings!
 
-def ui
+target 'Application' do
+  use_frameworks!
+  
+  # UI
   pod 'Texture'
   pod 'RxTexture2'
   pod 'BonMot'
-end
 
-def core
+  # Rx
   pod 'RxSwift', '6.0.0'
   pod 'RxCocoa', '6.0.0'
   pod 'RxOptional'
-end
+  pod 'RxKeyboard'
 
-def core_framework
+  # Framwork
   pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
   pod 'ReactorKit'
-end
-
-target 'Application' do
-  use_frameworks!
-  core_framework
-  core
-  ui
   
-  # Helper
-  pod 'RxKeyboard'
+  # Misc.
   pod 'SwiftLint'
 
   target 'ApplicationTests' do
     inherit! :search_paths
-    core_framework
-  end
-end
-
-target 'Domain' do
-  use_frameworks!
-  core
-  target 'DomainTests' do
-    inherit! :search_paths
-    core
-  end
-end
-
-target 'MediaPickerPlatform' do
-  use_frameworks!
-  core
-  target 'MediaPickerPlatformTests' do
-    inherit! :search_paths
-    core
+    
+    # Framwork
+    pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
+    pod 'ReactorKit'
+    pod 'RxSwift', '6.0.0'
   end
 end

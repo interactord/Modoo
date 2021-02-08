@@ -1,7 +1,7 @@
 import RxSwift
 import UIKit
 
-public protocol MediaPickerUseCase {
+protocol MediaPickerUseCase {
   func selectImage(
     targetViewController: UIViewController?,
     source: UIImagePickerController.SourceType,
