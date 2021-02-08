@@ -14,10 +14,11 @@ targets:
     preBuildScripts:
       - name: SwiftLint
         script: |
-          if which swiftlint >/dev/null; then
-            swiftlint
-          else
-            echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+          script: |
+          if [[ -z "${GITHUB_WORKFLOW}" ]]; then
+          ${PODS_ROOT}/SwiftLint/swiftlint lint \
+            --config "${SRCROOT}/.swiftlint.yml" \
+            --path "${SRCROOT}/Projects/Application"
           fi
       - name: SwiftFormat
         script: |
