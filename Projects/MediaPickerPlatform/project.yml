@@ -1,0 +1,22 @@
+targets:
+  MediaPickerPlatform:
+    type: framework
+    platform: iOS
+    sources:
+      - path: Sources
+    dependencies:
+      - sdk: Foundation.framework
+      - sdk: UIKit.framework
+    settings:
+      PRODUCT_NAME: MediaPickerPlatform
+      PRODUCT_BUNDLE_IDENTIFIER: $(PRODUCT_NAME)
+      INFOPLIST_FILE: $(SRCROOT)/Projects/Info.plist
+    scheme:
+      testTargets:
+        - MediaPickerPlatformTests
+      gatherCoverageData: true
+
+  MediaPickerPlatformTests:
+    templates: [UnitTest]
+    templateAttributes:
+      testTarget: MediaPickerPlatform

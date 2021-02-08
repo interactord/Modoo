@@ -29,6 +29,10 @@ final class RegisterContainerNode: ASDisplayNode {
     node.setImage(#imageLiteral(resourceName: "register-photo"), for: .normal)
     node.tintColor = Const.plusButtonTintColor
     node.style.preferredSize = Const.plusButtonSize
+    node.cornerRadius = Const.plusButtonSize.width / 2
+    node.borderWidth = 1
+    node.borderColor = Const.plusButtonTintColor.cgColor
+    node.clipsToBounds = true
     return node
   }()
 

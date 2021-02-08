@@ -24,8 +24,12 @@ schemes:
       gatherCoverageData: true
       targets:
         - ApplicationTests
+        - DomainTests
+        - MediaPickerPlatformTests
 
 include:
   - packages.yml
   - Projects/workspace.yml
   - Projects/Application/project.yml
+  - Projects/Domain/project.yml
+  - Projects/MediaPickerPlatform/project.yml

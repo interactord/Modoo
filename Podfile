@@ -1,35 +1,53 @@
 platform :ios, '13.0'
 
 inhibit_all_warnings!
-use_frameworks!
 
-target 'Application' do
-  # Core
-  pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
-  pod 'ReactorKit'
-  pod 'RxOptional'
-
-  # UI
+def ui
   pod 'Texture'
   pod 'RxTexture2'
   pod 'BonMot'
-  pod 'RxKeyboard'
+end
 
-  # Misc.
-  pod 'SwiftLint'
+def core
+  pod 'RxSwift', '6.0.0'
+  pod 'RxCocoa', '6.0.0'
+  pod 'RxOptional'
+end
+
+def core_framework
+  pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
+  pod 'ReactorKit'
+end
+
+target 'Application' do
+  use_frameworks!
+  core_framework
+  core
+  ui
+  
+  # Helper
+  pod 'RxKeyboard'
 
   target 'ApplicationTests' do
     inherit! :search_paths
-    pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
+    core_framework
   end
 end
 
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings['DEBUG_INFORMATION_FORMAT'] = 'dwarf'
-      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
-      config.build_settings['ONLY_ACTIVE_ARCH'] = 'YES'
-    end
+target 'Domain' do
+  use_frameworks!
+  core
+  target 'DomainTests' do
+    inherit! :search_paths
+    core
+  end
+end
+
+target 'MediaPickerPlatform' do
+  use_frameworks!
+  core
+  target 'MediaPickerPlatformTests' do
+    inherit! :search_paths
+    core
   end
 end

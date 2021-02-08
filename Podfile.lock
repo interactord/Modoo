@@ -37,7 +37,6 @@ PODS:
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
     - Texture (~> 3.0)
-  - SwiftLint (0.42.0)
   - Texture (3.0.0):
     - Texture/AssetsLibrary (= 3.0.0)
     - Texture/Core (= 3.0.0)
@@ -64,10 +63,11 @@ DEPENDENCIES:
   - BonMot
   - ReactorKit
   - RIBs (from `https://github.com/interactord/RIBs`, branch `master`)
+  - RxCocoa (= 6.0.0)
   - RxKeyboard
   - RxOptional
+  - RxSwift (= 6.0.0)
   - RxTexture2
-  - SwiftLint
   - Texture
 
 SPEC REPOS:
@@ -83,7 +83,6 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - RxTexture2
-    - SwiftLint
     - Texture
     - WeakMapTable
 
@@ -110,10 +109,9 @@ SPEC CHECKSUMS:
   RxRelay: 8d593be109c06ea850df027351beba614b012ffb
   RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
   RxTexture2: afc37076fc7ac380642d569533ed858d296732fe
-  SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: d36cce38947ccef6709d9544ffaadeaa8750a3ac
+PODFILE CHECKSUM: c0aec67d037602e1b37af3af38c2386b27402e8c
 
 COCOAPODS: 1.10.1

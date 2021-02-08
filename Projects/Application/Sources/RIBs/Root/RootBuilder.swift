@@ -1,8 +1,11 @@
 import RIBs
 
+import Domain
+
 // MARK: - RootDependency
 
-protocol RootDependency: Dependency {}
+protocol RootDependency: Dependency {
+}
 
 // MARK: - RootComponent
 
@@ -27,7 +30,8 @@ final class RootComponent: Component<RootDependency> {
 
 // MARK: RootDependency
 
-extension RootComponent: RootDependency {}
+extension RootComponent: RootDependency {
+}
 
 // MARK: AuthenticationDependency
 

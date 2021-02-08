@@ -1,4 +1,5 @@
 import AsyncDisplayKit
+import Domain
 import ReactorKit
 import RIBs
 import RxCocoa
@@ -38,7 +39,8 @@ final class RegisterViewController: ASDKViewController<RegisterContainerNode>, R
 
   // MARK: Lifecycle
 
-  override init() {
+  init(mediaPickerUseCase: MediaPickerUseCase) {
+    self.mediaPickerUseCase = mediaPickerUseCase
     super.init(node: .init())
   }
 
@@ -55,6 +57,8 @@ final class RegisterViewController: ASDKViewController<RegisterContainerNode>, R
 
   weak var listener: RegisterPresentableListener?
   let disposeBag = DisposeBag()
+
+  let mediaPickerUseCase: MediaPickerUseCase
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -87,6 +91,15 @@ extension RegisterViewController {
     node.alreadyHaveAccountButtonNode.rx.tap
       .map{ _ in .login }
       .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node.plusButtonNode.rx.tap
+      .observe(on: MainScheduler.instance)
+      .withUnretained(self)
+      .flatMap {
+        $0.0.mediaPickerUseCase.selectImage(targetViewController: $0.0, source: .photoLibrary, allowsEditing: false)
+      }.map { $0.0 }
+      .bind(to: node.plusButtonNode.rx.image(for: .normal))
       .disposed(by: disposeBag)
   }
 }
