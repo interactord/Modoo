@@ -1,7 +1,5 @@
 import RIBs
 
-import Domain
-
 final class AppComponent: Component<EmptyDependency>, RootDependency {
 
   // MARK: Lifecycle
