@@ -1,9 +1,23 @@
 import RIBs
 
+import Domain
+import MediaPickerPlatform
+
 struct CompositeRoot {
+
+  // MARK: Lifecycle
 
   init() {
     registerAuthenticationPart()
+  }
+
+  // MARK: Internal
+
+  var appComponent: AppComponent {
+    let mediaPickerUseCase = MediaPickerPlatform.UseCase()
+    let useCaseProvider = Domain.UseCaseProvider(mediaPickerUseCase: mediaPickerUseCase)
+
+    return AppComponent(useCaseProvider: useCaseProvider)
   }
 
   // MARK: Private

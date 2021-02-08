@@ -1,4 +1,8 @@
 import RIBs
+
+import Domain
+import MediaPickerPlatform
+
 @testable import Application
 
 // MARK: - OnboardBuildableMock
@@ -13,9 +17,13 @@ class OnboardBuildableMock: Builder<OnboardDependency> {
 
   // MARK: Private
 
-  private let component = RootComponent(
-    dependency: AppComponent(),
-    rootViewController: RootViewController())
+  private let component: RootComponent = {
+    let mediaPickerPlatform = MediaPickerPlatform.UseCase()
+    let useCaseProviderMock = UseCaseProvider(mediaPickerUseCase: mediaPickerPlatform)
+    let appComponent = AppComponent(useCaseProvider: useCaseProviderMock)
+
+    return RootComponent(dependency: appComponent, rootViewController: RootViewController())
+  }()
 
 }
 

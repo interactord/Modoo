@@ -1,3 +1,4 @@
+import Domain
 import RIBs
 
 let AuthenticationBuilderID = "AuthenticationBuilderID"
@@ -15,6 +16,9 @@ final class AuthenticationBuilderAdapter: Builder<AuthenticationDependency> {
   // MARK: Private
 
   private final class Component: RIBs.Component<AuthenticationDependency>, AuthenticationDependency {
+    var mediaPickerUseCase: MediaPickerUseCase {
+      dependency.mediaPickerUseCase
+    }
   }
 
   private weak var listener: AuthenticationListener?

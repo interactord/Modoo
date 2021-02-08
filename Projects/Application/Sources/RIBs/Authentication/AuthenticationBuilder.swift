@@ -1,8 +1,10 @@
+import Domain
 import RIBs
 
 // MARK: - AuthenticationDependency
 
 protocol AuthenticationDependency: Dependency {
+  var mediaPickerUseCase: MediaPickerUseCase { get }
 }
 
 // MARK: - AuthenticationComponent
@@ -23,6 +25,9 @@ extension AuthenticationComponent: LoginDependency {
 // MARK: RegisterDependency
 
 extension AuthenticationComponent: RegisterDependency {
+  var mediaPickerUseCase: MediaPickerUseCase {
+    dependency.mediaPickerUseCase
+  }
 }
 
 // MARK: - AuthenticationBuildable
