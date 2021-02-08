@@ -1,4 +1,3 @@
-import MediaPickerPlatform
 import RIBs
 
 @testable import Application
@@ -19,7 +18,7 @@ extension RegisterBuildableMock: RegisterBuildable {
   func build(withListener listener: RegisterListener) -> RegisterRouting {
     _ = RegisterComponent(dependency: dependency)
 
-    let viewController = RegisterViewController(mediaPickerUseCase: MediaPickerPlatform.UseCase())
+    let viewController = RegisterViewController(mediaPickerUseCase: MediaPickerPlatformUseCase())
     let interactor = RegisterInteractor(
       presenter: viewController,
       initialState: .init())
