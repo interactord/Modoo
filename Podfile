@@ -27,6 +27,7 @@ target 'Application' do
   
   # Helper
   pod 'RxKeyboard'
+  pod 'SwiftLint'
 
   target 'ApplicationTests' do
     inherit! :search_paths
