@@ -17,7 +17,7 @@ extension RegisterBuildableMock: RegisterBuildable {
   func build(withListener listener: RegisterListener) -> RegisterRouting {
     _ = RegisterComponent(dependency: dependency)
 
-    let viewController = RegisterViewController(mediaPickerUseCase: MediaPickerPlatformUseCase())
+    let viewController = RegisterViewController(mediaPickerUseCase: UIMediaPickerPlatformUseCase())
     let interactor = RegisterInteractor(
       presenter: viewController,
       initialState: RegisterDisplayModel.State.initialState())

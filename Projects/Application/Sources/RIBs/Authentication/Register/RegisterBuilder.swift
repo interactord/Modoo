@@ -3,15 +3,20 @@ import RIBs
 // MARK: - RegisterDependency
 
 protocol RegisterDependency: Dependency {
-  var mediaPickerUseCase: MediaPickerUseCase { get }
 }
 
 // MARK: - RegisterComponent
 
 final class RegisterComponent: Component<RegisterDependency> {
+
+  fileprivate var mediaPickerUseCase: MediaPickerUseCase {
+    UIMediaPickerPlatformUseCase()
+  }
+
   fileprivate var initialState: RegisterDisplayModel.State {
     RegisterDisplayModel.State.initialState()
   }
+
 }
 
 // MARK: - RegisterBuildable
@@ -38,7 +43,7 @@ final class RegisterBuilder: Builder<RegisterDependency> {
 extension RegisterBuilder: RegisterBuildable {
   func build(withListener listener: RegisterListener) -> RegisterRouting {
     let component = RegisterComponent(dependency: dependency)
-    let viewController = RegisterViewController(mediaPickerUseCase: dependency.mediaPickerUseCase)
+    let viewController = RegisterViewController(mediaPickerUseCase: component.mediaPickerUseCase)
     let interactor = RegisterInteractor(
       presenter: viewController,
       initialState: component.initialState)

@@ -10,12 +10,7 @@ struct CompositeRoot {
 
   // MARK: Internal
 
-  var appComponent: AppComponent {
-    let mediaPickerUseCase = MediaPickerPlatformUseCase()
-    let useCaseProvider = UseCaseProvider(mediaPickerUseCase: mediaPickerUseCase)
-
-    return AppComponent(useCaseProvider: useCaseProvider)
-  }
+  let appComponent = AppComponent()
 
   // MARK: Private
 
