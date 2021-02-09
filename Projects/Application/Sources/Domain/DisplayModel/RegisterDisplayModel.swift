@@ -13,5 +13,6 @@ enum RegisterDisplayModel {
       State(photo: nil, email: "", password: "", fullName: "", userName: "")
     }
   }
+
 }
 

@@ -4,4 +4,5 @@ protocol PresentableState {
   associatedtype State
 
   static func initialState() -> State
+
 }

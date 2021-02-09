@@ -4,7 +4,7 @@ import RIBs
 
 class AuthenticationDependencyMock: AuthenticationDependency {
   var mediaPickerUseCase: MediaPickerUseCase {
-    MediaPickerPlatformUseCase()
+    UIMediaPickerPlatformUseCase()
   }
 
 }

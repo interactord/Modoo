@@ -1,9 +1,9 @@
 import RxSwift
 import UIKit
 
-// MARK: - MediaPickerPlatform
+// MARK: - UIMediaPicker
 
-final class MediaPickerPlatform: NSObject {
+final class UIMediaPicker: NSObject {
 
   // MARK: Lifecycle
 
@@ -28,7 +28,7 @@ final class MediaPickerPlatform: NSObject {
   private var currentAction: MediaPickerAction?
 }
 
-extension MediaPickerPlatform {
+extension UIMediaPicker {
 
   // MARK: Internal
 
@@ -71,7 +71,7 @@ extension MediaPickerPlatform {
 
 // MARK: UINavigationControllerDelegate, UIImagePickerControllerDelegate
 
-extension MediaPickerPlatform: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+extension UIMediaPicker: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
   func imagePickerController(
     _ picker: UIImagePickerController,
     didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any])

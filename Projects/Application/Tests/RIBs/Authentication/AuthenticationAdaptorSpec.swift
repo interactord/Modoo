@@ -17,7 +17,6 @@ class AuthenticationAdaptorSpec: QuickSpec {
       let builderType: AuthenticationBuilderAdapter.Type = BuilderContainer.resolve(for: id)
       adapter = builderType.init(dependency: AuthenticationDependencyMock())
       listener = AuthenticationListenerMock()
-      _ = adapter.dependency.mediaPickerUseCase
     }
     afterEach {
       adapter = nil

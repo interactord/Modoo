@@ -4,7 +4,7 @@ import RIBs
 
 class RegisterDependencyMock: RegisterDependency {
   var mediaPickerUseCase: MediaPickerUseCase {
-    MediaPickerPlatformUseCase()
+    UIMediaPickerPlatformUseCase()
   }
 
 }
