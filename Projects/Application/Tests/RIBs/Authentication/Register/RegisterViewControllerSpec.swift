@@ -11,11 +11,11 @@ class RegisterViewControllerSpec: QuickSpec {
     // swiftlint:disable implicitly_unwrapped_optional
     var interactor: RegisterInteractor!
     // swiftlint:disable implicitly_unwrapped_optional
-    var useCase: MediaPickerPlatformUseCase!
+    var useCase: UIMediaPickerPlatformUseCase!
     let photoImage = UIImage()
 
     beforeEach {
-      useCase = MediaPickerPlatformUseCase()
+      useCase = UIMediaPickerPlatformUseCase()
       viewController = RegisterViewController(mediaPickerUseCase: useCase)
       let state = RegisterDisplayModel.State.initialState()
       interactor = RegisterInteractor(presenter: viewController, initialState: state)

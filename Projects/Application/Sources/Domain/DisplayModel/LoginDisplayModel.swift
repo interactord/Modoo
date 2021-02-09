@@ -10,4 +10,5 @@ enum LoginDisplayModel {
       State(email: "", password: "")
     }
   }
+
 }

@@ -11,7 +11,7 @@ class MediaPickerPlatformUseCaseSpec: QuickSpec {
     // swiftlint:disable implicitly_unwrapped_optional
     var picker: UIImagePickerController!
     // swiftlint:disable implicitly_unwrapped_optional
-    var useCase: MediaPickerPlatformUseCase!
+    var useCase: UIMediaPickerPlatformUseCase!
     // swiftlint:disable implicitly_unwrapped_optional
     var disposeBag: DisposeBag!
 
@@ -19,7 +19,7 @@ class MediaPickerPlatformUseCaseSpec: QuickSpec {
     var completedCallCount = 0
 
     beforeEach {
-      useCase = MediaPickerPlatformUseCase()
+      useCase = UIMediaPickerPlatformUseCase()
       picker = UIImagePickerController()
       disposeBag = DisposeBag()
     }
