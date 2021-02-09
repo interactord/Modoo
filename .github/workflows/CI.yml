@@ -17,6 +17,8 @@ jobs:
       SDK: iphonesimulator
       DESTINATION: platform=iOS Simulator,name=iPhone 11 Pro,OS=latest
       SLATER_REPORT_PATH: build/coverage/cobertura.xml
+      DECRYPTED_SERVICE_FILE_PATH: ./Projects/Application/Resources/GoogleService-Info.plist.gpg
+      ENCRYPTED_SERVICE_FILE_PATH: ./Projects/Application/Resources/GoogleService-Info.plist
   
     steps:
     - uses: actions/checkout@v1
@@ -26,6 +28,10 @@ jobs:
     
     - name: Install Gemfile
       run: bundle install
+
+    - name: Archive Encrypted files
+      run: |
+        gpg -d -o "$ENCRYPTED_SERVICE_FILE_PATH" --pinentry-mode=loopback --passphrase ${{ secrets.PLIST_PASSWORD }} "$DECRYPTED_SERVICE_FILE_PATH"
 
     - name: Generate Xcode Project
       run: make project
