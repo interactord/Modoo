@@ -1,3 +1,5 @@
+import RxSwift
+
 @testable import Application
 
 class LoginListenerMock: LoginListener {
