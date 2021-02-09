@@ -74,3 +74,6 @@ iOSInjectionProject/
 
 Gemfile.lock
 Brewfile.lock.json
+
+#Local
+GoogleService-Info.plist

@@ -27,11 +27,13 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
 
   init(
     presenter: RegisterPresentable,
-    initialState: RegisterDisplayModel.State)
+    initialState: RegisterDisplayModel.State,
+    authenticationUseCase: AuthenticationUseCase)
   {
+    defer { presenter.listener = self }
     self.initialState = initialState
+    self.authenticationUseCase = authenticationUseCase
     super.init(presenter: presenter)
-    presenter.listener = self
   }
 
   deinit {
@@ -48,6 +50,9 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
     case setPassword(String)
     case setFullName(String)
     case setUserName(String)
+    case setLoading(Bool)
+    case setErrorMessage(String)
+    case stay
   }
 
   typealias Action = RegisterPresentableAction
@@ -57,6 +62,7 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
   weak var listener: RegisterListener?
 
   let initialState: State
+  let authenticationUseCase: AuthenticationUseCase
 
 }
 
@@ -82,6 +88,8 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
       return .just(.setFullName(text))
     case let .userName(text):
       return .just(.setUserName(text))
+    case let .loading(isLoading):
+      return .just(.setLoading(isLoading))
     }
   }
 
@@ -114,6 +122,10 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
       newState.fullName = text
     case let .setUserName(text):
       newState.userName = text
+    case let .setLoading(isLoading):
+      newState.isLoading = isLoading
+    case let .setErrorMessage(message):
+      newState.errorMessage = message
     default:
       break
     }
@@ -128,9 +140,24 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
   }
 
   private func transformingRequestSignUp() -> Observable<Mutation> {
-    print(currentState)
-    listener?.routeToOnboard()
-    return .empty()
+    guard !currentState.isLoading else { return .just(.stay) }
+
+    let startLoading = Observable.just(Mutation.setLoading(true))
+    let stopLoading = Observable.just(Mutation.setLoading(false))
+    let useCaseStream = authenticationUseCase
+      .register(domain: currentState)
+      .withUnretained(self)
+      .flatMap { owner, result -> Observable<Mutation> in
+        switch result {
+        case .success:
+          owner.listener?.routeToOnboard()
+          return .just(.stay)
+        case let .failure(error):
+          return .just(Mutation.setErrorMessage(error.localizedDescription))
+        }
+      }
+
+    return Observable.concat([startLoading, useCaseStream, stopLoading])
   }
 
   private func transFormingLogin() -> Observable<Mutation> {

@@ -13,6 +13,13 @@ final class RegisterComponent: Component<RegisterDependency> {
     UIMediaPickerPlatformUseCase()
   }
 
+  fileprivate var authenticationUseCase: AuthenticationUseCase {
+    FirebaseAuthenticationUseCase(
+      authenticating: FirebaseAuthentication(),
+      uploading: FirebaseMediaUploader(),
+      apiNetworking: FirebaseAPINetwork())
+  }
+
   fileprivate var initialState: RegisterDisplayModel.State {
     RegisterDisplayModel.State.initialState()
   }
@@ -46,7 +53,8 @@ extension RegisterBuilder: RegisterBuildable {
     let viewController = RegisterViewController(mediaPickerUseCase: component.mediaPickerUseCase)
     let interactor = RegisterInteractor(
       presenter: viewController,
-      initialState: component.initialState)
+      initialState: component.initialState,
+      authenticationUseCase: component.authenticationUseCase)
     interactor.listener = listener
     return RegisterRouter(interactor: interactor, viewController: viewController)
   }

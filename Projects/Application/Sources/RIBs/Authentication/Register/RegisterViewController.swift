@@ -16,6 +16,7 @@ enum RegisterPresentableAction: Equatable {
   case password(String)
   case fullName(String)
   case userName(String)
+  case loading(Bool)
 }
 
 // MARK: - RegisterPresentableListener
