@@ -2,28 +2,24 @@ import AsyncDisplayKit
 import ReactorKit
 import RIBs
 import RxCocoa
+import RxOptional
 import RxSwift
 import RxTexture2
 
 // MARK: - LoginPresentableAction
 
-enum LoginPresentableAction {
+enum LoginPresentableAction: Equatable {
   case login
   case register
-}
-
-// MARK: - LoginPresentableState
-
-struct LoginPresentableState: Equatable {
-  let inputEmail = ""
-  let inputPassword = ""
+  case password(String)
+  case email(String)
 }
 
 // MARK: - LoginPresentableListener
 
 protocol LoginPresentableListener: AnyObject {
   typealias Action = LoginPresentableAction
-  typealias State = LoginPresentableState
+  typealias State = LoginDisplayModel.State
 
   var action: ActionSubject<Action> { get }
   var state: Observable<State> { get }
@@ -71,6 +67,18 @@ extension LoginViewController {
   }
 
   private func bindAction(listener: LoginPresentableListener) {
+    node.emailInputNode.textView?.rx.text
+      .filterNil()
+      .map{ .email($0) }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node.passwordInputNode.textView?.rx.text
+      .filterNil()
+      .map{ .password($0) }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
     node.dontHaveAccountButtonNode.rx.tap
       .map{ _ in .register }
       .bind(to: listener.action)

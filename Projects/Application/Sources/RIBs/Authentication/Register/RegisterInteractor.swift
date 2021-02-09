@@ -27,7 +27,7 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
 
   init(
     presenter: RegisterPresentable,
-    initialState: RegisterPresentableState)
+    initialState: RegisterDisplayModel.State)
   {
     self.initialState = initialState
     super.init(presenter: presenter)
@@ -43,15 +43,20 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
   enum Mutation: Equatable {
     case requestSignUp
     case login
+    case setPhoto(UIImage?)
+    case setEmail(String)
+    case setPassword(String)
+    case setFullName(String)
+    case setUserName(String)
   }
 
   typealias Action = RegisterPresentableAction
-  typealias State = RegisterPresentableState
+  typealias State = RegisterDisplayModel.State
 
   weak var router: RegisterRouting?
   weak var listener: RegisterListener?
 
-  let initialState: RegisterPresentableState
+  let initialState: State
 
 }
 
@@ -64,9 +69,19 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {
     case .signUp:
-      return mutatignRequestSignUp()
+      return mutatingRequestSignUp()
     case .login:
       return .just(.login)
+    case  let .photo(image):
+      return .just(.setPhoto(image))
+    case let .email(text):
+      return .just(.setEmail(text))
+    case let .password(text):
+      return .just(.setPassword(text))
+    case let .fullName(text):
+      return .just(.setFullName(text))
+    case let .userName(text):
+      return .just(.setUserName(text))
     }
   }
 
@@ -79,17 +94,41 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
           return owner.transformingRequestSignUp()
         case .login:
           return owner.transFormingLogin()
+        default:
+          return .just(mutation)
         }
       }
   }
 
+  func reduce(state: State, mutation: Mutation) -> State {
+    var newState = state
+
+    switch mutation {
+    case  let .setPhoto(image):
+      newState.photo = image
+    case let .setEmail(text):
+      newState.email = text
+    case let .setPassword(text):
+      newState.password = text
+    case let .setFullName(text):
+      newState.fullName = text
+    case let .setUserName(text):
+      newState.userName = text
+    default:
+      break
+    }
+
+    return newState
+  }
+
   // MARK: Private
 
-  private func mutatignRequestSignUp() -> Observable<Mutation> {
+  private func mutatingRequestSignUp() -> Observable<Mutation> {
     .just(.requestSignUp)
   }
 
   private func transformingRequestSignUp() -> Observable<Mutation> {
+    print(currentState)
     listener?.routeToOnboard()
     return .empty()
   }

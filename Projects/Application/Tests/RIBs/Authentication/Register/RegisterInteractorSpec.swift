@@ -16,9 +16,10 @@ class RegisterInteractorSpec: QuickSpec {
     beforeEach {
       viewController = RegisterViewControllableMock()
       listener = RegisterListenerMock()
+      let state = RegisterDisplayModel.State.initialState()
       interactor = RegisterInteractor(
         presenter: viewController,
-        initialState: .init())
+        initialState: state)
       router = RegisterRoutingMock(
         interactable: interactor,
         viewControllable: viewController)
@@ -38,6 +39,56 @@ class RegisterInteractorSpec: QuickSpec {
       }
       afterEach {
         interactor.deactivate()
+      }
+
+      context("포토 action 이벤트 발생시") {
+        beforeEach {
+          interactor.action.onNext(.photo(nil))
+        }
+
+        it("State 포토가 변경된다") {
+          expect(interactor.currentState.photo).to(beNil())
+        }
+      }
+
+      context("이메일 action 이벤트 발생시") {
+        beforeEach {
+          interactor.action.onNext(.email("123456"))
+        }
+
+        it("State 이메일이 변경된다") {
+          expect(interactor.currentState.email) == "123456"
+        }
+      }
+
+      context("패스워드 action 이벤트 발생시") {
+        beforeEach {
+          interactor.action.onNext(.password("123456"))
+        }
+
+        it("State 페스워드가 변경된다") {
+          expect(interactor.currentState.password) == "123456"
+        }
+      }
+
+      context("이름 action 이벤트 발생시") {
+        beforeEach {
+          interactor.action.onNext(.fullName("123456"))
+        }
+
+        it("State 이름이 변경된다") {
+          expect(interactor.currentState.fullName) == "123456"
+        }
+      }
+
+      context("아이디 action 이벤트 발생시") {
+        beforeEach {
+          interactor.action.onNext(.userName("123456"))
+        }
+
+        it("State 이름이 변경된다") {
+          expect(interactor.currentState.userName) == "123456"
+        }
       }
 
       context("signUp action 이벤트 발생시") {

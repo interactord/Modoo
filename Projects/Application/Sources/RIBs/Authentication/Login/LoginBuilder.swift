@@ -6,7 +6,11 @@ protocol LoginDependency: Dependency {}
 
 // MARK: - LoginComponent
 
-final class LoginComponent: Component<LoginDependency> {}
+final class LoginComponent: Component<LoginDependency> {
+  fileprivate var initialState: LoginDisplayModel.State {
+    LoginDisplayModel.State.initialState()
+  }
+}
 
 // MARK: - LoginBuildable
 
@@ -30,12 +34,11 @@ final class LoginBuilder: Builder<LoginDependency> {
 
 extension LoginBuilder: LoginBuildable {
   func build(withListener listener: LoginListener) -> LoginRouting {
-    _ = LoginComponent(dependency: dependency)
-
+    let component = LoginComponent(dependency: dependency)
     let viewController = LoginViewController()
     let interactor = LoginInteractor(
       presenter: viewController,
-      initialState: .init())
+      initialState: component.initialState)
     interactor.listener = listener
     return LoginRouter(interactor: interactor, viewController: viewController)
   }

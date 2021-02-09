@@ -16,7 +16,8 @@ class LoginInteractorSpec: QuickSpec {
 
     beforeEach {
       viewController = LoginViewControllableMock()
-      interactor = LoginInteractor(presenter: viewController, initialState: .init())
+      let state = LoginDisplayModel.State.initialState()
+      interactor = LoginInteractor(presenter: viewController, initialState: state)
       router = LoginRoutingMock(interactable: interactor, viewControllable: viewController)
       listener = LoginListenerMock()
       viewController.listener = interactor
@@ -56,6 +57,26 @@ class LoginInteractorSpec: QuickSpec {
 
         it("listener routeToRegisterCallCount가 호출이 된다") {
           expect(listener.routeToRegisterCallCount).toEventually(equal(1), timeout: .milliseconds(300))
+        }
+      }
+
+      context("이메일 action 이벤트 발생시") {
+        beforeEach {
+          interactor.action.onNext(.email("123456"))
+        }
+
+        it("State 이메일이 변경된다") {
+          expect(interactor.currentState.email) == "123456"
+        }
+      }
+
+      context("패스워드 action 이벤트 발생시") {
+        beforeEach {
+          interactor.action.onNext(.password("123456"))
+        }
+
+        it("State 페스워드가 변경된다") {
+          expect(interactor.currentState.password) == "123456"
         }
       }
     }

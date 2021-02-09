@@ -28,7 +28,7 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
 
   init(
     presenter: LoginPresentable,
-    initialState: LoginPresentableState)
+    initialState: LoginDisplayModel.State)
   {
     self.initialState = initialState
     super.init(presenter: presenter)
@@ -42,17 +42,19 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
   // MARK: Internal
 
   typealias Action = LoginPresentableAction
-  typealias State = LoginPresentableState
+  typealias State = LoginDisplayModel.State
 
   enum Mutation: Equatable {
     case requestLogin
     case register
+    case setEmail(String)
+    case setPassword(String)
   }
 
   weak var router: LoginRouting?
   weak var listener: LoginListener?
 
-  let initialState: LoginPresentableState
+  let initialState: State
 
 }
 
@@ -62,12 +64,31 @@ extension LoginInteractor: LoginPresentableListener, Reactor {
 
   // MARK: Internal
 
+  func reduce(state: State, mutation: Mutation) -> State {
+    var newState = state
+
+    switch mutation {
+    case let .setEmail(text):
+      newState.email = text
+    case let .setPassword(text):
+      newState.password = text
+    default:
+      break
+    }
+
+    return newState
+  }
+
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {
     case .login:
       return  mutatingRequestLogin()
     case .register:
       return  .just(.register)
+    case let .email(text):
+      return .just(.setEmail(text))
+    case let .password(text):
+      return .just(.setPassword(text))
     }
   }
 
@@ -80,6 +101,8 @@ extension LoginInteractor: LoginPresentableListener, Reactor {
           return owner.transformingRequestLogin()
         case .register:
           return owner.transformingRegister()
+        default:
+          return .just(mutation)
         }
       }
   }
@@ -87,7 +110,8 @@ extension LoginInteractor: LoginPresentableListener, Reactor {
   // MARK: Private
 
   private func mutatingRequestLogin() -> Observable<Mutation> {
-    .just(.requestLogin)
+    print(currentState)
+    return .just(.requestLogin)
   }
 
   private func transformingRequestLogin() -> Observable<Mutation> {
