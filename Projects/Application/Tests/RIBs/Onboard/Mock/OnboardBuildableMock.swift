@@ -15,8 +15,6 @@ class OnboardBuildableMock: Builder<OnboardDependency> {
   // MARK: Private
 
   private let component: RootComponent = {
-    let mediaPickerPlatform = UIMediaPickerPlatformUseCase()
-    let useCaseProviderMock = UseCaseProvider(mediaPickerUseCase: mediaPickerPlatform)
     let appComponent = AppComponent()
 
     return RootComponent(dependency: appComponent, rootViewController: RootViewController())
