@@ -1,6 +1,6 @@
 name: Modoo
 options:
-  bundleIdPrefix: com.modoo
+  bundleIdPrefix: io.interactord.modoo
   deploymentTarget:
     iOS: 13.0
   defaultConfig: Debug

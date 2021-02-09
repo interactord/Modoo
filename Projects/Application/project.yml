@@ -30,13 +30,13 @@ targets:
     settings:
       base:
         PRODUCT_NAME: Application
-        PRODUCT_BUNDLE_IDENTIFIER: com.modoo.ios
+        PRODUCT_BUNDLE_IDENTIFIER: io.interactord.modoo
         MARKETING_VERSION: 0.1.0
         CURRENT_PROJECT_VERSION: 1
         INFOPLIST_FILE: "$(SRCROOT)/Projects/Application/Supporting Files/Info.plist"
         TARGETED_DEVICE_FAMILY: 1
         DEVELOPMENT_TEM: FNDVP9SLK2
-        PROVISIONING_PROFILE_SPECIFIER: "match AppStore com.modoo.ios.release"
+        PROVISIONING_PROFILE_SPECIFIER: "match AppStore io.interactord.modoo.release"
         CODE_SIGN_ENTITLEMENTS: ${SRCROOT}/Projects/Application/Supporting Files/Application.entitlements
       config:
         degug:
