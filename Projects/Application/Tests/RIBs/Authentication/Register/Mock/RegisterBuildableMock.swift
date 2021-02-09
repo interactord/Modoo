@@ -9,7 +9,6 @@ class RegisterBuildableMock: Builder<RegisterDependency> {
   init() {
     super.init(dependency: RegisterDependencyMock())
   }
-
 }
 
 // MARK: RegisterBuildable
@@ -21,7 +20,7 @@ extension RegisterBuildableMock: RegisterBuildable {
     let viewController = RegisterViewController(mediaPickerUseCase: MediaPickerPlatformUseCase())
     let interactor = RegisterInteractor(
       presenter: viewController,
-      initialState: .init())
+      initialState: RegisterDisplayModel.State.initialState())
     interactor.listener = listener
     return RegisterRouter(interactor: interactor, viewController: viewController)
   }

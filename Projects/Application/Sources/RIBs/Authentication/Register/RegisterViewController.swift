@@ -2,30 +2,27 @@ import AsyncDisplayKit
 import ReactorKit
 import RIBs
 import RxCocoa
+import RxOptional
 import RxSwift
 import UIKit
 
 // MARK: - RegisterPresentableAction
 
-enum RegisterPresentableAction {
+enum RegisterPresentableAction: Equatable {
   case signUp
   case login
-}
-
-// MARK: - RegisterPresentableState
-
-struct RegisterPresentableState: Equatable {
-  let email = ""
-  let paswword = ""
-  let fullName = ""
-  let userName = ""
+  case photo(UIImage?)
+  case email(String)
+  case password(String)
+  case fullName(String)
+  case userName(String)
 }
 
 // MARK: - RegisterPresentableListener
 
 protocol RegisterPresentableListener: AnyObject {
   typealias Action = RegisterPresentableAction
-  typealias State = RegisterPresentableState
+  typealias State = RegisterDisplayModel.State
 
   var action: ActionSubject<Action> { get }
   var state: Observable<State> { get }
@@ -92,13 +89,46 @@ extension RegisterViewController {
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.plusButtonNode.rx.tap
+    let plusButtonObserver = node.plusButtonNode.rx.tap
       .observe(on: MainScheduler.instance)
       .withUnretained(self)
       .flatMap {
         $0.0.mediaPickerUseCase.selectImage(targetViewController: $0.0, source: .photoLibrary, allowsEditing: false)
-      }.map { $0.0 }
+      }
+      .map { $0.0 }
+      .share()
+
+    plusButtonObserver
       .bind(to: node.plusButtonNode.rx.image(for: .normal))
+      .disposed(by: disposeBag)
+
+    plusButtonObserver
+      .map { .photo($0) }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node.emailInputNode.textView?.rx.text
+      .filterNil()
+      .map { .email($0) }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node.passwordInputNode.textView?.rx.text
+      .filterNil()
+      .map { .password($0) }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node.fullNameInputNode.textView?.rx.text
+      .filterNil()
+      .map { .fullName($0) }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node.usernameInputNode.textView?.rx.text
+      .filterNil()
+      .map { .userName($0) }
+      .bind(to: listener.action)
       .disposed(by: disposeBag)
   }
 }
