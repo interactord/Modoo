@@ -12,13 +12,22 @@ class RegisterViewControllerSpec: QuickSpec {
     var interactor: RegisterInteractor!
     // swiftlint:disable implicitly_unwrapped_optional
     var useCase: UIMediaPickerPlatformUseCase!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var authenticationUseCase: AuthenticationUseCase!
     let photoImage = UIImage()
 
     beforeEach {
       useCase = UIMediaPickerPlatformUseCase()
       viewController = RegisterViewController(mediaPickerUseCase: useCase)
+      authenticationUseCase = FirebaseAuthenticationUseCase(
+        authenticating: FirebaseAuthentication(),
+        uploading: FirebaseMediaUploader(),
+        apiNetworking: FirebaseAPINetwork())
       let state = RegisterDisplayModel.State.initialState()
-      interactor = RegisterInteractor(presenter: viewController, initialState: state)
+      interactor = RegisterInteractor(
+        presenter: viewController,
+        initialState: state,
+        authenticationUseCase: authenticationUseCase)
       interactor.isStubEnabled = true
       viewController.listener = interactor
     }

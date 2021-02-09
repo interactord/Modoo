@@ -8,9 +8,18 @@ enum RegisterDisplayModel {
     var password: String
     var fullName: String
     var userName: String
+    var errorMessage: String
+    var isLoading: Bool
 
     static func initialState() -> Self {
-      State(photo: nil, email: "", password: "", fullName: "", userName: "")
+      State(
+        photo: nil,
+        email: "",
+        password: "",
+        fullName: "",
+        userName: "",
+        errorMessage: "",
+        isLoading: false)
     }
   }
 

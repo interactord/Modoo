@@ -21,7 +21,7 @@ class FormTextInputNodeSpec: QuickSpec {
       }
 
       it("background border color가 변경된다") {
-        expect(beforeBackgroundBorderColor).toNotEventually(equal(node.backgroundNode.borderColor), timeout: .milliseconds(300))
+        expect(beforeBackgroundBorderColor).toNotEventually(equal(node.backgroundNode.borderColor), timeout: TestUtil.Const.timeout)
       }
     }
 
@@ -31,7 +31,7 @@ class FormTextInputNodeSpec: QuickSpec {
       }
 
       it("background border color가 원래대로 돌아온다") {
-        expect(beforeBackgroundBorderColor).toEventually(equal(node.backgroundNode.borderColor), timeout: .milliseconds(300))
+        expect(beforeBackgroundBorderColor).toEventually(equal(node.backgroundNode.borderColor), timeout: TestUtil.Const.timeout)
       }
     }
   }

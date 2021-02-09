@@ -46,7 +46,7 @@ class LoginInteractorSpec: QuickSpec {
         }
 
         it("listener routeToOnboardCallCount가 1이다") {
-          expect(listener.routeToOnboardCallCount).toEventually(equal(1), timeout: .milliseconds(300))
+          expect(listener.routeToOnboardCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
         }
       }
 
@@ -56,7 +56,7 @@ class LoginInteractorSpec: QuickSpec {
         }
 
         it("listener routeToRegisterCallCount가 호출이 된다") {
-          expect(listener.routeToRegisterCallCount).toEventually(equal(1), timeout: .milliseconds(300))
+          expect(listener.routeToRegisterCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
         }
       }
 

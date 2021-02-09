@@ -12,14 +12,32 @@ class RegisterInteractorSpec: QuickSpec {
     var listener: RegisterListenerMock!
     // swiftlint:disable implicitly_unwrapped_optional
     var router: RegisterRoutingMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var authenticationUseCase: AuthenticationUseCase!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var firebaseAuthenticatingMock: FirebaseAuthenticatingMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var firebaseMediaUploadingMock: FirebaseMediaUploadingMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var firebaseAPINetworkingMock: FirebaseAPINetworkingMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var currentState: RegisterDisplayModel.State?
 
     beforeEach {
       viewController = RegisterViewControllableMock()
       listener = RegisterListenerMock()
+      firebaseAuthenticatingMock = FirebaseAuthenticatingMock()
+      firebaseAPINetworkingMock = FirebaseAPINetworkingMock()
+      firebaseMediaUploadingMock = FirebaseMediaUploadingMock()
+      authenticationUseCase = FirebaseAuthenticationUseCase(
+        authenticating: firebaseAuthenticatingMock,
+        uploading: firebaseMediaUploadingMock,
+        apiNetworking: firebaseAPINetworkingMock)
       let state = RegisterDisplayModel.State.initialState()
       interactor = RegisterInteractor(
         presenter: viewController,
-        initialState: state)
+        initialState: state,
+        authenticationUseCase: authenticationUseCase)
       router = RegisterRoutingMock(
         interactable: interactor,
         viewControllable: viewController)
@@ -31,6 +49,10 @@ class RegisterInteractorSpec: QuickSpec {
       viewController = nil
       listener = nil
       router = nil
+      authenticationUseCase = nil
+      firebaseAuthenticatingMock = nil
+      firebaseAPINetworkingMock = nil
+      firebaseMediaUploadingMock = nil
     }
 
     describe("RegisterInteractor activate 실행시") {
@@ -91,13 +113,58 @@ class RegisterInteractorSpec: QuickSpec {
         }
       }
 
-      context("signUp action 이벤트 발생시") {
+      context("현재 네트워크가 로딩중일 경우") {
         beforeEach {
-          interactor.action.onNext(.signUp)
+          interactor.action.onNext(.loading(true))
+          currentState = interactor.currentState
         }
 
-        it("listener routeToOnboardCallCount가 1이다") {
-          expect(listener.routeToOnboardCallCount).toEventually(equal(1), timeout: .milliseconds(300))
+        context("signUp action 이벤트 발생시") {
+          beforeEach {
+            interactor.action.onNext(.signUp)
+          }
+
+          it("current State는 네트워크 전 값과 동일하다") {
+            expect(currentState) == interactor.currentState
+          }
+        }
+      }
+
+      context("현재 네트워크가 로딩중이 아닐 경우") {
+        beforeEach {
+          interactor.action.onNext(.loading(false))
+        }
+
+        context("signUp action 이벤트 발생시 회원가입 요청이 정상인 경우") {
+          beforeEach {
+            firebaseMediaUploadingMock.isSueccedCase = true
+
+            interactor.action.onNext(.signUp)
+          }
+
+          it("state errorMessage는 빈값이다") {
+            expect(interactor.currentState.errorMessage).toEventually(equal(""), timeout: TestUtil.Const.timeout)
+          }
+
+          it("listener routeToOnboard는 1이 된다") {
+            expect(listener.routeToOnboardCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          }
+        }
+
+        context("signUp action 이벤트 발생시 회원가입 요청이 에러가 발생한 경우") {
+          beforeEach {
+            firebaseMediaUploadingMock.isSueccedCase = false
+
+            interactor.action.onNext(.signUp)
+          }
+
+          it("state errorMessage는 빈값이 아니다") {
+            expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
+          }
+
+          it("listener routeToOnboard는 0이 된다") {
+            expect(listener.routeToOnboardCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+          }
         }
       }
 
@@ -107,7 +174,7 @@ class RegisterInteractorSpec: QuickSpec {
         }
 
         it("listener routeToLogInCallCount가 1이다") {
-          expect(listener.routeToLogInCallCount).toEventually(equal(1), timeout: .milliseconds(300))
+          expect(listener.routeToLogInCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
         }
       }
     }
