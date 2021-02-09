@@ -22,6 +22,15 @@ target 'Application' do
   
   # Misc.
   pod 'SwiftLint'
+  pod 'PromisesSwift'
+
+  # Firebase
+  pod "Firebase/Core"
+  pod "Firebase/Database"
+  pod "Firebase/Firestore"
+  pod "Firebase/Messaging"
+  pod "Firebase/Storage"
+  pod "Firebase/Auth"
 
   target 'ApplicationTests' do
     inherit! :search_paths
@@ -30,5 +39,15 @@ target 'Application' do
     pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
     pod 'ReactorKit'
     pod 'RxSwift', '6.0.0'
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['DEBUG_INFORMATION_FORMAT'] = 'dwarf'
+      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+      config.build_settings['ONLY_ACTIVE_ARCH'] = 'YES'
+    end
   end
 end
