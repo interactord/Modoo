@@ -41,7 +41,7 @@ class LoginContainerNodeSpec: QuickSpec {
           }
 
           it("로그인 버튼은 비활성화 된다") {
-            expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+            expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
           }
 
           context("비밀번호가 빈값 입력시") {
@@ -50,7 +50,7 @@ class LoginContainerNodeSpec: QuickSpec {
             }
 
             it("로그인 버튼은 비활성화 된다") {
-              expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+              expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
 
@@ -60,7 +60,7 @@ class LoginContainerNodeSpec: QuickSpec {
             }
 
             it("로그인 버튼은 비활성화 된다") {
-              expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+              expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
 
@@ -70,7 +70,7 @@ class LoginContainerNodeSpec: QuickSpec {
             }
 
             it("로그인 버튼은 비활성화 된다") {
-              expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+              expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
 
             context("이메일 빈값 입력시") {
@@ -79,7 +79,7 @@ class LoginContainerNodeSpec: QuickSpec {
               }
 
               it("로그인 버튼은 비활성화 된다") {
-                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
               }
             }
 
@@ -89,7 +89,7 @@ class LoginContainerNodeSpec: QuickSpec {
               }
 
               it("로그인 버튼은 비활성화 된다") {
-                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
               }
             }
 
@@ -99,7 +99,7 @@ class LoginContainerNodeSpec: QuickSpec {
               }
 
               it("로그인 버튼은 비활성화 된다") {
-                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
               }
             }
 
@@ -109,7 +109,7 @@ class LoginContainerNodeSpec: QuickSpec {
               }
 
               it("로그인 버튼은 비활성화 된다") {
-                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
               }
 
               context("이메일 빈값 입력시") {
@@ -118,7 +118,7 @@ class LoginContainerNodeSpec: QuickSpec {
                 }
 
                 it("로그인 버튼은 비활성화 된다") {
-                  expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+                  expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
                 }
               }
 
@@ -128,7 +128,7 @@ class LoginContainerNodeSpec: QuickSpec {
                 }
 
                 it("로그인 버튼은 비활성화 된다") {
-                  expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+                  expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
                 }
               }
 
@@ -138,7 +138,7 @@ class LoginContainerNodeSpec: QuickSpec {
                 }
 
                 it("로그인 버튼은 활성화 된다") {
-                  expect(node.loginButtonNode.isEnabled).toEventually(beTrue(), timeout: .milliseconds(300))
+                  expect(node.loginButtonNode.isEnabled).toEventually(beTrue(), timeout: TestUtil.Const.timeout)
                 }
               }
             }

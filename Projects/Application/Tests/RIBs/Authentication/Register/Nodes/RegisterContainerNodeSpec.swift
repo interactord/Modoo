@@ -46,7 +46,7 @@ class RegisterContainerNodeSpec: QuickSpec {
           }
 
           it("회원가입 버튼은 비활성화 된다") {
-            expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+            expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
           }
         }
 
@@ -59,7 +59,7 @@ class RegisterContainerNodeSpec: QuickSpec {
           }
 
           it("회원가입 버튼은 활성화 된다") {
-            expect(node.signUpButtonNode.isEnabled).toEventually(beTrue(), timeout: .milliseconds(300))
+            expect(node.signUpButtonNode.isEnabled).toEventually(beTrue(), timeout: TestUtil.Const.timeout)
           }
         }
 
@@ -77,7 +77,7 @@ class RegisterContainerNodeSpec: QuickSpec {
             }
 
             it("회원가입 버튼은 비활성화 된다") {
-              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
         }
@@ -95,7 +95,7 @@ class RegisterContainerNodeSpec: QuickSpec {
             }
 
             it("회원가입 버튼은 비활성화 된다") {
-              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
         }
@@ -113,7 +113,7 @@ class RegisterContainerNodeSpec: QuickSpec {
             }
 
             it("회원가입 버튼은 비활성화 된다") {
-              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
         }
@@ -132,7 +132,7 @@ class RegisterContainerNodeSpec: QuickSpec {
             }
 
             it("회원가입 버튼은 비활성화 된다") {
-              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: .milliseconds(300))
+              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
         }

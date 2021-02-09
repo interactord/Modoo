@@ -58,10 +58,10 @@ class MediaPickerPlatformUseCaseSpec: QuickSpec {
           }
 
           it("onNext이벤트가 호출이 되어 nextCallCount가 1이 된다") {
-            expect(nextCallCount).toEventually(equal(1), timeout: .milliseconds(300))
+            expect(nextCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
           it("onCompleted이벤트가 호출이 되어 completedCallCount가 1이 된다") {
-            expect(completedCallCount).toEventually(equal(1), timeout: .milliseconds(300))
+            expect(completedCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
         }
 
@@ -71,10 +71,10 @@ class MediaPickerPlatformUseCaseSpec: QuickSpec {
           }
 
           it("onNext이벤트가 호출이 되지않아 nextCallCount가 0이 된다") {
-            expect(nextCallCount).toEventually(equal(0), timeout: .milliseconds(300))
+            expect(nextCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
           }
           it("onCompleted이벤트가 호출이 되어 completedCallCount가 1이 된다") {
-            expect(completedCallCount).toEventually(equal(1), timeout: .milliseconds(300))
+            expect(completedCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
         }
       }
