@@ -13,6 +13,7 @@ enum LoginPresentableAction: Equatable {
   case register
   case password(String)
   case email(String)
+  case loading(Bool)
 }
 
 // MARK: - LoginPresentableListener

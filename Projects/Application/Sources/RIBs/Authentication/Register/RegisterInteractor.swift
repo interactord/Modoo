@@ -43,16 +43,13 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
   // MARK: Internal
 
   enum Mutation: Equatable {
-    case requestSignUp
-    case login
     case setPhoto(UIImage?)
     case setEmail(String)
     case setPassword(String)
     case setFullName(String)
     case setUserName(String)
     case setLoading(Bool)
-    case setErrorMessage(String)
-    case stay
+    case setError(String)
   }
 
   typealias Action = RegisterPresentableAction
@@ -74,10 +71,10 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
 
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {
+    case .login:
+      return mutatingLogin()
     case .signUp:
       return mutatingRequestSignUp()
-    case .login:
-      return .just(.login)
     case  let .photo(image):
       return .just(.setPhoto(image))
     case let .email(text):
@@ -91,21 +88,6 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
     }
-  }
-
-  func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-    mutation
-      .withUnretained(self)
-      .flatMap{ owner, mutation -> Observable<Mutation> in
-        switch mutation {
-        case .requestSignUp:
-          return owner.transformingRequestSignUp()
-        case .login:
-          return owner.transFormingLogin()
-        default:
-          return .just(mutation)
-        }
-      }
   }
 
   func reduce(state: State, mutation: Mutation) -> State {
@@ -124,10 +106,8 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
       newState.userName = text
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
-    case let .setErrorMessage(message):
+    case let .setError(message):
       newState.errorMessage = message
-    default:
-      break
     }
 
     return newState
@@ -135,29 +115,27 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
 
   // MARK: Private
 
-  private func mutatingRequestSignUp() -> Observable<Mutation> {
-    .just(.requestSignUp)
+  private func mutatingLogin() -> Observable<Mutation> {
+    listener?.routeToLogin()
+    return .empty()
   }
 
-  private func transformingRequestSignUp() -> Observable<Mutation> {
-    guard !currentState.isLoading else { return .just(.stay) }
+  private func mutatingRequestSignUp() -> Observable<Mutation> {
+    guard !currentState.isLoading else { return .empty() }
 
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
     let useCaseStream = authenticationUseCase
       .register(domain: currentState)
       .withUnretained(self)
+      .observe(on: MainScheduler.asyncInstance)
       .flatMap { owner, _ -> Observable<Mutation> in
         owner.listener?.routeToOnboard()
-        return .just(.stay)
+        return .empty()
       }
-      .catch { .just(.setErrorMessage($0.localizedDescription)) }
+      .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
   }
 
-  private func transFormingLogin() -> Observable<Mutation> {
-    listener?.routeToLogin()
-    return .empty()
-  }
 }
