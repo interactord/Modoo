@@ -1,5 +1,5 @@
 import Foundation
-import Promises
+import RxSwift
 
 @testable import Application
 
@@ -7,14 +7,16 @@ class FirebaseAPINetworkingMock: FirebaseAPINetworking {
 
   var networkState: TestUtil.NetworkState = .succeed
 
-  func create(uid: String, collection: String, dictionary: [String: Any]) -> Promise<Void> {
-    .init { fulfill, reject in
+  func create(uid: String, collection: String, dictionary: [String: Any]) -> Single<Void> {
+    .create { single in
       switch self.networkState {
       case .succeed:
-        return fulfill(Void())
+        single(.success(Void()))
       case .failed:
-        reject(TestUtil.TestErrors.testMockError)
+        single(.failure(TestUtil.TestErrors.testMockError))
       }
+
+      return Disposables.create()
     }
   }
 

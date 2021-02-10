@@ -31,7 +31,7 @@ class RegisterInteractorSpec: QuickSpec {
       firebaseMediaUploadingMock = FirebaseMediaUploadingMock()
       authenticationUseCase = FirebaseAuthenticationUseCase(
         authenticating: firebaseAuthenticatingMock,
-        uploading: firebaseMediaUploadingMock,
+        mediaUploading: firebaseMediaUploadingMock,
         apiNetworking: firebaseAPINetworkingMock)
       let state = RegisterDisplayModel.State.initialState()
       interactor = RegisterInteractor(

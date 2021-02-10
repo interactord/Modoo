@@ -1,41 +1,44 @@
-import Promises
 import RxSwift
 import UIKit
+
+// MARK: - TestError
+
+enum TestError: Error, LocalizedError {
+  case test
+  var errorDescription: String? {
+    "test"
+  }
+}
+
+// MARK: - FirebaseAuthenticationUseCase
 
 struct FirebaseAuthenticationUseCase: AuthenticationUseCase {
 
   // MARK: Internal
 
   let authenticating: FirebaseAuthenticating
-  let uploading: FirebaseMediaUploading
+  let mediaUploading: FirebaseMediaUploading
   let apiNetworking: FirebaseAPINetworking
 
   var authenticationToken: String {
     authenticating.authenticationToken
   }
 
-  func register(domain: RegisterDisplayModel.State) -> Observable<Result<Void, Error>> {
-    .create { observer in
-      all(
-        authenticating.create(email: domain.email, password: domain.password),
-        uploading.upload(image: domain.photo, directoryName: Const.directoryName))
-        .then { uid, imagePath -> Promise<Void> in
-          let domainDictionary: [String: Any] = [
-            "uid": uid,
-            "email": domain.email,
-            "profileImageURL": imagePath,
-            "username": domain.userName,
-            "fullname": domain.fullName,
-          ]
-
-          return apiNetworking.create(uid: uid, collection: Const.collectionName, dictionary: domainDictionary)
-        }
-        .then{ observer.onNext(.success($0)) }
-        .catch{ observer.onNext(.failure($0)) }
-        .always{ observer.onCompleted() }
-
-      return Disposables.create()
-    }
+  func register(domain: RegisterDisplayModel.State) -> Observable<Void> {
+    Observable.zip(
+      authenticating.create(email: domain.email, password: domain.password).asObservable(),
+      mediaUploading.upload(image: domain.photo, directoryName: Const.directoryName).asObservable())
+      .map { uid, imagePath -> (String, String, [String: Any]) in
+        let dictionanary: [String: Any] = [
+          "uid": uid,
+          "email": domain.email,
+          "profileImageURL": imagePath,
+          "username": domain.userName,
+          "fullname": domain.fullName,
+        ]
+        return (uid, Const.directoryName, dictionanary)
+      }
+      .flatMap { apiNetworking.create(uid: $0.0, collection: $0.1, dictionary: $0.2) }
   }
 
   // MARK: Private

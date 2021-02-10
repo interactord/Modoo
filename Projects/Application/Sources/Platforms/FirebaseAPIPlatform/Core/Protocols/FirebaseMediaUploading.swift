@@ -1,7 +1,6 @@
 import Foundation
-import Promises
+import RxSwift
 
 protocol FirebaseMediaUploading {
-  func upload(image: UIImage?, directoryName: String) -> Promise<String>
-
+  func upload(image: UIImage?, directoryName: String) -> Single<String>
 }

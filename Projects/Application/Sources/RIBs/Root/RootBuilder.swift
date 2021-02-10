@@ -29,7 +29,7 @@ final class RootComponent: Component<RootDependency> {
   fileprivate var authenticationUseCase: AuthenticationUseCase {
     FirebaseAuthenticationUseCase(
       authenticating: FirebaseAuthentication(),
-      uploading: FirebaseMediaUploader(),
+      mediaUploading: FirebaseMediaUploader(),
       apiNetworking: FirebaseAPINetwork())
   }
 

@@ -20,14 +20,14 @@ class FirebaseAuthenticationUseCaseMock: AuthenticationUseCase {
     firebaseAuthenticatingMock.authenticationToken
   }
 
-  func register(domain: RegisterDisplayModel.State) -> Observable<Result<Void, Error>> {
+  func register(domain: RegisterDisplayModel.State) -> Observable<Void> {
     .create { observer in
 
       switch self.networkState {
       case .succeed:
-        observer.onNext(.success(Void()))
+        observer.onNext(Void())
       case .failed:
-        observer.onNext(.failure(TestUtil.TestErrors.testMockError))
+        observer.onError(TestUtil.TestErrors.testMockError)
       }
 
       observer.onCompleted()

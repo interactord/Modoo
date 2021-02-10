@@ -22,7 +22,6 @@ target 'Application' do
   
   # Misc.
   pod 'SwiftLint'
-  pod 'PromisesSwift'
 
   # Firebase
   pod "Firebase/Core"
@@ -35,11 +34,10 @@ target 'Application' do
   target 'ApplicationTests' do
     inherit! :search_paths
     
-    # Framwork
+    # Framework
     pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
     pod 'ReactorKit'
     pod 'RxSwift', '6.0.0'
-    pod 'PromisesSwift'
   end
 end
 
