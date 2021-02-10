@@ -24,6 +24,15 @@ final class RootComponent: Component<RootDependency> {
 
   let rootViewController: RootViewController
 
+  // MARK: Fileprivate
+
+  fileprivate var authenticationUseCase: AuthenticationUseCase {
+    FirebaseAuthenticationUseCase(
+      authenticating: FirebaseAuthentication(),
+      uploading: FirebaseMediaUploader(),
+      apiNetworking: FirebaseAPINetwork())
+  }
+
 }
 
 // MARK: RootDependency
@@ -49,9 +58,11 @@ protocol RootBuildable: Buildable {
 // MARK: - RootBuilder
 
 final class RootBuilder: Builder<RootDependency> {
+
   override init(dependency: RootDependency) {
     super.init(dependency: dependency)
   }
+
 }
 
 // MARK: RootBuildable
@@ -73,7 +84,8 @@ extension RootBuilder: RootBuildable {
       interactor: interactor,
       viewController: viewController,
       authenticationBuilder: authenticationBuilder,
-      onboardBuilder: onboardBuilder)
+      onboardBuilder: onboardBuilder,
+      authenticationUseCase: component.authenticationUseCase)
 
   }
 }

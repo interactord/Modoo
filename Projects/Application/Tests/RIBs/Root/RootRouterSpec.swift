@@ -8,14 +8,19 @@ class RootRouterSpec: QuickSpec {
     var viewController: RootViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
     var router: RootRouter!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var authenticationUseCase: FirebaseAuthenticationUseCaseMock!
 
     beforeEach {
       viewController = RootViewControllableMock()
+      authenticationUseCase = FirebaseAuthenticationUseCaseMock()
+
       router = RootRouter(
         interactor: RootInteractableMock(),
         viewController: viewController,
         authenticationBuilder: AuthenticationBuildableMock(),
-        onboardBuilder: OnboardBuildableMock())
+        onboardBuilder: OnboardBuildableMock(),
+        authenticationUseCase: authenticationUseCase)
     }
     afterEach {
       viewController = nil
@@ -23,58 +28,91 @@ class RootRouterSpec: QuickSpec {
     }
 
     describe("RootRouter") {
-      context("didLoad 실행시") {
+
+      context("이미 로그인이 된 유저인 경우") {
         beforeEach {
-          router.didLoad()
+          authenticationUseCase.state = .authenticated
         }
 
-        it("viewController presentCallCount는 1이 된다") {
-          expect(viewController.presentCallCount) == 1
-        }
-
-        context("cleanupViews 실행시") {
+        context("라우팅이 로드가 되면") {
           beforeEach {
-            router.cleanupViews()
+            router.didLoad()
           }
 
-          it("dismissCallCount는 1이다") {
-            expect(viewController.dismissCallCount) == 1
+          it("viewController presentCallCount는 1이 된다") {
+            expect(viewController.presentCallCount) == 1
           }
 
-          context("cleanupViews 실행시") {
+          it("currentChild는 온보드 라우팅으로 넘어간다") {
+            expect(router.children.last is OnboardRouting) == true
+          }
+
+          context("인증화면으로 전환 요청이 들어올 경우") {
             beforeEach {
-              router.cleanupViews()
+              router.routeToAuthentication()
             }
 
-            it("2번 호출하면 dismissCallCount는 1이다") {
-              expect(viewController.dismissCallCount) == 1
+            it("viewController presentCallCount는 2가 된다") {
+              expect(viewController.presentCallCount) == 2
+            }
+
+            it("currentChild는 인증라우팅으로 넘어간다") {
+              expect(router.children.last is AuthenticationRouting) == true
+            }
+          }
+
+          context("온보딩화면으로 전환 요청이 들어올 경우") {
+            beforeEach {
+              router.routeToOnboard()
+            }
+
+            it("viewController presentCallCount는 1이 된다") {
+              expect(viewController.presentCallCount) == 1
             }
           }
         }
 
-        context("routeToAuthentication 실행시") {
+        context("미 로그인이 된 유저인 경우") {
           beforeEach {
-            router.routeToAuthentication()
+            authenticationUseCase.state = .unAuthenticated
           }
 
-          it("viewController presentCallCount는 2이다") {
-            expect(viewController.presentCallCount) == 2
-          }
-          it("dismissCallCount는 1이다") {
-            expect(viewController.dismissCallCount) == 1
-          }
-        }
+          context("라우팅이 로드가 되면") {
+            beforeEach {
+              router.didLoad()
+            }
 
-        context("routeToLoggedIn 실행시") {
-          beforeEach {
-            router.routeToOnboard()
-          }
+            it("viewController presentCallCount는 1이 된다") {
+              expect(viewController.presentCallCount) == 1
+            }
 
-          it("viewController presentCallCount는 2이다") {
-            expect(viewController.presentCallCount) == 2
-          }
-          it("viewController dismissCallCount는 1이다") {
-            expect(viewController.dismissCallCount) == 1
+            it("currentChild는 인증라우팅으로 넘어간다") {
+              expect(router.children.last is AuthenticationRouting) == true
+            }
+
+            context("인증화면으로 전환 요청이 들어올 경우") {
+              beforeEach {
+                router.routeToAuthentication()
+              }
+
+              it("viewController presentCallCount는 1이 된다") {
+                expect(viewController.presentCallCount) == 1
+              }
+            }
+
+            context("온보딩화면으로 전환 요청이 들어올 경우") {
+              beforeEach {
+                router.routeToOnboard()
+              }
+
+              it("viewController presentCallCount는 2가 된다") {
+                expect(viewController.presentCallCount) == 2
+              }
+
+              it("currentChild는 인증라우팅으로 넘어간다") {
+                expect(router.children.last is OnboardRouting) == true
+              }
+            }
           }
         }
       }

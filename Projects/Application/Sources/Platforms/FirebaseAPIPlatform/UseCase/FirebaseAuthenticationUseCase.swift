@@ -10,6 +10,10 @@ struct FirebaseAuthenticationUseCase: AuthenticationUseCase {
   let uploading: FirebaseMediaUploading
   let apiNetworking: FirebaseAPINetworking
 
+  var authenticationToken: String {
+    authenticating.authenticationToken
+  }
+
   func register(domain: RegisterDisplayModel.State) -> Observable<Result<Void, Error>> {
     .create { observer in
       all(

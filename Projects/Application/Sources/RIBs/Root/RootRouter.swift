@@ -24,21 +24,26 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
     interactor: RootInteractable,
     viewController: RootViewControllable,
     authenticationBuilder: AuthenticationBuildable,
-    onboardBuilder: OnboardBuildable)
+    onboardBuilder: OnboardBuildable,
+    authenticationUseCase: AuthenticationUseCase)
   {
+    defer { interactor.router = self }
     self.authenticationBuilder = authenticationBuilder
     self.onboardBuilder = onboardBuilder
+    self.authenticationUseCase = authenticationUseCase
     super.init(
       interactor: interactor,
       viewController: viewController)
-    interactor.router = self
   }
 
   // MARK: Internal
 
   override func didLoad() {
     super.didLoad()
-    routeToAuthentication()
+
+    authenticationUseCase.authenticationToken.isEmpty
+      ? routeToAuthentication()
+      : routeToOnboard()
   }
 
   // MARK: Private
@@ -46,7 +51,7 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable> {
   private let authenticationBuilder: AuthenticationBuildable
   private let onboardBuilder: OnboardBuildable
   private weak var currentChild: ViewableRouting?
-
+  private let authenticationUseCase: AuthenticationUseCase
 }
 
 // MARK: RootRouting
@@ -62,10 +67,12 @@ extension RootRouter: RootRouting {
   }
 
   func routeToOnboard() {
+    guard !(currentChild is OnboardRouting) else { return }
     present(routing: onboardBuilder.build(withListener: interactor))
   }
 
   func routeToAuthentication() {
+    guard !(currentChild is AuthenticationRouting) else { return }
     present(routing: authenticationBuilder.build(withListener: interactor))
   }
 }

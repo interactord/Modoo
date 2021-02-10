@@ -137,7 +137,7 @@ class RegisterInteractorSpec: QuickSpec {
 
         context("signUp action 이벤트 발생시 회원가입 요청이 정상인 경우") {
           beforeEach {
-            firebaseMediaUploadingMock.isSueccedCase = true
+            firebaseMediaUploadingMock.networkState = .succeed
 
             interactor.action.onNext(.signUp)
           }
@@ -153,7 +153,7 @@ class RegisterInteractorSpec: QuickSpec {
 
         context("signUp action 이벤트 발생시 회원가입 요청이 에러가 발생한 경우") {
           beforeEach {
-            firebaseMediaUploadingMock.isSueccedCase = false
+            firebaseMediaUploadingMock.networkState = .failed
 
             interactor.action.onNext(.signUp)
           }

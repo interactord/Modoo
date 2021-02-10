@@ -15,4 +15,14 @@ enum TestUtil {
   struct Const {
     static var timeout: DispatchTimeInterval = .milliseconds(300)
   }
+
+  enum NetworkState {
+    case succeed
+    case failed
+  }
+
+  enum AuthenticationState {
+    case authenticated
+    case unAuthenticated
+  }
 }
