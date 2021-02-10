@@ -13,31 +13,17 @@ class RegisterInteractorSpec: QuickSpec {
     // swiftlint:disable implicitly_unwrapped_optional
     var router: RegisterRoutingMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var authenticationUseCase: AuthenticationUseCase!
-    // swiftlint:disable implicitly_unwrapped_optional
-    var firebaseAuthenticatingMock: FirebaseAuthenticatingMock!
-    // swiftlint:disable implicitly_unwrapped_optional
-    var firebaseMediaUploadingMock: FirebaseMediaUploadingMock!
-    // swiftlint:disable implicitly_unwrapped_optional
-    var firebaseAPINetworkingMock: FirebaseAPINetworkingMock!
-    // swiftlint:disable implicitly_unwrapped_optional
-    var currentState: RegisterDisplayModel.State?
+    var authenticationUseCaseMock: FirebaseAuthenticationUseCaseMock!
 
     beforeEach {
       viewController = RegisterViewControllableMock()
       listener = RegisterListenerMock()
-      firebaseAuthenticatingMock = FirebaseAuthenticatingMock()
-      firebaseAPINetworkingMock = FirebaseAPINetworkingMock()
-      firebaseMediaUploadingMock = FirebaseMediaUploadingMock()
-      authenticationUseCase = FirebaseAuthenticationUseCase(
-        authenticating: firebaseAuthenticatingMock,
-        mediaUploading: firebaseMediaUploadingMock,
-        apiNetworking: firebaseAPINetworkingMock)
+      authenticationUseCaseMock = FirebaseAuthenticationUseCaseMock()
       let state = RegisterDisplayModel.State.initialState()
       interactor = RegisterInteractor(
         presenter: viewController,
         initialState: state,
-        authenticationUseCase: authenticationUseCase)
+        authenticationUseCase: authenticationUseCaseMock)
       router = RegisterRoutingMock(
         interactable: interactor,
         viewControllable: viewController)
@@ -49,10 +35,7 @@ class RegisterInteractorSpec: QuickSpec {
       viewController = nil
       listener = nil
       router = nil
-      authenticationUseCase = nil
-      firebaseAuthenticatingMock = nil
-      firebaseAPINetworkingMock = nil
-      firebaseMediaUploadingMock = nil
+      authenticationUseCaseMock = nil
     }
 
     describe("RegisterInteractor activate 실행시") {
@@ -116,7 +99,6 @@ class RegisterInteractorSpec: QuickSpec {
       context("현재 네트워크가 로딩중일 경우") {
         beforeEach {
           interactor.action.onNext(.loading(true))
-          currentState = interactor.currentState
         }
 
         context("signUp action 이벤트 발생시") {
@@ -124,8 +106,8 @@ class RegisterInteractorSpec: QuickSpec {
             interactor.action.onNext(.signUp)
           }
 
-          it("current State는 네트워크 전 값과 동일하다") {
-            expect(currentState) == interactor.currentState
+          it("네트워크 요청을 하지 않는다") {
+            expect(authenticationUseCaseMock.registerCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
           }
         }
       }
@@ -135,10 +117,9 @@ class RegisterInteractorSpec: QuickSpec {
           interactor.action.onNext(.loading(false))
         }
 
-        context("signUp action 이벤트 발생시 회원가입 요청이 정상인 경우") {
+        context("signUp action 이벤트 발생시 성공적으로 회원가입이 된 경우") {
           beforeEach {
-            firebaseMediaUploadingMock.networkState = .succeed
-
+            authenticationUseCaseMock.networkState = .succeed
             interactor.action.onNext(.signUp)
           }
 
@@ -153,8 +134,7 @@ class RegisterInteractorSpec: QuickSpec {
 
         context("signUp action 이벤트 발생시 회원가입 요청이 에러가 발생한 경우") {
           beforeEach {
-            firebaseMediaUploadingMock.networkState = .failed
-
+            authenticationUseCaseMock.networkState = .failed
             interactor.action.onNext(.signUp)
           }
 

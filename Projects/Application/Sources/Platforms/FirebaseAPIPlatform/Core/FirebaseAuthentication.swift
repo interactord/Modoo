@@ -20,6 +20,18 @@ struct FirebaseAuthentication: FirebaseAuthenticating {
     }
   }
 
+  func login(email: String, password: String) -> Single<Void> {
+    .create { single in
+      Auth.auth()
+        .signIn(withEmail: email, password: password) { result, error in
+          if let error = error { single(.failure(error)) }
+          single(.success(Void()))
+        }
+
+      return Disposables.create()
+    }
+  }
+
   func logout() {
     do {
       try Auth.auth().signOut()

@@ -35,6 +35,7 @@ class RegisterViewControllerSpec: QuickSpec {
       viewController = nil
       interactor = nil
       useCase = nil
+      authenticationUseCase = nil
     }
 
     describe("RegisterViewController 화면 노출 후") {

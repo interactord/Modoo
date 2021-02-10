@@ -28,11 +28,13 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
 
   init(
     presenter: LoginPresentable,
-    initialState: LoginDisplayModel.State)
+    initialState: LoginDisplayModel.State,
+    authenticationUseCase: AuthenticationUseCase)
   {
+    defer { presenter.listener = self }
     self.initialState = initialState
+    self.authenticationUseCase = authenticationUseCase
     super.init(presenter: presenter)
-    presenter.listener = self
   }
 
   deinit {
@@ -45,16 +47,17 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
   typealias State = LoginDisplayModel.State
 
   enum Mutation: Equatable {
-    case requestLogin
-    case register
     case setEmail(String)
     case setPassword(String)
+    case setError(String)
+    case setLoading(Bool)
   }
 
   weak var router: LoginRouting?
   weak var listener: LoginListener?
 
   let initialState: State
+  let authenticationUseCase: AuthenticationUseCase
 
 }
 
@@ -72,8 +75,10 @@ extension LoginInteractor: LoginPresentableListener, Reactor {
       newState.email = text
     case let .setPassword(text):
       newState.password = text
-    default:
-      break
+    case  let .setLoading(isLoading):
+      newState.isLoading = isLoading
+    case  let .setError(message):
+      newState.errorMessage = message
     }
 
     return newState
@@ -84,43 +89,40 @@ extension LoginInteractor: LoginPresentableListener, Reactor {
     case .login:
       return  mutatingRequestLogin()
     case .register:
-      return  .just(.register)
+      return  mutatingRegister()
     case let .email(text):
       return .just(.setEmail(text))
     case let .password(text):
       return .just(.setPassword(text))
+    case let .loading(isLoading):
+      return .just(.setLoading(isLoading))
     }
-  }
-
-  func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-    mutation
-      .withUnretained(self)
-      .flatMap{ owner, mutation -> Observable<Mutation> in
-        switch mutation {
-        case .requestLogin:
-          return owner.transformingRequestLogin()
-        case .register:
-          return owner.transformingRegister()
-        default:
-          return .just(mutation)
-        }
-      }
   }
 
   // MARK: Private
 
-  private func mutatingRequestLogin() -> Observable<Mutation> {
-    print(currentState)
-    return .just(.requestLogin)
-  }
-
-  private func transformingRequestLogin() -> Observable<Mutation> {
-    listener?.routeToOnboard()
-    return .empty()
-  }
-
-  private func transformingRegister() -> Observable<Mutation> {
+  private func mutatingRegister() -> Observable<Mutation> {
     listener?.routeToRegister()
+
     return .empty()
   }
+
+  private func mutatingRequestLogin() -> Observable<Mutation> {
+    guard !currentState.isLoading else { return .empty() }
+
+    let startLoading = Observable.just(Mutation.setLoading(true))
+    let stopLoading = Observable.just(Mutation.setLoading(false))
+    let useCaseStream = authenticationUseCase
+      .login(domain: currentState)
+      .withUnretained(self)
+      .observe(on: MainScheduler.asyncInstance)
+      .flatMap { owner, _ -> Observable<Mutation> in
+        owner.listener?.routeToOnboard()
+        return .empty()
+      }
+      .catch { .just(.setError($0.localizedDescription)) }
+
+    return Observable.concat([startLoading, useCaseStream, stopLoading])
+  }
+
 }

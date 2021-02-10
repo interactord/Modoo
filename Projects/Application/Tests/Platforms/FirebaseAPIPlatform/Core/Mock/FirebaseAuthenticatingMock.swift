@@ -28,6 +28,19 @@ class FirebaseAuthenticatingMock: FirebaseAuthenticating {
     }
   }
 
+  func login(email: String, password: String) -> Single<Void> {
+    .create { single in
+      switch self.networkState {
+      case .succeed:
+        single(.success(Void()))
+      case .failed:
+        single(.failure(TestUtil.TestErrors.testMockError))
+      }
+
+      return Disposables.create()
+    }
+  }
+
   func logout() {
     state = .unAuthenticated
   }
