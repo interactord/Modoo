@@ -1,3 +1,4 @@
+import FirebaseAuth
 import RIBs
 import RxSwift
 import UIKit
@@ -23,6 +24,13 @@ final class OnboardViewController: UITabBarController, OnboardPresentable, Onboa
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    do {
+      try Auth.auth().signOut()
+    } catch {
+      print(error)
+    }
+
     view.backgroundColor = .green
   }
 

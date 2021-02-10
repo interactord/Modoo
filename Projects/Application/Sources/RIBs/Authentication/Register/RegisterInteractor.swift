@@ -147,15 +147,11 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
     let useCaseStream = authenticationUseCase
       .register(domain: currentState)
       .withUnretained(self)
-      .flatMap { owner, result -> Observable<Mutation> in
-        switch result {
-        case .success:
-          owner.listener?.routeToOnboard()
-          return .just(.stay)
-        case let .failure(error):
-          return .just(Mutation.setErrorMessage(error.localizedDescription))
-        }
+      .flatMap { owner, _ -> Observable<Mutation> in
+        owner.listener?.routeToOnboard()
+        return .just(.stay)
       }
+      .catch { .just(.setErrorMessage($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
   }

@@ -1,5 +1,5 @@
 import Foundation
-import Promises
+import RxSwift
 
 @testable import Application
 
@@ -15,14 +15,16 @@ class FirebaseAuthenticatingMock: FirebaseAuthenticating {
     }
   }
 
-  func create(email: String, password: String) -> Promise<String> {
-    .init { fulfill, reject in
+  func create(email: String, password: String) -> Single<String> {
+    .create { single in
       switch self.networkState {
       case .succeed:
-        return fulfill("test")
+        single(.success("test"))
       case .failed:
-        reject(TestUtil.TestErrors.testMockError)
+        single(.failure(TestUtil.TestErrors.testMockError))
       }
+
+      return Disposables.create()
     }
   }
 

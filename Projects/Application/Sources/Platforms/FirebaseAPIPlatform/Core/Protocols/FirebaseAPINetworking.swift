@@ -1,6 +1,6 @@
 import Foundation
-import Promises
+import RxSwift
 
 protocol FirebaseAPINetworking {
-  func create(uid: String, collection: String, dictionary: [String: Any]) -> Promise<Void>
+  func create(uid: String, collection: String, dictionary: [String: Any]) -> Single<Void>
 }
