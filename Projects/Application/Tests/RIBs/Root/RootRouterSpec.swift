@@ -39,8 +39,12 @@ class RootRouterSpec: QuickSpec {
             router.didLoad()
           }
 
-          it("viewController presentCallCount는 1이 된다") {
-            expect(viewController.presentCallCount) == 1
+          it("viewController pushRootViewControllerCallCount는 1이 된다") {
+            expect(viewController.pushRootViewControllerCallCount) == 1
+          }
+
+          it("viewController의 viewControllers는 1이 된다") {
+            expect(viewController.viewControllers) == 1
           }
 
           it("currentChild는 온보드 라우팅으로 넘어간다") {
@@ -52,8 +56,16 @@ class RootRouterSpec: QuickSpec {
               router.routeToAuthentication()
             }
 
-            it("viewController presentCallCount는 2가 된다") {
-              expect(viewController.presentCallCount) == 2
+            it("viewController presentCallCount는 1가 된다") {
+              expect(viewController.presentCallCount) == 1
+            }
+
+            it("viewController popRootViewControllerCallCount는 1이 된다") {
+              expect(viewController.popRootViewControllerCallCount) == 1
+            }
+
+            it("viewController의 viewControllers는 0이 된다") {
+              expect(viewController.viewControllers) == 0
             }
 
             it("currentChild는 인증라우팅으로 넘어간다") {
@@ -66,8 +78,16 @@ class RootRouterSpec: QuickSpec {
               router.routeToOnboard()
             }
 
-            it("viewController presentCallCount는 1이 된다") {
-              expect(viewController.presentCallCount) == 1
+            it("viewController presentCallCount는 0이 된다") {
+              expect(viewController.presentCallCount) == 0
+            }
+
+            it("viewController pushRootViewControllerCallCount는 1이 된다") {
+              expect(viewController.pushRootViewControllerCallCount) == 1
+            }
+
+            it("viewController의 viewControllers는 1이 된다") {
+              expect(viewController.viewControllers) == 1
             }
           }
         }
@@ -86,6 +106,10 @@ class RootRouterSpec: QuickSpec {
               expect(viewController.presentCallCount) == 1
             }
 
+            it("viewController viewControllers는 0이 된다") {
+              expect(viewController.viewControllers) == 0
+            }
+
             it("currentChild는 인증라우팅으로 넘어간다") {
               expect(router.children.last is AuthenticationRouting) == true
             }
@@ -98,6 +122,10 @@ class RootRouterSpec: QuickSpec {
               it("viewController presentCallCount는 1이 된다") {
                 expect(viewController.presentCallCount) == 1
               }
+
+              it("viewController viewControllers는 0이 된다") {
+                expect(viewController.viewControllers) == 0
+              }
             }
 
             context("온보딩화면으로 전환 요청이 들어올 경우") {
@@ -105,8 +133,16 @@ class RootRouterSpec: QuickSpec {
                 router.routeToOnboard()
               }
 
-              it("viewController presentCallCount는 2가 된다") {
-                expect(viewController.presentCallCount) == 2
+              it("viewController presentCallCount는 1이 된다") {
+                expect(viewController.presentCallCount) == 1
+              }
+
+              it("viewController viewControllers는 1이 된다") {
+                expect(viewController.viewControllers) == 1
+              }
+
+              it("viewController pushRootViewControllerCallCount는 1이 된다") {
+                expect(viewController.pushRootViewControllerCallCount) == 1
               }
 
               it("currentChild는 인증라우팅으로 넘어간다") {

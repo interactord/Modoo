@@ -132,15 +132,5 @@ extension RegisterViewController {
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    listener.state.subscribe(
-      onNext: { state in
-        print("onNext -> ", state.errorMessage)
-      },
-      onError: { error in
-        print("onError -> ", error)
-      },
-      onCompleted: {
-        print("onCompleted")
-      }).disposed(by: disposeBag)
   }
 }

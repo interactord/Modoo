@@ -6,6 +6,7 @@ import UIKit
 // MARK: - OnboardPresentableListener
 
 protocol OnboardPresentableListener: AnyObject {
+  func onLogout()
 }
 
 // MARK: - OnboardViewController
@@ -24,14 +25,26 @@ final class OnboardViewController: UITabBarController, OnboardPresentable, Onboa
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    do {
-      try Auth.auth().signOut()
-    } catch {
-      print(error)
-    }
-
     view.backgroundColor = .green
+
+    applyUIPreferences()
+  }
+
+  @objc
+  func authenticationAction() {
+    listener?.onLogout()
+  }
+
+  // MARK: Private
+
+  private func applyUIPreferences() {
+    // Todo: 이미버튼입니다. 나중에 내정보에 들어갈 기능입니다.
+    let barButtonItem = UIBarButtonItem(
+      title: "Logout",
+      style: .plain,
+      target: self,
+      action: #selector(authenticationAction))
+    navigationItem.rightBarButtonItem = barButtonItem
   }
 
 }
