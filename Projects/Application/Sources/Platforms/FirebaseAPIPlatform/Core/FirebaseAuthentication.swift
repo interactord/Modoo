@@ -12,4 +12,8 @@ struct FirebaseAuthentication: FirebaseAuthenticating {
       }
     }
   }
+
+  var authenticationToken: String {
+    Auth.auth().currentUser?.uid ?? ""
+  }
 }

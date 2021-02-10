@@ -5,14 +5,16 @@ import Promises
 
 class FirebaseMediaUploadingMock: FirebaseMediaUploading {
 
-  var isSueccedCase = true
+  var networkState: TestUtil.NetworkState = .succeed
 
   func upload(image: UIImage?, directoryName: String) -> Promise<String> {
     .init { fulfill, reject in
-      guard self.isSueccedCase else {
-        return reject(TestUtil.TestErrors.testMockError)
+      switch self.networkState {
+      case .succeed:
+        return fulfill("test")
+      case .failed:
+        reject(TestUtil.TestErrors.testMockError)
       }
-      return fulfill("succeed")
     }
   }
 
