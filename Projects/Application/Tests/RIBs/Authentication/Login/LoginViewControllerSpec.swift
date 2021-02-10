@@ -3,23 +3,30 @@ import Quick
 
 @testable import Application
 
-class LoginVIewControllerSpec: QuickSpec {
+class LoginViewControllerSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
     var viewController: LoginViewController!
     // swiftlint:disable implicitly_unwrapped_optional
     var interactor: LoginInteractor!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var authenticationUseCaseMock: FirebaseAuthenticationUseCaseMock!
 
     beforeEach {
       viewController = LoginViewController()
       let state = LoginDisplayModel.State.initialState()
-      interactor = LoginInteractor(presenter: viewController, initialState: state)
+      authenticationUseCaseMock = FirebaseAuthenticationUseCaseMock()
+      interactor = LoginInteractor(
+        presenter: viewController,
+        initialState: state,
+        authenticationUseCase: authenticationUseCaseMock)
       interactor.isStubEnabled = true
       viewController.listener = interactor
     }
     afterEach {
       viewController = nil
       interactor = nil
+      authenticationUseCaseMock = nil
     }
 
     describe("LoginViewController 화면 노출 후") {

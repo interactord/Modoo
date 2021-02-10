@@ -41,6 +41,12 @@ struct FirebaseAuthenticationUseCase: AuthenticationUseCase {
       .flatMap { apiNetworking.create(uid: $0.0, collection: $0.1, dictionary: $0.2) }
   }
 
+  func login(domain: LoginDisplayModel.State) -> Observable<Void> {
+    authenticating
+      .login(email: domain.email, password: domain.password)
+      .asObservable()
+  }
+
   func logout() {
     authenticating.logout()
   }

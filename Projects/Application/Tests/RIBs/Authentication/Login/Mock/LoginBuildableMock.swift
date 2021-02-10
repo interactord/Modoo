@@ -5,8 +5,19 @@ import RIBs
 
 class LoginBuildableMock: Builder<LoginDependency> {
 
+  // MARK: Lifecycle
+
   init() {
     super.init(dependency: LoginDependencyMock())
+  }
+
+  // MARK: Fileprivate
+
+  fileprivate var authenticationUseCase: AuthenticationUseCase {
+    FirebaseAuthenticationUseCase(
+      authenticating: FirebaseAuthentication(),
+      mediaUploading: FirebaseMediaUploader(),
+      apiNetworking: FirebaseAPINetwork())
   }
 
 }
@@ -20,7 +31,8 @@ extension LoginBuildableMock: LoginBuildable {
     let viewController = LoginViewController()
     let interactor = LoginInteractor(
       presenter: viewController,
-      initialState: LoginDisplayModel.State.initialState())
+      initialState: LoginDisplayModel.State.initialState(),
+      authenticationUseCase: authenticationUseCase)
     interactor.listener = listener
     return LoginRouter(interactor: interactor, viewController: viewController)
   }
