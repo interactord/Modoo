@@ -9,7 +9,7 @@ protocol RootPresentableListener: AnyObject {
 
 // MARK: - RootViewController
 
-final class RootViewController: UIViewController, RootPresentable {
+final class RootViewController: UINavigationController, RootPresentable {
 
   // MARK: Lifecycle
 
@@ -23,7 +23,7 @@ final class RootViewController: UIViewController, RootPresentable {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .red
+    view.backgroundColor = .white
   }
 
 }
@@ -36,6 +36,14 @@ extension RootViewController: RootViewControllable {
     uiViewController.isModalInPresentation = true
     uiViewController.modalPresentationStyle = .fullScreen
     present(uiViewController, animated: false)
+  }
+
+  func pushRootViewController(viewController: ViewControllable) {
+    setViewControllers([viewController.uiviewController], animated: false)
+  }
+
+  func popRootViewController(viewController: ViewControllable) {
+    setViewControllers([], animated: false)
   }
 
   func dismiss(viewController: ViewControllable) {

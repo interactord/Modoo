@@ -12,6 +12,8 @@ protocol RootInteractable: Interactable, AuthenticationListener, OnboardListener
 protocol RootViewControllable: ViewControllable {
   func present(viewController: ViewControllable)
   func dismiss(viewController: ViewControllable)
+  func pushRootViewController(viewController: ViewControllable)
+  func popRootViewController(viewController: ViewControllable)
 }
 
 // MARK: - RootRouter
@@ -62,16 +64,18 @@ extension RootRouter: RootRouting {
 
     detachChild(currentChild)
     viewController.dismiss(viewController: currentChild.viewControllable)
+    viewController.popRootViewController(viewController: currentChild.viewControllable)
 
     self.currentChild = nil
   }
 
   func routeToOnboard() {
     guard !(currentChild is OnboardRouting) else { return }
-    present(routing: onboardBuilder.build(withListener: interactor))
+    pushRoot(routing: onboardBuilder.build(withListener: interactor))
   }
 
   func routeToAuthentication() {
+    authenticationUseCase.logout()
     guard !(currentChild is AuthenticationRouting) else { return }
     present(routing: authenticationBuilder.build(withListener: interactor))
   }
@@ -85,6 +89,14 @@ extension RootRouter {
     attachChild(routing)
 
     viewController.present(viewController: routing.viewControllable)
+  }
+
+  private func pushRoot(routing: ViewableRouting) {
+    cleanupViews()
+    currentChild = routing
+    attachChild(routing)
+
+    viewController.pushRootViewController(viewController: routing.viewControllable)
   }
 
 }
