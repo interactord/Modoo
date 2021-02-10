@@ -36,4 +36,8 @@ class FirebaseAuthenticationUseCaseMock: AuthenticationUseCase {
     }
   }
 
+  func logout() {
+    state = .unAuthenticated
+  }
+
 }

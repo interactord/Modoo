@@ -17,6 +17,11 @@ class RootViewControllableMock: ViewControllableMock, RootPresentable {
   var presentCallCount: Int = 0
   var dismissHandler: (() -> Void)?
   var dismissCallCount: Int = 0
+  var pushRootViewControllerCallCount: Int = 0
+  var pushRootViewControllerHandler: (() -> Void)?
+  var popRootViewControllerCallCount: Int = 0
+  var popRootViewControllerHandler: (() -> Void)?
+  var viewControllers: Int = 0
 }
 
 // MARK: RootViewControllable
@@ -30,5 +35,17 @@ extension RootViewControllableMock: RootViewControllable {
   func dismiss(viewController _: ViewControllable) {
     dismissCallCount += 1
     dismissHandler?()
+  }
+
+  func pushRootViewController(viewController: ViewControllable) {
+    viewControllers += 1
+    pushRootViewControllerCallCount += 1
+    pushRootViewControllerHandler?()
+  }
+
+  func popRootViewController(viewController: ViewControllable) {
+    viewControllers = 0
+    popRootViewControllerCallCount += 1
+    popRootViewControllerHandler?()
   }
 }

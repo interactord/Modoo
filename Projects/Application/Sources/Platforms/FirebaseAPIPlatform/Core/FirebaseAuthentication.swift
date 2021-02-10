@@ -19,4 +19,12 @@ struct FirebaseAuthentication: FirebaseAuthenticating {
       return Disposables.create()
     }
   }
+
+  func logout() {
+    do {
+      try Auth.auth().signOut()
+    } catch {
+      print(error)
+    }
+  }
 }

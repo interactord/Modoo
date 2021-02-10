@@ -28,4 +28,8 @@ class FirebaseAuthenticatingMock: FirebaseAuthenticating {
     }
   }
 
+  func logout() {
+    state = .unAuthenticated
+  }
+
 }

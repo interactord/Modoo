@@ -41,6 +41,10 @@ struct FirebaseAuthenticationUseCase: AuthenticationUseCase {
       .flatMap { apiNetworking.create(uid: $0.0, collection: $0.1, dictionary: $0.2) }
   }
 
+  func logout() {
+    authenticating.logout()
+  }
+
   // MARK: Private
 
   private struct Const {

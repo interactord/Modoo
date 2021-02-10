@@ -14,6 +14,7 @@ protocol OnboardPresentable: Presentable {
 // MARK: - OnboardListener
 
 protocol OnboardListener: AnyObject {
+  func routeToAuthentication()
 }
 
 // MARK: - OnboardInteractor
@@ -41,4 +42,7 @@ final class OnboardInteractor: PresentableInteractor<OnboardPresentable>, Onboar
 // MARK: OnboardPresentableListener
 
 extension OnboardInteractor: OnboardPresentableListener {
+  func onLogout() {
+    listener?.routeToAuthentication()
+  }
 }
