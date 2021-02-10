@@ -10,6 +10,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var compositeRoot = CompositeRoot()
 
   func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    FirebaseApp.configure()
+
     let window = UIWindow()
     let appComponent = compositeRoot.appComponent
     let launchRouter = RootBuilder(dependency: appComponent).build()
@@ -18,13 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     self.window = window
     self.launchRouter = launchRouter
 
-    FirebaseApp.configure()
-
     return true
   }
 
   // MARK: Private
 
   private var launchRouter: LaunchRouting?
-
 }
