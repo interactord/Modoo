@@ -1,5 +1,5 @@
 import Foundation
-import Promises
+import RxSwift
 
 @testable import Application
 
@@ -7,14 +7,16 @@ class FirebaseMediaUploadingMock: FirebaseMediaUploading {
 
   var networkState: TestUtil.NetworkState = .succeed
 
-  func upload(image: UIImage?, directoryName: String) -> Promise<String> {
-    .init { fulfill, reject in
+  func upload(image: UIImage?, directoryName: String) -> Single<String> {
+    .create { single in
       switch self.networkState {
       case .succeed:
-        return fulfill("test")
+        single(.success("test"))
       case .failed:
-        reject(TestUtil.TestErrors.testMockError)
+        single(.failure(TestUtil.TestErrors.testMockError))
       }
+
+      return Disposables.create()
     }
   }
 

@@ -1,22 +1,28 @@
 import FirebaseStorage
-import Promises
+import RxSwift
 import UIKit
 
 struct FirebaseMediaUploader: FirebaseMediaUploading {
-  func upload(image: UIImage?, directoryName: String) -> Promise<String> {
-    .init { fulfill, reject in
-      guard let image = image, let imageData = image.jpegData(compressionQuality: 0.75) else{
-        return fulfill("")
+
+  func upload(image: UIImage?, directoryName: String) -> Single<String> {
+    .create { single in
+      guard let image = image, let imageData = image.jpegData(compressionQuality: 0.75) else {
+        single(.success(""))
+        return Disposables.create()
       }
 
-      let ref = Storage.storage().reference(withPath: "/images/\(directoryName)\(UUID().uuidString)")
+      let referencePath = "/images/\(directoryName)\(UUID().uuidString)"
+      let ref = Storage.storage().reference(withPath: referencePath)
       ref.putData(imageData, metadata: .none) { _, error in
-        if let error = error { return reject(error) }
+        if let error = error { single(.failure(error)) }
         ref.downloadURL { url, error in
-          if let error = error { return reject(error) }
-          fulfill(url?.absoluteString ?? "")
+          if let error = error { single(.failure(error)) }
+          single(.success(url?.absoluteString ?? ""))
         }
       }
+
+      return Disposables.create()
     }
   }
+
 }

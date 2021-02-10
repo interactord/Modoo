@@ -16,7 +16,7 @@ final class RegisterComponent: Component<RegisterDependency> {
   fileprivate var authenticationUseCase: AuthenticationUseCase {
     FirebaseAuthenticationUseCase(
       authenticating: FirebaseAuthentication(),
-      uploading: FirebaseMediaUploader(),
+      mediaUploading: FirebaseMediaUploader(),
       apiNetworking: FirebaseAPINetwork())
   }
 

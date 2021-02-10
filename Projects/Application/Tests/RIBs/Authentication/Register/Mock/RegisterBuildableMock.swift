@@ -17,7 +17,7 @@ class RegisterBuildableMock: Builder<RegisterDependency> {
   fileprivate var authenticationUseCase: AuthenticationUseCase {
     FirebaseAuthenticationUseCase(
       authenticating: FirebaseAuthentication(),
-      uploading: FirebaseMediaUploader(),
+      mediaUploading: FirebaseMediaUploader(),
       apiNetworking: FirebaseAPINetwork())
   }
 }

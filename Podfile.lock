@@ -371,8 +371,6 @@ PODS:
     - PINCache (~> 3.0.3)
     - PINRemoteImage/Core
   - PromisesObjC (1.2.12)
-  - PromisesSwift (1.2.12):
-    - PromisesObjC (= 1.2.12)
   - ReactorKit (3.0.0):
     - RxSwift (~> 6.0)
     - WeakMapTable (~> 1.1)
@@ -426,7 +424,6 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Messaging
   - Firebase/Storage
-  - PromisesSwift
   - ReactorKit
   - RIBs (from `https://github.com/interactord/RIBs`, branch `master`)
   - RxCocoa (= 6.0.0)
@@ -465,7 +462,6 @@ SPEC REPOS:
     - PINOperation
     - PINRemoteImage
     - PromisesObjC
-    - PromisesSwift
     - ReactorKit
     - RxCocoa
     - RxKeyboard
@@ -514,7 +510,6 @@ SPEC CHECKSUMS:
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
   PINRemoteImage: f1295b29f8c5e640e25335a1b2bd9d805171bd01
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  PromisesSwift: 64085cf6e5fc1b5001f90cf31e87a1f1621fefee
   ReactorKit: 5348c9881dcb546605b451e32759dccc9937d36e
   RIBs: dd8df1129289d51ed4fec6e2127613d9eaba204e
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
@@ -527,6 +522,6 @@ SPEC CHECKSUMS:
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: f0c763152912e01b271e552a1da535088c81f30b
+PODFILE CHECKSUM: 6c5480268c5522a6fdc5a325b1962811671ef1bc
 
 COCOAPODS: 1.10.1

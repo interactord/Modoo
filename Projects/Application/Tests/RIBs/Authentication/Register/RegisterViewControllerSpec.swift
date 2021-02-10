@@ -21,7 +21,7 @@ class RegisterViewControllerSpec: QuickSpec {
       viewController = RegisterViewController(mediaPickerUseCase: useCase)
       authenticationUseCase = FirebaseAuthenticationUseCase(
         authenticating: FirebaseAuthentication(),
-        uploading: FirebaseMediaUploader(),
+        mediaUploading: FirebaseMediaUploader(),
         apiNetworking: FirebaseAPINetwork())
       let state = RegisterDisplayModel.State.initialState()
       interactor = RegisterInteractor(
