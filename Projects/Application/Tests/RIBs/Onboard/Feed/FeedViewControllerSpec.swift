@@ -3,13 +3,13 @@ import Quick
 
 @testable import Application
 
-class OnboardViewControllerSpec: QuickSpec {
+class FeedViewControllerSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
-    var viewController: OnboardViewController!
+    var viewController: FeedViewController!
 
     beforeEach {
-      viewController = OnboardViewController()
+      viewController = FeedViewController()
     }
     afterEach {
       viewController = nil

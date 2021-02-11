@@ -3,7 +3,9 @@ import RxSwift
 
 // MARK: - OnboardRouting
 
-protocol OnboardRouting: ViewableRouting {}
+protocol OnboardRouting: ViewableRouting {
+  func setViewControllers()
+}
 
 // MARK: - OnboardPresentable
 
@@ -37,6 +39,10 @@ final class OnboardInteractor: PresentableInteractor<OnboardPresentable>, Onboar
   weak var router: OnboardRouting?
   weak var listener: OnboardListener?
 
+  override func willResignActive() {
+    super.willResignActive()
+    router?.setViewControllers()
+  }
 }
 
 // MARK: OnboardPresentableListener
