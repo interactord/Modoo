@@ -53,8 +53,8 @@ final class LoginViewController: ASDKViewController<LoginContainerNode>, LoginPr
 
   weak var listener: LoginPresentableListener?
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  override func loadView() {
+    super.loadView()
     bind(listener: listener)
   }
 
@@ -68,13 +68,13 @@ extension LoginViewController {
   }
 
   private func bindAction(listener: LoginPresentableListener) {
-    node.emailInputNode.textView?.rx.text
+    node.loginFormNode.emailInputNode.textView?.rx.text
       .filterNil()
       .map{ .email($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.passwordInputNode.textView?.rx.text
+    node.loginFormNode.passwordInputNode.textView?.rx.text
       .filterNil()
       .map{ .password($0) }
       .bind(to: listener.action)
@@ -85,7 +85,7 @@ extension LoginViewController {
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.loginButtonNode.rx.tap
+    node.loginFormNode.loginButtonNode.rx.tap
       .map { _ in .login }
       .bind(to: listener.action)
       .disposed(by: disposeBag)

@@ -23,7 +23,7 @@ struct FirebaseAuthentication: FirebaseAuthenticating {
   func login(email: String, password: String) -> Single<Void> {
     .create { single in
       Auth.auth()
-        .signIn(withEmail: email, password: password) { result, error in
+        .signIn(withEmail: email, password: password) { _, error in
           if let error = error { single(.failure(error)) }
           single(.success(Void()))
         }

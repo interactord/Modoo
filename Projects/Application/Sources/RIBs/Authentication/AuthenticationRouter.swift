@@ -46,7 +46,6 @@ final class AuthenticationRouter: ViewableRouter<AuthenticationInteractable, Aut
     super.didLoad()
 
     routeToLogin()
-//    routeToRegister()
   }
 
   // MARK: Private
