@@ -3,17 +3,17 @@ import Quick
 
 @testable import Application
 
-class OnboardRouterSpec: QuickSpec {
+class FeedRouterSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
-    var viewController: OnboardViewControllableMock!
+    var viewController: FeedViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var router: OnboardRouter!
+    var router: FeedRouter!
 
     beforeEach {
-      viewController = OnboardViewControllableMock()
-      router = OnboardRouter(
-        interactor: OnboardInteractableMock(),
+      viewController = FeedViewControllableMock()
+      router = FeedRouter(
+        interactor: FeedInteractableMock(),
         viewController: viewController)
     }
     afterEach {

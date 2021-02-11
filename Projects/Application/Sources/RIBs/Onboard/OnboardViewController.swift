@@ -11,7 +11,7 @@ protocol OnboardPresentableListener: AnyObject {
 
 // MARK: - OnboardViewController
 
-final class OnboardViewController: UITabBarController, OnboardPresentable, OnboardViewControllable {
+final class OnboardViewController: UITabBarController, OnboardPresentable {
 
   // MARK: Lifecycle
 
@@ -47,4 +47,13 @@ final class OnboardViewController: UITabBarController, OnboardPresentable, Onboa
     navigationItem.rightBarButtonItem = barButtonItem
   }
 
+}
+
+// MARK: OnboardViewControllable
+
+extension OnboardViewController: OnboardViewControllable {
+
+  func applyVewControllers(viewControllers: [ViewControllable]) {
+    setViewControllers(viewControllers.map { $0.uiviewController }, animated: false)
+  }
 }
