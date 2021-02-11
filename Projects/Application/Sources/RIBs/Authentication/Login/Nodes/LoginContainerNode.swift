@@ -1,5 +1,6 @@
 import AsyncDisplayKit
 import RxCocoa
+import RxKeyboard
 import RxSwift
 
 // MARK: - LoginContainerNode
@@ -9,13 +10,13 @@ final class LoginContainerNode: ASDisplayNode {
   // MARK: Lifecycle
 
   override init() {
-    defer {
-      observeFormField()
-    }
     super.init()
+
     automaticallyManagesSubnodes = true
     automaticallyRelayoutOnSafeAreaChanges = true
     backgroundColor = .black
+    observeFormField()
+    observeKeyboard()
   }
 
   deinit {
@@ -24,37 +25,17 @@ final class LoginContainerNode: ASDisplayNode {
 
   // MARK: Internal
 
-  private(set) lazy var logoNode: ASImageNode = {
-    let node = ASImageNode()
-    node.image = #imageLiteral(resourceName: "instargram-logo")
-    node.tintColor = Const.logoTintColor
-    node.contentMode = .scaleAspectFit
-    node.style.preferredSize = Const.logoSize
-    return node
-  }()
-
-  let emailInputNode: FormTextInputNode = FormTextInputNode(scope: .email)
-  let passwordInputNode = FormTextInputNode(scope: .password)
-  let loginButtonNode = FormPrimaryButtonNode(type: .login)
-  let forgetPasswordButton = FormSecondaryButtonNode(type: .helpSignIn)
   let dontHaveAccountButtonNode = FormSecondaryButtonNode(type: .signIn)
+  let loginFormNode = LoginFormNode()
 
   // MARK: Private
 
   private struct Const {
-    static let logoTintColor = UIColor.white
-    static let logoSize = CGSize(width: 220, height: 80)
     static let containerPadding =
-      UIEdgeInsets(top: 0.0, left: 30.0, bottom: 0.0, right: 30.0)
-    static let signUpButtonHeight =
-      ASDimension(unit: .points, value: 50.0)
-    static let inputFieldSpacing: CGFloat = 20.0
-    static let signUpButtonPadding =
-      UIEdgeInsets(top: 30.0, left: 10.0, bottom: 0.0, right: 10.0)
-    static let logoPadding =
-      UIEdgeInsets(top: 100, left: 0, bottom: 24, right: 0)
+      UIEdgeInsets(top: 0, left: 30.0, bottom: 30.0, right: 30.0)
   }
 
+  private let keyboardDismissEventNode = ASControlNode()
   private let disposeBag = DisposeBag()
   private var backgroundNode = ASDisplayNode()
 
@@ -63,26 +44,47 @@ final class LoginContainerNode: ASDisplayNode {
 // MARK: Binding
 
 extension LoginContainerNode {
+  private func observeKeyboard() {
+    [
+      keyboardDismissEventNode.rx.tap,
+      loginFormNode.keyboardDismissEventNode.rx.tap,
+    ]
+    .forEach {
+      $0.withUnretained(view)
+        .subscribe(onNext: { $0.0.endEditing(true) })
+        .disposed(by: self.disposeBag)
+    }
+
+    RxKeyboard.instance.visibleHeight
+      .withUnretained(loginFormNode.view)
+      .drive(onNext: { $0.0.scrollWhenKeyboardEvent(height: $0.1) })
+      .disposed(by: disposeBag)
+  }
+
   private func observeFormField() {
     guard
-      let emailValidObservable = emailInputNode.reactor?.state.map({ $0.statue == .valid }),
-      let emailInputTextView = emailInputNode.textView,
-      let passwordObservable = passwordInputNode.reactor?.state.map({ $0.statue == .valid }),
-      let passwordInputTextView = passwordInputNode.textView
+      let emailValidObservable = loginFormNode.emailInputNode.reactor?.state.map({ $0.statue == .valid }),
+      let emailInputTextView = loginFormNode.emailInputNode.textView,
+      let passwordObservable = loginFormNode.passwordInputNode.reactor?.state.map({ $0.statue == .valid }),
+      let passwordInputTextView = loginFormNode.passwordInputNode.textView
     else { return }
 
-    Observable.combineLatest(emailValidObservable, passwordObservable) { ($0, $1) }
+    Observable.combineLatest(
+      emailValidObservable,
+      passwordObservable) { ($0, $1) }
       .map { $0 && $1 }
-      .bind(to: loginButtonNode.rx.isEnabled)
+      .bind(to: loginFormNode.loginButtonNode.rx.isEnabled)
       .disposed(by: disposeBag)
 
     let backgroundScheduler = SerialDispatchQueueScheduler(qos: .default)
-    emailInputTextView.rx.controlEvent([.editingDidEndOnExit, .editingDidEnd])
+
+    emailInputTextView.rx
+      .controlEvent(.editingDidEndOnExit)
       .withLatestFrom(passwordInputTextView.rx.text)
       .observe(on: backgroundScheduler)
       .observe(on: MainScheduler.instance)
       .filter{ $0?.isEmpty ?? false }
-      .withUnretained(self)
+      .withUnretained(loginFormNode)
       .subscribe(onNext: { owner, _ in
         owner.passwordInputNode.textView?.becomeFirstResponder()
       }).disposed(by: disposeBag)
@@ -96,56 +98,58 @@ extension LoginContainerNode {
   // MARK: Internal
 
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-    let flexibleSpacingLayout = ASLayoutSpec()
-    flexibleSpacingLayout.style.flexGrow = 1.0
-
-    let containerLayout = ASStackLayoutSpec(
-      direction: .vertical,
-      spacing: 14.0,
-      justifyContent: .start,
-      alignItems: .stretch,
-      children: [
-        logoAreaLayoutSpec(),
-        inputFieldAreaLayoutSpec(),
-        flexibleSpacingLayout,
-        dontHaveAccountButtonNode,
-      ])
-
-    let contentsLayout = ASInsetLayoutSpec(
+    let contentsLayout = ASOverlayLayoutSpec(child: loginFormNode, overlay: registerAreaLayoutSpec())
+    let containerLayout = ASInsetLayoutSpec(
       insets: .merge(list: [safeAreaInsets, Const.containerPadding]),
-      child: containerLayout)
+      child: contentsLayout)
+
+    let touchableLayout = ASOverlayLayoutSpec(
+      child: keyboardDismissEventNode,
+      overlay: containerLayout)
 
     return ASBackgroundLayoutSpec(
-      child: contentsLayout,
+      child: touchableLayout,
       background: backgroundNode)
   }
 
   // MARK: Private
 
-  private func inputFieldAreaLayoutSpec() -> ASLayoutSpec {
-    ASStackLayoutSpec(
+  private func registerAreaLayoutSpec() -> ASLayoutSpec {
+    let flexibleTopLayout = ASLayoutSpec()
+    flexibleTopLayout.style.flexGrow = 1
+
+    return ASStackLayoutSpec(
       direction: .vertical,
-      spacing: Const.inputFieldSpacing,
+      spacing: .zero,
       justifyContent: .start,
       alignItems: .stretch,
       children: [
-        emailInputNode,
-        passwordInputNode,
-        loginButtonNode,
-        forgetPasswordButton,
+        flexibleTopLayout,
+        dontHaveAccountButtonNode,
       ])
   }
 
-  private func logoAreaLayoutSpec() -> ASLayoutSpec {
-    let stackLayout = ASStackLayoutSpec(
-      direction: .horizontal,
-      spacing: .zero,
-      justifyContent: .center,
-      alignItems: .stretch,
-      children: [logoNode])
+}
 
-    return ASInsetLayoutSpec(
-      insets: Const.logoPadding,
-      child: stackLayout)
+// MARK: - Preview
+
+import SwiftUI
+
+private let deviceNames: [String] = [
+  "iPod touch", "iPhone 11 Pro Max",
+]
+
+// MARK: - LoginContainerNodePreview
+
+struct LoginContainerNodePreview: PreviewProvider {
+
+  static var previews: some SwiftUI.View {
+    ForEach(deviceNames, id: \.self) { deviceName in
+      UIViewControllerPreview {
+        LoginViewController()
+      }
+      .previewDevice(PreviewDevice(rawValue: deviceName))
+      .previewDisplayName(deviceName)
+    }
   }
 }

@@ -37,108 +37,108 @@ class LoginContainerNodeSpec: QuickSpec {
 
         context("이메일이 빈값 입력시") {
           beforeEach {
-            node.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, nil))
+            node.loginFormNode.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, nil))
           }
 
           it("로그인 버튼은 비활성화 된다") {
-            expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+            expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
           }
 
           context("비밀번호가 빈값 입력시") {
             beforeEach {
-              node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, nil))
+              node.loginFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, nil))
             }
 
             it("로그인 버튼은 비활성화 된다") {
-              expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+              expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
 
           context("비밀번호를 10자리 입력시") {
             beforeEach {
-              node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
+              node.loginFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
             }
 
             it("로그인 버튼은 비활성화 된다") {
-              expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+              expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
 
           context("비밀번호가 빈값일 경우") {
             beforeEach {
-              node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, nil))
+              node.loginFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, nil))
             }
 
             it("로그인 버튼은 비활성화 된다") {
-              expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+              expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
 
             context("이메일 빈값 입력시") {
               beforeEach {
-                node.passwordInputNode.reactor?.action.onNext(.editingChanged(emailScope, nil))
+                node.loginFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(emailScope, nil))
               }
 
               it("로그인 버튼은 비활성화 된다") {
-                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+                expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
               }
             }
 
             context("잘못된 이메일 입력시") {
               beforeEach {
-                node.passwordInputNode.reactor?.action.onNext(.editingChanged(emailScope, "1234567890"))
+                node.loginFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(emailScope, "1234567890"))
               }
 
               it("로그인 버튼은 비활성화 된다") {
-                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+                expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
               }
             }
 
             context("정상적인 이메일 입력시") {
               beforeEach {
-                node.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
+                node.loginFormNode.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
               }
 
               it("로그인 버튼은 비활성화 된다") {
-                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+                expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
               }
             }
 
             context("비밀번호를 10자리 입력시") {
               beforeEach {
-                node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
+                node.loginFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
               }
 
               it("로그인 버튼은 비활성화 된다") {
-                expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+                expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
               }
 
               context("이메일 빈값 입력시") {
                 beforeEach {
-                  node.passwordInputNode.reactor?.action.onNext(.editingChanged(emailScope, nil))
+                  node.loginFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(emailScope, nil))
                 }
 
                 it("로그인 버튼은 비활성화 된다") {
-                  expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+                  expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
                 }
               }
 
               context("잘못된 이메일 입력시") {
                 beforeEach {
-                  node.passwordInputNode.reactor?.action.onNext(.editingChanged(emailScope, "1234567890"))
+                  node.loginFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(emailScope, "1234567890"))
                 }
 
                 it("로그인 버튼은 비활성화 된다") {
-                  expect(node.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+                  expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
                 }
               }
 
               context("정상적인 이메일 입력시") {
                 beforeEach {
-                  node.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
+                  node.loginFormNode.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
                 }
 
                 it("로그인 버튼은 활성화 된다") {
-                  expect(node.loginButtonNode.isEnabled).toEventually(beTrue(), timeout: TestUtil.Const.timeout)
+                  expect(node.loginFormNode.loginButtonNode.isEnabled).toEventually(beTrue(), timeout: TestUtil.Const.timeout)
                 }
               }
             }

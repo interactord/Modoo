@@ -1,5 +1,6 @@
 import AsyncDisplayKit
 import RxCocoa
+import RxKeyboard
 import RxSwift
 
 // MARK: - RegisterContainerNode
@@ -9,13 +10,12 @@ final class RegisterContainerNode: ASDisplayNode {
   // MARK: Lifecycle
 
   override init() {
-    defer {
-      observeFormField()
-    }
     super.init()
     automaticallyManagesSubnodes = true
     automaticallyRelayoutOnSafeAreaChanges = true
     backgroundColor = .black
+    observeFormField()
+    observeKeyboard()
   }
 
   deinit {
@@ -24,36 +24,19 @@ final class RegisterContainerNode: ASDisplayNode {
 
   // MARK: Internal
 
-  let plusButtonNode: ASButtonNode = {
-    let node = ASButtonNode()
-    node.setImage(#imageLiteral(resourceName: "register-photo"), for: .normal)
-    node.tintColor = Const.plusButtonTintColor
-    node.style.preferredSize = Const.plusButtonSize
-    node.cornerRadius = Const.plusButtonSize.width / 2
-    node.borderWidth = 1
-    node.borderColor = Const.plusButtonTintColor.cgColor
-    node.clipsToBounds = true
-    return node
-  }()
-
-  let emailInputNode: FormTextInputNode = FormTextInputNode(scope: .email)
-  let passwordInputNode = FormTextInputNode(scope: .password)
-  let fullNameInputNode = FormTextInputNode(scope: .plain(placeholderString: "Fullname"))
-  let usernameInputNode = FormTextInputNode(scope: .plain(placeholderString: "Username"))
-  let signUpButtonNode = FormPrimaryButtonNode(type: .signUp)
   let alreadyHaveAccountButtonNode = FormSecondaryButtonNode(type: .signUp)
+
+  let registerFormNode = RegisterFormNode()
 
   // MARK: Private
 
   private struct Const {
-    static let plusButtonTintColor = UIColor.white
-    static let plusButtonSize = CGSize(width: 140, height: 140)
-    static let plusPadding = UIEdgeInsets(top: 30, left: 0, bottom: 24, right: 0)
-    static let inputFieldSpacing: CGFloat = 20.0
     static let containerPadding =
-      UIEdgeInsets(top: 0.0, left: 30.0, bottom: 0.0, right: 30.0)
+      UIEdgeInsets(top: 30.0, left: 30.0, bottom: 30.0, right: 30.0)
   }
 
+  private let keyboardDismissEventNode = ASControlNode()
+  private var keyboardVisibleHeight: CGFloat = 0.0
   private var backgroundNode = ASDisplayNode()
   private let disposeBag = DisposeBag()
 
@@ -64,14 +47,14 @@ final class RegisterContainerNode: ASDisplayNode {
 extension RegisterContainerNode {
   private func observeFormField() {
     guard
-      let emailValidObservable = emailInputNode.reactor?.state.map( { $0.statue == .valid }),
-      let emailInputTextView = emailInputNode.textView,
-      let passwordValidObservable = passwordInputNode.reactor?.state.map( { $0.statue == .valid }),
-      let passwordInputTextView = passwordInputNode.textView,
-      let fullNameValidObservable = fullNameInputNode.reactor?.state.map( { $0.statue == .valid }),
-      let fullNameInputTextView = fullNameInputNode.textView,
-      let userNameValidObservable = usernameInputNode.reactor?.state.map( { $0.statue == .valid }),
-      let userNameInputTextView = usernameInputNode.textView
+      let emailValidObservable = registerFormNode.emailInputNode.reactor?.state.map( { $0.statue == .valid }),
+      let emailInputTextView = registerFormNode.emailInputNode.textView,
+      let passwordValidObservable = registerFormNode.passwordInputNode.reactor?.state.map( { $0.statue == .valid }),
+      let passwordInputTextView = registerFormNode.passwordInputNode.textView,
+      let fullNameValidObservable = registerFormNode.fullNameInputNode.reactor?.state.map( { $0.statue == .valid }),
+      let fullNameInputTextView = registerFormNode.fullNameInputNode.textView,
+      let userNameValidObservable = registerFormNode.usernameInputNode.reactor?.state.map( { $0.statue == .valid }),
+      let userNameInputTextView = registerFormNode.usernameInputNode.textView
     else { return }
 
     Observable.combineLatest(
@@ -80,7 +63,7 @@ extension RegisterContainerNode {
       fullNameValidObservable,
       userNameValidObservable) { ($0, $1, $2, $3) }
       .map { $0 && $1 && $2 && $3 }
-      .bind(to: signUpButtonNode.rx.isEnabled)
+      .bind(to: registerFormNode.signUpButtonNode.rx.isEnabled)
       .disposed(by: disposeBag)
 
     let backgroundScheduler = SerialDispatchQueueScheduler(qos: .default)
@@ -96,11 +79,31 @@ extension RegisterContainerNode {
       from: fullNameInputTextView,
       to: userNameInputTextView,
       backgroundScheduler: backgroundScheduler)
-
   }
 
-  private func keyboardReturnBinding(from: UITextField, to: UITextField, backgroundScheduler: SerialDispatchQueueScheduler) {
-    from.rx.controlEvent([.editingDidEndOnExit, .editingDidEnd])
+  private func observeKeyboard() {
+    [
+      keyboardDismissEventNode.rx.tap,
+      registerFormNode.keyboardDismissEventNode.rx.tap,
+    ]
+    .forEach {
+      $0.withUnretained(view)
+        .subscribe(onNext: { $0.0.endEditing(true) })
+        .disposed(by: self.disposeBag)
+    }
+
+    RxKeyboard.instance.visibleHeight
+      .withUnretained(registerFormNode.view)
+      .drive(onNext: { $0.0.scrollWhenKeyboardEvent(height: $0.1) })
+      .disposed(by: disposeBag)
+  }
+
+  private func keyboardReturnBinding(
+    from: UITextField,
+    to: UITextField,
+    backgroundScheduler: SerialDispatchQueueScheduler)
+  {
+    from.rx.controlEvent(.editingDidEndOnExit)
       .withLatestFrom(to.rx.text)
       .observe(on: backgroundScheduler)
       .observe(on: MainScheduler.instance)
@@ -119,57 +122,59 @@ extension RegisterContainerNode {
   // MARK: Internal
 
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-    let flexibleSpacingLayout = ASLayoutSpec()
-    flexibleSpacingLayout.style.flexGrow = 1.0
-
-    let containerLayout = ASStackLayoutSpec(
-      direction: .vertical,
-      spacing: 14.0,
-      justifyContent: .start,
-      alignItems: .stretch,
-      children: [
-        plusButtonAreaLayoutSpec(),
-        inputFieldAreaLayoutSpec(),
-        flexibleSpacingLayout,
-        alreadyHaveAccountButtonNode,
-      ])
-
-    let contentsLayout = ASInsetLayoutSpec(
+    let contentsLayout = ASOverlayLayoutSpec(
+      child: registerFormNode,
+      overlay: registerAreaLayoutSpec())
+    let containerLayout = ASInsetLayoutSpec(
       insets: .merge(list: [safeAreaInsets, Const.containerPadding]),
-      child: containerLayout)
+      child: contentsLayout)
+
+    let touchableLayout = ASOverlayLayoutSpec(
+      child: keyboardDismissEventNode,
+      overlay: containerLayout)
 
     return ASBackgroundLayoutSpec(
-      child: contentsLayout,
+      child: touchableLayout,
       background: backgroundNode)
   }
 
   // MARK: Private
 
-  private func inputFieldAreaLayoutSpec() -> ASLayoutSpec {
-    ASStackLayoutSpec(
+  private func registerAreaLayoutSpec() -> ASLayoutSpec {
+    let flexibleTopLayout = ASLayoutSpec()
+    flexibleTopLayout.style.flexGrow = 1
+
+    return ASStackLayoutSpec(
       direction: .vertical,
-      spacing: Const.inputFieldSpacing,
+      spacing: .zero,
       justifyContent: .start,
       alignItems: .stretch,
       children: [
-        emailInputNode,
-        passwordInputNode,
-        fullNameInputNode,
-        usernameInputNode,
-        signUpButtonNode,
+        flexibleTopLayout,
+        alreadyHaveAccountButtonNode,
       ])
   }
+}
 
-  private func plusButtonAreaLayoutSpec() -> ASLayoutSpec {
-    let stackLayout = ASStackLayoutSpec(
-      direction: .horizontal,
-      spacing: .zero,
-      justifyContent: .center,
-      alignItems: .stretch,
-      children: [plusButtonNode])
+// MARK: - Preview
 
-    return ASInsetLayoutSpec(
-      insets: Const.plusPadding,
-      child: stackLayout)
+import SwiftUI
+
+private let deviceNames: [String] = [
+  "iPod touch", "iPhone 11 Pro Max",
+]
+
+// MARK: - RegisterContainerNodePreview
+
+struct RegisterContainerNodePreview: PreviewProvider {
+
+  static var previews: some SwiftUI.View {
+    ForEach(deviceNames, id: \.self) { deviceName in
+      UIViewControllerPreview {
+        RegisterViewController(mediaPickerUseCase: UIMediaPickerPlatformUseCase())
+      }
+      .previewDevice(PreviewDevice(rawValue: deviceName))
+      .previewDisplayName(deviceName)
+    }
   }
 }
