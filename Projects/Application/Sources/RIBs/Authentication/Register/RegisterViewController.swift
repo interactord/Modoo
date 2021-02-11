@@ -57,9 +57,8 @@ final class RegisterViewController: ASDKViewController<RegisterContainerNode>, R
 
   let mediaPickerUseCase: MediaPickerUseCase
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-
+  override func loadView() {
+    super.loadView()
     bind(listener: listener)
   }
 
@@ -80,7 +79,7 @@ extension RegisterViewController {
   }
 
   private func bindAction(listener: RegisterPresentableListener) {
-    node.signUpButtonNode.rx.tap
+    node.registerFormNode.signUpButtonNode.rx.tap
       .map{ _ in .signUp }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
@@ -90,7 +89,7 @@ extension RegisterViewController {
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    let plusButtonObserver = node.plusButtonNode.rx.tap
+    let plusButtonObserver = node.registerFormNode.plusButtonNode.rx.tap
       .observe(on: MainScheduler.instance)
       .withUnretained(self)
       .flatMap {
@@ -100,7 +99,7 @@ extension RegisterViewController {
       .share()
 
     plusButtonObserver
-      .bind(to: node.plusButtonNode.rx.image(for: .normal))
+      .bind(to: node.registerFormNode.plusButtonNode.rx.image(for: .normal))
       .disposed(by: disposeBag)
 
     plusButtonObserver
@@ -108,25 +107,25 @@ extension RegisterViewController {
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.emailInputNode.textView?.rx.text
+    node.registerFormNode.emailInputNode.textView?.rx.text
       .filterNil()
       .map { .email($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.passwordInputNode.textView?.rx.text
+    node.registerFormNode.passwordInputNode.textView?.rx.text
       .filterNil()
       .map { .password($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.fullNameInputNode.textView?.rx.text
+    node.registerFormNode.fullNameInputNode.textView?.rx.text
       .filterNil()
       .map { .fullName($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.usernameInputNode.textView?.rx.text
+    node.registerFormNode.usernameInputNode.textView?.rx.text
       .filterNil()
       .map { .userName($0) }
       .bind(to: listener.action)

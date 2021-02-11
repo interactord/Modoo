@@ -39,100 +39,100 @@ class RegisterContainerNodeSpec: QuickSpec {
 
         context("이메일 비밀번호 이름 아이디에 빈값 입력시") {
           beforeEach {
-            node.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, nil))
-            node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, nil))
-            node.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, nil))
-            node.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, nil))
+            node.registerFormNode.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, nil))
+            node.registerFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, nil))
+            node.registerFormNode.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, nil))
+            node.registerFormNode.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, nil))
           }
 
           it("회원가입 버튼은 비활성화 된다") {
-            expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+            expect(node.registerFormNode.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
           }
         }
 
         context("이메일 비밀번호 이름 아이디가 정상적으로 입력시") {
           beforeEach {
-            node.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
-            node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
-            node.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "fullName"))
-            node.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
+            node.registerFormNode.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
+            node.registerFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
+            node.registerFormNode.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "fullName"))
+            node.registerFormNode.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
           }
 
           it("회원가입 버튼은 활성화 된다") {
-            expect(node.signUpButtonNode.isEnabled).toEventually(beTrue(), timeout: TestUtil.Const.timeout)
+            expect(node.registerFormNode.signUpButtonNode.isEnabled).toEventually(beTrue(), timeout: TestUtil.Const.timeout)
           }
         }
 
         context("비밀번호 이름 아이디가 정상적으로 입력시") {
           beforeEach {
 
-            node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
-            node.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "fullName"))
-            node.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
+            node.registerFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
+            node.registerFormNode.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "fullName"))
+            node.registerFormNode.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
           }
 
           context("잘못된 이메일 입력시") {
             beforeEach {
-              node.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@teasdad"))
+              node.registerFormNode.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@teasdad"))
             }
 
             it("회원가입 버튼은 비활성화 된다") {
-              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+              expect(node.registerFormNode.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
         }
 
         context("이메일 이름 아이디가 정상적으로 입력시") {
           beforeEach {
-            node.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
-            node.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "fullName"))
-            node.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
+            node.registerFormNode.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
+            node.registerFormNode.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "fullName"))
+            node.registerFormNode.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
           }
 
           context("비밀번호 4자리 입력시") {
             beforeEach {
-              node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234"))
+              node.registerFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234"))
             }
 
             it("회원가입 버튼은 비활성화 된다") {
-              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+              expect(node.registerFormNode.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
         }
 
         context("이메일 비밀번호 아이디가 정상적으로 입력시") {
           beforeEach {
-            node.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
-            node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
-            node.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
+            node.registerFormNode.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
+            node.registerFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
+            node.registerFormNode.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
           }
 
           context("이름을 3자리 입력시") {
             beforeEach {
-              node.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "123"))
+              node.registerFormNode.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "123"))
             }
 
             it("회원가입 버튼은 비활성화 된다") {
-              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+              expect(node.registerFormNode.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
         }
 
         context("이메일 비밀번호 이름을 정상적으로 입력시") {
           beforeEach {
-            node.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
-            node.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
-            node.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "fullName"))
-            node.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
+            node.registerFormNode.emailInputNode.reactor?.action.onNext(.editingChanged(emailScope, "test@test.com"))
+            node.registerFormNode.passwordInputNode.reactor?.action.onNext(.editingChanged(passwordScope, "1234567890"))
+            node.registerFormNode.fullNameInputNode.reactor?.action.onNext(.editingChanged(fullNameScope, "fullName"))
+            node.registerFormNode.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "userName"))
           }
 
           context("아이디를 3자리 입력시") {
             beforeEach {
-              node.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "123"))
+              node.registerFormNode.usernameInputNode.reactor?.action.onNext(.editingChanged(userNameScope, "123"))
             }
 
             it("회원가입 버튼은 비활성화 된다") {
-              expect(node.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
+              expect(node.registerFormNode.signUpButtonNode.isEnabled).toEventually(beFalse(), timeout: TestUtil.Const.timeout)
             }
           }
         }

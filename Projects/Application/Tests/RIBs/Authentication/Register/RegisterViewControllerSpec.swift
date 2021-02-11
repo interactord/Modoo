@@ -40,13 +40,14 @@ class RegisterViewControllerSpec: QuickSpec {
 
     describe("RegisterViewController 화면 노출 후") {
       beforeEach {
+        viewController.loadView()
         viewController.viewDidLoad()
         viewController.viewDidLayoutSubviews()
       }
 
       context("가입버튼을 누를 경우") {
         beforeEach {
-          viewController.node.signUpButtonNode.sendActions(forControlEvents: .touchUpInside, with: .none)
+          viewController.node.registerFormNode.signUpButtonNode.sendActions(forControlEvents: .touchUpInside, with: .none)
         }
 
         it("interactor의 액션 signUp으로 전달이 된다") {
@@ -66,8 +67,8 @@ class RegisterViewControllerSpec: QuickSpec {
 
       context("사용자가 이메일를 입력할 경우") {
         beforeEach {
-          viewController.node.emailInputNode.textView?.text = "123456789"
-          viewController.node.emailInputNode.textView?.sendActions(for: .valueChanged)
+          viewController.node.registerFormNode.emailInputNode.textView?.text = "123456789"
+          viewController.node.registerFormNode.emailInputNode.textView?.sendActions(for: .valueChanged)
         }
 
         it("interactor의 액션 email로 전달이 된다") {
@@ -77,8 +78,8 @@ class RegisterViewControllerSpec: QuickSpec {
 
       context("사용자가 비밀번호를 입력할 경우") {
         beforeEach {
-          viewController.node.passwordInputNode.textView?.text = "123456789"
-          viewController.node.passwordInputNode.textView?.sendActions(for: .valueChanged)
+          viewController.node.registerFormNode.passwordInputNode.textView?.text = "123456789"
+          viewController.node.registerFormNode.passwordInputNode.textView?.sendActions(for: .valueChanged)
         }
 
         it("interactor의 액션 password로 전달이 된다") {
@@ -88,8 +89,8 @@ class RegisterViewControllerSpec: QuickSpec {
 
       context("사용자가 이름를 입력할 경우") {
         beforeEach {
-          viewController.node.fullNameInputNode.textView?.text = "123456789"
-          viewController.node.fullNameInputNode.textView?.sendActions(for: .valueChanged)
+          viewController.node.registerFormNode.fullNameInputNode.textView?.text = "123456789"
+          viewController.node.registerFormNode.fullNameInputNode.textView?.sendActions(for: .valueChanged)
         }
 
         it("interactor의 액션 fullName로 전달이 된다") {
@@ -99,8 +100,8 @@ class RegisterViewControllerSpec: QuickSpec {
 
       context("사용자가 아이디를 입력할 경우") {
         beforeEach {
-          viewController.node.usernameInputNode.textView?.text = "123456789"
-          viewController.node.usernameInputNode.textView?.sendActions(for: .valueChanged)
+          viewController.node.registerFormNode.usernameInputNode.textView?.text = "123456789"
+          viewController.node.registerFormNode.usernameInputNode.textView?.sendActions(for: .valueChanged)
         }
 
         it("interactor의 액션 fullName로 전달이 된다") {
@@ -110,7 +111,7 @@ class RegisterViewControllerSpec: QuickSpec {
 
       context("사용자가 사진업로드 버튼을 입력할 경우") {
         beforeEach {
-          viewController.node.plusButtonNode.sendActions(forControlEvents: .touchUpInside, with: .none)
+          viewController.node.registerFormNode.plusButtonNode.sendActions(forControlEvents: .touchUpInside, with: .none)
         }
 
         context("이미지 엘범에서 사진을 선택할 경우") {
@@ -123,7 +124,7 @@ class RegisterViewControllerSpec: QuickSpec {
           }
 
           it("사진업로드 버튼이 선택된 이미지로 변경된다") {
-            expect(viewController.node.plusButtonNode.image(for: .normal)) === photoImage
+            expect(viewController.node.registerFormNode.plusButtonNode.image(for: .normal)) === photoImage
           }
 
           it("interactor의 액션 사진으로 선택된 사진이 전달이 된다") {
