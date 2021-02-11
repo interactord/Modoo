@@ -24,6 +24,12 @@ struct CompositeRoot {
     BuilderContainer.register(
       builder: RegisterBuilderAdapter.self,
       with: RegisterBuilderID)
+    BuilderContainer.register(
+      builder: OnboardBuilderAdapter.self,
+      with: OnboardBuilderID)
+    BuilderContainer.register(
+      builder: FeedBuilderAdapter.self,
+      with: FeedBuilderID)
   }
 
 }

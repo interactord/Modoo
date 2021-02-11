@@ -9,11 +9,13 @@ protocol OnboardInteractable: Interactable {
 
 // MARK: - OnboardViewControllable
 
-protocol OnboardViewControllable: ViewControllable {}
+protocol OnboardViewControllable: ViewControllable {
+  func applyVewControllers(viewControllers: [ViewControllable])
+}
 
 // MARK: - OnboardRouter
 
-final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewControllable>, OnboardRouting {
+final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewControllable> {
   override init(
     interactor: OnboardInteractable,
     viewController: OnboardViewControllable)
@@ -22,7 +24,13 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
     interactor.router = self
   }
 
-  deinit {
-    print("OnboardRouter deinit...")
+}
+
+// MARK: OnboardRouting
+
+extension OnboardRouter: OnboardRouting {
+
+  func setViewControllers() {
+    viewController.applyVewControllers(viewControllers: [])
   }
 }
