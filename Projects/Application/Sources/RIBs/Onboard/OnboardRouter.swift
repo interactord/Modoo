@@ -1,4 +1,5 @@
 import RIBs
+import UIKit
 
 // MARK: - OnboardInteractable
 
@@ -10,7 +11,13 @@ protocol OnboardInteractable: Interactable, FeedListener {
 // MARK: - OnboardViewControllable
 
 protocol OnboardViewControllable: ViewControllable {
-  func applyVewControllers(viewControllers: [ViewControllable])
+  func setVewControllers(viewControllers: [ViewControllable])
+}
+
+// MARK: - OnboardTabBarContentType
+
+enum OnboardTabBarContentType {
+  case feed
 }
 
 // MARK: - OnboardRouter
@@ -31,6 +38,10 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
 
   // MARK: Internal
 
+  enum TabBarType {
+    case feed
+  }
+
   override func didLoad() {
     super.didLoad()
 
@@ -48,17 +59,22 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
 extension OnboardRouter: OnboardRouting {
 
   func setOnceViewControllers() {
-    guard children.isEmpty else { return }
-
-    viewController.applyVewControllers(viewControllers: [
+    viewController.setVewControllers(viewControllers: [
       applyFeedRouting(),
     ])
   }
 
   func applyFeedRouting() -> ViewControllable {
-    let routing = feedBuilder.build(withListener: interactor)
-    attachChild(routing)
-    return routing.viewControllable
+    let router = feedBuilder.build(withListener: interactor)
+    attachChild(router)
+
+    let navigationController = UINavigationController(
+      image: #imageLiteral(resourceName: "feed-select"),
+      unselectedImage: #imageLiteral(resourceName: "feed-normal"),
+      root: router.viewControllable)
+    navigationController.navigationBar.isHidden = true
+
+    return navigationController
   }
 
 }

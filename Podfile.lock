@@ -219,6 +219,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.7):
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
+  - Differentiator (5.0.0)
   - Firebase/Auth (7.5.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 7.5.0)
@@ -380,6 +381,11 @@ PODS:
   - RxCocoa (6.0.0):
     - RxRelay (= 6.0.0)
     - RxSwift (= 6.0.0)
+  - RxDataSources-Texture (1.4.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+    - Texture (~> 3.0)
   - RxKeyboard (2.0.0):
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
@@ -427,6 +433,7 @@ DEPENDENCIES:
   - ReactorKit
   - RIBs (from `https://github.com/interactord/RIBs`, branch `master`)
   - RxCocoa (= 6.0.0)
+  - RxDataSources-Texture
   - RxKeyboard
   - RxOptional
   - RxSwift (= 6.0.0)
@@ -439,6 +446,7 @@ SPEC REPOS:
     - abseil
     - BonMot
     - BoringSSL-GRPC
+    - Differentiator
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -464,6 +472,7 @@ SPEC REPOS:
     - PromisesObjC
     - ReactorKit
     - RxCocoa
+    - RxDataSources-Texture
     - RxKeyboard
     - RxOptional
     - RxRelay
@@ -487,6 +496,7 @@ SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BonMot: 2217a66e5ddc6a8d2ffb759fe8c85a8528e0d3e7
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Firebase: fd5e4d2b756292c6e7ee6faac1eb320225d6e97e
   FirebaseAnalytics: 00b7f74571d346ee1ffb9bf0a2e6f2ffff222bcc
   FirebaseAuth: 13585612f93d671962682007ea8ded1d60ef0762
@@ -513,6 +523,7 @@ SPEC CHECKSUMS:
   ReactorKit: 5348c9881dcb546605b451e32759dccc9937d36e
   RIBs: dd8df1129289d51ed4fec6e2127613d9eaba204e
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
+  RxDataSources-Texture: 41a18bc78bcae448a622dcb808ee03f8008801b8
   RxKeyboard: 4f5863f43b4ff0cbb2a20b94688d6b80c8a43c14
   RxOptional: e0b39f0863c25c4bfeea83cb35102a5244d048b3
   RxRelay: 8d593be109c06ea850df027351beba614b012ffb
@@ -522,6 +533,6 @@ SPEC CHECKSUMS:
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 6c5480268c5522a6fdc5a325b1962811671ef1bc
+PODFILE CHECKSUM: c46ce76522e1b8adfc56c5613d04c1c53cf2f897
 
 COCOAPODS: 1.10.1

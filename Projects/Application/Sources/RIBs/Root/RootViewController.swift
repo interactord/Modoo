@@ -23,6 +23,7 @@ final class RootViewController: UINavigationController, RootPresentable {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    navigationBar.isHidden = true
     view.backgroundColor = .white
   }
 

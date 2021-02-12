@@ -25,7 +25,6 @@ final class OnboardViewController: UITabBarController, OnboardPresentable {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .green
 
     applyUIPreferences()
   }
@@ -35,9 +34,13 @@ final class OnboardViewController: UITabBarController, OnboardPresentable {
     listener?.onLogout()
   }
 
-  // MARK: Private
+}
+
+extension OnboardViewController {
 
   private func applyUIPreferences() {
+    tabBar.tintColor = .black
+
     // Todo: 이미버튼입니다. 나중에 내정보에 들어갈 기능입니다.
     let barButtonItem = UIBarButtonItem(
       title: "Logout",
@@ -46,14 +49,14 @@ final class OnboardViewController: UITabBarController, OnboardPresentable {
       action: #selector(authenticationAction))
     navigationItem.rightBarButtonItem = barButtonItem
   }
-
 }
 
 // MARK: OnboardViewControllable
 
 extension OnboardViewController: OnboardViewControllable {
 
-  func applyVewControllers(viewControllers: [ViewControllable]) {
+  func setVewControllers(viewControllers: [ViewControllable]) {
     setViewControllers(viewControllers.map { $0.uiviewController }, animated: false)
   }
+
 }
