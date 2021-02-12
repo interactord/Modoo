@@ -4,7 +4,7 @@ import RxSwift
 // MARK: - OnboardRouting
 
 protocol OnboardRouting: ViewableRouting {
-  func setViewControllers()
+  func setOnceViewControllers()
 }
 
 // MARK: - OnboardPresentable
@@ -41,7 +41,7 @@ final class OnboardInteractor: PresentableInteractor<OnboardPresentable>, Onboar
 
   override func willResignActive() {
     super.willResignActive()
-    router?.setViewControllers()
+    router?.setOnceViewControllers()
   }
 }
 

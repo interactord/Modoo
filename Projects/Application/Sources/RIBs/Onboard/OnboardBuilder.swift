@@ -8,6 +8,11 @@ protocol OnboardDependency: Dependency {}
 
 final class OnboardComponent: Component<OnboardDependency> {}
 
+// MARK: FeedDependency
+
+extension OnboardComponent: FeedDependency {
+}
+
 // MARK: - OnboardBuildable
 
 protocol OnboardBuildable: Buildable {
@@ -26,11 +31,16 @@ final class OnboardBuilder: Builder<OnboardDependency> {
 
 extension OnboardBuilder: OnboardBuildable {
   func build(withListener listener: OnboardListener) -> OnboardRouting {
-    _ = OnboardComponent(dependency: dependency)
-
     let viewController = OnboardViewController()
     let interactor = OnboardInteractor(presenter: viewController)
     interactor.listener = listener
-    return OnboardRouter(interactor: interactor, viewController: viewController)
+
+    let component = OnboardComponent(dependency: dependency)
+    let feedBuilderType: FeedBuilderAdapter.Type = BuilderContainer.resolve(for: FeedBuilderID)
+
+    return OnboardRouter(
+      interactor: interactor,
+      viewController: viewController,
+      feedBuilder: feedBuilderType.init(dependency: component))
   }
 }

@@ -6,16 +6,16 @@ import RxSwift
 // MARK: - OnboardRoutingMock
 
 class OnboardRoutingMock: RoutingMock {
-  var setViewControllersCallCount = 0
-  var setViewControllersHandler: (() -> Void)?
+  var setOnceViewControllersCallCount = 0
+  var setOnceViewControllersHandler: (() -> Void)?
 }
 
 // MARK: OnboardRouting
 
 extension OnboardRoutingMock: OnboardRouting {
-  func setViewControllers() {
+  func setOnceViewControllers() {
     childrenSetCallCount += 1
-    setViewControllersHandler?()
+    setOnceViewControllersHandler?()
   }
 
 }

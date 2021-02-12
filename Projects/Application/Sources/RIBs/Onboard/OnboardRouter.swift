@@ -2,7 +2,7 @@ import RIBs
 
 // MARK: - OnboardInteractable
 
-protocol OnboardInteractable: Interactable {
+protocol OnboardInteractable: Interactable, FeedListener {
   var router: OnboardRouting? { get set }
   var listener: OnboardListener? { get set }
 }
@@ -16,13 +16,30 @@ protocol OnboardViewControllable: ViewControllable {
 // MARK: - OnboardRouter
 
 final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewControllable> {
-  override init(
+
+  // MARK: Lifecycle
+
+  init(
     interactor: OnboardInteractable,
-    viewController: OnboardViewControllable)
+    viewController: OnboardViewControllable,
+    feedBuilder: FeedBuildable)
   {
+    defer { interactor.router = self }
+    self.feedBuilder = feedBuilder
     super.init(interactor: interactor, viewController: viewController)
-    interactor.router = self
   }
+
+  // MARK: Internal
+
+  override func didLoad() {
+    super.didLoad()
+
+    setOnceViewControllers()
+  }
+
+  // MARK: Private
+
+  private let feedBuilder: FeedBuildable
 
 }
 
@@ -30,7 +47,18 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
 
 extension OnboardRouter: OnboardRouting {
 
-  func setViewControllers() {
-    viewController.applyVewControllers(viewControllers: [])
+  func setOnceViewControllers() {
+    guard children.isEmpty else { return }
+
+    viewController.applyVewControllers(viewControllers: [
+      applyFeedRouting(),
+    ])
   }
+
+  func applyFeedRouting() -> ViewControllable {
+    let routing = feedBuilder.build(withListener: interactor)
+    attachChild(routing)
+    return routing.viewControllable
+  }
+
 }
