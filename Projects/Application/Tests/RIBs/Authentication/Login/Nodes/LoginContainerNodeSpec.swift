@@ -28,7 +28,7 @@ class LoginContainerNodeSpec: QuickSpec {
               max: .init(width: 200, height: 200)))
         }
 
-        it("에러가 발생하지 않는다") {
+        it("크래시가 발생하지 않는다") {
           expect(node).toNot(beNil())
         }
       }
