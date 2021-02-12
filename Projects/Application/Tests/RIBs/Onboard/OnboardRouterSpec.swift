@@ -14,7 +14,8 @@ class OnboardRouterSpec: QuickSpec {
       viewController = OnboardViewControllableMock()
       router = OnboardRouter(
         interactor: OnboardInteractableMock(),
-        viewController: viewController)
+        viewController: viewController,
+        feedBuilder: FeedBuildableMock())
     }
     afterEach {
       viewController = nil
