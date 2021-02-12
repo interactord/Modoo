@@ -8,6 +8,7 @@ target 'Application' do
   # UI
   pod 'Texture'
   pod 'RxTexture2'
+  pod 'RxDataSources-Texture'
   pod 'BonMot'
 
   # Rx
@@ -16,7 +17,7 @@ target 'Application' do
   pod 'RxOptional'
   pod 'RxKeyboard'
 
-  # Framwork
+  # Framework
   pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
   pod 'ReactorKit'
   
@@ -37,6 +38,7 @@ target 'Application' do
     # Framework
     pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
     pod 'ReactorKit'
+    pod 'Texture'
     pod 'RxSwift', '6.0.0'
   end
 end
