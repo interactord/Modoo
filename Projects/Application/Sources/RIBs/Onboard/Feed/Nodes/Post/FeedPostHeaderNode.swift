@@ -98,4 +98,5 @@ extension FeedPostHeaderNode {
       alignItems: .start,
       children: [profileNameNode])
   }
+
 }
