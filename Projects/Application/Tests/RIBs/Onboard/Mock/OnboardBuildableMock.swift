@@ -31,6 +31,10 @@ extension OnboardBuildableMock: OnboardBuildable {
     let viewController = OnboardViewController()
     let interactor = OnboardInteractor(presenter: viewController)
     interactor.listener = listener
-    return OnboardRouter(interactor: interactor, viewController: viewController, feedBuilder: FeedBuildableMock())
+    return OnboardRouter(
+      interactor: interactor,
+      viewController: viewController,
+      feedBuilder: FeedBuildableMock(),
+      profileBuilder: ProfileBuildableMock())
   }
 }

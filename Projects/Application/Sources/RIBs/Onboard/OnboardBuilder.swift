@@ -13,6 +13,11 @@ final class OnboardComponent: Component<OnboardDependency> {}
 extension OnboardComponent: FeedDependency {
 }
 
+// MARK: ProfileDependency
+
+extension OnboardComponent: ProfileDependency {
+}
+
 // MARK: - OnboardBuildable
 
 protocol OnboardBuildable: Buildable {
@@ -36,11 +41,13 @@ extension OnboardBuilder: OnboardBuildable {
     interactor.listener = listener
 
     let component = OnboardComponent(dependency: dependency)
-    let feedBuilderType: FeedBuilderAdapter.Type = BuilderContainer.resolve(for: FeedBuilderID)
+    let feedBuilderAdapterType: FeedBuilderAdapter.Type = BuilderContainer.resolve(for: FeedBuilderID)
+    let profileBuilderAdapterType: ProfileBuilderAdapter.Type = BuilderContainer.resolve(for: ProfileBuilderID)
 
     return OnboardRouter(
       interactor: interactor,
       viewController: viewController,
-      feedBuilder: feedBuilderType.init(dependency: component))
+      feedBuilder: feedBuilderAdapterType.init(dependency: component),
+      profileBuilder: profileBuilderAdapterType.init(dependency: component))
   }
 }

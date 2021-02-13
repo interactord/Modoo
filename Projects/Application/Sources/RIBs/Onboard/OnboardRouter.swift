@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - OnboardInteractable
 
-protocol OnboardInteractable: Interactable, FeedListener {
+protocol OnboardInteractable: Interactable, FeedListener, ProfileListener {
   var router: OnboardRouting? { get set }
   var listener: OnboardListener? { get set }
 }
@@ -29,10 +29,12 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
   init(
     interactor: OnboardInteractable,
     viewController: OnboardViewControllable,
-    feedBuilder: FeedBuildable)
+    feedBuilder: FeedBuildable,
+    profileBuilder: ProfileBuildable)
   {
     defer { interactor.router = self }
     self.feedBuilder = feedBuilder
+    self.profileBuilder = profileBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -51,6 +53,7 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
   // MARK: Private
 
   private let feedBuilder: FeedBuildable
+  private let profileBuilder: ProfileBuildable
 
 }
 
@@ -58,19 +61,37 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
 
 extension OnboardRouter: OnboardRouting {
 
+  // MARK: Internal
+
   func setOnceViewControllers() {
     viewController.setVewControllers(viewControllers: [
       applyFeedRouting(),
+      applyProfileRouting(),
     ])
   }
 
-  func applyFeedRouting() -> ViewControllable {
+  // MARK: Private
+
+  private func applyFeedRouting() -> ViewControllable {
     let router = feedBuilder.build(withListener: interactor)
     attachChild(router)
 
     let navigationController = UINavigationController(
       image: #imageLiteral(resourceName: "feed-select"),
       unselectedImage: #imageLiteral(resourceName: "feed-normal"),
+      root: router.viewControllable)
+    navigationController.navigationBar.isHidden = true
+
+    return navigationController
+  }
+
+  private func applyProfileRouting() -> ViewControllable {
+    let router = profileBuilder.build(withListener: interactor)
+    attachChild(router)
+
+    let navigationController = UINavigationController(
+      image: #imageLiteral(resourceName: "profile-select"),
+      unselectedImage: #imageLiteral(resourceName: "profile-normal"),
       root: router.viewControllable)
     navigationController.navigationBar.isHidden = true
 
