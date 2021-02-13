@@ -8,7 +8,7 @@ class ProfileViewControllerSpec: QuickSpec {
     var viewController: ProfileViewController!
 
     beforeEach {
-      viewController = ProfileViewController()
+      viewController = ProfileViewController(node: .init())
     }
     afterEach {
       viewController = nil
