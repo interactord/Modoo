@@ -34,7 +34,7 @@ final class ProfileBuilder: Builder<ProfileDependency>, ProfileBuildable {
 
   func build(withListener listener: ProfileListener) -> ProfileRouting {
     _ = ProfileComponent(dependency: dependency)
-    let viewController = ProfileViewController()
+    let viewController = ProfileViewController(node: .init())
     let interactor = ProfileInteractor(presenter: viewController)
     interactor.listener = listener
     return ProfileRouter(interactor: interactor, viewController: viewController)
