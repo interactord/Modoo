@@ -30,6 +30,9 @@ struct CompositeRoot {
     BuilderContainer.register(
       builder: FeedBuilderAdapter.self,
       with: FeedBuilderID)
+    BuilderContainer.register(
+      builder: ProfileBuilderAdapter.self,
+      with: ProfileBuilderID)
   }
 
 }
