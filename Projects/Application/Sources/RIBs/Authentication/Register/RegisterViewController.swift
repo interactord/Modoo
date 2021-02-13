@@ -52,14 +52,11 @@ final class RegisterViewController: ASDKViewController<RegisterContainerNode>, R
 
   // MARK: Internal
 
-  weak var listener: RegisterPresentableListener?
   let disposeBag = DisposeBag()
-
   let mediaPickerUseCase: MediaPickerUseCase
 
-  override func loadView() {
-    super.loadView()
-    bind(listener: listener)
+  weak var listener: RegisterPresentableListener? {
+    didSet { bind(listener: listener) }
   }
 
 }
