@@ -28,7 +28,7 @@ extension LoginBuildableMock: LoginBuildable {
   func build(withListener listener: LoginListener) -> LoginRouting {
     _ = LoginComponent(dependency: dependency)
 
-    let viewController = LoginViewController()
+    let viewController = LoginViewController(node: .init())
     let interactor = LoginInteractor(
       presenter: viewController,
       initialState: LoginDisplayModel.State.initialState(),

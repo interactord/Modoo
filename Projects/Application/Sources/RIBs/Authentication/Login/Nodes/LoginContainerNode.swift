@@ -130,26 +130,3 @@ extension LoginContainerNode {
   }
 
 }
-
-// MARK: - Preview
-
-import SwiftUI
-
-private let deviceNames: [String] = [
-  "iPod touch", "iPhone 11 Pro Max",
-]
-
-// MARK: - LoginContainerNodePreview
-
-struct LoginContainerNodePreview: PreviewProvider {
-
-  static var previews: some SwiftUI.View {
-    ForEach(deviceNames, id: \.self) { deviceName in
-      UIViewControllerPreview {
-        LoginViewController()
-      }
-      .previewDevice(PreviewDevice(rawValue: deviceName))
-      .previewDisplayName(deviceName)
-    }
-  }
-}

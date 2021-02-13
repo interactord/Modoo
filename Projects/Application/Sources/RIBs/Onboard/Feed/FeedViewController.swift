@@ -18,17 +18,6 @@ final class FeedViewController: ASDKViewController<FeedContainerNode>, FeedPrese
 
   // MARK: Lifecycle
 
-  override init() {
-    super.init(node: .init())
-    node.collectionNode.delegate = self
-    node.collectionNode.dataSource = self
-  }
-
-  @available(*, unavailable)
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
   deinit {
     print("FeedViewController deinit...")
   }
@@ -38,6 +27,13 @@ final class FeedViewController: ASDKViewController<FeedContainerNode>, FeedPrese
   weak var listener: FeedPresentableListener?
 
   var items = Array(repeating: "A", count: 10)
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    node.collectionNode.delegate = self
+    node.collectionNode.dataSource = self
+  }
+
 }
 
 // MARK: ASCollectionDataSource
