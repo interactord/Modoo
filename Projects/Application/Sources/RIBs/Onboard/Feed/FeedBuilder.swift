@@ -34,7 +34,7 @@ final class FeedBuilder: Builder<FeedDependency>, FeedBuildable {
 
   func build(withListener listener: FeedListener) -> FeedRouting {
     _ = FeedComponent(dependency: dependency)
-    let viewController = FeedViewController()
+    let viewController = FeedViewController(node: .init())
     let interactor = FeedInteractor(presenter: viewController)
     interactor.listener = listener
     return FeedRouter(interactor: interactor, viewController: viewController)
