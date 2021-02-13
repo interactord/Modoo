@@ -51,11 +51,8 @@ final class LoginViewController: ASDKViewController<LoginContainerNode>, LoginPr
 
   let disposeBag = DisposeBag()
 
-  weak var listener: LoginPresentableListener?
-
-  override func loadView() {
-    super.loadView()
-    bind(listener: listener)
+  weak var listener: LoginPresentableListener? {
+    didSet { bind(listener: listener) }
   }
 
 }
@@ -88,6 +85,11 @@ extension LoginViewController {
     node.loginFormNode.loginButtonNode.rx.tap
       .map { _ in .login }
       .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    listener.state
+      .filter{ $0.errorMessage != "" }
+      .subscribe(onNext: { print($0) })
       .disposed(by: disposeBag)
   }
 }
