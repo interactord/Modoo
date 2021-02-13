@@ -22,7 +22,7 @@ final class FeedHeaderNode: ASDisplayNode {
     let node = ASImageNode()
     node.image = #imageLiteral(resourceName: "instargram-logo")
     node.tintColor = .black
-    node.style.preferredLayoutSize = Const.logoSize
+    node.style.preferredSize = Const.logoImageSize
     node.contentMode = .scaleAspectFill
     node.isLayerBacked = true
     return node
@@ -31,7 +31,7 @@ final class FeedHeaderNode: ASDisplayNode {
   let sendButtonNode: ASButtonNode = {
     let node = ASButtonNode()
     node.setImage(#imageLiteral(resourceName: "share-normal"), for: .normal)
-    node.style.preferredLayoutSize = Const.sendButtonSize
+    node.style.preferredSize = Const.buttonSize
     node.tintColor = .black
     return node
   }()
@@ -39,10 +39,8 @@ final class FeedHeaderNode: ASDisplayNode {
   // MARK: Private
 
   private struct Const {
-    static let logoSize =
-      ASLayoutSize(width: .init(unit: .points, value: 94), height: .init(unit: .points, value: 27))
-    static let sendButtonSize =
-      ASLayoutSize(width: .init(unit: .points, value: 24), height: .init(unit: .points, value: 21))
+    static let logoImageSize = CGSize(width: 94, height: 27)
+    static let buttonSize = CGSize(width: 24, height: 24)
     static let contentPadding = UIEdgeInsets(top: 12, left: 12, bottom: 9, right: 12)
   }
 }
