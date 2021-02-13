@@ -33,7 +33,7 @@ final class ProfileBuilder: Builder<ProfileDependency>, ProfileBuildable {
   // MARK: Internal
 
   func build(withListener listener: ProfileListener) -> ProfileRouting {
-    let component = ProfileComponent(dependency: dependency)
+    _ = ProfileComponent(dependency: dependency)
     let viewController = ProfileViewController()
     let interactor = ProfileInteractor(presenter: viewController)
     interactor.listener = listener
