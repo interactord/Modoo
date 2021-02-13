@@ -30,7 +30,6 @@ final class FeedViewController: ASDKViewController<FeedContainerNode>, FeedPrese
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    node.collectionNode.delegate = self
     node.collectionNode.dataSource = self
   }
 
