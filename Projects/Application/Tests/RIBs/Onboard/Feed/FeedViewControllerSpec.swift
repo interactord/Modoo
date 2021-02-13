@@ -9,7 +9,7 @@ class FeedViewControllerSpec: QuickSpec {
     var viewController: FeedViewController!
 
     beforeEach {
-      viewController = FeedViewController()
+      viewController = FeedViewController(node: .init())
     }
     afterEach {
       viewController = nil

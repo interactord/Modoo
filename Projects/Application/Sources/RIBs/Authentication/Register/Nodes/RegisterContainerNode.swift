@@ -155,26 +155,3 @@ extension RegisterContainerNode {
       ])
   }
 }
-
-// MARK: - Preview
-
-import SwiftUI
-
-private let deviceNames: [String] = [
-  "iPod touch", "iPhone 11 Pro Max",
-]
-
-// MARK: - RegisterContainerNodePreview
-
-struct RegisterContainerNodePreview: PreviewProvider {
-
-  static var previews: some SwiftUI.View {
-    ForEach(deviceNames, id: \.self) { deviceName in
-      UIViewControllerPreview {
-        RegisterViewController(mediaPickerUseCase: UIMediaPickerPlatformUseCase())
-      }
-      .previewDevice(PreviewDevice(rawValue: deviceName))
-      .previewDisplayName(deviceName)
-    }
-  }
-}

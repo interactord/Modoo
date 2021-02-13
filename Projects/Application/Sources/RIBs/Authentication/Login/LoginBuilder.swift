@@ -43,7 +43,7 @@ final class LoginBuilder: Builder<LoginDependency> {
 extension LoginBuilder: LoginBuildable {
   func build(withListener listener: LoginListener) -> LoginRouting {
     let component = LoginComponent(dependency: dependency)
-    let viewController = LoginViewController()
+    let viewController = LoginViewController(node: .init())
     let interactor = LoginInteractor(
       presenter: viewController,
       initialState: component.initialState,
