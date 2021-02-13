@@ -21,4 +21,38 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
   // MARK: Internal
 
   weak var listener: ProfilePresentableListener?
+
+  var userProfile: [String] = [""]
+
+  var items = [String]()
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    node.collectionNode.dataSource = self
+  }
+
+}
+
+// MARK: ASCollectionDataSource
+
+extension ProfileViewController: ASCollectionDataSource {
+
+  func numberOfSections(in collectionNode: ASCollectionNode) -> Int {
+    1
+  }
+
+  func collectionNode(_ collectionNode: ASCollectionNode, numberOfItemsInSection section: Int) -> Int {
+    items.count
+  }
+
+  func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
+    print("ProfileViewController indexPath -> ", indexPath)
+
+    let cellNodeBlock = { () -> ASCellNode in
+      ProfileInformationCell()
+    }
+
+    return cellNodeBlock
+  }
+
 }
