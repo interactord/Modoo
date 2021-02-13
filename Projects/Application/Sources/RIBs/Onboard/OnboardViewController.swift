@@ -48,6 +48,7 @@ extension OnboardViewController {
       target: self,
       action: #selector(authenticationAction))
     navigationItem.rightBarButtonItem = barButtonItem
+    tabBar.backgroundImage = .backgroundImage(color: .white)
   }
 }
 
