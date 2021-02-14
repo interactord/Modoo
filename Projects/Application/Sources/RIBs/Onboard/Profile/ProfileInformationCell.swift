@@ -26,6 +26,13 @@ final class ProfileInformationCell: ASCellNode {
       followingCount: "408")
   }()
 
+  let descriptionNode: ProfileDescriptionNode = {
+    ProfileDescriptionNode(descriptionString: "Antoninagarcia")
+  }()
+
+  let profileEditActionNode = ProfileEditActionNode()
+  let mediaContentActionNode = ProfileMediaContentActionNode()
+
   // MARK: Private
 
   private struct Const {
@@ -46,6 +53,9 @@ extension ProfileInformationCell {
       alignItems: .stretch,
       children: [
         summeryNode,
+        descriptionNode,
+        profileEditActionNode,
+        mediaContentActionNode,
       ])
 
     return ASInsetLayoutSpec(insets: Const.contentPadding, child: contentLayout)
