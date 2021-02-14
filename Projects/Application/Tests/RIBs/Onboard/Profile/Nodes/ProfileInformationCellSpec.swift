@@ -23,6 +23,9 @@ class ProfileInformationCellSpec: QuickSpec {
 
         _ = node.layoutSpecThatFits(containedSize)
         _ = node.summeryNode.layoutSpecThatFits(containedSize)
+        _ = node.descriptionNode.layoutSpecThatFits(containedSize)
+        _ = node.profileEditActionNode.layoutSpecThatFits(containedSize)
+        _ = node.mediaContentActionNode.layoutSpecThatFits(containedSize)
       }
 
       it("크래시가 발생하지 않는다") {
