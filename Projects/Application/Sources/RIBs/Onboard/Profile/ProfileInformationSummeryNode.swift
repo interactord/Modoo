@@ -53,7 +53,7 @@ final class ProfileInformationSummeryNode: ASDisplayNode {
     static let imageSize = CGSize(width: 79, height: 79)
     static let buttonGroupSpacing: CGFloat = 18
     static let contentSpacing: CGFloat = 30
-    static let contentPadding = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 33)
+    static let contentPadding = UIEdgeInsets(top: 0, left: 0, bottom: 9, right: 33)
   }
 
 }

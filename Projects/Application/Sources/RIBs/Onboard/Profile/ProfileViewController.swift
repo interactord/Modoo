@@ -22,9 +22,7 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
 
   weak var listener: ProfilePresentableListener?
 
-  var userProfile: [String] = [""]
-
-  var items = [String]()
+  var items = [""]
 
   override func viewDidLoad() {
     super.viewDidLoad()
