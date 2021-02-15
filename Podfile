@@ -10,6 +10,9 @@ target 'Application' do
   pod 'RxTexture2'
   pod 'RxDataSources-Texture'
   pod 'BonMot'
+  pod 'Texture/IGListKit'
+  pod 'IGListKit'
+  pod 'RxIGListKit'
 
   # Rx
   pod 'RxSwift', '6.0.0'

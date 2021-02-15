@@ -29,6 +29,7 @@ final class ProfileContainerNode: ASDisplayNode {
     flowLayout.minimumInteritemSpacing = .zero
 
     let node = ASCollectionNode(collectionViewLayout: flowLayout)
+    node.registerSupplementaryNode(ofKind: UICollectionView.elementKindSectionHeader)
     node.alwaysBounceVertical = true
     node.style.flexGrow = 1
     return node

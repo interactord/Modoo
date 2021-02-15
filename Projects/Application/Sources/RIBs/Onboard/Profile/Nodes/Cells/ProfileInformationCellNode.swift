@@ -1,13 +1,13 @@
 import AsyncDisplayKit
-import BonMot
 
-// MARK: - ProfileInformationCell
+// MARK: - ProfileInformationCellNode
 
-final class ProfileInformationCell: ASCellNode {
+final class ProfileInformationCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(item: UserProfileInformationItem) {
+    self.item = item
     super.init()
     automaticallyManagesSubnodes = true
     backgroundColor = .white
@@ -19,19 +19,20 @@ final class ProfileInformationCell: ASCellNode {
 
   // MARK: Internal
 
-  let summeryNode: ProfileInformationSummeryNode = {
+  let item: UserProfileInformationItem
+
+  lazy var summeryNode: ProfileInformationSummeryNode = {
     ProfileInformationSummeryNode(
-      postCount: "213",
-      followerCount: "863",
-      followingCount: "408")
+      postCount: "\(item.postCount)",
+      followerCount: "\(item.followerCount)",
+      followingCount: "\(item.followingCount)")
   }()
 
-  let descriptionNode: ProfileDescriptionNode = {
-    ProfileDescriptionNode(descriptionString: "Antoninagarcia")
+  lazy var descriptionNode: ProfileDescriptionNode = {
+    ProfileDescriptionNode(descriptionString: item.bioDescription)
   }()
 
   let profileEditActionNode = ProfileEditActionNode()
-  let mediaContentActionNode = ProfileMediaContentActionNode()
 
   // MARK: Private
 
@@ -42,7 +43,7 @@ final class ProfileInformationCell: ASCellNode {
 
 // MARK: - LayoutSpec
 
-extension ProfileInformationCell {
+extension ProfileInformationCellNode {
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
     style.width = .init(unit: .fraction, value: 1.0)
 
@@ -55,7 +56,6 @@ extension ProfileInformationCell {
         summeryNode,
         descriptionNode,
         profileEditActionNode,
-        mediaContentActionNode,
       ])
 
     return ASInsetLayoutSpec(insets: Const.contentPadding, child: contentLayout)
