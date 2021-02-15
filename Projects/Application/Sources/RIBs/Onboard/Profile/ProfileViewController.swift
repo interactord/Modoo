@@ -1,5 +1,6 @@
 import AsyncDisplayKit
 import RIBs
+import RxIGListKit
 import RxSwift
 import UIKit
 
@@ -22,35 +23,41 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
 
   weak var listener: ProfilePresentableListener?
 
+  lazy var adapter: ListAdapter = {
+    let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self)
+    adapter.setASDKCollectionNode(node.collectionNode)
+    return adapter
+  }()
+
   var items = [""]
+
+  let dispooseBag = DisposeBag()
+
+  let objectSignal: BehaviorSubject<[UserProfileSectionModel]> = {
+    let itemModel = UserProfileInformationItem(displayModel:
+      .init(
+        userName: "userName",
+        avatarImageURL: "",
+        postCount: "650",
+        followingCount: "436",
+        followerCount: "246k",
+        bioDescription: "Just a girl and her camera. Nature, animals, food."))
+    let section = UserProfileSectionModel.userInformationSummery(itemModel: itemModel)
+
+    return .init(value: [section])
+  }()
+
+  let dataSource = RxListAdapterDataSource<UserProfileSectionModel> { _, object -> ListSectionController in
+    switch object {
+    case let .userInformationSummery(itemModel):
+      return UserProfileInformationSectionController()
+    }
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    node.collectionNode.dataSource = self
-  }
 
-}
-
-// MARK: ASCollectionDataSource
-
-extension ProfileViewController: ASCollectionDataSource {
-
-  func numberOfSections(in collectionNode: ASCollectionNode) -> Int {
-    1
-  }
-
-  func collectionNode(_ collectionNode: ASCollectionNode, numberOfItemsInSection section: Int) -> Int {
-    items.count
-  }
-
-  func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
-    print("ProfileViewController indexPath -> ", indexPath)
-
-    let cellNodeBlock = { () -> ASCellNode in
-      ProfileInformationCell()
-    }
-
-    return cellNodeBlock
+    objectSignal.bind(to: adapter.rx.objects(for: dataSource)).disposed(by: dispooseBag)
   }
 
 }
