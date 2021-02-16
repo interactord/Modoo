@@ -1,12 +1,12 @@
 import IGListKit
 
-// MARK: - UserProfileInformationItem
+// MARK: - ProfileInformationItem
 
-final class UserProfileInformationItem {
+final class ProfileInformationItem {
 
   // MARK: Lifecycle
 
-  init(displayModel: UserProfileDisplayModel.InformationDisplayModel) {
+  init(displayModel: ProfileDisplayModel.InformationDisplayModel) {
     userName = displayModel.userName
     avatarImageURL = displayModel.avatarImageURL
     postCount = displayModel.postCount
@@ -28,13 +28,13 @@ final class UserProfileInformationItem {
 
 // MARK: ListDiffable
 
-extension UserProfileInformationItem: ListDiffable {
+extension ProfileInformationItem: ListDiffable {
   func diffIdentifier() -> NSObjectProtocol {
     userName as NSObjectProtocol
   }
 
   func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-    guard let item = object as? UserProfileInformationItem else { return false }
+    guard let item = object as? ProfileInformationItem else { return false }
     return userName == item.userName
       && avatarImageURL == item.avatarImageURL
       && postCount == item.postCount

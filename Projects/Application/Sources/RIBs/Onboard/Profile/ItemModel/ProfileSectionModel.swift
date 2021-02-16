@@ -1,16 +1,16 @@
 import IGListKit
 import RxIGListKit
 
-// MARK: - UserProfileSectionModel
+// MARK: - ProfileSectionModel
 
-enum UserProfileSectionModel {
-  case userInformationSummery(itemModel: UserProfileInformationItem)
-  case userContent(itemModel: UserProfileContentItem)
+enum ProfileSectionModel {
+  case userInformationSummery(itemModel: ProfileInformationItem)
+  case userContent(itemModel: ProfileContentItem)
 }
 
 // MARK: SectionModelType
 
-extension UserProfileSectionModel: SectionModelType {
+extension ProfileSectionModel: SectionModelType {
 
   var object: ListDiffable {
     switch self {
