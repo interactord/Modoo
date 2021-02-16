@@ -33,8 +33,8 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
 
   let dispooseBag = DisposeBag()
 
-  let objectSignal: BehaviorSubject<[UserProfileSectionModel]> = {
-    let itemModel = UserProfileInformationItem(displayModel:
+  let objectSignal: BehaviorSubject<[ProfileSectionModel]> = {
+    let summeryItemModel = ProfileInformationItem(displayModel:
       .init(
         userName: "userName",
         avatarImageURL: "",
@@ -42,15 +42,22 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
         followingCount: "436",
         followerCount: "246k",
         bioDescription: "Just a girl and her camera. Nature, animals, food."))
-    let section = UserProfileSectionModel.userInformationSummery(itemModel: itemModel)
+    let summerySection = ProfileSectionModel.userInformationSummery(itemModel: summeryItemModel)
 
-    return .init(value: [section])
+    let contentItemModel = ProfileContentItem(displayModel: .init(type: .grid, dummy: ""))
+    let contentSeciton = ProfileSectionModel.userContent(itemModel: contentItemModel)
+
+    return .init(value: [summerySection, contentSeciton])
   }()
 
-  let dataSource = RxListAdapterDataSource<UserProfileSectionModel> { _, object -> ListSectionController in
+  let dataSource = RxListAdapterDataSource<ProfileSectionModel> { _, object -> ListSectionController in
     switch object {
     case let .userInformationSummery(itemModel):
-      return UserProfileInformationSectionController()
+      return SingleHeaderSectionController<ProfileInformationItem>(elementKindTypes: [.header]) { _, _, item -> ASCellNode in
+        ProfileInformationCellNode(item: item)
+      }
+    case let .userContent(itemModel):
+      return SingleHeaderSectionController<ProfileContentItem>(elementKindTypes: [.header]) { _  in ProfileSubMenuCellNode() }
     }
   }
 
