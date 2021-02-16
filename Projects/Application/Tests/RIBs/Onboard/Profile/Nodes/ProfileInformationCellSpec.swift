@@ -6,10 +6,11 @@ import Quick
 class ProfileInformationCellSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
-    var node: ProfileInformationCell!
+    var node: ProfileInformationCellNode!
 
     beforeEach {
-      node = ProfileInformationCell()
+      let displayModel = ProfileDisplayModel.InformationDisplayModel(userName: "", avatarImageURL: "", postCount: "", followingCount: "", followerCount: "", bioDescription: "")
+      node = ProfileInformationCellNode(item: .init(displayModel: displayModel))
     }
     afterEach {
       node = nil
@@ -25,7 +26,6 @@ class ProfileInformationCellSpec: QuickSpec {
         _ = node.summeryNode.layoutSpecThatFits(containedSize)
         _ = node.descriptionNode.layoutSpecThatFits(containedSize)
         _ = node.profileEditActionNode.layoutSpecThatFits(containedSize)
-        _ = node.mediaContentActionNode.layoutSpecThatFits(containedSize)
       }
 
       it("크래시가 발생하지 않는다") {

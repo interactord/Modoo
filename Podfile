@@ -42,6 +42,7 @@ target 'Application' do
     pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'
     pod 'ReactorKit'
     pod 'Texture'
+    pod 'RxIGListKit'
     pod 'RxSwift', '6.0.0'
   end
 end
