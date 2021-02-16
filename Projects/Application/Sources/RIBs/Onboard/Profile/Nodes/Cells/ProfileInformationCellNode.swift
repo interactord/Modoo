@@ -6,7 +6,7 @@ final class ProfileInformationCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
-  init(item: UserProfileInformationItem) {
+  init(item: ProfileInformationItem) {
     self.item = item
     super.init()
     automaticallyManagesSubnodes = true
@@ -19,7 +19,7 @@ final class ProfileInformationCellNode: ASCellNode {
 
   // MARK: Internal
 
-  let item: UserProfileInformationItem
+  let item: ProfileInformationItem
 
   lazy var summeryNode: ProfileInformationSummeryNode = {
     ProfileInformationSummeryNode(
@@ -37,7 +37,7 @@ final class ProfileInformationCellNode: ASCellNode {
   // MARK: Private
 
   private struct Const {
-    static let contentPadding = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+    static let contentPadding = UIEdgeInsets(top: 12, left: 12, bottom: 0, right: 12)
   }
 }
 
