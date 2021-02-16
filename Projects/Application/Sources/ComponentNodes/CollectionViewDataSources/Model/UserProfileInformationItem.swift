@@ -6,7 +6,7 @@ final class UserProfileInformationItem {
 
   // MARK: Lifecycle
 
-  init(displayModel: UserProfileInformationDisplayModel) {
+  init(displayModel: UserProfileDisplayModel.InformationDisplayModel) {
     userName = displayModel.userName
     avatarImageURL = displayModel.avatarImageURL
     postCount = displayModel.postCount
