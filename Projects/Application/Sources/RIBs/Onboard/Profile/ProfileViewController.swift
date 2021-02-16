@@ -31,7 +31,7 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
 
   var items = [""]
 
-  let dispooseBag = DisposeBag()
+  let disposeBag = DisposeBag()
 
   let objectSignal: BehaviorSubject<[ProfileSectionModel]> = {
     let summeryItemModel = ProfileInformationItem(displayModel:
@@ -45,26 +45,35 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
     let summerySection = ProfileSectionModel.userInformationSummery(itemModel: summeryItemModel)
 
     let contentItemModel = ProfileContentItem(displayModel: .init(type: .grid, dummy: ""))
-    let contentSeciton = ProfileSectionModel.userContent(itemModel: contentItemModel)
+    let contentSection = ProfileSectionModel.userContent(itemModel: contentItemModel)
 
-    return .init(value: [summerySection, contentSeciton])
+    return .init(value: [summerySection, contentSection])
   }()
 
   let dataSource = RxListAdapterDataSource<ProfileSectionModel> { _, object -> ListSectionController in
     switch object {
     case let .userInformationSummery(itemModel):
-      return SingleHeaderSectionController<ProfileInformationItem>(elementKindTypes: [.header]) { _, _, item -> ASCellNode in
-        ProfileInformationCellNode(item: item)
-      }
+      return SectionController<ProfileInformationItem>(
+        elementKindTypes: [.header],
+        supplementaryViewBlock: { _, _, item -> ASCellNode in
+          ProfileInformationCellNode(item: item)
+        })
     case let .userContent(itemModel):
-      return SingleHeaderSectionController<ProfileContentItem>(elementKindTypes: [.header]) { _  in ProfileSubMenuCellNode() }
+      let sectionController = SectionController<ProfileContentItem>(
+        elementKindTypes: [.header],
+        supplementaryViewBlock: { _  in ProfileSubMenuCellNode() },
+        numberOfCellItemsBlock: { _ in 10 },
+        sizeForItemWidthBlock: { UIScreen.main.bounds.width / 3 - 2 },
+        nodeForItemBlock: { _, _ in ProfilePostCellNode() })
+      sectionController.minimumLineSpacing = 1
+      return sectionController
     }
   }
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    objectSignal.bind(to: adapter.rx.objects(for: dataSource)).disposed(by: dispooseBag)
+    objectSignal.bind(to: adapter.rx.objects(for: dataSource)).disposed(by: disposeBag)
   }
 
 }
