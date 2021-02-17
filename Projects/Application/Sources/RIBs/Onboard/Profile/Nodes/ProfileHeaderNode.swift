@@ -98,4 +98,5 @@ extension ProfileHeaderNode {
       base.userNameNode.attributedText = title.styled(with: Const.titleStyle)
     }
   }
+
 }

@@ -10,18 +10,19 @@ class ProfileInteractorSpec: QuickSpec {
     var viewController: ProfileViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
     var userUseCaseMock: FirebaseUserUseCaseMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var listenerMock: ProfileListenerMock!
 
     beforeEach {
       viewController = ProfileViewControllableMock()
       userUseCaseMock = FirebaseUserUseCaseMock()
       let state = ProfileDisplayModel.State.initialState()
+      listenerMock = ProfileListenerMock()
       interactor = ProfileInteractor(
         presenter: viewController,
         initialState: state,
         userUseCase: userUseCaseMock)
-      _ = ProfileRoutingMock(
-        interactable: interactor,
-        viewControllable: viewController)
+      interactor.listener = listenerMock
     }
     afterEach {
       interactor = nil
@@ -86,6 +87,16 @@ class ProfileInteractorSpec: QuickSpec {
 
         it("에러 메세지는 빈값이 아니다") {
           expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
+        }
+      }
+
+      context("로그아웃 액션이 발생한 경우") {
+        beforeEach {
+          interactor.action.onNext(.logout)
+        }
+
+        it("listMock의 routeToAuthenticationCallCount는 1이 된다") {
+          expect(listenerMock.routeToAuthenticationCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
         }
       }
     }
