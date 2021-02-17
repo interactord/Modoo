@@ -23,6 +23,7 @@ final class ProfileInformationCellNode: ASCellNode {
 
   lazy var summeryNode: ProfileInformationSummeryNode = {
     ProfileInformationSummeryNode(
+      imageURL: item.avatarImageURL,
       postCount: "\(item.postCount)",
       followerCount: "\(item.followerCount)",
       followingCount: "\(item.followingCount)")
