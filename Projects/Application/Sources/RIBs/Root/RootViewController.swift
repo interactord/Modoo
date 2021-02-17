@@ -9,7 +9,7 @@ protocol RootPresentableListener: AnyObject {
 
 // MARK: - RootViewController
 
-final class RootViewController: UINavigationController, RootPresentable {
+class RootViewController: UINavigationController, RootPresentable {
 
   // MARK: Lifecycle
 
@@ -32,23 +32,23 @@ final class RootViewController: UINavigationController, RootPresentable {
 // MARK: RootViewControllable
 
 extension RootViewController: RootViewControllable {
-  func present(viewController: ViewControllable) {
-    let uiViewController = viewController.uiviewController
+  func present(viewControllable: ViewControllable, animated: Bool) {
+    let uiViewController = viewControllable.uiviewController
     uiViewController.isModalInPresentation = true
     uiViewController.modalPresentationStyle = .fullScreen
-    present(uiViewController, animated: false)
+    present(uiViewController, animated: animated)
   }
 
-  func pushRootViewController(viewController: ViewControllable) {
-    setViewControllers([viewController.uiviewController], animated: false)
+  func setRoot(viewControllable: ViewControllable, animated: Bool) {
+    setViewControllers([viewControllable.uiviewController], animated: false)
   }
 
-  func popRootViewController(viewController: ViewControllable) {
-    setViewControllers([], animated: false)
+  func clearRootViewControllable(animated: Bool) {
+    setViewControllers([], animated: animated)
   }
 
-  func dismiss(viewController: ViewControllable) {
-    guard presentedViewController === viewController.uiviewController else { return }
-    dismiss(animated: false)
+  func dismiss(viewControllable: ViewControllable, animated: Bool) {
+    guard presentedViewController === viewControllable.uiviewController else { return }
+    dismiss(animated: animated)
   }
 }

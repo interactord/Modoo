@@ -54,7 +54,9 @@ class FormTextInputNode: ASDisplayNode & View {
 
   override func didLoad() {
     super.didLoad()
+    // Todo: 나중에 이부분 손봐야함 (기능변경 대상)
     textView?.returnKeyType = scope == .email ? .next : .join
+
     textView?.clearButtonMode = .whileEditing
     textView?.clearsOnInsertion = scope.clearsOnInsertion
     textView?.isSecureTextEntry = scope.isSecureTextEntity

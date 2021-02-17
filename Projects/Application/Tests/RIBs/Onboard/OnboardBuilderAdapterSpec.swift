@@ -23,7 +23,7 @@ class OnboardBuilderAdapterSpec: QuickSpec {
       listener = nil
     }
 
-    describe("AuthenticationBuilderAdapter 빌드시") {
+    describe("빌드가 되고나서") {
       beforeEach {
         _ = adapter.build(withListener: listener)
       }

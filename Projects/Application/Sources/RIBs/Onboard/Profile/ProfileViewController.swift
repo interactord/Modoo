@@ -44,8 +44,6 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
     return adapter
   }()
 
-  var items = [""]
-
   let disposeBag = DisposeBag()
 
   let dataSource = RxListAdapterDataSource<ProfileSectionModel> { _, object -> ListSectionController in

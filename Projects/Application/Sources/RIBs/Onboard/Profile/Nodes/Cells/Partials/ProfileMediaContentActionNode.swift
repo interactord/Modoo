@@ -11,6 +11,10 @@ final class ProfileMediaContentActionNode: ASDisplayNode {
     automaticallyManagesSubnodes = true
   }
 
+  deinit {
+    print("ProfileMediaContentActionNode deinit...")
+  }
+
   // MARK: Internal
 
   let thumbnailButton: ASButtonNode = {

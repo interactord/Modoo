@@ -10,10 +10,10 @@ protocol RootInteractable: Interactable, AuthenticationListener, OnboardListener
 // MARK: - RootViewControllable
 
 protocol RootViewControllable: ViewControllable {
-  func present(viewController: ViewControllable)
-  func dismiss(viewController: ViewControllable)
-  func pushRootViewController(viewController: ViewControllable)
-  func popRootViewController(viewController: ViewControllable)
+  func present(viewControllable: ViewControllable, animated: Bool)
+  func dismiss(viewControllable: ViewControllable, animated: Bool)
+  func setRoot(viewControllable: ViewControllable, animated: Bool)
+  func clearRootViewControllable(animated: Bool)
 }
 
 // MARK: - RootRouter
@@ -63,8 +63,8 @@ extension RootRouter: RootRouting {
     guard let currentChild = currentChild else { return }
 
     detachChild(currentChild)
-    viewController.dismiss(viewController: currentChild.viewControllable)
-    viewController.popRootViewController(viewController: currentChild.viewControllable)
+    viewController.dismiss(viewControllable: currentChild.viewControllable, animated: false)
+    viewController.clearRootViewControllable(animated: false)
 
     self.currentChild = nil
   }
@@ -88,7 +88,7 @@ extension RootRouter {
     currentChild = routing
     attachChild(routing)
 
-    viewController.present(viewController: routing.viewControllable)
+    viewController.present(viewControllable: routing.viewControllable, animated: false)
   }
 
   private func pushRoot(routing: ViewableRouting) {
@@ -96,7 +96,7 @@ extension RootRouter {
     currentChild = routing
     attachChild(routing)
 
-    viewController.pushRootViewController(viewController: routing.viewControllable)
+    viewController.setRoot(viewControllable: routing.viewControllable, animated: false)
   }
 
 }

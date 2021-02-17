@@ -11,14 +11,14 @@ import RxSwift
 class AuthenticationViewControllableMock: ViewControllableMock, AuthenticationPresentable {
 
   var viewControllers = 0
-  var setRootViewControllerCallCount = 0
-  var setRootViewControllerHandler: (() -> Void)?
+  var setRootCallCount = 0
+  var setRootHandler: (() -> Void)?
   var clearChildViewControllersCallCount = 0
   var clearChildViewControllersHandler: (() -> Void)?
-  var pushViewControllerCallCount = 0
-  var pushViewControllerHandler: (() -> Void)?
-  var popToRootViewControllerCallCount = 0
-  var popToRootViewControllerHandler: (() -> Void)?
+  var pushCallCount = 0
+  var pushHandler: (() -> Void)?
+  var popToRootViewControllableCallCount = 0
+  var popToRootViewControllableHandler: (() -> Void)?
 
   var listener: AuthenticationPresentableListener?
 }
@@ -27,21 +27,21 @@ class AuthenticationViewControllableMock: ViewControllableMock, AuthenticationPr
 
 extension AuthenticationViewControllableMock: AuthenticationViewControllable {
 
-  func setRootViewController(viewController: ViewControllable) {
+  func setRoot(viewControllable: ViewControllable, animated: Bool) {
     viewControllers = 1
-    setRootViewControllerCallCount += 1
-    setRootViewControllerHandler?()
+    setRootCallCount += 1
+    setRootHandler?()
   }
 
-  func pushViewController(viewController: ViewControllable) {
+  func push(viewControllable: ViewControllable, animated: Bool) {
     viewControllers += 1
-    pushViewControllerCallCount += 1
-    pushViewControllerHandler?()
+    pushCallCount += 1
+    pushHandler?()
   }
 
-  func popToRootViewController() {
+  func popToRootViewControllable(animated: Bool) {
     viewControllers = 1
-    popToRootViewControllerCallCount += 1
-    popToRootViewControllerHandler?()
+    popToRootViewControllableCallCount += 1
+    popToRootViewControllableHandler?()
   }
 }

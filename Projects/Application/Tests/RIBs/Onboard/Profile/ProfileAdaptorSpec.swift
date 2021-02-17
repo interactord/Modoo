@@ -9,8 +9,6 @@ class ProfileAdaptorSpec: QuickSpec {
     var adapter: ProfileBuilderAdapter!
     // swiftlint:disable implicitly_unwrapped_optional
     var listener: ProfileListenerMock!
-    // swiftlint:disable implicitly_unwrapped_optional
-    var routing: ProfileRouting!
 
     let id = "ProfileAdaptorSpecID"
     BuilderContainer.register(builder: ProfileBuilderAdapter.self, with: id)
@@ -19,17 +17,25 @@ class ProfileAdaptorSpec: QuickSpec {
       let builderType: ProfileBuilderAdapter.Type = BuilderContainer.resolve(for: id)
       adapter = builderType.init(dependency: ProfileDependencyMock())
       listener = ProfileListenerMock()
-      routing = adapter.build(withListener: listener)
     }
     afterEach {
       adapter = nil
       listener = nil
-      routing = nil
     }
 
-    describe("빌드 완료") {
-      it("test") {
-        expect(routing).toNot(beNil())
+    describe("빌드가 되고나서") {
+      beforeEach {
+        _ = adapter.build(withListener: listener)
+      }
+
+      context("routeToOnboard 호출 시") {
+        beforeEach {
+          adapter.routeToAuthentication()
+        }
+
+        it("authenticationListener routeToOnboardCallCount는 1이다") {
+          expect(listener.routeToAuthenticationCallCount) == 1
+        }
       }
     }
   }
