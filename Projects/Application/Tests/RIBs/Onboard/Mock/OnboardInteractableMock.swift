@@ -3,7 +3,9 @@ import RxRelay
 import RxSwift
 @testable import Application
 
-class OnboardInteractableMock: InteractableMock, OnboardInteractable {
+// MARK: - OnboardInteractableMock
+
+class OnboardInteractableMock: InteractableMock {
 
   // MARK: Lifecycle
 
@@ -20,4 +22,16 @@ class OnboardInteractableMock: InteractableMock, OnboardInteractable {
   var router: OnboardRouting?
   var listener: OnboardListener?
 
+  var routeToAuthenticationCallCount = 0
+  var routeToAuthenticationHandler: (() -> Void)?
+
+}
+
+// MARK: OnboardInteractable
+
+extension OnboardInteractableMock: OnboardInteractable {
+  func routeToAuthentication() {
+    routeToAuthenticationCallCount += 1
+    routeToAuthenticationHandler?()
+  }
 }

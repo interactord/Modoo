@@ -16,6 +16,7 @@ protocol ProfilePresentable: Presentable {
 // MARK: - ProfileListener
 
 protocol ProfileListener: AnyObject {
+  func routeToAuthentication()
 }
 
 // MARK: - ProfileInteractor
@@ -70,6 +71,8 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
       return mutatingLoad()
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
+    case .logout:
+      return mutatingLogout()
     }
   }
 
@@ -109,5 +112,10 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
     .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
+  }
+
+  private func mutatingLogout() -> Observable<Mutation> {
+    listener?.routeToAuthentication()
+    return .empty()
   }
 }
