@@ -7,7 +7,7 @@ import RxTexture2
 
 // MARK: - FormTextInputNode
 
-class FormTextInputNode: ASDisplayNode & View {
+final class FormTextInputNode: ASDisplayNode & View {
 
   // MARK: Lifecycle
 
@@ -23,19 +23,6 @@ class FormTextInputNode: ASDisplayNode & View {
   }
 
   // MARK: Internal
-
-  struct Const {
-    static let fieldHeight = ASDimension(unit: .points, value: 14.0)
-    static let placeholderTextStyle =
-      StringStyle(.font(.systemFont(ofSize: 14)), .color(UIColor.white.withAlphaComponent(0.8)))
-    static let typingTextStyle =
-      StringStyle(.font(.systemFont(ofSize: 14)), .color(.white))
-    static let backgroundColor = UIColor.white.withAlphaComponent(0.1)
-    static let selectedStateColor = UIColor.white.withAlphaComponent(0.3)
-    static let contentsPadding =
-      UIEdgeInsets(top: 15, left: 16, bottom: 15, right: 16)
-    static let connerRadius: CGFloat = 5.0
-  }
 
   var disposeBag = DisposeBag()
 
@@ -69,6 +56,19 @@ class FormTextInputNode: ASDisplayNode & View {
   }
 
   // MARK: Private
+
+  private struct Const {
+    static let fieldHeight = ASDimension(unit: .points, value: 14.0)
+    static let placeholderTextStyle =
+      StringStyle(.font(.systemFont(ofSize: 14)), .color(UIColor.white.withAlphaComponent(0.8)))
+    static let typingTextStyle =
+      StringStyle(.font(.systemFont(ofSize: 14)), .color(.white))
+    static let backgroundColor = UIColor.white.withAlphaComponent(0.1)
+    static let selectedStateColor = UIColor.white.withAlphaComponent(0.3)
+    static let contentsPadding =
+      UIEdgeInsets(top: 15, left: 16, bottom: 15, right: 16)
+    static let connerRadius: CGFloat = 5.0
+  }
 
   private let textFiledNode: ASDisplayNode = {
     let node = ASDisplayNode(viewBlock: { UITextField() })
