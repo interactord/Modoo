@@ -12,6 +12,7 @@ import UIKit
 enum ProfilePresentableAction: Equatable {
   case load
   case loading(Bool)
+  case logout
 }
 
 // MARK: - ProfilePresentableListener
@@ -84,6 +85,11 @@ extension ProfileViewController {
   private func bindAction(listener: ProfilePresentableListener) {
     rx.viewDidLoad
       .map { .load }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node.headerNode.moreButton.rx.tap
+      .map { .logout }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
   }

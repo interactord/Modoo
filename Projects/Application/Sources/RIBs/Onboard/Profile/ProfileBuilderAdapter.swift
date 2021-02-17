@@ -24,6 +24,10 @@ final class ProfileBuilderAdapter: Builder<ProfileDependency> {
 // MARK: ProfileListener
 
 extension ProfileBuilderAdapter: ProfileListener {
+  func routeToAuthentication() {
+    listener?.routeToAuthentication()
+  }
+
 }
 
 // MARK: ProfileBuildable
