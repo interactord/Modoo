@@ -67,6 +67,21 @@ extension LoginInteractor: LoginPresentableListener, Reactor {
 
   // MARK: Internal
 
+  func mutate(action: Action) -> Observable<Mutation> {
+    switch action {
+    case .login:
+      return  mutatingRequestLogin()
+    case .register:
+      return  mutatingRegister()
+    case let .email(text):
+      return .just(.setEmail(text))
+    case let .password(text):
+      return .just(.setPassword(text))
+    case let .loading(isLoading):
+      return .just(.setLoading(isLoading))
+    }
+  }
+
   func reduce(state: State, mutation: Mutation) -> State {
     var newState = state
 
@@ -82,21 +97,6 @@ extension LoginInteractor: LoginPresentableListener, Reactor {
     }
 
     return newState
-  }
-
-  func mutate(action: Action) -> Observable<Mutation> {
-    switch action {
-    case .login:
-      return  mutatingRequestLogin()
-    case .register:
-      return  mutatingRegister()
-    case let .email(text):
-      return .just(.setEmail(text))
-    case let .password(text):
-      return .just(.setPassword(text))
-    case let .loading(isLoading):
-      return .just(.setLoading(isLoading))
-    }
   }
 
   // MARK: Private
