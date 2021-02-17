@@ -7,7 +7,8 @@ final class ProfileInformationSummeryNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
-  init(postCount: String, followerCount: String, followingCount: String) {
+  init(imageURL: String, postCount: String, followerCount: String, followingCount: String) {
+    self.imageURL = imageURL
     self.postCount = postCount
     self.followerCount = followerCount
     self.followingCount = followingCount
@@ -22,9 +23,11 @@ final class ProfileInformationSummeryNode: ASDisplayNode {
 
   // MARK: Internal
 
-  let profileImageNode: ASImageNode = {
-    let node = ASImageNode()
-    node.image = #imageLiteral(resourceName: "dummy-content-image")
+  lazy var profileImageNode: ASNetworkImageNode = {
+    let node = ASNetworkImageNode()
+    node.defaultImage = #imageLiteral(resourceName: "dummy-content-image")
+    node.placeholderEnabled = true
+    node.url = URL(string: imageURL)
     node.cornerRadius = Const.imageSize.width / 2
     node.style.preferredSize = Const.imageSize
     node.isLayerBacked = true
@@ -46,6 +49,7 @@ final class ProfileInformationSummeryNode: ASDisplayNode {
   let postCount: String
   let followerCount: String
   let followingCount: String
+  let imageURL: String
 
   // MARK: Private
 

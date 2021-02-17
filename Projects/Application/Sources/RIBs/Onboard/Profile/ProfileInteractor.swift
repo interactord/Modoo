@@ -100,7 +100,10 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
       let model = ProfileDisplayModel.InformationDisplayModel(
         userName: repository.username,
         avatarImageURL: repository.profileImageURL,
-        postCount: "0", followingCount: "0", followerCount: "0", bioDescription: "")
+        postCount: "0",
+        followingCount: "0",
+        followerCount: "0",
+        bioDescription: "")
       return .just(.setUserProfile(model))
     }
     .catch { .just(.setError($0.localizedDescription)) }
