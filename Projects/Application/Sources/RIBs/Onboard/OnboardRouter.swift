@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - OnboardInteractable
 
-protocol OnboardInteractable: Interactable, FeedListener, ProfileListener {
+protocol OnboardInteractable: Interactable, FeedListener, SearchListener, ProfileListener {
   var router: OnboardRouting? { get set }
   var listener: OnboardListener? { get set }
 }
@@ -30,11 +30,13 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
     interactor: OnboardInteractable,
     viewController: OnboardViewControllable,
     feedBuilder: FeedBuildable,
-    profileBuilder: ProfileBuildable)
+    profileBuilder: ProfileBuildable,
+    searchBuilder: SearchBuildable)
   {
     defer { interactor.router = self }
     self.feedBuilder = feedBuilder
     self.profileBuilder = profileBuilder
+    self.searchBuilder = searchBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -54,6 +56,7 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
 
   private let feedBuilder: FeedBuildable
   private let profileBuilder: ProfileBuildable
+  private let searchBuilder: SearchBuildable
 
 }
 
@@ -66,6 +69,7 @@ extension OnboardRouter: OnboardRouting {
   func setOnceViewControllers() {
     viewController.setVewControllers(viewControllers: [
       applyFeedRouting(),
+      applySearchRouting(),
       applyProfileRouting(),
     ])
   }
@@ -73,25 +77,32 @@ extension OnboardRouter: OnboardRouting {
   // MARK: Private
 
   private func applyFeedRouting() -> ViewControllable {
-    let router = feedBuilder.build(withListener: interactor)
-    attachChild(router)
-
-    let navigationController = UINavigationController(
+    makeNavigationRouting(
       image: #imageLiteral(resourceName: "feed-select"),
-      unselectedImage: #imageLiteral(resourceName: "feed-normal"),
-      root: router.viewControllable)
-    navigationController.navigationBar.isHidden = true
-
-    return navigationController
+      unselctedImage: #imageLiteral(resourceName: "feed-normal"),
+      router: feedBuilder.build(withListener: interactor))
   }
 
   private func applyProfileRouting() -> ViewControllable {
-    let router = profileBuilder.build(withListener: interactor)
+    makeNavigationRouting(
+      image: #imageLiteral(resourceName: "profile-select"),
+      unselctedImage: #imageLiteral(resourceName: "profile-normal"),
+      router: profileBuilder.build(withListener: interactor))
+  }
+
+  private func applySearchRouting() -> ViewControllable {
+    makeNavigationRouting(
+      image: #imageLiteral(resourceName: "search-select"),
+      unselctedImage: #imageLiteral(resourceName: "search-normal"),
+      router: searchBuilder.build(withListener: interactor))
+  }
+
+  private func makeNavigationRouting(image: UIImage, unselctedImage: UIImage, router: ViewableRouting) -> ViewControllable {
     attachChild(router)
 
     let navigationController = UINavigationController(
-      image: #imageLiteral(resourceName: "profile-select"),
-      unselectedImage: #imageLiteral(resourceName: "profile-normal"),
+      image: image,
+      unselectedImage: unselctedImage,
       root: router.viewControllable)
     navigationController.navigationBar.isHidden = true
 

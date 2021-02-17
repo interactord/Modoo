@@ -1,23 +1,19 @@
 import Nimble
 import Quick
-
 @testable import Application
 
-class OnboardRouterSpec: QuickSpec {
+class SearchRouterSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
-    var viewController: OnboardViewControllableMock!
+    var viewController: SearchViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var router: OnboardRouter!
+    var router: SearchRouter!
 
     beforeEach {
-      viewController = OnboardViewControllableMock()
-      router = OnboardRouter(
-        interactor: OnboardInteractableMock(),
-        viewController: viewController,
-        feedBuilder: FeedBuildableMock(),
-        profileBuilder: ProfileBuildableMock(),
-        searchBuilder: SearchBuildableMock())
+      viewController = SearchViewControllableMock()
+      router = SearchRouter(
+        interactor: SearchInteractableMock(),
+        viewController: viewController)
     }
     afterEach {
       viewController = nil
