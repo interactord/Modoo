@@ -19,6 +19,7 @@ target 'Application' do
   pod 'RxCocoa', '6.0.0'
   pod 'RxOptional'
   pod 'RxKeyboard'
+  pod 'RxViewController'
 
   # Framework
   pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'

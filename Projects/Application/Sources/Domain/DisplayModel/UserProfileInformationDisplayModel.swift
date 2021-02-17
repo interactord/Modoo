@@ -9,17 +9,34 @@ enum ProfileDisplayModel {
   }
 
   struct MediaContentDisplayModel {
-    let type: MediaContentType
-    let dummy: String
+    let type: MediaContentType  = .grid
+    let dummy = ""
   }
 
-  struct InformationDisplayModel {
-    let userName: String
-    let avatarImageURL: String
-    let postCount: String
-    let followingCount: String
-    let followerCount: String
-    let bioDescription: String
+  struct InformationDisplayModel: Equatable {
+    var userName = ""
+    var avatarImageURL = ""
+    var postCount = ""
+    var followingCount = ""
+    var followerCount = ""
+    var bioDescription = ""
+  }
+
+  struct State: PresentableState {
+    var informationSectionModel: ProfileInformationItem
+    var contentsSectionModel: ProfileContentItem
+    var isLoading: Bool
+    var errorMessage: String
+
+    static func initialState() -> Self {
+      let informationSectionModel = ProfileInformationItem(sectionID: UUID().hashValue, displayModel: .init())
+      let contentsSectionModel = ProfileContentItem(sectionID: UUID().hashValue, displayModel: .init())
+      return State(
+        informationSectionModel: informationSectionModel,
+        contentsSectionModel: contentsSectionModel,
+        isLoading: false,
+        errorMessage: "")
+    }
   }
 
 }

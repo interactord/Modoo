@@ -1,12 +1,27 @@
 import AsyncDisplayKit
+import ReactorKit
 import RIBs
 import RxIGListKit
 import RxSwift
+import RxViewController
 import UIKit
+
+// MARK: - ProfilePresentableAction
+
+enum ProfilePresentableAction: Equatable {
+  case load
+  case loading(Bool)
+}
 
 // MARK: - ProfilePresentableListener
 
 protocol ProfilePresentableListener: AnyObject {
+  typealias Action = ProfilePresentableAction
+  typealias State = ProfileDisplayModel.State
+
+  var action: ActionSubject<Action> { get }
+  var state: Observable<State> { get }
+  var currentState: State { get }
 }
 
 // MARK: - ProfileViewController
@@ -21,8 +36,6 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
 
   // MARK: Internal
 
-  weak var listener: ProfilePresentableListener?
-
   lazy var adapter: ListAdapter = {
     let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self)
     adapter.setASDKCollectionNode(node.collectionNode)
@@ -32,23 +45,6 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
   var items = [""]
 
   let disposeBag = DisposeBag()
-
-  let objectSignal: BehaviorSubject<[ProfileSectionModel]> = {
-    let summeryItemModel = ProfileInformationItem(displayModel:
-      .init(
-        userName: "userName",
-        avatarImageURL: "",
-        postCount: "650",
-        followingCount: "436",
-        followerCount: "246k",
-        bioDescription: "Just a girl and her camera. Nature, animals, food."))
-    let summerySection = ProfileSectionModel.userInformationSummery(itemModel: summeryItemModel)
-
-    let contentItemModel = ProfileContentItem(displayModel: .init(type: .grid, dummy: ""))
-    let contentSection = ProfileSectionModel.userContent(itemModel: contentItemModel)
-
-    return .init(value: [summerySection, contentSection])
-  }()
 
   let dataSource = RxListAdapterDataSource<ProfileSectionModel> { _, object -> ListSectionController in
     switch object {
@@ -70,10 +66,36 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
     }
   }
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+  weak var listener: ProfilePresentableListener? {
+    didSet { bind(listener: listener) }
+  }
 
-    objectSignal.bind(to: adapter.rx.objects(for: dataSource)).disposed(by: disposeBag)
+}
+
+extension ProfileViewController {
+
+  private func bind(listener: ProfilePresentableListener?) {
+    guard let listener = listener else { return }
+    bindAction(listener: listener)
+    bindState(listener: listener)
+  }
+
+  private func bindAction(listener: ProfilePresentableListener) {
+    rx.viewDidLoad
+      .map { .load }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+  }
+
+  private func bindState(listener: ProfilePresentableListener) {
+    let state = listener.state.share()
+    state
+      .map {[
+        ProfileSectionModel.userInformationSummery(itemModel: $0.informationSectionModel),
+        ProfileSectionModel.userContent(itemModel: $0.contentsSectionModel),
+      ]}
+      .bind(to: adapter.rx.objects(for: dataSource))
+      .disposed(by: disposeBag)
   }
 
 }

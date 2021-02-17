@@ -7,9 +7,7 @@ protocol LoginDependency: Dependency {}
 // MARK: - LoginComponent
 
 final class LoginComponent: Component<LoginDependency> {
-  fileprivate var initialState: LoginDisplayModel.State {
-    LoginDisplayModel.State.initialState()
-  }
+  fileprivate var initialState: LoginDisplayModel.State { .initialState() }
 
   fileprivate var authenticationUseCase: AuthenticationUseCase {
     FirebaseAuthenticationUseCase(
