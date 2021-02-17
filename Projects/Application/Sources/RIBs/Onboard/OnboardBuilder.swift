@@ -18,6 +18,11 @@ extension OnboardComponent: FeedDependency {
 extension OnboardComponent: ProfileDependency {
 }
 
+// MARK: SearchDependency
+
+extension OnboardComponent: SearchDependency {
+}
+
 // MARK: - OnboardBuildable
 
 protocol OnboardBuildable: Buildable {
@@ -43,11 +48,13 @@ extension OnboardBuilder: OnboardBuildable {
     let component = OnboardComponent(dependency: dependency)
     let feedBuilderAdapterType: FeedBuilderAdapter.Type = BuilderContainer.resolve(for: FeedBuilderID)
     let profileBuilderAdapterType: ProfileBuilderAdapter.Type = BuilderContainer.resolve(for: ProfileBuilderID)
+    let searchBulderAdapterType: SearchBuilderAdapter.Type = BuilderContainer.resolve(for: SearchBuilderID)
 
     return OnboardRouter(
       interactor: interactor,
       viewController: viewController,
       feedBuilder: feedBuilderAdapterType.init(dependency: component),
-      profileBuilder: profileBuilderAdapterType.init(dependency: component))
+      profileBuilder: profileBuilderAdapterType.init(dependency: component),
+      searchBuilder: searchBulderAdapterType.init(dependency: component))
   }
 }
