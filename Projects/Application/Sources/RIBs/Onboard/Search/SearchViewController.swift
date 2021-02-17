@@ -1,3 +1,4 @@
+import AsyncDisplayKit
 import RIBs
 import RxSwift
 import UIKit
@@ -9,7 +10,7 @@ protocol SearchPresentableListener: AnyObject {
 
 // MARK: - SearchViewController
 
-final class SearchViewController: UIViewController, SearchPresentable, SearchViewControllable {
+final class SearchViewController: ASDKViewController<SearchContainerNode>, SearchPresentable, SearchViewControllable {
 
   // MARK: Lifecycle
 

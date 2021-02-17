@@ -8,7 +8,7 @@ class SearchViewControllerSpec: QuickSpec {
     var viewController: SearchViewController!
 
     beforeEach {
-      viewController = SearchViewController()
+      viewController = SearchViewController(node: .init())
     }
     afterEach {
       viewController = nil

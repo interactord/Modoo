@@ -16,7 +16,7 @@ class SearchBuildableMock: Builder<SearchDependency> {
 extension SearchBuildableMock: SearchBuildable {
   func build(withListener listener: SearchListener) -> SearchRouting {
     _ = SearchComponent(dependency: dependency)
-    let viewController = SearchViewController()
+    let viewController = SearchViewController(node: .init())
     let interactor = SearchInteractor(presenter: viewController)
     interactor.listener = listener
 
