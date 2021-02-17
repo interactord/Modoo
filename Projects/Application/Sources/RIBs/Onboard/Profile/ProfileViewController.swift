@@ -3,6 +3,7 @@ import ReactorKit
 import RIBs
 import RxIGListKit
 import RxSwift
+import RxTexture2
 import RxViewController
 import UIKit
 
@@ -89,12 +90,18 @@ extension ProfileViewController {
 
   private func bindState(listener: ProfilePresentableListener) {
     let state = listener.state.share()
+
     state
       .map {[
         ProfileSectionModel.userInformationSummery(itemModel: $0.informationSectionModel),
         ProfileSectionModel.userContent(itemModel: $0.contentsSectionModel),
       ]}
       .bind(to: adapter.rx.objects(for: dataSource))
+      .disposed(by: disposeBag)
+
+    state
+      .map { $0.informationSectionModel.userName }
+      .bind(to: node.headerNode.userName)
       .disposed(by: disposeBag)
   }
 

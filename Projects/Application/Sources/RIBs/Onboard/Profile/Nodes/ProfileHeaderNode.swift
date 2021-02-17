@@ -1,6 +1,7 @@
 import AsyncDisplayKit
 import BonMot
 import Foundation
+import RxSwift
 
 // MARK: - ProfileHeaderNode
 
@@ -20,10 +21,9 @@ final class ProfileHeaderNode: ASDisplayNode {
 
   // MARK: Internal
 
-  let titleNode: ASTextNode = {
-    let dummyText = "titleNode"
+  let userNameNode: ASTextNode = {
     let node = ASTextNode()
-    node.attributedText = dummyText.styled(with: Const.titleStyle)
+    node.attributedText = "".styled(with: Const.titleStyle)
     node.isLayerBacked = true
     return node
   }()
@@ -58,7 +58,7 @@ extension ProfileHeaderNode {
       justifyContent: .spaceBetween,
       alignItems: .stretch,
       children: [
-        leftAraaLayoutSpec(),
+        leftAreaLayoutSpec(),
         rightAreaLayoutSpec(),
       ])
 
@@ -67,14 +67,14 @@ extension ProfileHeaderNode {
 
   // MARK: Private
 
-  private func leftAraaLayoutSpec() -> ASLayoutSpec {
+  private func leftAreaLayoutSpec() -> ASLayoutSpec {
     ASStackLayoutSpec(
       direction: .horizontal,
       spacing: .zero,
       justifyContent: .start,
       alignItems: .start,
       children: [
-        titleNode,
+        userNameNode,
       ])
   }
 
@@ -87,5 +87,15 @@ extension ProfileHeaderNode {
       children: [
         moreButton,
       ])
+  }
+}
+
+// MARK: - Binding
+
+extension ProfileHeaderNode {
+  var userName: Binder<String> {
+    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, title in
+      base.userNameNode.attributedText = title.styled(with: Const.titleStyle)
+    }
   }
 }
