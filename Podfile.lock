@@ -405,6 +405,9 @@ PODS:
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
     - Texture (~> 3.0)
+  - RxViewController (2.0.0):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - SwiftLint (0.42.0)
   - Texture (3.0.0):
     - Texture/AssetsLibrary (= 3.0.0)
@@ -450,6 +453,7 @@ DEPENDENCIES:
   - RxOptional
   - RxSwift (= 6.0.0)
   - RxTexture2
+  - RxViewController
   - SwiftLint
   - Texture
   - Texture/IGListKit
@@ -494,6 +498,7 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
     - RxTexture2
+    - RxViewController
     - SwiftLint
     - Texture
     - WeakMapTable
@@ -548,10 +553,11 @@ SPEC CHECKSUMS:
   RxRelay: 8d593be109c06ea850df027351beba614b012ffb
   RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
   RxTexture2: afc37076fc7ac380642d569533ed858d296732fe
+  RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 178adc0979f520d7b90dffaa63f56fbf40a3e7d4
+PODFILE CHECKSUM: fd3c11979ad280acdef44a9c0e416743b2c441a1
 
 COCOAPODS: 1.10.1

@@ -6,7 +6,8 @@ final class ProfileContentItem {
 
   // MARK: Lifecycle
 
-  init(displayModel: ProfileDisplayModel.MediaContentDisplayModel) {
+  init(sectionID: Int, displayModel: ProfileDisplayModel.MediaContentDisplayModel) {
+    self.sectionID = sectionID
     type = displayModel.type
     dummy = displayModel.dummy
   }
@@ -15,6 +16,7 @@ final class ProfileContentItem {
 
   let type: ProfileDisplayModel.MediaContentType
   let dummy: String
+  let sectionID: Int
 
 }
 
@@ -22,10 +24,11 @@ final class ProfileContentItem {
 
 extension ProfileContentItem: ListDiffable {
   func diffIdentifier() -> NSObjectProtocol {
-    dummy as NSObjectProtocol
+    sectionID as NSObjectProtocol
   }
 
   func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+    if self === object { return true }
     guard let item = object as? ProfileContentItem else { return false }
     return type == item.type
   }

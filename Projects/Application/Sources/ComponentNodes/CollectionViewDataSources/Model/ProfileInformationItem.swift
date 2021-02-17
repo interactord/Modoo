@@ -6,7 +6,8 @@ final class ProfileInformationItem {
 
   // MARK: Lifecycle
 
-  init(displayModel: ProfileDisplayModel.InformationDisplayModel) {
+  init(sectionID: Int, displayModel: ProfileDisplayModel.InformationDisplayModel) {
+    self.sectionID = sectionID
     userName = displayModel.userName
     avatarImageURL = displayModel.avatarImageURL
     postCount = displayModel.postCount
@@ -23,6 +24,7 @@ final class ProfileInformationItem {
   let followingCount: String
   let followerCount: String
   let bioDescription: String
+  let sectionID: Int
 
 }
 
@@ -30,10 +32,11 @@ final class ProfileInformationItem {
 
 extension ProfileInformationItem: ListDiffable {
   func diffIdentifier() -> NSObjectProtocol {
-    userName as NSObjectProtocol
+    sectionID as NSObjectProtocol
   }
 
   func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+    if self === object { return true }
     guard let item = object as? ProfileInformationItem else { return false }
     return userName == item.userName
       && avatarImageURL == item.avatarImageURL

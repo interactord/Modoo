@@ -8,6 +8,12 @@ protocol ProfileDependency: Dependency {
 // MARK: - ProfileComponent
 
 final class ProfileComponent: Component<ProfileDependency> {
+  fileprivate var initailState: ProfileDisplayModel.State { .initialState() }
+  fileprivate var userUseCase: UserUseCase {
+    FirebaseUserUseCase(
+      authenticating: FirebaseAuthentication(),
+      apiNetworking: FirebaseAPINetwork())
+  }
 }
 
 // MARK: - ProfileBuildable
@@ -33,9 +39,12 @@ final class ProfileBuilder: Builder<ProfileDependency>, ProfileBuildable {
   // MARK: Internal
 
   func build(withListener listener: ProfileListener) -> ProfileRouting {
-    _ = ProfileComponent(dependency: dependency)
+    let component = ProfileComponent(dependency: dependency)
     let viewController = ProfileViewController(node: .init())
-    let interactor = ProfileInteractor(presenter: viewController)
+    let interactor = ProfileInteractor(
+      presenter: viewController,
+      initialState: component.initailState,
+      userUseCase: component.userUseCase)
     interactor.listener = listener
     return ProfileRouter(interactor: interactor, viewController: viewController)
   }
