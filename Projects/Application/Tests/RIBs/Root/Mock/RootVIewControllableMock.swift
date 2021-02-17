@@ -13,39 +13,42 @@ class RootViewControllableMock: ViewControllableMock, RootPresentable {
 
   // MARK: Function Handler
 
+  var presentCallCount = 0
   var presentHandler: (() -> Void)?
-  var presentCallCount: Int = 0
+  var dismissCallCount = 0
   var dismissHandler: (() -> Void)?
-  var dismissCallCount: Int = 0
-  var pushRootViewControllerCallCount: Int = 0
-  var pushRootViewControllerHandler: (() -> Void)?
-  var popRootViewControllerCallCount: Int = 0
-  var popRootViewControllerHandler: (() -> Void)?
-  var viewControllers: Int = 0
+  var setRootCallCount = 0
+  var setRootCallCountHandler: (() -> Void)?
+  var clearRootViewControllableCallCount = 0
+  var clearRootViewControllableHandler: (() -> Void)?
+  var viewControllers = 0
+  var presentedViewControllers = 0
 }
 
 // MARK: RootViewControllable
 
 extension RootViewControllableMock: RootViewControllable {
-  func present(viewController _: ViewControllable) {
+  func present(viewControllable: ViewControllable, animated: Bool) {
+    presentedViewControllers += 1
     presentCallCount += 1
     presentHandler?()
   }
 
-  func dismiss(viewController _: ViewControllable) {
+  func setRoot(viewControllable: ViewControllable, animated: Bool) {
+    viewControllers = 1
+    setRootCallCount += 1
+    setRootCallCountHandler?()
+  }
+
+  func clearRootViewControllable(animated: Bool) {
+    viewControllers = 0
+    clearRootViewControllableCallCount += 1
+    clearRootViewControllableHandler?()
+  }
+
+  func dismiss(viewControllable: ViewControllable, animated: Bool) {
+    presentedViewControllers = 0
     dismissCallCount += 1
     dismissHandler?()
-  }
-
-  func pushRootViewController(viewController: ViewControllable) {
-    viewControllers += 1
-    pushRootViewControllerCallCount += 1
-    pushRootViewControllerHandler?()
-  }
-
-  func popRootViewController(viewController: ViewControllable) {
-    viewControllers = 0
-    popRootViewControllerCallCount += 1
-    popRootViewControllerHandler?()
   }
 }

@@ -3,13 +3,13 @@ import Nimble
 import Quick
 @testable import Application
 
-class ProfileSubMenuCellNodeSpec: QuickSpec {
+class CountAndDescriptionNodeSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
-    var node: ProfileSubMenuCellNode!
+    var node: CountAndDescriptionNode!
 
     beforeEach {
-      node = ProfileSubMenuCellNode()
+      node = CountAndDescriptionNode(count: "0", label: "test label")
     }
     afterEach {
       node = nil
@@ -22,7 +22,6 @@ class ProfileSubMenuCellNodeSpec: QuickSpec {
           max: .init(width: 600, height: 800))
 
         _ = node.layoutSpecThatFits(containedSize)
-        _ = node.contentActionNode.layoutSpecThatFits(containedSize)
       }
 
       it("크래시가 발생하지 않는다") {

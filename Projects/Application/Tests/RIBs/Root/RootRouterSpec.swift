@@ -39,12 +39,16 @@ class RootRouterSpec: QuickSpec {
             router.didLoad()
           }
 
-          it("viewController pushRootViewControllerCallCount는 1이 된다") {
-            expect(viewController.pushRootViewControllerCallCount) == 1
+          it("viewController setRootCallCount는 1이 된다") {
+            expect(viewController.setRootCallCount) == 1
           }
 
           it("viewController의 viewControllers는 1이 된다") {
             expect(viewController.viewControllers) == 1
+          }
+
+          it("viewController의 presentedViewControllers는 0이 된다") {
+            expect(viewController.presentedViewControllers) == 0
           }
 
           it("currentChild는 온보드 라우팅으로 넘어간다") {
@@ -60,12 +64,16 @@ class RootRouterSpec: QuickSpec {
               expect(viewController.presentCallCount) == 1
             }
 
-            it("viewController popRootViewControllerCallCount는 1이 된다") {
-              expect(viewController.popRootViewControllerCallCount) == 1
+            it("viewController presentCallCount는 1이 된다") {
+              expect(viewController.presentCallCount) == 1
             }
 
             it("viewController의 viewControllers는 0이 된다") {
               expect(viewController.viewControllers) == 0
+            }
+
+            it("viewController의 presentedViewControllers는 1이 된다") {
+              expect(viewController.presentedViewControllers) == 1
             }
 
             it("currentChild는 인증라우팅으로 넘어간다") {
@@ -83,7 +91,7 @@ class RootRouterSpec: QuickSpec {
             }
 
             it("viewController pushRootViewControllerCallCount는 1이 된다") {
-              expect(viewController.pushRootViewControllerCallCount) == 1
+              expect(viewController.setRootCallCount) == 1
             }
 
             it("viewController의 viewControllers는 1이 된다") {
@@ -142,7 +150,7 @@ class RootRouterSpec: QuickSpec {
               }
 
               it("viewController pushRootViewControllerCallCount는 1이 된다") {
-                expect(viewController.pushRootViewControllerCallCount) == 1
+                expect(viewController.setRootCallCount) == 1
               }
 
               it("currentChild는 인증라우팅으로 넘어간다") {

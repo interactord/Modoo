@@ -12,9 +12,9 @@ protocol AuthenticationInteractable: Interactable, LoginListener, RegisterListen
 // MARK: - AuthenticationViewControllable
 
 protocol AuthenticationViewControllable: ViewControllable {
-  func setRootViewController(viewController: ViewControllable)
-  func pushViewController(viewController: ViewControllable)
-  func popToRootViewController()
+  func setRoot(viewControllable: ViewControllable, animated: Bool)
+  func push(viewControllable: ViewControllable, animated: Bool)
+  func popToRootViewControllable(animated: Bool)
 }
 
 // MARK: - AuthenticationRouter
@@ -64,7 +64,7 @@ extension AuthenticationRouter: AuthenticationRouting {
     guard let registerRoutring = registerRouting else { return }
 
     detachChild(registerRoutring)
-    viewController.popToRootViewController()
+    viewController.popToRootViewControllable(animated: true)
   }
 
   func routeToLogin() {
@@ -76,7 +76,7 @@ extension AuthenticationRouter: AuthenticationRouting {
     attachChild(loginRouting)
     self.loginRouting = loginRouting
 
-    viewController.setRootViewController(viewController: loginRouting.viewControllable)
+    viewController.setRoot(viewControllable: loginRouting.viewControllable, animated: false)
   }
 
   func routeToRegister() {
@@ -86,7 +86,7 @@ extension AuthenticationRouter: AuthenticationRouting {
     attachChild(registerRouting)
     self.registerRouting = registerRouting
 
-    viewController.pushViewController(viewController: registerRouting.viewControllable)
+    viewController.push(viewControllable: registerRouting.viewControllable, animated: true)
   }
 
 }

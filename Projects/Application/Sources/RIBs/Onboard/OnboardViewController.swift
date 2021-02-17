@@ -10,7 +10,7 @@ protocol OnboardPresentableListener: AnyObject {
 
 // MARK: - OnboardViewController
 
-final class OnboardViewController: UITabBarController, OnboardPresentable {
+class OnboardViewController: UITabBarController, OnboardPresentable {
 
   // MARK: Lifecycle
 

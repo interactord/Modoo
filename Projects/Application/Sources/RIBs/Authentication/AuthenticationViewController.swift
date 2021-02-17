@@ -43,16 +43,16 @@ extension AuthenticationViewController {
 
 extension AuthenticationViewController: AuthenticationViewControllable {
 
-  func setRootViewController(viewController: ViewControllable) {
-    setViewControllers([viewController.uiviewController], animated: false)
+  func setRoot(viewControllable: ViewControllable, animated: Bool) {
+    setViewControllers([viewControllable.uiviewController], animated: animated)
   }
 
-  func pushViewController(viewController: ViewControllable) {
-    pushViewController(viewController.uiviewController, animated: true)
+  func push(viewControllable: ViewControllable, animated: Bool) {
+    pushViewController(viewControllable.uiviewController, animated: animated)
   }
 
-  func popToRootViewController() {
-    popToRootViewController(animated: true)
+  func popToRootViewControllable(animated: Bool) {
+    popToRootViewController(animated: animated)
   }
 
 }

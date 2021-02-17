@@ -33,8 +33,8 @@ class AuthenticationRouterSpec: QuickSpec {
           router.cleanupViews()
         }
 
-        it("viewController popToRootViewControllerCallCount는 0이다") {
-          expect(viewController.popToRootViewControllerCallCount) == 0
+        it("viewController popToRootViewControllableCallCount는 0이다") {
+          expect(viewController.popToRootViewControllableCallCount) == 0
         }
 
         it("viewController viewControllers는 1이다") {
@@ -47,8 +47,8 @@ class AuthenticationRouterSpec: QuickSpec {
           router.routeToLogin()
         }
 
-        it("viewController setRootViewControllerCallCount는 1이다") {
-          expect(viewController.setRootViewControllerCallCount) == 1
+        it("viewController setRootCallCount는 1이다") {
+          expect(viewController.setRootCallCount) == 1
         }
 
         it("viewController viewControllers는 1이다") {
@@ -61,8 +61,8 @@ class AuthenticationRouterSpec: QuickSpec {
           router.routeToRegister()
         }
 
-        it("viewController pushViewControllerCallCount는 1이다") {
-          expect(viewController.pushViewControllerCallCount) == 1
+        it("viewController pushCallCount는 1이다") {
+          expect(viewController.pushCallCount) == 1
         }
 
         it("viewController viewControllers는 1이다") {
