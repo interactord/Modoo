@@ -9,13 +9,14 @@ final class LoginContainerNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(loginFormNode: LoginViewable = FormLoginNode()) {
+    self.loginFormNode = loginFormNode
+
     super.init()
 
     automaticallyManagesSubnodes = true
     automaticallyRelayoutOnSafeAreaChanges = true
     backgroundColor = .black
-    observeFormField()
     observeKeyboard()
   }
 
@@ -26,7 +27,7 @@ final class LoginContainerNode: ASDisplayNode {
   // MARK: Internal
 
   let dontHaveAccountButtonNode = FormSecondaryButtonNode(type: .signIn)
-  let loginFormNode = LoginFormNode()
+  let loginFormNode: LoginViewable
 
   // MARK: Private
 
@@ -46,8 +47,8 @@ final class LoginContainerNode: ASDisplayNode {
 extension LoginContainerNode {
   private func observeKeyboard() {
     [
-      keyboardDismissEventNode.rx.tap,
-      loginFormNode.keyboardDismissEventNode.rx.tap,
+      keyboardDismissEventNode.rx.tap.asObservable(),
+      loginFormNode.keyboardDismissEventNodeTapStream,
     ]
     .forEach {
       $0.withUnretained(view)
@@ -56,32 +57,8 @@ extension LoginContainerNode {
     }
 
     RxKeyboard.instance.visibleHeight
-      .withUnretained(loginFormNode.view)
+      .withUnretained(loginFormNode.node.view)
       .drive(onNext: { $0.0.scrollWhenKeyboardEvent(height: $0.1) })
-      .disposed(by: disposeBag)
-  }
-
-  private func observeFormField() {
-    let emailValidObservable = loginFormNode.emailInputNode.stateStream.map({ $0 == .valid })
-    let passwordObservable = loginFormNode.passwordInputNode.stateStream.map({ $0 == .valid })
-
-    Observable.combineLatest(
-      emailValidObservable,
-      passwordObservable) { ($0, $1) }
-      .map { $0 && $1 }
-      .bind(to: loginFormNode.loginButtonNode.rx.isEnabled)
-      .disposed(by: disposeBag)
-
-    let backgroundScheduler = SerialDispatchQueueScheduler(qos: .default)
-
-    loginFormNode.emailInputNode
-      .editingDidEndOnExitEventStream
-      .withLatestFrom(loginFormNode.passwordInputNode.inputTextStream)
-      .observe(on: backgroundScheduler)
-      .observe(on: MainScheduler.instance)
-      .filter{ $0.isEmpty }
-      .map{ _ in Void() }
-      .bind(to: loginFormNode.passwordInputNode.becomeFirstResponderBinder)
       .disposed(by: disposeBag)
   }
 }
@@ -93,7 +70,10 @@ extension LoginContainerNode {
   // MARK: Internal
 
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-    let contentsLayout = ASOverlayLayoutSpec(child: loginFormNode, overlay: registerAreaLayoutSpec())
+    let contentsLayout = ASOverlayLayoutSpec(
+      child: loginFormNode.node,
+      overlay: registerAreaLayoutSpec())
+
     let containerLayout = ASInsetLayoutSpec(
       insets: .merge(list: [safeAreaInsets, Const.containerPadding]),
       child: contentsLayout)

@@ -17,6 +17,7 @@ target 'Application' do
   # Rx
   pod 'RxSwift', '6.0.0'
   pod 'RxCocoa', '6.0.0'
+  pod 'RxSwiftExt'
   pod 'RxOptional'
   pod 'RxKeyboard'
   pod 'RxViewController'

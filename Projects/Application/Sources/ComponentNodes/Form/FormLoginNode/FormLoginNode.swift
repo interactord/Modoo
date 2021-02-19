@@ -1,8 +1,10 @@
 import AsyncDisplayKit
+import ReactorKit
+import RxSwiftExt
 
-// MARK: - LoginFormNode
+// MARK: - FormLoginNode
 
-final class LoginFormNode: ASScrollNode {
+final class FormLoginNode: ASScrollNode, View {
 
   // MARK: Lifecycle
 
@@ -10,6 +12,7 @@ final class LoginFormNode: ASScrollNode {
     emailInputNode: TextInputNodeViewable = FormTextInputNode(scope: .email),
     passwordInputNode: TextInputNodeViewable = FormTextInputNode(scope: .password))
   {
+    defer { reactor = .init() }
     self.emailInputNode = emailInputNode
     self.passwordInputNode = passwordInputNode
     super.init()
@@ -23,6 +26,8 @@ final class LoginFormNode: ASScrollNode {
   }
 
   // MARK: Internal
+
+  var disposeBag = DisposeBag()
 
   let logoNode: ASImageNode = {
     let node = ASImageNode()
@@ -40,6 +45,11 @@ final class LoginFormNode: ASScrollNode {
   let forgetPasswordButton = FormSecondaryButtonNode(type: .helpSignIn)
   let keyboardDismissEventNode = ASControlNode()
 
+  func bind(reactor: FormLoginReactor) {
+    bindAction(reactor: reactor)
+    bindState(reactor: reactor)
+  }
+
   // MARK: Private
 
   private struct Const {
@@ -52,7 +62,71 @@ final class LoginFormNode: ASScrollNode {
 
 }
 
-extension LoginFormNode {
+extension FormLoginNode {
+  private func bindAction(reactor: FormLoginReactor) {
+    emailInputNode
+      .inputTextStream
+      .map { .typingEmail($0) }
+      .bind(to: reactor.action)
+      .disposed(by: disposeBag)
+
+    passwordInputNode
+      .inputTextStream
+      .map{ .typingPassword($0) }
+      .bind(to: reactor.action)
+      .disposed(by: disposeBag)
+
+    Observable.combineLatest(
+      emailInputNode.stateStream.map({ $0 == .valid }),
+      passwordInputNode.stateStream.map({ $0 == .valid })) { ($0, $1) }
+      .map { .isAllInputValid($0 && $1) }
+      .bind(to: reactor.action)
+      .disposed(by: disposeBag)
+
+    emailInputNode
+      .editingDidEndOnExitEventStream
+      .withLatestFrom(passwordInputNode.inputTextStream)
+      .observe(on: SerialDispatchQueueScheduler(qos: .default))
+      .observe(on: MainScheduler.instance)
+      .filter { $0.isEmpty }
+      .mapTo(Void())
+      .bind(to: passwordInputNode.becomeFirstResponderBinder)
+      .disposed(by: disposeBag)
+  }
+
+  private func bindState(reactor: FormLoginReactor) {
+    reactor.state
+      .map{ $0.isAllInputValid }
+      .bind(to: loginButtonNode.rx.isEnabled)
+      .disposed(by: disposeBag)
+  }
+}
+
+// MARK: LoginViewable
+
+extension FormLoginNode: LoginViewable {
+  var node: ASScrollNode { self }
+
+  var stateStream: Observable<FormLoginReactor.State> {
+    reactor?.state ?? .empty()
+  }
+
+  var loginTabStream: Observable<Void> {
+    loginButtonNode.rx.tap.asObservable()
+  }
+
+  var helpSignInTapStream: Observable<Void> {
+    forgetPasswordButton.rx.tap.asObservable()
+  }
+
+  var keyboardDismissEventNodeTapStream: Observable<Void> {
+    keyboardDismissEventNode.rx.tap.asObservable()
+  }
+}
+
+// MARK: - LayoutSpec
+
+extension FormLoginNode {
 
   // MARK: Internal
 

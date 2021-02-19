@@ -401,6 +401,14 @@ PODS:
   - RxRelay (6.0.0):
     - RxSwift (= 6.0.0)
   - RxSwift (6.0.0)
+  - RxSwiftExt (6.0.0):
+    - RxSwiftExt/Core (= 6.0.0)
+    - RxSwiftExt/RxCocoa (= 6.0.0)
+  - RxSwiftExt/Core (6.0.0):
+    - RxSwift (= 6.0.0)
+  - RxSwiftExt/RxCocoa (6.0.0):
+    - RxCocoa (= 6.0.0)
+    - RxSwiftExt/Core
   - RxTexture2 (1.3.0):
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
@@ -452,6 +460,7 @@ DEPENDENCIES:
   - RxKeyboard
   - RxOptional
   - RxSwift (= 6.0.0)
+  - RxSwiftExt
   - RxTexture2
   - RxViewController
   - SwiftLint
@@ -497,6 +506,7 @@ SPEC REPOS:
     - RxOptional
     - RxRelay
     - RxSwift
+    - RxSwiftExt
     - RxTexture2
     - RxViewController
     - SwiftLint
@@ -552,12 +562,13 @@ SPEC CHECKSUMS:
   RxOptional: e0b39f0863c25c4bfeea83cb35102a5244d048b3
   RxRelay: 8d593be109c06ea850df027351beba614b012ffb
   RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
+  RxSwiftExt: 6637802b67dd4b60c00c661cc640316b693c0387
   RxTexture2: afc37076fc7ac380642d569533ed858d296732fe
   RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: fd3c11979ad280acdef44a9c0e416743b2c441a1
+PODFILE CHECKSUM: 943856039bd4491975355731e557ad52fb440f72
 
 COCOAPODS: 1.10.1
