@@ -43,7 +43,7 @@ struct FirebaseAuthenticationUseCase: AuthenticationUseCase {
 
   func login(domain: LoginDisplayModel.State) -> Observable<Void> {
     authenticating
-      .login(email: domain.email, password: domain.password)
+      .login(email: domain.formState.email, password: domain.formState.password)
       .asObservable()
   }
 

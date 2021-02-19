@@ -4,15 +4,15 @@ import RIBs
 import RxCocoa
 import RxOptional
 import RxSwift
+import RxSwiftExt
 import RxTexture2
 
 // MARK: - LoginPresentableAction
 
 enum LoginPresentableAction: Equatable {
+  case loginState(FormLoginReactor.State)
   case login
   case register
-  case password(String)
-  case email(String)
   case loading(Bool)
 }
 
@@ -56,25 +56,20 @@ extension LoginViewController {
   }
 
   private func bindAction(listener: LoginPresentableListener) {
-    node.loginFormNode.emailInputNode
-      .inputTextStream
-      .map{ .email($0) }
-      .bind(to: listener.action)
-      .disposed(by: disposeBag)
-
-    node.loginFormNode.passwordInputNode
-      .inputTextStream
-      .map{ .password($0) }
+    node.loginFormNode
+      .stateStream
+      .map { .loginState($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
     node.dontHaveAccountButtonNode.rx.tap
-      .map{ _ in .register }
+      .mapTo(.register)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.loginFormNode.loginButtonNode.rx.tap
-      .map { _ in .login }
+    node.loginFormNode
+      .loginTabStream
+      .mapTo(.login)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 

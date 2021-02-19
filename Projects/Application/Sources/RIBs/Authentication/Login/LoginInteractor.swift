@@ -47,8 +47,7 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
   typealias State = LoginDisplayModel.State
 
   enum Mutation: Equatable {
-    case setEmail(String)
-    case setPassword(String)
+    case setLoginState(FormLoginReactor.State)
     case setError(String)
     case setLoading(Bool)
   }
@@ -69,14 +68,12 @@ extension LoginInteractor: LoginPresentableListener, Reactor {
 
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {
+    case let .loginState(state):
+      return .just(.setLoginState(state))
     case .login:
       return  mutatingRequestLogin()
     case .register:
       return  mutatingRegister()
-    case let .email(text):
-      return .just(.setEmail(text))
-    case let .password(text):
-      return .just(.setPassword(text))
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
     }
@@ -86,11 +83,9 @@ extension LoginInteractor: LoginPresentableListener, Reactor {
     var newState = state
 
     switch mutation {
-    case let .setEmail(text):
-      newState.email = text
-    case let .setPassword(text):
-      newState.password = text
-    case  let .setLoading(isLoading):
+    case let .setLoginState(state):
+      newState.formState = state
+    case let .setLoading(isLoading):
       newState.isLoading = isLoading
     case  let .setError(message):
       newState.errorMessage = message

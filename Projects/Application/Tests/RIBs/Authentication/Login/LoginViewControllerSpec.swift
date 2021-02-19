@@ -36,16 +36,16 @@ class LoginViewControllerSpec: QuickSpec {
         viewController.viewDidLayoutSubviews()
       }
 
-      context("사용자가 로그인 버튼을 탭하는경우 경우") {
-        beforeEach {
-          viewController.node.loginFormNode.loginButtonNode.isEnabled = true
-          viewController.node.loginFormNode.loginButtonNode.sendActions(forControlEvents: .touchUpInside, with: .none)
-        }
-
-        it("interactor의 액션 login으로 전달이 된다") {
-          expect(interactor.stub.actions.last) == LoginPresentableAction.login
-        }
-      }
+//      context("사용자가 로그인 버튼을 탭하는경우 경우") {
+//        beforeEach {
+//          viewController.node.loginFormNode.loginButtonNode.isEnabled = true
+//          viewController.node.loginFormNode.loginButtonNode.sendActions(forControlEvents: .touchUpInside, with: .none)
+//        }
+//
+//        it("interactor의 액션 login으로 전달이 된다") {
+//          expect(interactor.stub.actions.last) == LoginPresentableAction.login
+//        }
+//      }
 
       context("사용자가 회원가입 버튼을 탭하는경우 경우") {
         beforeEach {
