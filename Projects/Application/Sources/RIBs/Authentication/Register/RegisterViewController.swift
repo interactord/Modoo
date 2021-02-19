@@ -4,6 +4,7 @@ import RIBs
 import RxCocoa
 import RxOptional
 import RxSwift
+import RxSwiftExt
 import UIKit
 
 // MARK: - RegisterPresentableAction
@@ -12,10 +13,7 @@ enum RegisterPresentableAction: Equatable {
   case signUp
   case login
   case photo(UIImage?)
-  case email(String)
-  case password(String)
-  case fullName(String)
-  case userName(String)
+  case registerFormState(RegisterDisplayModel.FormState)
   case loading(Bool)
 }
 
@@ -76,8 +74,8 @@ extension RegisterViewController {
   }
 
   private func bindAction(listener: RegisterPresentableListener) {
-    node.registerFormNode.signUpButtonNode.rx.tap
-      .map{ _ in .signUp }
+    node.registerFormNode.signUpButtonTapStream
+      .mapTo(.signUp)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
@@ -86,17 +84,18 @@ extension RegisterViewController {
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    let plusButtonObserver = node.registerFormNode.plusButtonNode.rx.tap
+    let plusButtonObserver = node.registerFormNode.plusButtonTapStream
       .observe(on: MainScheduler.instance)
       .withUnretained(self)
       .flatMap {
-        $0.0.mediaPickerUseCase.selectImage(targetViewController: $0.0, source: .photoLibrary, allowsEditing: false)
+        $0.0.mediaPickerUseCase
+          .selectImage(targetViewController: $0.0, source: .photoLibrary, allowsEditing: false)
       }
       .map { $0.0 }
       .share()
 
     plusButtonObserver
-      .bind(to: node.registerFormNode.plusButtonNode.rx.image(for: .normal))
+      .bind(to: node.registerFormNode.plusButtonImageBinder)
       .disposed(by: disposeBag)
 
     plusButtonObserver
@@ -104,29 +103,20 @@ extension RegisterViewController {
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.registerFormNode.emailInputNode
-      .inputTextStream
-      .map { .email($0) }
+    node.registerFormNode
+      .stateStream
+      .map{ .registerFormState($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
+  }
 
-    node.registerFormNode.passwordInputNode
-      .inputTextStream
-      .map { .password($0) }
-      .bind(to: listener.action)
+  private func bindState(listener: RegisterPresentableListener) {
+    listener.state
+      .map { $0.errorMessage }
+      .filterEmpty()
+      .subscribe(onNext: { message in
+        print(message)
+      })
       .disposed(by: disposeBag)
-
-    node.registerFormNode.fullNameInputNode
-      .inputTextStream
-      .map { .fullName($0) }
-      .bind(to: listener.action)
-      .disposed(by: disposeBag)
-
-    node.registerFormNode.usernameInputNode
-      .inputTextStream
-      .map { .userName($0) }
-      .bind(to: listener.action)
-      .disposed(by: disposeBag)
-
   }
 }

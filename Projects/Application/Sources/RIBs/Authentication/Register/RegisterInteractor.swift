@@ -44,10 +44,7 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
 
   enum Mutation: Equatable {
     case setPhoto(UIImage?)
-    case setEmail(String)
-    case setPassword(String)
-    case setFullName(String)
-    case setUserName(String)
+    case setFormState(RegisterDisplayModel.FormState)
     case setLoading(Bool)
     case setError(String)
   }
@@ -77,14 +74,8 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
       return mutatingRequestSignUp()
     case  let .photo(image):
       return .just(.setPhoto(image))
-    case let .email(text):
-      return .just(.setEmail(text))
-    case let .password(text):
-      return .just(.setPassword(text))
-    case let .fullName(text):
-      return .just(.setFullName(text))
-    case let .userName(text):
-      return .just(.setUserName(text))
+    case let .registerFormState(formState):
+      return .just(.setFormState(formState))
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
     }
@@ -96,14 +87,8 @@ extension RegisterInteractor: RegisterPresentableListener, Reactor {
     switch mutation {
     case  let .setPhoto(image):
       newState.photo = image
-    case let .setEmail(text):
-      newState.email = text
-    case let .setPassword(text):
-      newState.password = text
-    case let .setFullName(text):
-      newState.fullName = text
-    case let .setUserName(text):
-      newState.userName = text
+    case let .setFormState(formState):
+      newState.formState = formState
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
     case let .setError(message):

@@ -1,6 +1,5 @@
 import AsyncDisplayKit
 import ReactorKit
-import RxSwiftExt
 
 // MARK: - FormLoginNode
 
@@ -102,12 +101,12 @@ extension FormLoginNode {
   }
 }
 
-// MARK: LoginViewable
+// MARK: FormLoginNodeViewable
 
-extension FormLoginNode: LoginViewable {
+extension FormLoginNode: FormLoginNodeViewable {
   var node: ASScrollNode { self }
 
-  var stateStream: Observable<FormLoginReactor.State> {
+  var stateStream: Observable<LoginDisplayModel.FormState> {
     reactor?.state ?? .empty()
   }
 

@@ -9,7 +9,7 @@ final class LoginContainerNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
-  init(loginFormNode: LoginViewable = FormLoginNode()) {
+  init(loginFormNode: FormLoginNodeViewable = FormLoginNode()) {
     self.loginFormNode = loginFormNode
 
     super.init()
@@ -27,7 +27,7 @@ final class LoginContainerNode: ASDisplayNode {
   // MARK: Internal
 
   let dontHaveAccountButtonNode = FormSecondaryButtonNode(type: .signIn)
-  let loginFormNode: LoginViewable
+  let loginFormNode: FormLoginNodeViewable
 
   // MARK: Private
 
