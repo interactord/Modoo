@@ -1,6 +1,8 @@
 import AsyncDisplayKit
 import BonMot
 import RxCocoa
+import RxOptional
+import RxSwift
 import UIKit
 
 // MARK: - SearchFieldNode
@@ -14,7 +16,7 @@ final class SearchFieldNode: ASDisplayNode {
     automaticallyManagesSubnodes = true
 
     backgroundColor = Const.backgroundColor
-    cornerRadius = Const.backgroundCorrerRadius
+    cornerRadius = Const.backgroundCornerRadius
   }
 
   deinit {
@@ -42,7 +44,7 @@ final class SearchFieldNode: ASDisplayNode {
     static let contentHeight = ASDimension(unit: .points, value: 30.0)
     static let contentPadding = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
     static let textFieldHeight = ASDimension(unit: .points, value: 18.0)
-    static let backgroundCorrerRadius: CGFloat = 8.0
+    static let backgroundCornerRadius: CGFloat = 8.0
     static let placeholderTextStyle =
       StringStyle(.font(.systemFont(ofSize: 15)), .color(#colorLiteral(red: 0.5882352941, green: 0.5882352941, blue: 0.5882352941, alpha: 1)))
     static let typingTextStyle =
@@ -63,7 +65,10 @@ final class SearchFieldNode: ASDisplayNode {
   }()
 
   private let textFieldNode: ASDisplayNode = {
-    let node = ASDisplayNode(viewBlock: { UITextField() })
+    let node = ASDisplayNode(viewBlock: {
+      UITextField()
+
+    })
     node.style.height = Const.textFieldHeight
     node.style.flexGrow = 1
     return node
@@ -76,9 +81,6 @@ final class SearchFieldNode: ASDisplayNode {
 extension SearchFieldNode {
 
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-    let flexibleSpcingLayout = ASLayoutSpec()
-    flexibleSpcingLayout.style.flexGrow = 1
-
     let contentLayout = ASStackLayoutSpec(
       direction: .horizontal,
       spacing: Const.contentSpacing,
@@ -94,4 +96,31 @@ extension SearchFieldNode {
       child: contentLayout)
   }
 
+}
+
+// MARK: - EventStream
+
+extension SearchFieldNode {
+
+  var editingDidBeginEventStream: Observable<Void>? {
+    textView?.rx
+      .controlEvent(.editingDidBegin)
+      .asObservable()
+  }
+
+  var editingDidEndEventStream: Observable<Void>? {
+    textView?.rx
+      .controlEvent([.editingDidEnd, .editingDidEndOnExit])
+      .asObservable()
+  }
+
+  var searchTextStream: Observable<String>? {
+    textView?.rx.text.filterNil()
+  }
+
+  var searchTextBinder: Binder<String> {
+    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, text in
+      base.textView?.text = text
+    }
+  }
 }

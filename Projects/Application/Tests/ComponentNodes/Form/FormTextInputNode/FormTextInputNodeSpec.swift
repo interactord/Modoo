@@ -1,3 +1,4 @@
+import AsyncDisplayKit
 import Nimble
 import Quick
 import UIKit
@@ -14,10 +15,19 @@ class FormTextInputNodeSpec: QuickSpec {
       node = FormTextInputNode(scope: .email)
       beforeBackgroundBorderColor = node.backgroundNode.borderColor
     }
+    afterEach {
+      node = nil
+    }
 
-    describe("로드가 되고나서") {
+    describe("화면에 렌더링이 되고난 이후") {
       beforeEach {
         node.didLoad()
+
+        let containedSize = ASSizeRange(
+          min: .init(width: 300, height: 400),
+          max: .init(width: 600, height: 800))
+
+        _ = node.layoutSpecThatFits(containedSize)
       }
 
       context("FormTextInputNode의 textView의 editingChanged을 전송하면") {

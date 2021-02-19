@@ -68,8 +68,8 @@ extension OnboardRouter: OnboardRouting {
 
   func setOnceViewControllers() {
     viewController.setVewControllers(viewControllers: [
-      applyFeedRouting(),
       applySearchRouting(),
+      applyFeedRouting(),
       applyProfileRouting(),
     ])
   }
