@@ -22,16 +22,13 @@ class SearchHeaderNodeSpec: QuickSpec {
           min: .init(width: 300, height: 400),
           max: .init(width: 600, height: 800))
 
-        node.searchField.didLoad()
         node.didLoad()
 
         _ = node.layoutSpecThatFits(containedSize)
-        _ = node.searchField.layoutSpecThatFits(containedSize)
       }
 
       it("크래시가 발생하지 않는다") {
         expect(node).toNot(beNil())
-        expect(node.searchField.textView).toNot(beNil())
       }
     }
 

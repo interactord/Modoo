@@ -7,7 +7,7 @@ import RxTexture2
 
 // MARK: - FormTextInputNode
 
-final class FormTextInputNode: ASDisplayNode & View {
+final class FormTextInputNode: ASDisplayNode, View {
 
   // MARK: Lifecycle
 
@@ -52,7 +52,7 @@ final class FormTextInputNode: ASDisplayNode & View {
   }
 
   func bind(reactor: FormTextInputReactor) {
-    bindAction(with: reactor)
+    bindAction(reactor: reactor)
   }
 
   // MARK: Private
@@ -90,8 +90,7 @@ final class FormTextInputNode: ASDisplayNode & View {
 // MARK: Binding
 
 extension FormTextInputNode {
-  private func bindAction(with reactor: FormTextInputReactor) {
-
+  private func bindAction(reactor: FormTextInputReactor) {
     textView?.rx
       .controlEvent(.editingChanged)
       .map { _ in Const.selectedStateColor.cgColor }

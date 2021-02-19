@@ -17,6 +17,7 @@ class SearchContainerNodeSpec: QuickSpec {
 
     describe("화면에 렌더링이 되고난 이후") {
       beforeEach {
+        node.didLoad()
 
         let containedSize = ASSizeRange(
           min: .init(width: 300, height: 400),
