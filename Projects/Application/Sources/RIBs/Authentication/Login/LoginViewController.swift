@@ -56,14 +56,14 @@ extension LoginViewController {
   }
 
   private func bindAction(listener: LoginPresentableListener) {
-    node.loginFormNode.emailInputNode.textView?.rx.text
-      .filterNil()
+    node.loginFormNode.emailInputNode
+      .inputTextStream
       .map{ .email($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.loginFormNode.passwordInputNode.textView?.rx.text
-      .filterNil()
+    node.loginFormNode.passwordInputNode
+      .inputTextStream
       .map{ .password($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)

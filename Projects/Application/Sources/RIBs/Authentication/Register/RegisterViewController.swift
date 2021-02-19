@@ -104,26 +104,26 @@ extension RegisterViewController {
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.registerFormNode.emailInputNode.textView?.rx.text
-      .filterNil()
+    node.registerFormNode.emailInputNode
+      .inputTextStream
       .map { .email($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.registerFormNode.passwordInputNode.textView?.rx.text
-      .filterNil()
+    node.registerFormNode.passwordInputNode
+      .inputTextStream
       .map { .password($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.registerFormNode.fullNameInputNode.textView?.rx.text
-      .filterNil()
+    node.registerFormNode.fullNameInputNode
+      .inputTextStream
       .map { .fullName($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.registerFormNode.usernameInputNode.textView?.rx.text
-      .filterNil()
+    node.registerFormNode.usernameInputNode
+      .inputTextStream
       .map { .userName($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)

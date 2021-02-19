@@ -40,11 +40,6 @@ final class FormTextInputReactor {
     }
   }
 
-  enum Status {
-    case wrong
-    case valid
-  }
-
   enum Action {
     case editingChanged(Scope?, String?)
   }
@@ -54,7 +49,7 @@ final class FormTextInputReactor {
   }
 
   struct State {
-    var statue: Status = .wrong
+    var state: TextInputNodeViewableState = .wrong
   }
 
   struct Const {
@@ -84,18 +79,18 @@ extension FormTextInputReactor: Reactor {
       guard let scope = scope, let text = text else { return state }
 
       if text.isEmpty {
-        newState.statue = .wrong
+        newState.state = .wrong
 
         return newState
       }
 
       switch scope {
       case .email:
-        newState.statue = text.isValidEmail() ? .valid: .wrong
+        newState.state = text.isValidEmail() ? .valid: .wrong
       case .password:
-        newState.statue = text.count > Const.passwordMinimumValidCount ? .valid : .wrong
+        newState.state = text.count > Const.passwordMinimumValidCount ? .valid : .wrong
       case .plain:
-        newState.statue = text.count > Const.plainMinimumValidCount ? .valid : .wrong
+        newState.state = text.count > Const.plainMinimumValidCount ? .valid : .wrong
       }
     }
 

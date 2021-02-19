@@ -46,16 +46,10 @@ final class RegisterContainerNode: ASDisplayNode {
 
 extension RegisterContainerNode {
   private func observeFormField() {
-    guard
-      let emailValidObservable = registerFormNode.emailInputNode.reactor?.state.map( { $0.statue == .valid }),
-      let emailInputTextView = registerFormNode.emailInputNode.textView,
-      let passwordValidObservable = registerFormNode.passwordInputNode.reactor?.state.map( { $0.statue == .valid }),
-      let passwordInputTextView = registerFormNode.passwordInputNode.textView,
-      let fullNameValidObservable = registerFormNode.fullNameInputNode.reactor?.state.map( { $0.statue == .valid }),
-      let fullNameInputTextView = registerFormNode.fullNameInputNode.textView,
-      let userNameValidObservable = registerFormNode.usernameInputNode.reactor?.state.map( { $0.statue == .valid }),
-      let userNameInputTextView = registerFormNode.usernameInputNode.textView
-    else { return }
+    let emailValidObservable = registerFormNode.emailInputNode.stateStream.map( { $0 == .valid })
+    let passwordValidObservable = registerFormNode.passwordInputNode.stateStream.map( { $0 == .valid })
+    let fullNameValidObservable = registerFormNode.fullNameInputNode.stateStream.map( { $0 == .valid })
+    let userNameValidObservable = registerFormNode.usernameInputNode.stateStream.map( { $0 == .valid })
 
     Observable.combineLatest(
       emailValidObservable,
@@ -68,16 +62,16 @@ extension RegisterContainerNode {
 
     let backgroundScheduler = SerialDispatchQueueScheduler(qos: .default)
     keyboardReturnBinding(
-      from: emailInputTextView,
-      to: passwordInputTextView,
+      from: registerFormNode.emailInputNode,
+      to: registerFormNode.passwordInputNode,
       backgroundScheduler: backgroundScheduler)
     keyboardReturnBinding(
-      from: passwordInputTextView,
-      to: fullNameInputTextView,
+      from: registerFormNode.passwordInputNode,
+      to: registerFormNode.fullNameInputNode,
       backgroundScheduler: backgroundScheduler)
     keyboardReturnBinding(
-      from: fullNameInputTextView,
-      to: userNameInputTextView,
+      from: registerFormNode.fullNameInputNode,
+      to: registerFormNode.usernameInputNode,
       backgroundScheduler: backgroundScheduler)
   }
 
@@ -99,18 +93,18 @@ extension RegisterContainerNode {
   }
 
   private func keyboardReturnBinding(
-    from: UITextField,
-    to: UITextField,
+    from: TextInputNodeViewable,
+    to: TextInputNodeViewable,
     backgroundScheduler: SerialDispatchQueueScheduler)
   {
-    from.rx.controlEvent(.editingDidEndOnExit)
-      .withLatestFrom(to.rx.text)
+    from.editingDidEndOnExitEventStream
+      .withLatestFrom(to.inputTextStream)
       .observe(on: backgroundScheduler)
       .observe(on: MainScheduler.instance)
-      .filter{ $0?.isEmpty ?? false }
-      .subscribe(onNext: { _ in
-        to.becomeFirstResponder()
-      }).disposed(by: disposeBag)
+      .filter{ $0.isEmpty }
+      .map{ _ in Void() }
+      .bind(to: to.becomeFirstResponderBinder)
+      .disposed(by: disposeBag)
   }
 
 }

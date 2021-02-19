@@ -62,12 +62,8 @@ extension LoginContainerNode {
   }
 
   private func observeFormField() {
-    guard
-      let emailValidObservable = loginFormNode.emailInputNode.reactor?.state.map({ $0.statue == .valid }),
-      let emailInputTextView = loginFormNode.emailInputNode.textView,
-      let passwordObservable = loginFormNode.passwordInputNode.reactor?.state.map({ $0.statue == .valid }),
-      let passwordInputTextView = loginFormNode.passwordInputNode.textView
-    else { return }
+    let emailValidObservable = loginFormNode.emailInputNode.stateStream.map({ $0 == .valid })
+    let passwordObservable = loginFormNode.passwordInputNode.stateStream.map({ $0 == .valid })
 
     Observable.combineLatest(
       emailValidObservable,
@@ -78,16 +74,15 @@ extension LoginContainerNode {
 
     let backgroundScheduler = SerialDispatchQueueScheduler(qos: .default)
 
-    emailInputTextView.rx
-      .controlEvent(.editingDidEndOnExit)
-      .withLatestFrom(passwordInputTextView.rx.text)
+    loginFormNode.emailInputNode
+      .editingDidEndOnExitEventStream
+      .withLatestFrom(loginFormNode.passwordInputNode.inputTextStream)
       .observe(on: backgroundScheduler)
       .observe(on: MainScheduler.instance)
-      .filter{ $0?.isEmpty ?? false }
-      .withUnretained(loginFormNode)
-      .subscribe(onNext: { owner, _ in
-        owner.passwordInputNode.textView?.becomeFirstResponder()
-      }).disposed(by: disposeBag)
+      .filter{ $0.isEmpty }
+      .map{ _ in Void() }
+      .bind(to: loginFormNode.passwordInputNode.becomeFirstResponderBinder)
+      .disposed(by: disposeBag)
   }
 }
 
