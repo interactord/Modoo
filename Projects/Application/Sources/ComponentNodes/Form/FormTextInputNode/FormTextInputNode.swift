@@ -1,6 +1,7 @@
 import AsyncDisplayKit
 import BonMot
 import ReactorKit
+import RxCocoa
 import RxOptional
 import RxSwift
 import RxTexture2
@@ -144,4 +145,32 @@ extension FormTextInputNode {
       ])
   }
 
+}
+
+// MARK: TextInputNodeViewable
+
+extension FormTextInputNode: TextInputNodeViewable {
+  var node: ASDisplayNode { self }
+
+  var stateStream: Observable<TextInputNodeViewableState> {
+    reactor?.state.map { $0.state } ?? .empty()
+  }
+
+  var editingDidEndOnExitEventStream: Observable<Void> {
+    textView?.rx
+      .controlEvent(.editingDidEndOnExit)
+      .asObservable()
+      ?? .empty()
+  }
+
+  var inputTextStream: Observable<String> {
+    textView?.rx.text.map{ $0 ?? "" }
+      ?? .empty()
+  }
+
+  var becomeFirstResponderBinder: Binder<Void> {
+    Binder(self) { owner, _ in
+      owner.textView?.becomeFirstResponder()
+    }
+  }
 }

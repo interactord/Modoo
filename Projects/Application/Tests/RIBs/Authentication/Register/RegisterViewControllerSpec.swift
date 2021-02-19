@@ -65,50 +65,6 @@ class RegisterViewControllerSpec: QuickSpec {
         }
       }
 
-      context("사용자가 이메일를 입력할 경우") {
-        beforeEach {
-          viewController.node.registerFormNode.emailInputNode.textView?.text = "123456789"
-          viewController.node.registerFormNode.emailInputNode.textView?.sendActions(for: .valueChanged)
-        }
-
-        it("interactor의 액션 email로 전달이 된다") {
-          expect(interactor.stub.actions.last) == RegisterPresentableAction.email("123456789")
-        }
-      }
-
-      context("사용자가 비밀번호를 입력할 경우") {
-        beforeEach {
-          viewController.node.registerFormNode.passwordInputNode.textView?.text = "123456789"
-          viewController.node.registerFormNode.passwordInputNode.textView?.sendActions(for: .valueChanged)
-        }
-
-        it("interactor의 액션 password로 전달이 된다") {
-          expect(interactor.stub.actions.last) == RegisterPresentableAction.password("123456789")
-        }
-      }
-
-      context("사용자가 이름를 입력할 경우") {
-        beforeEach {
-          viewController.node.registerFormNode.fullNameInputNode.textView?.text = "123456789"
-          viewController.node.registerFormNode.fullNameInputNode.textView?.sendActions(for: .valueChanged)
-        }
-
-        it("interactor의 액션 fullName로 전달이 된다") {
-          expect(interactor.stub.actions.last) == RegisterPresentableAction.fullName("123456789")
-        }
-      }
-
-      context("사용자가 아이디를 입력할 경우") {
-        beforeEach {
-          viewController.node.registerFormNode.usernameInputNode.textView?.text = "123456789"
-          viewController.node.registerFormNode.usernameInputNode.textView?.sendActions(for: .valueChanged)
-        }
-
-        it("interactor의 액션 fullName로 전달이 된다") {
-          expect(interactor.stub.actions.last) == RegisterPresentableAction.userName("123456789")
-        }
-      }
-
       context("사용자가 사진업로드 버튼을 입력할 경우") {
         beforeEach {
           viewController.node.registerFormNode.plusButtonNode.sendActions(forControlEvents: .touchUpInside, with: .none)

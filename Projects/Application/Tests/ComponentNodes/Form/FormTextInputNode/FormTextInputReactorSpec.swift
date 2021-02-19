@@ -5,7 +5,7 @@ import Quick
 
 class FormTextInputReactorSpec: QuickSpec {
   override func spec() {
-    typealias Status = FormTextInputReactor.Status
+    typealias State = TextInputNodeViewableState
     // swiftlint:disable implicitly_unwrapped_optional
     var reactor: FormTextInputReactor!
 
@@ -27,8 +27,8 @@ class FormTextInputReactorSpec: QuickSpec {
           reactor.action.onNext(.editingChanged(emailScope, ""))
         }
 
-        it("reactor currentState statue는 wrong 타입이다") {
-          expect(reactor.currentState.statue) == Status.wrong
+        it("reactor currentState state는 wrong 타입이다") {
+          expect(reactor.currentState.state) == State.wrong
         }
       }
 
@@ -37,8 +37,8 @@ class FormTextInputReactorSpec: QuickSpec {
           reactor.action.onNext(.editingChanged(emailScope, "1231231"))
         }
 
-        it("reactor currentState statue는 wrong 타입이다") {
-          expect(reactor.currentState.statue) == Status.wrong
+        it("reactor currentState state는 wrong 타입이다") {
+          expect(reactor.currentState.state) == State.wrong
         }
       }
 
@@ -47,8 +47,8 @@ class FormTextInputReactorSpec: QuickSpec {
           reactor.action.onNext(.editingChanged(emailScope, "asdvb@asdf.com"))
         }
 
-        it("reactor currentState statue는 valid 타입이다") {
-          expect(reactor.currentState.statue) == Status.valid
+        it("reactor currentState state는 valid 타입이다") {
+          expect(reactor.currentState.state) == State.valid
         }
       }
     }
@@ -60,8 +60,8 @@ class FormTextInputReactorSpec: QuickSpec {
           reactor.action.onNext(.editingChanged(passwordScope, ""))
         }
 
-        it("reactor currentState statue는 wrong 타입이다") {
-          expect(reactor.currentState.statue) == Status.wrong
+        it("reactor currentState state는 wrong 타입이다") {
+          expect(reactor.currentState.state) == State.wrong
         }
       }
 
@@ -70,8 +70,8 @@ class FormTextInputReactorSpec: QuickSpec {
           reactor.action.onNext(.editingChanged(passwordScope, "123456"))
         }
 
-        it("reactor currentState statue는 wrong 타입이다") {
-          expect(reactor.currentState.statue) == Status.wrong
+        it("reactor currentState state는 wrong 타입이다") {
+          expect(reactor.currentState.state) == State.wrong
         }
       }
 
@@ -80,8 +80,8 @@ class FormTextInputReactorSpec: QuickSpec {
           reactor.action.onNext(.editingChanged(passwordScope, "1234567"))
         }
 
-        it("reactor currentState statue는 valid 타입이다") {
-          expect(reactor.currentState.statue) == Status.valid
+        it("reactor currentState state는 valid 타입이다") {
+          expect(reactor.currentState.state) == State.valid
         }
       }
     }
@@ -93,8 +93,8 @@ class FormTextInputReactorSpec: QuickSpec {
           reactor.action.onNext(.editingChanged(plainScope, ""))
         }
 
-        it("reactor currentState statue는 wrong 타입이다") {
-          expect(reactor.currentState.statue) == Status.wrong
+        it("reactor currentState state는 wrong 타입이다") {
+          expect(reactor.currentState.state) == State.wrong
         }
       }
 
@@ -103,8 +103,8 @@ class FormTextInputReactorSpec: QuickSpec {
           reactor.action.onNext(.editingChanged(plainScope, "123"))
         }
 
-        it("reactor currentState statue는 wrong 타입이다") {
-          expect(reactor.currentState.statue) == Status.wrong
+        it("reactor currentState state는 wrong 타입이다") {
+          expect(reactor.currentState.state) == State.wrong
         }
       }
 
@@ -113,8 +113,8 @@ class FormTextInputReactorSpec: QuickSpec {
           reactor.action.onNext(.editingChanged(plainScope, "1234"))
         }
 
-        it("reactor currentState statue는 valid 타입이다") {
-          expect(reactor.currentState.statue) == Status.valid
+        it("reactor currentState state는 valid 타입이다") {
+          expect(reactor.currentState.state) == State.valid
         }
       }
     }

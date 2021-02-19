@@ -6,7 +6,16 @@ final class RegisterFormNode: ASScrollNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(
+    emailInputNode: TextInputNodeViewable = FormTextInputNode(scope: .email),
+    passwordInputNode: TextInputNodeViewable = FormTextInputNode(scope: .password),
+    fullNameInputNode: TextInputNodeViewable = FormTextInputNode(scope: .plain(placeholderString: "Fullname")),
+    usernameInputNode: TextInputNodeViewable = FormTextInputNode(scope: .plain(placeholderString: "Username")))
+  {
+    self.emailInputNode = emailInputNode
+    self.passwordInputNode = passwordInputNode
+    self.fullNameInputNode = fullNameInputNode
+    self.usernameInputNode = usernameInputNode
     super.init()
     automaticallyManagesContentSize = true
     automaticallyManagesSubnodes = true
@@ -31,10 +40,10 @@ final class RegisterFormNode: ASScrollNode {
     return node
   }()
 
-  let emailInputNode: FormTextInputNode = FormTextInputNode(scope: .email)
-  let passwordInputNode = FormTextInputNode(scope: .password)
-  let fullNameInputNode = FormTextInputNode(scope: .plain(placeholderString: "Fullname"))
-  let usernameInputNode = FormTextInputNode(scope: .plain(placeholderString: "Username"))
+  let emailInputNode: TextInputNodeViewable
+  let passwordInputNode: TextInputNodeViewable
+  let fullNameInputNode: TextInputNodeViewable
+  let usernameInputNode: TextInputNodeViewable
   let signUpButtonNode = FormPrimaryButtonNode(type: .signUp)
   let keyboardDismissEventNode = ASControlNode()
 
@@ -80,10 +89,10 @@ extension RegisterFormNode {
       justifyContent: .start,
       alignItems: .stretch,
       children: [
-        emailInputNode,
-        passwordInputNode,
-        fullNameInputNode,
-        usernameInputNode,
+        emailInputNode.node,
+        passwordInputNode.node,
+        fullNameInputNode.node,
+        usernameInputNode.node,
         signUpButtonNode,
       ])
   }

@@ -6,7 +6,12 @@ final class LoginFormNode: ASScrollNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(
+    emailInputNode: TextInputNodeViewable = FormTextInputNode(scope: .email),
+    passwordInputNode: TextInputNodeViewable = FormTextInputNode(scope: .password))
+  {
+    self.emailInputNode = emailInputNode
+    self.passwordInputNode = passwordInputNode
     super.init()
     automaticallyManagesContentSize = true
     automaticallyManagesSubnodes = true
@@ -29,8 +34,8 @@ final class LoginFormNode: ASScrollNode {
     return node
   }()
 
-  let emailInputNode: FormTextInputNode = FormTextInputNode(scope: .email)
-  let passwordInputNode = FormTextInputNode(scope: .password)
+  let emailInputNode: TextInputNodeViewable
+  let passwordInputNode: TextInputNodeViewable
   let loginButtonNode = FormPrimaryButtonNode(type: .login)
   let forgetPasswordButton = FormSecondaryButtonNode(type: .helpSignIn)
   let keyboardDismissEventNode = ASControlNode()
@@ -76,8 +81,8 @@ extension LoginFormNode {
       justifyContent: .start,
       alignItems: .stretch,
       children: [
-        emailInputNode,
-        passwordInputNode,
+        emailInputNode.node,
+        passwordInputNode.node,
         loginButtonNode,
         forgetPasswordButton,
       ])
