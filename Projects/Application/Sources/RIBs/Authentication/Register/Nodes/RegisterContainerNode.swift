@@ -9,12 +9,12 @@ final class RegisterContainerNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(registerFormNode: FormRegisterNodeViewable = FormRegisterNode()) {
+    self.registerFormNode = registerFormNode
     super.init()
     automaticallyManagesSubnodes = true
     automaticallyRelayoutOnSafeAreaChanges = true
     backgroundColor = .black
-    observeFormField()
     observeKeyboard()
   }
 
@@ -26,7 +26,7 @@ final class RegisterContainerNode: ASDisplayNode {
 
   let alreadyHaveAccountButtonNode = FormSecondaryButtonNode(type: .signUp)
 
-  let registerFormNode = RegisterFormNode()
+  let registerFormNode: FormRegisterNodeViewable
 
   // MARK: Private
 
@@ -45,40 +45,11 @@ final class RegisterContainerNode: ASDisplayNode {
 // MARK: Binding
 
 extension RegisterContainerNode {
-  private func observeFormField() {
-    let emailValidObservable = registerFormNode.emailInputNode.stateStream.map( { $0 == .valid })
-    let passwordValidObservable = registerFormNode.passwordInputNode.stateStream.map( { $0 == .valid })
-    let fullNameValidObservable = registerFormNode.fullNameInputNode.stateStream.map( { $0 == .valid })
-    let userNameValidObservable = registerFormNode.usernameInputNode.stateStream.map( { $0 == .valid })
-
-    Observable.combineLatest(
-      emailValidObservable,
-      passwordValidObservable,
-      fullNameValidObservable,
-      userNameValidObservable) { ($0, $1, $2, $3) }
-      .map { $0 && $1 && $2 && $3 }
-      .bind(to: registerFormNode.signUpButtonNode.rx.isEnabled)
-      .disposed(by: disposeBag)
-
-    let backgroundScheduler = SerialDispatchQueueScheduler(qos: .default)
-    keyboardReturnBinding(
-      from: registerFormNode.emailInputNode,
-      to: registerFormNode.passwordInputNode,
-      backgroundScheduler: backgroundScheduler)
-    keyboardReturnBinding(
-      from: registerFormNode.passwordInputNode,
-      to: registerFormNode.fullNameInputNode,
-      backgroundScheduler: backgroundScheduler)
-    keyboardReturnBinding(
-      from: registerFormNode.fullNameInputNode,
-      to: registerFormNode.usernameInputNode,
-      backgroundScheduler: backgroundScheduler)
-  }
 
   private func observeKeyboard() {
     [
-      keyboardDismissEventNode.rx.tap,
-      registerFormNode.keyboardDismissEventNode.rx.tap,
+      keyboardDismissEventNode.rx.tap.asObservable(),
+      registerFormNode.keyboardDismissEventNodeTapStream,
     ]
     .forEach {
       $0.withUnretained(view)
@@ -87,23 +58,8 @@ extension RegisterContainerNode {
     }
 
     RxKeyboard.instance.visibleHeight
-      .withUnretained(registerFormNode.view)
+      .withUnretained(registerFormNode.node.view)
       .drive(onNext: { $0.0.scrollWhenKeyboardEvent(height: $0.1) })
-      .disposed(by: disposeBag)
-  }
-
-  private func keyboardReturnBinding(
-    from: TextInputNodeViewable,
-    to: TextInputNodeViewable,
-    backgroundScheduler: SerialDispatchQueueScheduler)
-  {
-    from.editingDidEndOnExitEventStream
-      .withLatestFrom(to.inputTextStream)
-      .observe(on: backgroundScheduler)
-      .observe(on: MainScheduler.instance)
-      .filter{ $0.isEmpty }
-      .map{ _ in Void() }
-      .bind(to: to.becomeFirstResponderBinder)
       .disposed(by: disposeBag)
   }
 
@@ -117,7 +73,7 @@ extension RegisterContainerNode {
 
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
     let contentsLayout = ASOverlayLayoutSpec(
-      child: registerFormNode,
+      child: registerFormNode.node,
       overlay: registerAreaLayoutSpec())
     let containerLayout = ASInsetLayoutSpec(
       insets: .merge(list: [safeAreaInsets, Const.containerPadding]),

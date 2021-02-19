@@ -26,15 +26,15 @@ struct FirebaseAuthenticationUseCase: AuthenticationUseCase {
 
   func register(domain: RegisterDisplayModel.State) -> Observable<Void> {
     Observable.zip(
-      authenticating.create(email: domain.email, password: domain.password).asObservable(),
+      authenticating.create(email: domain.formState.email, password: domain.formState.password).asObservable(),
       mediaUploading.upload(image: domain.photo, directoryName: Const.directoryName).asObservable())
       .map { uid, imagePath -> (String, String, [String: Any]) in
         let dictionary: [String: Any] = [
           "uid": uid,
-          "email": domain.email,
+          "email": domain.formState.email,
           "profileImageURL": imagePath,
-          "username": domain.userName,
-          "fullname": domain.fullName,
+          "username": domain.formState.userName,
+          "fullname": domain.formState.fullName,
         ]
         return (uid, Const.collectionName, dictionary)
       }

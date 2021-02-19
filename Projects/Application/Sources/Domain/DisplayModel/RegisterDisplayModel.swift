@@ -2,22 +2,24 @@ import UIKit
 
 enum RegisterDisplayModel {
 
+  struct FormState: Equatable {
+    var email = ""
+    var password = ""
+    var fullName = ""
+    var userName = ""
+    var isAllInputValid = false
+  }
+
   struct State: Equatable, PresentableState {
     var photo: UIImage?
-    var email: String
-    var password: String
-    var fullName: String
-    var userName: String
+    var formState: FormState
     var errorMessage: String
     var isLoading: Bool
 
     static func initialState() -> Self {
       State(
         photo: nil,
-        email: "",
-        password: "",
-        fullName: "",
-        userName: "",
+        formState: .init(),
         errorMessage: "",
         isLoading: false)
     }
