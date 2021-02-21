@@ -4,8 +4,8 @@ import RxIGListKit
 // MARK: - ProfileSectionModel
 
 enum ProfileSectionModel {
-  case userInformationSummery(itemModel: ProfileInformationItem)
-  case userContent(itemModel: ProfileContentItem)
+  case userInformationSummery(itemModel: ProfileInformationSectionItemModel)
+  case userContent(itemModel: ProfileContentSectionItemModel)
 }
 
 // MARK: SectionModelType
