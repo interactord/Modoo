@@ -46,7 +46,7 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
   typealias State = ProfileDisplayModel.State
 
   enum Mutation: Equatable {
-    case setUserProfile(ProfileDisplayModel.InformationDisplayModel)
+    case setUserProfile(ProfileDisplayModel.InformationSectionItem)
     case setError(String)
     case setLoading(Bool)
   }
@@ -80,9 +80,9 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
     var newState = state
 
     switch mutation {
-    case let .setUserProfile(informationDisplayModel):
+    case let .setUserProfile(informationSectionItem):
       let sectionID = state.informationSectionModel.sectionID
-      newState.informationSectionModel = .init(sectionID: sectionID, displayModel: informationDisplayModel)
+      newState.informationSectionModel = .init(sectionID: sectionID, sectionItem: informationSectionItem)
     case  let .setLoading(isLoading):
       newState.isLoading = isLoading
     case  let .setError(message):
@@ -99,14 +99,8 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
 
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
-    let useCaseStream = userUseCase.fetchUser().flatMap { repository -> Observable<Mutation> in
-      let model = ProfileDisplayModel.InformationDisplayModel(
-        userName: repository.username,
-        avatarImageURL: repository.profileImageURL,
-        postCount: "0",
-        followingCount: "0",
-        followerCount: "0",
-        bioDescription: "")
+    let useCaseStream = userUseCase.fetchUser().flatMap { repositoryModel -> Observable<Mutation> in
+      let model = ProfileDisplayModel.InformationSectionItem(repositoryModel: repositoryModel)
       return .just(.setUserProfile(model))
     }
     .catch { .just(.setError($0.localizedDescription)) }

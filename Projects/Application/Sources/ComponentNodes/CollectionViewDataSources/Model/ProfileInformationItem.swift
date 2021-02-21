@@ -6,14 +6,18 @@ final class ProfileInformationItem {
 
   // MARK: Lifecycle
 
-  init(sectionID: Int, displayModel: ProfileDisplayModel.InformationDisplayModel) {
+  init(sectionID: Int, sectionItem: ProfileDisplayModel.InformationSectionItem) {
     self.sectionID = sectionID
-    userName = displayModel.userName
-    avatarImageURL = displayModel.avatarImageURL
-    postCount = displayModel.postCount
-    followerCount = displayModel.followerCount
-    followingCount = displayModel.followingCount
-    bioDescription = displayModel.bioDescription
+    userName = sectionItem.section.userName
+    avatarImageURL = sectionItem.section.avatarImageURL
+    postCount = sectionItem.section.postCount
+    followerCount = sectionItem.section.followerCount
+    followingCount = sectionItem.section.followingCount
+    bioDescription = sectionItem.section.bioDescription
+  }
+
+  convenience init() {
+    self.init(sectionID: UUID().hashValue, sectionItem: .init(section: .init()))
   }
 
   // MARK: Internal
