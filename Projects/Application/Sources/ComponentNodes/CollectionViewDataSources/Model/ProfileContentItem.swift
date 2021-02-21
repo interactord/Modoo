@@ -6,10 +6,14 @@ final class ProfileContentItem {
 
   // MARK: Lifecycle
 
-  init(sectionID: Int, displayModel: ProfileDisplayModel.MediaContentDisplayModel) {
+  init(sectionID: Int, sectionItem: ProfileDisplayModel.MediaContentDisplayModel) {
     self.sectionID = sectionID
-    type = displayModel.type
-    dummy = displayModel.dummy
+    type = sectionItem.type
+    dummy = sectionItem.dummy
+  }
+
+  convenience init() {
+    self.init(sectionID: UUID().hashValue, sectionItem: .init())
   }
 
   // MARK: Internal
