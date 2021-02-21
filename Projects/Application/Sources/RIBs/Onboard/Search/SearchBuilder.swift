@@ -8,6 +8,7 @@ protocol SearchDependency: Dependency {
 // MARK: - SearchComponent
 
 final class SearchComponent: Component<SearchDependency> {
+  fileprivate var initailState: SearchDisplayModel.State { .initialState() }
 }
 
 // MARK: - SearchBuildable
@@ -33,9 +34,11 @@ final class SearchBuilder: Builder<SearchDependency>, SearchBuildable {
   // MARK: Internal
 
   func build(withListener listener: SearchListener) -> SearchRouting {
-    _ = SearchComponent(dependency: dependency)
+    let component = SearchComponent(dependency: dependency)
     let viewController = SearchViewController(node: .init())
-    let interactor = SearchInteractor(presenter: viewController)
+    let interactor = SearchInteractor(
+      presenter: viewController,
+      initialState: component.initailState)
     interactor.listener = listener
     return SearchRouter(interactor: interactor, viewController: viewController)
   }
