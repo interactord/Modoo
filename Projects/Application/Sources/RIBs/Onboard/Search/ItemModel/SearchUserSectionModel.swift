@@ -4,7 +4,7 @@ import RxIGListKit
 // MARK: - SearchUserSectionModel
 
 enum SearchUserSectionModel {
-  case userContent(itemModel: SearchUserContentItemModel)
+  case userContent(itemModel: SearchUserContentSectionItemModel)
 }
 
 // MARK: SectionModelType

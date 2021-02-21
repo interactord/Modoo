@@ -1,8 +1,8 @@
 import IGListKit
 
-// MARK: - ProfileContentItem
+// MARK: - ProfileContentSectionItemModel
 
-final class ProfileContentItem {
+final class ProfileContentSectionItemModel {
 
   // MARK: Lifecycle
 
@@ -26,14 +26,14 @@ final class ProfileContentItem {
 
 // MARK: ListDiffable
 
-extension ProfileContentItem: ListDiffable {
+extension ProfileContentSectionItemModel: ListDiffable {
   func diffIdentifier() -> NSObjectProtocol {
     sectionID as NSObjectProtocol
   }
 
   func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
     if self === object { return true }
-    guard let item = object as? ProfileContentItem else { return false }
+    guard let item = object as? ProfileContentSectionItemModel else { return false }
     return type == item.type
   }
 }

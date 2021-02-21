@@ -46,16 +46,16 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
 
   let disposeBag = DisposeBag()
 
-  let dataSource = RxListAdapterDataSource<ProfileSectionModel> { _, object -> ListSectionController in
+  let dataSource = RxListAdapterDataSource<ProfileSectionModel> { _, object in
     switch object {
     case let .userInformationSummery(itemModel):
-      return SectionController<ProfileInformationItem>(
+      return SectionController<ProfileInformationSectionItemModel>(
         elementKindTypes: [.header],
         supplementaryViewBlock: { _, _, item -> ASCellNode in
           ProfileInformationCellNode(item: item)
         })
     case let .userContent(itemModel):
-      let sectionController = SectionController<ProfileContentItem>(
+      let sectionController = SectionController<ProfileContentSectionItemModel>(
         elementKindTypes: [.header],
         supplementaryViewBlock: { _  in ProfileSubMenuCellNode() },
         numberOfCellItemsBlock: { _ in 10 },
@@ -97,14 +97,14 @@ extension ProfileViewController {
 
     state
       .map {[
-        ProfileSectionModel.userInformationSummery(itemModel: $0.informationSectionModel),
-        ProfileSectionModel.userContent(itemModel: $0.contentsSectionModel),
+        ProfileSectionModel.userInformationSummery(itemModel: $0.informationSectionItemModel),
+        ProfileSectionModel.userContent(itemModel: $0.contentsSectionItemModel),
       ]}
       .bind(to: adapter.rx.objects(for: dataSource))
       .disposed(by: disposeBag)
 
     state
-      .map { $0.informationSectionModel.userName }
+      .map { $0.informationSectionItemModel.userName }
       .bind(to: node.headerNode.userName)
       .disposed(by: disposeBag)
   }

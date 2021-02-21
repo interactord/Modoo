@@ -49,17 +49,17 @@ enum ProfileDisplayModel {
   }
 
   struct State: PresentableState {
-    var informationSectionModel: ProfileInformationItem
-    var contentsSectionModel: ProfileContentItem
+    var informationSectionItemModel: ProfileInformationSectionItemModel
+    var contentsSectionItemModel: ProfileContentSectionItemModel
     var isLoading: Bool
     var errorMessage: String
 
     static func initialState() -> Self {
-      let informationSectionModel = ProfileInformationItem()
-      let contentsSectionModel = ProfileContentItem()
+      let informationSectionItemModel = ProfileInformationSectionItemModel()
+      let contentsSectionItemModel = ProfileContentSectionItemModel()
       return State(
-        informationSectionModel: informationSectionModel,
-        contentsSectionModel: contentsSectionModel,
+        informationSectionItemModel: informationSectionItemModel,
+        contentsSectionItemModel: contentsSectionItemModel,
         isLoading: false,
         errorMessage: "")
     }

@@ -1,8 +1,8 @@
 import IGListKit
 
-// MARK: - SearchUserContentItemModel
+// MARK: - SearchUserContentSectionItemModel
 
-final class SearchUserContentItemModel {
+final class SearchUserContentSectionItemModel {
 
   // MARK: Lifecycle
 
@@ -23,14 +23,14 @@ final class SearchUserContentItemModel {
 
 // MARK: ListDiffable
 
-extension SearchUserContentItemModel: ListDiffable {
+extension SearchUserContentSectionItemModel: ListDiffable {
   func diffIdentifier() -> NSObjectProtocol {
     sectionID as NSObjectProtocol
   }
 
   func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
     if self === object { return true }
-    guard let item = object as? SearchUserContentItemModel else { return false }
+    guard let item = object as? SearchUserContentSectionItemModel else { return false }
     return sectionItem == item.sectionItem
   }
 }
