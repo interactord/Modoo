@@ -47,6 +47,7 @@ enum SearchDisplayModel {
 
   struct State: PresentableState {
     var userContentSectionItemModel: SearchUserContentSectionItemModel
+    var tempUserContentSectionItemModel: SearchUserContentSectionItemModel
     var isLoading: Bool
     var errorMessage: String
 
@@ -54,6 +55,7 @@ enum SearchDisplayModel {
       let userContentSectionItemModel = SearchUserContentSectionItemModel()
       return State(
         userContentSectionItemModel: userContentSectionItemModel,
+        tempUserContentSectionItemModel: userContentSectionItemModel,
         isLoading: false,
         errorMessage: "")
     }
