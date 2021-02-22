@@ -36,6 +36,8 @@ final class SearchViewController: ASDKViewController<SearchContainerNode>, Searc
 
   // MARK: Internal
 
+  var items: [String] = Array(repeating: "1", count: 10)
+
   lazy var searchUserAdapter: ListAdapter = {
     let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self)
     adapter.setASDKCollectionNode(node.searchUserCollectionNode)
@@ -43,6 +45,16 @@ final class SearchViewController: ASDKViewController<SearchContainerNode>, Searc
   }()
 
   let disposeBag = DisposeBag()
+
+  let searchUserDataSource = RxListAdapterDataSource<SearchUserSectionModel> { _, object in
+    switch object {
+    case let .userContent(itemModel):
+      return SectionController<SearchUserContentSectionItemModel>(
+        elementKindTypes: [],
+        numberOfCellItemsBlock: { _ in 10 },
+        nodeForItemBlock: { _, _ in SearchUserCellNode() })
+    }
+  }
 
   weak var listener: SearchPresentableListener? {
     didSet { bind(listener: listener) }
@@ -62,5 +74,13 @@ extension SearchViewController {
   }
 
   private func bindState(listener: SearchPresentableListener) {
+    let state = listener.state.share()
+
+    state
+      .map{[
+        SearchUserSectionModel.userContent(itemModel: $0.userContentSectionItemModel),
+      ]}
+      .bind(to: searchUserAdapter.rx.objects(for: searchUserDataSource))
+      .disposed(by: disposeBag)
   }
 }

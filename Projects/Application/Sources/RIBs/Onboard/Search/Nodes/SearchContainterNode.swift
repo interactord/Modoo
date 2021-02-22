@@ -22,7 +22,7 @@ final class SearchContainerNode: ASDisplayNode {
 
   let headerNode = SearchHeaderNode()
 
-  let collectionNode: ASCollectionNode = {
+  let searchUserCollectionNode: ASCollectionNode = {
     let flowLayout = UICollectionViewFlowLayout()
     flowLayout.scrollDirection = .vertical
     flowLayout.minimumLineSpacing = .zero
@@ -32,7 +32,7 @@ final class SearchContainerNode: ASDisplayNode {
     node.registerSupplementaryNode(ofKind: UICollectionView.elementKindSectionHeader)
     node.alwaysBounceVertical = true
     node.style.flexGrow = 1
-    node.backgroundColor = .red
+
     return node
   }()
 }
@@ -48,7 +48,7 @@ extension SearchContainerNode {
       alignItems: .stretch,
       children: [
         headerNode,
-        collectionNode,
+        searchUserCollectionNode,
       ])
 
     return ASInsetLayoutSpec(insets: safeAreaInsets, child: contensLayout)
