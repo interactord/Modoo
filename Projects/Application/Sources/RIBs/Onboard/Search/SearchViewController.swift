@@ -11,6 +11,7 @@ import UIKit
 
 enum SearchPresentableAction: Equatable {
   case load
+  case typingSearch(String)
   case loading(Bool)
 }
 
@@ -72,6 +73,13 @@ extension SearchViewController {
       .mapTo(.load)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
+
+    node.headerNode
+      .searchTextStream?
+      .map { .typingSearch($0) }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
   }
 
   private func bindState(listener: SearchPresentableListener) {

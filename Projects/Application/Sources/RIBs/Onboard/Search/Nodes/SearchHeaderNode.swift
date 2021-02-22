@@ -19,6 +19,12 @@ final class SearchHeaderNode: ASDisplayNode {
     print("SearchHeaderNode deinit...")
   }
 
+  // MARK: Internal
+
+  var searchTextStream: Observable<String>? {
+    searchNode.searchTextStream
+  }
+
   // MARK: Private
 
   private struct Const {

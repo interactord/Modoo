@@ -48,6 +48,7 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchIn
     case setLoading(Bool)
     case setError(String)
     case setUserContentSectionItemModel(SearchDisplayModel.SearchContentSectionItem)
+    case setSearch(String)
   }
 
   weak var router: SearchRouting?
@@ -68,6 +69,8 @@ extension SearchInteractor: SearchPresentableListener, Reactor {
     switch action {
     case .load:
       return mutatingLoad()
+    case let .typingSearch(text):
+      return .just(.setSearch(text))
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
     }
@@ -78,9 +81,21 @@ extension SearchInteractor: SearchPresentableListener, Reactor {
 
     switch mutation {
     case let .setUserContentSectionItemModel(sectionItemModel):
-      newState.userContentSectionItemModel = SearchUserContentSectionItemModel(
+      let sectionItemModel = SearchUserContentSectionItemModel(
         sectionID: state.userContentSectionItemModel.sectionID,
         sectionItem: sectionItemModel)
+      newState.userContentSectionItemModel = sectionItemModel
+      newState.tempUserContentSectionItemModel = sectionItemModel
+    case let .setSearch(text):
+      let filterCellItem = !text.isEmpty
+        ? state.tempUserContentSectionItemModel.cellItems.filter({
+          $0.userName.lowercased().contains(text.lowercased())
+            || $0.fullName.lowercased().contains(text.lowercased())
+        })
+        : state.tempUserContentSectionItemModel.cellItems
+
+      newState.userContentSectionItemModel = SearchUserContentSectionItemModel(
+        sectionID: state.userContentSectionItemModel.sectionID, sectionItem: .init(items: filterCellItem))
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
     case let .setError(errorMessage):
