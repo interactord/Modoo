@@ -73,6 +73,9 @@ extension SearchInteractor: SearchPresentableListener, Reactor {
       return .just(.setSearch(text))
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
+    case  let .loadUser(item):
+      print(item)
+      return .empty()
     }
   }
 
