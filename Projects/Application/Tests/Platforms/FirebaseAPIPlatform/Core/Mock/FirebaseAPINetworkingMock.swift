@@ -43,4 +43,27 @@ class FirebaseAPINetworkingMock: FirebaseAPINetworking {
       return Disposables.create()
     }
   }
+
+  func get<T: Decodable>(collection: String) -> Single<[T]> {
+    .create { single in
+      guard let jsonObject = self.jsonObject else {
+        single(.failure(TestUtil.TestErrors.testMockError))
+        return Disposables.create()
+      }
+
+      switch self.networkState {
+      case .succeed:
+        do {
+          let model = try T.init(from: jsonObject)
+          single(.success([model]))
+        } catch {
+          single(.failure(error))
+        }
+      case .failed:
+        single(.failure(TestUtil.TestErrors.testMockError))
+      }
+
+      return Disposables.create()
+    }
+  }
 }

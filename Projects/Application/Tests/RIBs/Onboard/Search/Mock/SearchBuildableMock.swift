@@ -14,6 +14,11 @@ class SearchBuildableMock: Builder<SearchDependency> {
   // MARK: Fileprivate
 
   fileprivate var initialState: SearchDisplayModel.State { .initialState() }
+  fileprivate var userUseCase: UserUseCase {
+    FirebaseUserUseCase(
+      authenticating: FirebaseAuthentication(),
+      apiNetworking: FirebaseAPINetwork())
+  }
 
 }
 
@@ -25,7 +30,8 @@ extension SearchBuildableMock: SearchBuildable {
     let viewController = SearchViewController(node: .init())
     let interactor = SearchInteractor(
       presenter: viewController,
-      initialState: initialState)
+      initialState: initialState,
+      userUseCase: userUseCase)
     interactor.listener = listener
 
     return SearchRouter(

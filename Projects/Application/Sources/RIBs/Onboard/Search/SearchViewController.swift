@@ -37,8 +37,6 @@ final class SearchViewController: ASDKViewController<SearchContainerNode>, Searc
 
   // MARK: Internal
 
-  var items: [String] = Array(repeating: "1", count: 10)
-
   lazy var searchUserAdapter: ListAdapter = {
     let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self)
     adapter.setASDKCollectionNode(node.searchUserCollectionNode)
@@ -51,9 +49,7 @@ final class SearchViewController: ASDKViewController<SearchContainerNode>, Searc
     switch object {
     case let .userContent(itemModel):
       return SectionController<SearchUserContentSectionItemModel>(
-        nodeForItemBlock: { item in
-          SearchUserCellNode(item: item)
-        })
+        nodeForItemBlock: { SearchUserCellNode(item: $0) })
     }
   }
 

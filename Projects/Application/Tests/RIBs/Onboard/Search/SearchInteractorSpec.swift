@@ -8,13 +8,17 @@ class SearchInteractorSpec: QuickSpec {
     var interactor: SearchInteractor!
     // swiftlint:disable implicitly_unwrapped_optional
     var viewController: SearchViewControllableMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var userUseCaseMock: FirebaseUserUseCaseMock!
 
     beforeEach {
       viewController = SearchViewControllableMock()
+      userUseCaseMock = FirebaseUserUseCaseMock()
       let state = SearchDisplayModel.State.initialState()
       interactor = SearchInteractor(
         presenter: viewController,
-        initialState: state)
+        initialState: state,
+        userUseCase: userUseCaseMock)
       _ = SearchRoutingMock(
         interactable: interactor,
         viewControllable: viewController)
@@ -22,6 +26,7 @@ class SearchInteractorSpec: QuickSpec {
     afterEach {
       interactor = nil
       viewController = nil
+      userUseCaseMock = nil
     }
 
     describe("활성화 이후") {
