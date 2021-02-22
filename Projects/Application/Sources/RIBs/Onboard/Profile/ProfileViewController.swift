@@ -51,16 +51,13 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
     case let .userInformationSummery(itemModel):
       return SectionController<ProfileInformationSectionItemModel>(
         elementKindTypes: [.header],
-        supplementaryViewBlock: { _, _, item -> ASCellNode in
-          ProfileInformationCellNode(item: item)
-        })
+        supplementaryViewHeaderBlockType: { ProfileInformationCellNode(item: $0) })
     case let .userContent(itemModel):
       let sectionController = SectionController<ProfileContentSectionItemModel>(
         elementKindTypes: [.header],
-        supplementaryViewBlock: { _  in ProfileSubMenuCellNode() },
-        numberOfCellItemsBlock: { _ in 10 },
+        supplementaryViewHeaderBlockType: { _ in ProfileSubMenuCellNode() },
         sizeForItemWidthBlock: { (UIScreen.main.bounds.width - 2) / 3 },
-        nodeForItemBlock: { _, _ in ProfilePostCellNode() })
+        nodeForItemBlock: { _ in ProfilePostCellNode() })
       sectionController.minimumLineSpacing = 1
       return sectionController
     }
@@ -82,12 +79,12 @@ extension ProfileViewController {
 
   private func bindAction(listener: ProfilePresentableListener) {
     rx.viewDidLoad
-      .map { .load }
+      .mapTo(.load)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
     node.headerNode.moreButton.rx.tap
-      .map { .logout }
+      .mapTo(.logout)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
   }
@@ -104,7 +101,7 @@ extension ProfileViewController {
       .disposed(by: disposeBag)
 
     state
-      .map { $0.informationSectionItemModel.userName }
+      .map { $0.informationSectionItemModel.headerItem.userName }
       .bind(to: node.headerNode.userName)
       .disposed(by: disposeBag)
   }

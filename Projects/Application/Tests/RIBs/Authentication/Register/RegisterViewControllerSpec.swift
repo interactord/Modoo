@@ -14,7 +14,7 @@ class RegisterViewControllerSpec: QuickSpec {
     var useCase: UIMediaPickerPlatformUseCase!
     // swiftlint:disable implicitly_unwrapped_optional
     var authenticationUseCase: AuthenticationUseCase!
-    let photoImage = UIImage()
+//    let photoImage = UIImage()
 
     beforeEach {
       useCase = UIMediaPickerPlatformUseCase()

@@ -2,33 +2,29 @@ import IGListKit
 
 // MARK: - ProfileInformationSectionItemModel
 
-final class ProfileInformationSectionItemModel {
+final class ProfileInformationSectionItemModel: CollectionDisplayModeling {
 
   // MARK: Lifecycle
 
-  init(sectionID: Int, sectionItem: ProfileDisplayModel.InformationSectionItem) {
+  init(sectionID: String, sectionItem: ProfileDisplayModel.InformationSectionItem) {
     self.sectionID = sectionID
-    userName = sectionItem.section.userName
-    avatarImageURL = sectionItem.section.avatarImageURL
-    postCount = sectionItem.section.postCount
-    followerCount = sectionItem.section.followerCount
-    followingCount = sectionItem.section.followingCount
-    bioDescription = sectionItem.section.bioDescription
+    self.sectionItem = sectionItem
   }
 
   convenience init() {
-    self.init(sectionID: UUID().hashValue, sectionItem: .init(section: .init()))
+    self.init(sectionID: UUID().uuidString, sectionItem: .init())
   }
 
   // MARK: Internal
 
-  let userName: String
-  let avatarImageURL: String
-  let postCount: String
-  let followingCount: String
-  let followerCount: String
-  let bioDescription: String
-  let sectionID: Int
+  var sectionID: String
+  var cellItems: [String] = []
+  var footerItem: String = ""
+  var sectionItem: ProfileDisplayModel.InformationSectionItem
+
+  var headerItem: ProfileDisplayModel.InformationSectionItem.HeaderItem {
+    sectionItem.headerItem
+  }
 
 }
 
@@ -42,11 +38,6 @@ extension ProfileInformationSectionItemModel: ListDiffable {
   func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
     if self === object { return true }
     guard let item = object as? ProfileInformationSectionItemModel else { return false }
-    return userName == item.userName
-      && avatarImageURL == item.avatarImageURL
-      && postCount == item.postCount
-      && followerCount == item.followerCount
-      && followingCount == item.followingCount
-      && bioDescription == item.bioDescription
+    return sectionItem == item.sectionItem
   }
 }

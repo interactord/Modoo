@@ -9,7 +9,7 @@ class SearchUserCellNodeSpec: QuickSpec {
     var node: SearchUserCellNode!
 
     beforeEach {
-      node = SearchUserCellNode()
+      node = SearchUserCellNode(item: .init())
     }
     afterEach {
       node = nil

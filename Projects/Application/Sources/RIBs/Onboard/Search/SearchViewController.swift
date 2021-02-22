@@ -10,6 +10,7 @@ import UIKit
 // MARK: - SearchPresentableAction
 
 enum SearchPresentableAction: Equatable {
+  case load
   case loading(Bool)
 }
 
@@ -50,9 +51,9 @@ final class SearchViewController: ASDKViewController<SearchContainerNode>, Searc
     switch object {
     case let .userContent(itemModel):
       return SectionController<SearchUserContentSectionItemModel>(
-        elementKindTypes: [],
-        numberOfCellItemsBlock: { _ in 10 },
-        nodeForItemBlock: { _, _ in SearchUserCellNode() })
+        nodeForItemBlock: { item in
+          SearchUserCellNode(item: item)
+        })
     }
   }
 
@@ -71,6 +72,10 @@ extension SearchViewController {
   }
 
   private func bindAction(listener: SearchPresentableListener) {
+    rx.viewDidLoad
+      .mapTo(.load)
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
   }
 
   private func bindState(listener: SearchPresentableListener) {

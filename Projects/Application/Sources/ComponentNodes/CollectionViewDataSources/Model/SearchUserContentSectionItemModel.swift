@@ -2,23 +2,30 @@ import IGListKit
 
 // MARK: - SearchUserContentSectionItemModel
 
-final class SearchUserContentSectionItemModel {
+final class SearchUserContentSectionItemModel: CollectionDisplayModeling {
 
   // MARK: Lifecycle
 
-  init(sectionID: Int, sectionItem: SearchDisplayModel.SearchContentSectionItem) {
+  init(sectionID: String, sectionItem: SearchDisplayModel.SearchContentSectionItem) {
     self.sectionID = sectionID
     self.sectionItem = sectionItem
   }
 
   convenience init() {
-    self.init(sectionID: UUID().hashValue, sectionItem: .init(items: []))
+    self.init(sectionID: UUID().uuidString, sectionItem: .init(items: []))
   }
 
   // MARK: Internal
 
-  let sectionID: Int
+  let sectionID: String
   let sectionItem: SearchDisplayModel.SearchContentSectionItem
+  var footerItem: String = ""
+  var headerItem: String = ""
+
+  var cellItems: [SearchDisplayModel.SearchContentSectionItem.Item] {
+    sectionItem.items
+  }
+
 }
 
 // MARK: ListDiffable
