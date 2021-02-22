@@ -6,7 +6,7 @@ final class ProfileInformationCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
-  init(item: ProfileInformationSectionItemModel) {
+  init(item: ProfileDisplayModel.InformationSectionItem.HeaderItem) {
     self.item = item
     super.init()
     automaticallyManagesSubnodes = true
@@ -19,7 +19,7 @@ final class ProfileInformationCellNode: ASCellNode {
 
   // MARK: Internal
 
-  let item: ProfileInformationSectionItemModel
+  let item: ProfileDisplayModel.InformationSectionItem.HeaderItem
 
   lazy var summeryNode: ProfileInformationSummeryNode = {
     ProfileInformationSummeryNode(

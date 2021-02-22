@@ -1,8 +1,40 @@
 import Foundation
 
+// MARK: - CellItemUsable
+
+protocol CellItemUsable {
+  associatedtype ItemType
+
+  var items: [ItemType] { get }
+}
+
+// MARK: - SearchDisplayModel
+
 enum SearchDisplayModel {
 
-  struct SearchContentSectionItem: Equatable {
+  struct SearchContentSectionItem: CellItemUsable, Equatable {
+
+    // MARK: Lifecycle
+
+    init(items: [Item]) {
+      self.items = items
+    }
+
+    init() {
+      items = []
+    }
+
+    init(repositoryModels: [UserRepositoryModel]) {
+      items = repositoryModels.map { model in
+        Item(
+          avatarImageURL: model.profileImageURL,
+          userName: model.username,
+          fullName: model.username)
+      }
+    }
+
+    // MARK: Internal
+
     struct Item: Equatable {
       var avatarImageURL = ""
       var userName = ""
@@ -10,6 +42,7 @@ enum SearchDisplayModel {
     }
 
     var items: [Item]
+
   }
 
   struct State: PresentableState {

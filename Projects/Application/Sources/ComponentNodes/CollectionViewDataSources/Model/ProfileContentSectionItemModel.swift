@@ -2,26 +2,29 @@ import IGListKit
 
 // MARK: - ProfileContentSectionItemModel
 
-final class ProfileContentSectionItemModel {
+final class ProfileContentSectionItemModel: CollectionDisplayModeling {
 
   // MARK: Lifecycle
 
-  init(sectionID: Int, sectionItem: ProfileDisplayModel.MediaContentDisplayModel) {
+  init(sectionID: String, sectionItem: ProfileDisplayModel.MediaContentSectionItem) {
     self.sectionID = sectionID
-    type = sectionItem.type
-    dummy = sectionItem.dummy
+    self.sectionItem = sectionItem
   }
 
   convenience init() {
-    self.init(sectionID: UUID().hashValue, sectionItem: .init())
+    self.init(sectionID: UUID().uuidString, sectionItem: .init())
   }
 
   // MARK: Internal
 
-  let type: ProfileDisplayModel.MediaContentType
-  let dummy: String
-  let sectionID: Int
+  var sectionID: String
+  var cellItems: [String] = Array(repeating: "AA", count: 10)
+  var footerItem: String = ""
+  var sectionItem: ProfileDisplayModel.MediaContentSectionItem
 
+  var headerItem: ProfileDisplayModel.MediaContentSectionItem.HeaderItem {
+    sectionItem.headerItem
+  }
 }
 
 // MARK: ListDiffable
@@ -34,6 +37,6 @@ extension ProfileContentSectionItemModel: ListDiffable {
   func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
     if self === object { return true }
     guard let item = object as? ProfileContentSectionItemModel else { return false }
-    return type == item.type
+    return sectionItem == item.sectionItem
   }
 }

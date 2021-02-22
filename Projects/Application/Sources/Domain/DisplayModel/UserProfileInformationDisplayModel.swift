@@ -2,27 +2,35 @@ import Foundation
 
 enum ProfileDisplayModel {
 
-  enum MediaContentType {
+  enum MediaContentType: Equatable {
     case grid
     case list
     case bookmark
   }
 
-  struct MediaContentDisplayModel {
-    let type: MediaContentType  = .grid
-    let dummy = ""
+  struct MediaContentSectionItem: Equatable {
+    struct HeaderItem: Equatable {
+      var type: MediaContentType  = .grid
+    }
+
+    init() {
+      headerItem = HeaderItem()
+    }
+
+    var headerItem: HeaderItem
+
   }
 
   struct InformationSectionItem: Equatable {
 
     // MARK: Lifecycle
 
-    init(section: Section) {
-      self.section = section
+    init(headerItem: HeaderItem) {
+      self.headerItem = headerItem
     }
 
     init(repositoryModel: UserRepositoryModel) {
-      let section = Section(
+      let headerItem = HeaderItem(
         userName: repositoryModel.username,
         avatarImageURL: repositoryModel.profileImageURL,
         postCount: "0",
@@ -30,12 +38,16 @@ enum ProfileDisplayModel {
         followerCount: "0",
         bioDescription: "")
 
-      self.init(section: section)
+      self.init(headerItem: headerItem)
+    }
+
+    init() {
+      headerItem = HeaderItem()
     }
 
     // MARK: Internal
 
-    struct Section: Equatable {
+    struct HeaderItem: Equatable {
       var userName = ""
       var avatarImageURL = ""
       var postCount = ""
@@ -44,7 +56,8 @@ enum ProfileDisplayModel {
       var bioDescription = ""
     }
 
-    var section = Section()
+    var headerItem: HeaderItem
+    var cellItems: [String] = []
 
   }
 

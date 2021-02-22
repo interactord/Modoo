@@ -28,6 +28,7 @@ final class ProfileInformationSummeryNode: ASDisplayNode {
     node.defaultImage = #imageLiteral(resourceName: "dummy-content-image")
     node.placeholderEnabled = true
     node.url = URL(string: imageURL)
+    node.contentMode = .scaleAspectFill
     node.cornerRadius = Const.imageSize.width / 2
     node.style.preferredSize = Const.imageSize
     node.isLayerBacked = true

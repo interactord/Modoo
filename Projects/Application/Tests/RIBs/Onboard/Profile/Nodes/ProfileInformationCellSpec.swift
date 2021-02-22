@@ -9,8 +9,7 @@ class ProfileInformationCellSpec: QuickSpec {
     var node: ProfileInformationCellNode!
 
     beforeEach {
-      let sectionItem = ProfileDisplayModel.InformationSectionItem(section: .init())
-      node = ProfileInformationCellNode(item: .init(sectionID: 123, sectionItem: sectionItem))
+      node = ProfileInformationCellNode(item: .init())
     }
     afterEach {
       node = nil

@@ -1,20 +1,33 @@
 import IGListKit
+@testable import Application
 
 // MARK: - SingleHeaderItemMock
 
-final class SingleHeaderItemMock {
+final class SingleHeaderItemMock: CollectionDisplayModeling {
 
   // MARK: Lifecycle
 
-  init(id: String, title: String) {
-    self.id = id
-    self.title = title
+  init(sectionID: String, headerItem: String, cellItems: [String], footerItem: String) {
+    self.sectionID = sectionID
+    self.headerItem = headerItem
+    self.cellItems = cellItems
+    self.footerItem = footerItem
+  }
+
+  convenience init() {
+    self.init(
+      sectionID: UUID().uuidString,
+      headerItem: "headerItem",
+      cellItems: [],
+      footerItem: "footerItem")
   }
 
   // MARK: Internal
 
-  let id: String
-  let title: String
+  var sectionID: String
+  var headerItem: String
+  var cellItems: [String]
+  var footerItem: String
 
 }
 
@@ -22,12 +35,13 @@ final class SingleHeaderItemMock {
 
 extension SingleHeaderItemMock: ListDiffable {
   func diffIdentifier() -> NSObjectProtocol {
-    id as NSObjectProtocol
+    sectionID as NSObjectProtocol
   }
 
   func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
     guard let item = object as? SingleHeaderItemMock else { return false }
-    return id == item.id
-      && title == item.title
+    return headerItem == item.headerItem
+      && cellItems == item.cellItems
+      &&  footerItem == item.footerItem
   }
 }

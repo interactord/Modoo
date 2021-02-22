@@ -3,20 +3,20 @@ import IGListKit
 
 // MARK: - SingleHeaderSectionController
 
-final class SectionController<ItemType: ListDiffable>: ListSectionController, ASSectionController, ListSupplementaryViewSource, ASSupplementaryNodeSource {
+final class SectionController<ItemType: ListDiffable & CollectionDisplayModeling>: ListSectionController, ASSectionController, ListSupplementaryViewSource, ASSupplementaryNodeSource {
 
   // MARK: Lifecycle
 
   init(
     elementKindTypes: [ElementKindType] = [],
-    supplementaryViewBlock: SupplementaryViewBlockType? = nil,
-    numberOfCellItemsBlock: NumberOfItemsBlockType? = nil,
+    supplementaryViewHeaderBlockType: SupplementaryViewHeaderBlockType? = nil,
+    supplementaryViewFooterBlockType: SupplementaryViewFooterBlockType? = nil,
     sizeForItemWidthBlock: SizeForItemWidthBlockType? = nil,
     nodeForItemBlock: NodeForItemBlockType? = nil)
   {
     self.elementKindTypes = elementKindTypes
-    self.supplementaryViewBlock = supplementaryViewBlock
-    self.numberOfCellItemsBlock = numberOfCellItemsBlock
+    self.supplementaryViewHeaderBlockType = supplementaryViewHeaderBlockType
+    self.supplementaryViewFooterBlockType = supplementaryViewFooterBlockType
     self.sizeForItemWidthBlock = sizeForItemWidthBlock
     self.nodeForItemBlock = nodeForItemBlock
     super.init()
@@ -41,22 +41,22 @@ final class SectionController<ItemType: ListDiffable>: ListSectionController, AS
     }
   }
 
-  typealias SupplementaryViewBlockType = ((kind: String, index: Int, item: ItemType)) -> ASCellNode
-  typealias NumberOfItemsBlockType = (ItemType) -> Int
+  typealias SupplementaryViewHeaderBlockType = (ItemType.HeaderType) -> ASCellNode
+  typealias SupplementaryViewFooterBlockType = (ItemType.FooterType) -> ASCellNode
   typealias SizeForItemWidthBlockType = () -> CGFloat
-  typealias NodeForItemBlockType = ((index: Int, item: ItemType)) -> ASCellNode
+  typealias NodeForItemBlockType = (ItemType.CellItemType) -> ASCellNode
 
   let elementKindTypes: [ElementKindType]
 
   var item: ItemType?
-  var supplementaryViewBlock: SupplementaryViewBlockType?
-  var numberOfCellItemsBlock: NumberOfItemsBlockType?
+  var supplementaryViewHeaderBlockType: SupplementaryViewHeaderBlockType?
+  var supplementaryViewFooterBlockType: SupplementaryViewFooterBlockType?
   var sizeForItemWidthBlock: SizeForItemWidthBlockType?
   var nodeForItemBlock: NodeForItemBlockType?
 
   override func numberOfItems() -> Int {
     guard let item = item else { return .zero }
-    return numberOfCellItemsBlock?(item) ?? .zero
+    return item.cellItems.count
   }
 
   override func didUpdate(to object: Any) {
@@ -79,7 +79,7 @@ final class SectionController<ItemType: ListDiffable>: ListSectionController, AS
   func nodeBlockForItem(at index: Int) -> ASCellNodeBlock {
     guard let item = item else { return  { ASCellNode() } }
     return { [weak self] in
-      self?.nodeForItemBlock?((index: index, item: item)) ?? ASCellNode()
+      self?.nodeForItemBlock?(item.cellItems[index]) ?? ASCellNode()
     }
   }
 
@@ -87,10 +87,7 @@ final class SectionController<ItemType: ListDiffable>: ListSectionController, AS
 
   // - Note: 직접호출 시, ASIGListSectionControllerMethods에서 크래시가 발생하여 테스트하지 못함
   func viewForSupplementaryElement(ofKind elementKind: String, at index: Int) -> UICollectionReusableView {
-    ASIGListSupplementaryViewSourceMethods.viewForSupplementaryElement(
-      ofKind: elementKind,
-      at: index,
-      sectionController: self)
+    ASIGListSupplementaryViewSourceMethods.viewForSupplementaryElement(ofKind: elementKind, at: index, sectionController: self)
   }
 
   // - Note: 직접호출 시, ASIGListSupplementaryViewSourceMethods에서 크래시가 발생하여 테스트하지 못함
@@ -112,7 +109,14 @@ final class SectionController<ItemType: ListDiffable>: ListSectionController, AS
   func nodeBlockForSupplementaryElement(ofKind elementKind: String, at index: Int) -> ASCellNodeBlock {
     guard let item = item else { return { ASCellNode() } }
     return { [weak self] in
-      self?.supplementaryViewBlock?((kind: elementKind, index: index, item: item)) ?? ASCellNode()
+      switch elementKind {
+      case UICollectionView.elementKindSectionHeader:
+        return self?.supplementaryViewHeaderBlockType?(item.headerItem) ?? ASCellNode()
+      case UICollectionView.elementKindSectionFooter:
+        return self?.supplementaryViewFooterBlockType?(item.footerItem) ?? ASCellNode()
+      default:
+        return ASCellNode()
+      }
     }
   }
 
