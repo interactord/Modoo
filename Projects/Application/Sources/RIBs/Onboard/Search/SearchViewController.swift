@@ -2,6 +2,7 @@ import AsyncDisplayKit
 import ReactorKit
 import RIBs
 import RxIGListKit
+import RxOptional
 import RxSwift
 import RxTexture2
 import RxViewController
@@ -13,6 +14,7 @@ enum SearchPresentableAction: Equatable {
   case load
   case typingSearch(String)
   case loading(Bool)
+  case loadUser(SearchDisplayModel.SearchContentSectionItem.Item)
 }
 
 // MARK: - SearchPresentableListener
@@ -46,13 +48,19 @@ final class SearchViewController: ASDKViewController<SearchContainerNode>, Searc
 
   let disposeBag = DisposeBag()
 
-  let searchUserDataSource = RxListAdapterDataSource<SearchUserSectionModel> { _, object in
-    switch object {
-    case let .userContent(itemModel):
-      return SectionController<SearchUserContentSectionItemModel>(
-        nodeForItemBlock: { SearchUserCellNode(item: $0) })
+  lazy var searchUserDataSource: RxListAdapterDataSource<SearchUserSectionModel> = {
+    weak var listener = self.listener
+    return .init{ _, object in
+      switch object {
+      case let .userContent(itemModel):
+        return SectionController<SearchUserContentSectionItemModel>(
+          nodeForItemBlock: { SearchUserCellNode(item: $0) },
+          selectedCellItemBlock: { item in
+            listener?.action.onNext(.loadUser(item))
+          })
+      }
     }
-  }
+  }()
 
   weak var listener: SearchPresentableListener? {
     didSet { bind(listener: listener) }
@@ -79,7 +87,6 @@ extension SearchViewController {
       .map { .typingSearch($0) }
       .bind(to: listener.action)
       .disposed(by: disposeBag)
-
   }
 
   private func bindState(listener: SearchPresentableListener) {

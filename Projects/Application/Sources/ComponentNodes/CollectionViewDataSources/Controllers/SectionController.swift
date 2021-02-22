@@ -12,13 +12,15 @@ final class SectionController<ItemType: ListDiffable & CollectionDisplayModeling
     supplementaryViewHeaderBlockType: SupplementaryViewHeaderBlockType? = nil,
     supplementaryViewFooterBlockType: SupplementaryViewFooterBlockType? = nil,
     sizeForItemWidthBlock: SizeForItemWidthBlockType? = nil,
-    nodeForItemBlock: NodeForItemBlockType? = nil)
+    nodeForItemBlock: NodeForItemBlockType? = nil,
+    selectedCellItemBlock: SelectedCellItemBlockType? = nil)
   {
     self.elementKindTypes = elementKindTypes
     self.supplementaryViewHeaderBlockType = supplementaryViewHeaderBlockType
     self.supplementaryViewFooterBlockType = supplementaryViewFooterBlockType
     self.sizeForItemWidthBlock = sizeForItemWidthBlock
     self.nodeForItemBlock = nodeForItemBlock
+    self.selectedCellItemBlock = selectedCellItemBlock
     super.init()
     supplementaryViewSource = self
   }
@@ -45,6 +47,7 @@ final class SectionController<ItemType: ListDiffable & CollectionDisplayModeling
   typealias SupplementaryViewFooterBlockType = (ItemType.FooterType) -> ASCellNode
   typealias SizeForItemWidthBlockType = () -> CGFloat
   typealias NodeForItemBlockType = (ItemType.CellItemType) -> ASCellNode
+  typealias SelectedCellItemBlockType = (ItemType.CellItemType) -> Void
 
   let elementKindTypes: [ElementKindType]
 
@@ -53,6 +56,7 @@ final class SectionController<ItemType: ListDiffable & CollectionDisplayModeling
   var supplementaryViewFooterBlockType: SupplementaryViewFooterBlockType?
   var sizeForItemWidthBlock: SizeForItemWidthBlockType?
   var nodeForItemBlock: NodeForItemBlockType?
+  var selectedCellItemBlock: SelectedCellItemBlockType?
 
   override func numberOfItems() -> Int {
     guard let item = item else { return .zero }
@@ -81,6 +85,11 @@ final class SectionController<ItemType: ListDiffable & CollectionDisplayModeling
     return { [weak self] in
       self?.nodeForItemBlock?(item.cellItems[index]) ?? ASCellNode()
     }
+  }
+
+  override func didSelectItem(at index: Int) {
+    guard let item = item else { return }
+    selectedCellItemBlock?(item.cellItems[index])
   }
 
   // MARK: ListSupplementaryViewSource
