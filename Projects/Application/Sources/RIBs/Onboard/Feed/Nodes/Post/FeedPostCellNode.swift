@@ -25,7 +25,6 @@ final class FeedPostCellNode: ASCellNode {
     let node = ASImageNode()
     node.image = #imageLiteral(resourceName: "dummy-content-image")
     node.contentMode = .scaleAspectFill
-    node.style.width = .init(unit: .fraction, value: 1.0)
     return node
   }()
   let descriptionNode = FeedPostDescriptionNode()
@@ -40,9 +39,7 @@ final class FeedPostCellNode: ASCellNode {
 
 extension FeedPostCellNode {
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-    style.width = .init(unit: .fraction, value: 1.0)
-
-    return ASStackLayoutSpec(
+    ASStackLayoutSpec(
       direction: .vertical,
       spacing: .zero,
       justifyContent: .start,

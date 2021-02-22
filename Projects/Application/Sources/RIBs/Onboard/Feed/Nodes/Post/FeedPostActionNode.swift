@@ -78,8 +78,6 @@ extension FeedActionNode {
         bookmarkButtonNode,
       ])
 
-    contentsLayout.style.width = .init(unit: .fraction, value: 1)
-
     return ASInsetLayoutSpec(insets: Const.contentsPadding, child: contentsLayout)
   }
 
