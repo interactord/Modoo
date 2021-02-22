@@ -14,4 +14,10 @@ struct FirebaseUserUseCase: UserUseCase {
       .get(uid: authenticationToken, collection: "users")
       .asObservable()
   }
+
+  func fetchUsers() -> Observable<[UserRepositoryModel]> {
+    apiNetworking
+      .get(collection: "users")
+      .asObservable()
+  }
 }

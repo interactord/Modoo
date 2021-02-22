@@ -9,6 +9,11 @@ protocol SearchDependency: Dependency {
 
 final class SearchComponent: Component<SearchDependency> {
   fileprivate var initailState: SearchDisplayModel.State { .initialState() }
+  fileprivate var userUseCase: UserUseCase {
+    FirebaseUserUseCase(
+      authenticating: FirebaseAuthentication(),
+      apiNetworking: FirebaseAPINetwork())
+  }
 }
 
 // MARK: - SearchBuildable
@@ -38,7 +43,8 @@ final class SearchBuilder: Builder<SearchDependency>, SearchBuildable {
     let viewController = SearchViewController(node: .init())
     let interactor = SearchInteractor(
       presenter: viewController,
-      initialState: component.initailState)
+      initialState: component.initailState,
+      userUseCase: component.userUseCase)
     interactor.listener = listener
     return SearchRouter(interactor: interactor, viewController: viewController)
   }
