@@ -65,11 +65,6 @@ final class SectionController<ItemType: ListDiffable>: ListSectionController, AS
 
   // MARK: ASSectionController
 
-  // - Note: 직접호출 시, ASIGListSectionControllerMethods에서 크래시가 발생하여 테스트하지 못함
-  override func sizeForItem(at index: Int) -> CGSize {
-    ASIGListSectionControllerMethods.sizeForItem(at: index)
-  }
-
   func sizeRangeForItem(at index: Int) -> ASSizeRange {
     ASSizeRange(
       min: .zero,

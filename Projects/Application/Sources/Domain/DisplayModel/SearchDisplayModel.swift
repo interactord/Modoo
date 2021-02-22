@@ -13,11 +13,14 @@ enum SearchDisplayModel {
   }
 
   struct State: PresentableState {
+    var userContentSectionItemModel: SearchUserContentSectionItemModel
     var isLoading: Bool
     var errorMessage: String
 
     static func initialState() -> State {
-      State(
+      let userContentSectionItemModel = SearchUserContentSectionItemModel()
+      return State(
+        userContentSectionItemModel: userContentSectionItemModel,
         isLoading: false,
         errorMessage: "")
     }
