@@ -36,6 +36,9 @@ struct CompositeRoot {
     BuilderContainer.register(
       builder: SearchBuilderAdapter.self,
       with: SearchBuilderID)
+    BuilderContainer.register(
+      builder: SubProfileBuilderAdapter.self,
+      with: SubProfileBuilderID)
   }
 
 }
