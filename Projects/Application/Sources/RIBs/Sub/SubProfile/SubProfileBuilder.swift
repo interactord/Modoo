@@ -33,8 +33,8 @@ final class SubProfileBuilder: Builder<SubProfileDependency>, SubProfileBuildabl
   // MARK: Internal
 
   func build(withListener listener: SubProfileListener) -> SubProfileRouting {
-    let component = SubProfileComponent(dependency: dependency)
-    let viewController = SubProfileViewController()
+    _ = SubProfileComponent(dependency: dependency)
+    let viewController = SubProfileViewController(node: .init())
     let interactor = SubProfileInteractor(presenter: viewController)
     interactor.listener = listener
     return SubProfileRouter(interactor: interactor, viewController: viewController)
