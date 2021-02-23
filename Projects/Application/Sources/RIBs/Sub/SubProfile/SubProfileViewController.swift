@@ -1,3 +1,4 @@
+import AsyncDisplayKit
 import RIBs
 import RxSwift
 import UIKit
@@ -9,7 +10,7 @@ protocol SubProfilePresentableListener: AnyObject {
 
 // MARK: - SubProfileViewController
 
-final class SubProfileViewController: UIViewController, SubProfilePresentable, SubProfileViewControllable {
+final class SubProfileViewController: ASDKViewController<SubProfileContainerNode>, SubProfilePresentable, SubProfileViewControllable {
 
   // MARK: Lifecycle
 

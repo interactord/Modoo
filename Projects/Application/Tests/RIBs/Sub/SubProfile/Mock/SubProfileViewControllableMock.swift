@@ -4,7 +4,6 @@ import RxSwift
 import UIKit
 @testable import Application
 
-
 // MARK: - SubProfileViewControllableMock
 
 class SubProfileViewControllableMock: ViewControllableMock, SubProfilePresentable {

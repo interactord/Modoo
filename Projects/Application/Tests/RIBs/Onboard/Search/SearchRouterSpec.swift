@@ -13,7 +13,8 @@ class SearchRouterSpec: QuickSpec {
       viewController = SearchViewControllableMock()
       router = SearchRouter(
         interactor: SearchInteractableMock(),
-        viewController: viewController)
+        viewController: viewController,
+        subProfileBuilder: SubProfileBuildableMock())
     }
     afterEach {
       viewController = nil
