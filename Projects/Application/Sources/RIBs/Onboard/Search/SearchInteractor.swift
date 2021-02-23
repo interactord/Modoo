@@ -5,6 +5,7 @@ import RxSwift
 // MARK: - SearchRouting
 
 protocol SearchRouting: ViewableRouting {
+  func routeToSubProfile(uid: String)
 }
 
 // MARK: - SearchPresentable

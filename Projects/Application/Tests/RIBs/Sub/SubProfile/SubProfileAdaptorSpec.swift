@@ -19,7 +19,7 @@ class SubProfileAdaptorSpec: QuickSpec {
       let builderType: SubProfileBuilderAdapter.Type = BuilderContainer.resolve(for: id)
       adapter = builderType.init(dependency: SubProfileDependencyMock())
       listener = SubProfileListenerMock()
-      routing = adapter.build(withListener: listener)
+      routing = adapter.build(withListener: listener, uid: "test")
     }
     afterEach {
       adapter = nil

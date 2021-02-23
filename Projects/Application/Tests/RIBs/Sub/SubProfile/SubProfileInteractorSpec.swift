@@ -11,7 +11,10 @@ class SubProfileInteractorSpec: QuickSpec {
 
     beforeEach {
       viewController = SubProfileViewControllableMock()
-      interactor = SubProfileInteractor(presenter: viewController)
+      interactor = SubProfileInteractor(
+        presenter: viewController,
+        userUseCase: FirebaseUserUseCaseMock(),
+        uid: "test")
       _ = SubProfileRoutingMock(
         interactable: interactor,
         viewControllable: viewController)

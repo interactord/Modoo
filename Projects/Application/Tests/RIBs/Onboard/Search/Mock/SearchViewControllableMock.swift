@@ -14,5 +14,4 @@ class SearchViewControllableMock: ViewControllableMock, SearchPresentable {
 // MARK: SearchViewControllable
 
 extension SearchViewControllableMock: SearchViewControllable {
-
 }

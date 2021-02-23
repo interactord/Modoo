@@ -42,4 +42,8 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
 
 extension SearchRouter: SearchRouting {
 
+  func routeToSubProfile(uid: String) {
+
+  }
+
 }
