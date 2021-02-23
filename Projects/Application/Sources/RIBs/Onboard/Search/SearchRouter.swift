@@ -9,7 +9,7 @@ protocol SearchInteractable: Interactable {
 
 // MARK: - SearchViewControllable
 
-protocol SearchViewControllable: ViewControllable {
+protocol SearchViewControllable: ViewControllable, UINavigationViewable {
 }
 
 // MARK: - SearchRouter

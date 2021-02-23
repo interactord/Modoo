@@ -21,7 +21,6 @@ class RootViewControllableMock: ViewControllableMock, RootPresentable {
   var setRootCallCountHandler: (() -> Void)?
   var clearRootViewControllableCallCount = 0
   var clearRootViewControllableHandler: (() -> Void)?
-  var viewControllers = 0
   var presentedViewControllers = 0
 }
 
