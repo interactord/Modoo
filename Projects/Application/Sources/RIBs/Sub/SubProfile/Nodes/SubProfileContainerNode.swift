@@ -9,6 +9,9 @@ final class SubProfileContainerNode: ASDisplayNode {
     automaticallyManagesSubnodes = true
   }
 
+  deinit {
+    print("SubProfileContainerNode deinit...")
+  }
 }
 
 // MARK: - LayoutSpec
