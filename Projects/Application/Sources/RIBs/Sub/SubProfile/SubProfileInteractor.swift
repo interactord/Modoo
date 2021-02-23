@@ -23,9 +23,15 @@ final class SubProfileInteractor: PresentableInteractor<SubProfilePresentable>, 
 
   // MARK: Lifecycle
 
-  override init(presenter: SubProfilePresentable) {
+  init(
+    presenter: SubProfilePresentable,
+    userUseCase: UserUseCase,
+    uid: String)
+  {
+    defer { presenter.listener = self }
+    self.uid = uid
+    self.userUseCase = userUseCase
     super.init(presenter: presenter)
-    presenter.listener = self
   }
 
   deinit {
@@ -36,5 +42,10 @@ final class SubProfileInteractor: PresentableInteractor<SubProfilePresentable>, 
 
   weak var router: SubProfileRouting?
   weak var listener: SubProfileListener?
+
+  // MARK: Private
+
+  private let uid: String
+  private let userUseCase: UserUseCase
 
 }

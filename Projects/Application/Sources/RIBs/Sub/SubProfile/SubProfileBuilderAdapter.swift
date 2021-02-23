@@ -29,12 +29,12 @@ extension SubProfileBuilderAdapter: SubProfileListener {
 // MARK: SubProfileBuildable
 
 extension SubProfileBuilderAdapter: SubProfileBuildable {
-  func build(withListener listener: SubProfileListener) -> SubProfileRouting {
+  func build(withListener listener: SubProfileListener, uid: String) -> SubProfileRouting {
     let component = Component(dependency: dependency)
     self.listener = listener
 
     let builder = SubProfileBuilder(dependency: component)
-    return builder.build(withListener: self)
+    return builder.build(withListener: self, uid: uid)
   }
 
 }
