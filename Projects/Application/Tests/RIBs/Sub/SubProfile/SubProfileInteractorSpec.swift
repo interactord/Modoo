@@ -54,6 +54,16 @@ class SubProfileInteractorSpec: QuickSpec {
             expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
           }
         }
+
+        context("팔로우 버튼을 눌렀을 경우") {
+          beforeEach {
+            interactor.action.onNext(.follow)
+          }
+
+          it("팔로우 업데이트 이벤트는 발생하지 않는다") {
+            expect(userUseCaseMock.followCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+          }
+        }
       }
 
       context("현재 로딩중이 아닐 경우"){
@@ -75,20 +85,50 @@ class SubProfileInteractorSpec: QuickSpec {
             expect(interactor.currentState.errorMessage).toEventually(equal(""), timeout: TestUtil.Const.timeout)
           }
         }
-      }
 
-      context("유저 정보 요청 네트워크가 실패했을 경우") {
-        beforeEach {
-          userUseCaseMock.networkState = .failed
-          interactor.action.onNext(.load)
+        context("유저 정보 요청 네트워크가 실패했을 경우") {
+          beforeEach {
+            userUseCaseMock.networkState = .failed
+            interactor.action.onNext(.load)
+          }
+
+          it("유저 정보 요청 이벤트가 발생한다") {
+            expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          }
+
+          it("에러 메세지는 빈값이 아니다") {
+            expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
+          }
         }
 
-        it("유저 정보 요청 이벤트가 발생한다") {
-          expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+        context("팔로우 버튼을 눌렀고 네트워크가 성공헀을 경우") {
+          beforeEach {
+            userUseCaseMock.networkState = .succeed
+            interactor.action.onNext(.follow)
+          }
+
+          it("팔로우 업데이트 이벤트가 발생한다") {
+            expect(userUseCaseMock.followCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          }
+
+          it("에러 메세지는 빈값이다") {
+            expect(interactor.currentState.errorMessage).toEventually(equal(""), timeout: TestUtil.Const.timeout)
+          }
         }
 
-        it("에러 메세지는 빈값이 아니다") {
-          expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
+        context("팔로우 버튼을 눌렀고 네트워크가 실패헀을 경우") {
+          beforeEach {
+            userUseCaseMock.networkState = .failed
+            interactor.action.onNext(.follow)
+          }
+
+          it("팔로우 업데이트 이벤트가 발생한다") {
+            expect(userUseCaseMock.followCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          }
+
+          it("에러 메세지는 빈값이 아니다") {
+            expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
+          }
         }
       }
 

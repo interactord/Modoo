@@ -51,6 +51,7 @@ final class SubProfileInteractor: PresentableInteractor<SubProfilePresentable>, 
     case setUserProfile(ProfileDisplayModel.InformationSectionItem)
     case setError(String)
     case setLoading(Bool)
+    case setFollow(Bool)
   }
 
   weak var router: SubProfileRouting?
@@ -79,6 +80,8 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
       return .just(.setLoading(isLoading))
     case .back:
       return mutatingBack()
+    case .follow:
+      return mutatingFollow(uid: uid)
     }
   }
 
@@ -93,6 +96,9 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
       newState.isLoading = isLoading
     case let .setError(message):
       newState.errorMessage = message
+    case let .setFollow(isFollow):
+      print("AAAA isFollow ", isFollow)
+      break
     }
 
     return newState
@@ -117,6 +123,19 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
   private func mutatingBack() -> Observable<Mutation> {
     listener?.routeToBack()
     return .empty()
+  }
+
+  private func mutatingFollow(uid: String) -> Observable<Mutation> {
+    guard !currentState.isLoading else { return .empty() }
+
+    let startLoading = Observable.just(Mutation.setLoading(true))
+    let stopLoading = Observable.just(Mutation.setLoading(false))
+    let useCaseStream = userUseCase.follow(to: uid).flatMap { _ -> Observable<Mutation> in
+      .just(.setFollow(true))
+    }
+    .catch { .just(.setError($0.localizedDescription)) }
+
+    return Observable.concat([startLoading, useCaseStream, stopLoading])
   }
 
 }

@@ -1,4 +1,5 @@
 import RxSwift
+import RxSwiftExt
 
 struct FirebaseUserUseCase: UserUseCase {
 
@@ -9,26 +10,51 @@ struct FirebaseUserUseCase: UserUseCase {
 
   func fetchUser() -> Observable<UserRepositoryModel> {
     apiNetworking
-      .get(uid: authenticationToken, collection: Const.collectionName)
+      .get(uid: authenticationToken, collection: Const.userCollectionName)
       .asObservable()
   }
 
   func fetchUser(uid: String) -> Observable<UserRepositoryModel> {
     apiNetworking
-      .get(uid: uid, collection: Const.collectionName)
+      .get(uid: uid, collection: Const.userCollectionName)
       .asObservable()
   }
 
   func fetchUsers() -> Observable<[UserRepositoryModel]> {
     apiNetworking
-      .get(collection: Const.collectionName)
+      .get(collection: Const.userCollectionName)
       .asObservable()
+  }
+
+  func follow(to uid: String) -> Observable<Void> {
+    Observable.zip(
+      apiNetworking
+        .create(
+          rootUID: authenticationToken,
+          rootCollection: Const.rootUserFollowingCollectionName,
+          documentCollection: Const.documentUserFollowingCollectionName,
+          documentUID: uid,
+          dictionary: [:])
+        .asObservable(),
+      apiNetworking
+        .create(
+          rootUID: uid,
+          rootCollection: Const.rootUserFollowersCollectionName,
+          documentCollection: Const.documentuserFollowersCollectionName,
+          documentUID: authenticationToken,
+          dictionary: [:])
+        .asObservable())
+      .mapTo(Void())
   }
 
   // MARK: Private
 
   private struct Const {
-    static var collectionName = "users"
+    static var userCollectionName = "users"
+    static var rootUserFollowingCollectionName = "following"
+    static var documentUserFollowingCollectionName = "user-following"
+    static var rootUserFollowersCollectionName = "followers"
+    static var documentuserFollowersCollectionName = "user-followers"
   }
 
   private var authenticationToken: String {

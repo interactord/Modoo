@@ -16,6 +16,8 @@ final class SubProfileInformationCellNode: ASCellNode {
 
   // MARK: Internal
 
+  let disposeBag = DisposeBag()
+
   lazy var summeryNode: ProfileInformationSummeryNode = {
     ProfileInformationSummeryNode(
       imageURL: item.avatarImageURL,
