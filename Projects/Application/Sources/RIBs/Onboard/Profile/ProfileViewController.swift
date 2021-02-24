@@ -3,7 +3,6 @@ import ReactorKit
 import RIBs
 import RxIGListKit
 import RxSwift
-import RxTexture2
 import RxViewController
 import UIKit
 
@@ -83,7 +82,7 @@ extension ProfileViewController {
       .bind(to: listener.action)
       .disposed(by: disposeBag)
 
-    node.headerNode.moreButton.rx.tap
+    node.moreButtonTapStream
       .mapTo(.logout)
       .bind(to: listener.action)
       .disposed(by: disposeBag)

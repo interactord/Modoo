@@ -21,13 +21,6 @@ final class ProfileHeaderNode: ASDisplayNode {
 
   // MARK: Internal
 
-  let titleNode: ASTextNode = {
-    let node = ASTextNode()
-    node.attributedText = "".styled(with: Const.titleStyle)
-    node.isLayerBacked = true
-    return node
-  }()
-
   let moreButton: ASButtonNode = {
     let node = ASButtonNode()
     node.style.preferredSize = Const.buttonSize
@@ -36,12 +29,6 @@ final class ProfileHeaderNode: ASDisplayNode {
     return node
   }()
 
-  var title = "" {
-    didSet {
-      titleNode.attributedText = title.styled(with: Const.titleStyle)
-    }
-  }
-
   // MARK: Private
 
   private struct Const {
@@ -49,6 +36,14 @@ final class ProfileHeaderNode: ASDisplayNode {
     static let titleStyle = StringStyle(.font(.systemFont(ofSize: 13, weight: .bold)), .color(.black))
     static let contentsPadding = UIEdgeInsets(top: 12.5, left: 12, bottom: 12, right: 12)
   }
+
+  private let titleNode: ASTextNode = {
+    let node = ASTextNode()
+    node.attributedText = "".styled(with: Const.titleStyle)
+    node.isLayerBacked = true
+    return node
+  }()
+
 }
 
 // MARK: - LayoutSpec
@@ -93,5 +88,19 @@ extension ProfileHeaderNode {
       children: [
         moreButton,
       ])
+  }
+}
+
+// MARK: - Stream
+
+extension ProfileHeaderNode {
+  var titleBinder: Binder<String> {
+    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, title in
+      base.titleNode.attributedText = title.styled(with: Const.titleStyle)
+    }
+  }
+
+  var moreButtonTapStream: Observable<Void> {
+    moreButton.rx.tap.asObservable()
   }
 }

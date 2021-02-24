@@ -21,8 +21,6 @@ final class ProfileContainerNode: ASDisplayNode {
 
   // MARK: Internal
 
-  let headerNode = ProfileHeaderNode()
-
   let collectionNode: ASCollectionNode = {
     let flowLayout = UICollectionViewFlowLayout()
     flowLayout.scrollDirection = .vertical
@@ -35,6 +33,9 @@ final class ProfileContainerNode: ASDisplayNode {
     node.style.flexGrow = 1
     return node
   }()
+
+  let headerNode = ProfileHeaderNode()
+
 }
 
 // MARK: - LayoutSpec
@@ -55,13 +56,16 @@ extension ProfileContainerNode {
   }
 }
 
-// MARK: - Binding
+// MARK: - Stream
 
 extension ProfileContainerNode {
+
   var titleBinder: Binder<String> {
-    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, title in
-      base.headerNode.title = title
-    }
+    headerNode.titleBinder
+  }
+
+  var moreButtonTapStream: Observable<Void> {
+    headerNode.moreButtonTapStream
   }
 
 }
