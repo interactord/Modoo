@@ -17,6 +17,14 @@ final class SubProfileHeaderNode: ASDisplayNode {
     print("SubProfileHeaderNode deinit...")
   }
 
+  // MARK: Internal
+
+  var title = "" {
+    didSet {
+      titleNode.attributedText = title.styled(with: Const.titleStyle)
+    }
+  }
+
   // MARK: Private
 
   private struct Const {

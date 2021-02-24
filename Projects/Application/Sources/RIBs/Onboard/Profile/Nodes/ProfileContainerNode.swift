@@ -40,7 +40,7 @@ final class ProfileContainerNode: ASDisplayNode {
 
 extension ProfileContainerNode {
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-    let contensLayout = ASStackLayoutSpec(
+    let contentsLayout = ASStackLayoutSpec(
       direction: .vertical,
       spacing: .zero,
       justifyContent: .start,
@@ -50,6 +50,6 @@ extension ProfileContainerNode {
         collectionNode,
       ])
 
-    return ASInsetLayoutSpec(insets: safeAreaInsets, child: contensLayout)
+    return ASInsetLayoutSpec(insets: safeAreaInsets, child: contentsLayout)
   }
 }
