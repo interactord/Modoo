@@ -102,7 +102,7 @@ extension ProfileViewController {
 
     state
       .map { $0.informationSectionItemModel.headerItem.userName }
-      .bind(to: node.headerNode.userName)
+      .bind(to: node.titleBinder)
       .disposed(by: disposeBag)
   }
 

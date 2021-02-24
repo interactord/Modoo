@@ -83,9 +83,9 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
     case let .setUserProfile(informationSectionItem):
       let sectionID = state.informationSectionItemModel.sectionID
       newState.informationSectionItemModel = .init(sectionID: sectionID, sectionItem: informationSectionItem)
-    case  let .setLoading(isLoading):
+    case let .setLoading(isLoading):
       newState.isLoading = isLoading
-    case  let .setError(message):
+    case let .setError(message):
       newState.errorMessage = message
     }
 

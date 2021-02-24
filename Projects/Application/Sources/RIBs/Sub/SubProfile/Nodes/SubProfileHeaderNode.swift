@@ -76,8 +76,8 @@ extension SubProfileHeaderNode {
       justifyContent: .spaceBetween,
       alignItems: .center,
       children: [
-        titleNode,
         backButton,
+        titleNode,
         ASLayoutSpec(),
       ])
   }

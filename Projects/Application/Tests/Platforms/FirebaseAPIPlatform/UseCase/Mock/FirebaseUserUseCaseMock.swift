@@ -33,6 +33,7 @@ class FirebaseUserUseCaseMock: UserUseCase {
   }
 
   func fetchUser(uid: String) -> Observable<UserRepositoryModel> {
+    print("fetchUser(uid: String)")
     fetchUserUIDCallCount += 1
     fetchUserUIDHandler?()
 
