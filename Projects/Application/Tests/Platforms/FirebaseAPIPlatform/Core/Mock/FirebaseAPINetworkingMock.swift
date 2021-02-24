@@ -8,7 +8,20 @@ class FirebaseAPINetworkingMock: FirebaseAPINetworking {
   var networkState: TestUtil.NetworkState = .succeed
   var jsonObject: [String: Any]?
 
-  func create(uid: String, collection: String, dictionary: [String: Any]) -> Single<Void> {
+  func create(rootUID: String, rootCollection: String, dictionary: [String: Any]) -> Single<Void> {
+    .create { single in
+      switch self.networkState {
+      case .succeed:
+        single(.success(Void()))
+      case .failed:
+        single(.failure(TestUtil.TestErrors.testMockError))
+      }
+
+      return Disposables.create()
+    }
+  }
+
+  func create(rootUID: String, rootCollection: String, documentCollection: String, documentUID: String, dictionary: [String: Any]) -> Single<Void> {
     .create { single in
       switch self.networkState {
       case .succeed:

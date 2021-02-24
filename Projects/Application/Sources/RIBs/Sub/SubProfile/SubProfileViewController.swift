@@ -12,6 +12,7 @@ enum SubProfilePresentableAction: Equatable {
   case load
   case loading(Bool)
   case back
+  case follow
 }
 
 // MARK: - SubProfilePresentableListener
@@ -44,12 +45,23 @@ final class SubProfileViewController: ASDKViewController<SubProfileContainerNode
     return adapter
   }()
 
-  let dataSource = RxListAdapterDataSource<SubProfileSectionModel> { _, object in
+  let dataSource = RxListAdapterDataSource<SubProfileSectionModel> { adapter, object in
+    weak var viewController = adapter.viewController as? SubProfileViewController
+
     switch object {
     case let .userInformationSummery(itemModel):
       return SectionController<ProfileInformationSectionItemModel>(
         elementKindTypes: [.header],
-        supplementaryViewHeaderBlockType: { SubProfileInformationCellNode(item: $0) })
+        supplementaryViewHeaderBlockType: {
+          guard let listener = viewController?.listener else { return ASCellNode() }
+          let node = SubProfileInformationCellNode(item: $0)
+          node.followButtonTapStream
+            .mapTo(.follow)
+            .bind(to: listener.action)
+            .disposed(by: node.disposeBag)
+
+          return node
+        })
     case let .userContent(itemModel):
       let sectionController = SectionController<ProfileContentSectionItemModel>(
         elementKindTypes: [.header],

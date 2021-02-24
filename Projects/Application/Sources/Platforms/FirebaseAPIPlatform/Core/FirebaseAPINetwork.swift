@@ -4,11 +4,27 @@ import RxSwift
 
 struct FirebaseAPINetwork: FirebaseAPINetworking {
 
-  func create(uid: String, collection: String, dictionary: [String: Any]) -> Single<Void> {
+  func create(rootUID: String, rootCollection: String, dictionary: [String: Any]) -> Single<Void> {
     .create { single in
       Firestore.firestore()
-        .collection(collection)
-        .document(uid)
+        .collection(rootCollection)
+        .document(rootUID)
+        .setData(dictionary) { error in
+          if let error = error { single(.failure(error)) }
+          single(.success(Void()))
+        }
+
+      return Disposables.create()
+    }
+  }
+
+  func create(rootUID: String, rootCollection: String, documentCollection: String, documentUID: String, dictionary: [String: Any]) -> Single<Void> {
+    .create { single in
+      Firestore.firestore()
+        .collection(rootCollection)
+        .document(rootUID)
+        .collection(documentCollection)
+        .document(documentUID)
         .setData(dictionary) { error in
           if let error = error { single(.failure(error)) }
           single(.success(Void()))
@@ -54,4 +70,5 @@ struct FirebaseAPINetwork: FirebaseAPINetworking {
       return Disposables.create()
     }
   }
+
 }
