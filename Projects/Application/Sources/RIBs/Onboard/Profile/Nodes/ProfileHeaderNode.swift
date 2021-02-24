@@ -21,7 +21,7 @@ final class ProfileHeaderNode: ASDisplayNode {
 
   // MARK: Internal
 
-  let userNameNode: ASTextNode = {
+  let titleNode: ASTextNode = {
     let node = ASTextNode()
     node.attributedText = "".styled(with: Const.titleStyle)
     node.isLayerBacked = true
@@ -35,6 +35,12 @@ final class ProfileHeaderNode: ASDisplayNode {
     node.tintColor = .black
     return node
   }()
+
+  var title = "" {
+    didSet {
+      titleNode.attributedText = title.styled(with: Const.titleStyle)
+    }
+  }
 
   // MARK: Private
 
@@ -74,7 +80,7 @@ extension ProfileHeaderNode {
       justifyContent: .start,
       alignItems: .start,
       children: [
-        userNameNode,
+        titleNode,
       ])
   }
 
@@ -88,15 +94,4 @@ extension ProfileHeaderNode {
         moreButton,
       ])
   }
-}
-
-// MARK: - Binding
-
-extension ProfileHeaderNode {
-  var userName: Binder<String> {
-    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, title in
-      base.userNameNode.attributedText = title.styled(with: Const.titleStyle)
-    }
-  }
-
 }

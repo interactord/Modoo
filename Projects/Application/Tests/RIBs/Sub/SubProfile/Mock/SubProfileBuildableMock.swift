@@ -13,6 +13,8 @@ class SubProfileBuildableMock: Builder<SubProfileDependency> {
 
   // MARK: Fileprivate
 
+  fileprivate var initailState: ProfileDisplayModel.State { .initialState() }
+
   fileprivate var userUseCase: UserUseCase {
     FirebaseUserUseCase(
       authenticating: FirebaseAuthentication(),
@@ -26,9 +28,10 @@ class SubProfileBuildableMock: Builder<SubProfileDependency> {
 extension SubProfileBuildableMock: SubProfileBuildable {
   func build(withListener listener: SubProfileListener, uid: String) -> SubProfileRouting {
     _ = SubProfileComponent(dependency: dependency)
-    let viewController = SubProfileViewController()
+    let viewController = SubProfileViewController(node: .init())
     let interactor = SubProfileInteractor(
       presenter: viewController,
+      initialState: initailState,
       userUseCase: userUseCase,
       uid: uid)
     interactor.listener = listener

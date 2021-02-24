@@ -1,4 +1,5 @@
 import AsyncDisplayKit
+import RxSwift
 
 // MARK: - ProfileContainerNode
 
@@ -52,4 +53,15 @@ extension ProfileContainerNode {
 
     return ASInsetLayoutSpec(insets: safeAreaInsets, child: contentsLayout)
   }
+}
+
+// MARK: - Binding
+
+extension ProfileContainerNode {
+  var titleBinder: Binder<String> {
+    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, title in
+      base.headerNode.title = title
+    }
+  }
+
 }
