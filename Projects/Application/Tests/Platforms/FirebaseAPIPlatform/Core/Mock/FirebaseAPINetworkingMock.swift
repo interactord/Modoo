@@ -92,4 +92,17 @@ class FirebaseAPINetworkingMock: FirebaseAPINetworking {
       return Disposables.create()
     }
   }
+
+  func find(rootUID: String, rootCollection: String, documentCollection: String, documentUID: String) -> Single<Bool> {
+    .create { single in
+      switch self.networkState {
+      case .succeed:
+        single(.success(true))
+      case .failed:
+        single(.failure(TestUtil.TestErrors.testMockError))
+      }
+
+      return Disposables.create()
+    }
+  }
 }

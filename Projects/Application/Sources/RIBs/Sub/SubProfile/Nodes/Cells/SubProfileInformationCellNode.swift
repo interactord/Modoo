@@ -26,7 +26,9 @@ final class SubProfileInformationCellNode: ASCellNode {
       followingCount: "\(item.followingCount)")
   }()
 
-  lazy var actionNode = ProfileSocialActionNode()
+  lazy var actionNode: ProfileSocialActionNode = {
+    ProfileSocialActionNode(isFollowed: item.isFollowed)
+  }()
 
   // MARK: Private
 
@@ -61,6 +63,10 @@ extension SubProfileInformationCellNode {
 extension SubProfileInformationCellNode {
   var followButtonTapStream: Observable<Void> {
     actionNode.followButton.rx.tap.asObservable()
+  }
+
+  var unFollowButtonTapStream: Observable<Void> {
+    actionNode.unFollowButton.rx.tap.asObservable()
   }
 
   var messageButtonTapStream: Observable<Void> {

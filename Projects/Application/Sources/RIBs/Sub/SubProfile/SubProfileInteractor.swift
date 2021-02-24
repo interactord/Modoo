@@ -82,6 +82,8 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
       return mutatingBack()
     case .follow:
       return mutatingFollow(uid: uid)
+    case .unFollow:
+      return mutatingUnFollow(uid: uid)
     }
   }
 
@@ -97,8 +99,10 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
     case let .setError(message):
       newState.errorMessage = message
     case let .setFollow(isFollow):
-      print("AAAA isFollow ", isFollow)
-      break
+      let sectionID = state.informationSectionItemModel.sectionID
+      var headerItem = newState.informationSectionItemModel.headerItem
+      headerItem.isFollowed = isFollow
+      newState.informationSectionItemModel = .init(sectionID: sectionID, sectionItem: .init(headerItem: headerItem))
     }
 
     return newState
@@ -111,11 +115,14 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
 
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
-    let useCaseStream = userUseCase.fetchUser(uid: uid).flatMap { repositoryModel -> Observable<Mutation> in
-      let model = ProfileDisplayModel.InformationSectionItem(repositoryModel: repositoryModel)
-      return .just(.setUserProfile(model))
-    }
-    .catch { .just(.setError($0.localizedDescription)) }
+    let useCaseStream = Observable.zip(
+      userUseCase.fetchUser(uid: uid),
+      userUseCase.isFollowed(uid: uid))
+      .flatMap { repositoryModel, isFollowed -> Observable<Mutation> in
+        let model = ProfileDisplayModel.InformationSectionItem(repositoryModel: repositoryModel, isFollowed: isFollowed)
+        return .just(.setUserProfile(model))
+      }
+      .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
   }
@@ -132,6 +139,19 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
     let stopLoading = Observable.just(Mutation.setLoading(false))
     let useCaseStream = userUseCase.follow(to: uid).flatMap { _ -> Observable<Mutation> in
       .just(.setFollow(true))
+    }
+    .catch { .just(.setError($0.localizedDescription)) }
+
+    return Observable.concat([startLoading, useCaseStream, stopLoading])
+  }
+
+  private func mutatingUnFollow(uid: String) -> Observable<Mutation> {
+    guard !currentState.isLoading else { return .empty() }
+
+    let startLoading = Observable.just(Mutation.setLoading(true))
+    let stopLoading = Observable.just(Mutation.setLoading(false))
+    let useCaseStream = userUseCase.unFollow(to: uid).flatMap { _ -> Observable<Mutation> in
+      .just(.setFollow(false))
     }
     .catch { .just(.setError($0.localizedDescription)) }
 

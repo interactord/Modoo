@@ -29,14 +29,15 @@ enum ProfileDisplayModel {
       self.headerItem = headerItem
     }
 
-    init(repositoryModel: UserRepositoryModel) {
+    init(repositoryModel: UserRepositoryModel, isFollowed: Bool = false) {
       let headerItem = HeaderItem(
         userName: repositoryModel.username,
         avatarImageURL: repositoryModel.profileImageURL,
         postCount: "0",
         followingCount: "0",
         followerCount: "0",
-        bioDescription: "")
+        bioDescription: "",
+        isFollowed: isFollowed)
 
       self.init(headerItem: headerItem)
     }
@@ -54,6 +55,7 @@ enum ProfileDisplayModel {
       var followingCount = ""
       var followerCount = ""
       var bioDescription = ""
+      var isFollowed = false
     }
 
     var headerItem: HeaderItem

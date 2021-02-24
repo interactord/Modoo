@@ -66,6 +66,16 @@ struct FirebaseUserUseCase: UserUseCase {
       .mapTo(Void())
   }
 
+  func isFollowed(uid: String) -> Observable<Bool> {
+    apiNetworking
+      .find(
+        rootUID: authenticationToken,
+        rootCollection: Const.rootUserFollowingCollectionName,
+        documentCollection: Const.documentUserFollowingCollectionName,
+        documentUID: uid)
+      .asObservable()
+  }
+
   // MARK: Private
 
   private struct Const {

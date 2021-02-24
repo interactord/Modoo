@@ -13,6 +13,7 @@ enum SubProfilePresentableAction: Equatable {
   case loading(Bool)
   case back
   case follow
+  case unFollow
 }
 
 // MARK: - SubProfilePresentableListener
@@ -57,6 +58,11 @@ final class SubProfileViewController: ASDKViewController<SubProfileContainerNode
           let node = SubProfileInformationCellNode(item: $0)
           node.followButtonTapStream
             .mapTo(.follow)
+            .bind(to: listener.action)
+            .disposed(by: node.disposeBag)
+
+          node.unFollowButtonTapStream
+            .mapTo(.unFollow)
             .bind(to: listener.action)
             .disposed(by: node.disposeBag)
 

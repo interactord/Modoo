@@ -87,4 +87,21 @@ struct FirebaseAPINetwork: FirebaseAPINetworking {
     }
   }
 
+  func find(rootUID: String, rootCollection: String, documentCollection: String, documentUID: String) -> Single<Bool> {
+    .create { single in
+      Firestore.firestore()
+        .collection(rootCollection)
+        .document(rootUID)
+        .collection(documentCollection)
+        .document(documentUID)
+        .getDocument { snapShot, error in
+          if let error = error { single(.failure(error)) }
+          let result = snapShot?.exists
+          single(.success(result ?? false))
+        }
+
+      return Disposables.create()
+    }
+  }
+
 }

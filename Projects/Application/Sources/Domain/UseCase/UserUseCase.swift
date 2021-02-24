@@ -7,4 +7,5 @@ protocol UserUseCase {
   func fetchUsers() -> Observable<[UserRepositoryModel]>
   func follow(to uid: String) -> Observable<Void>
   func unFollow(to uid: String) -> Observable<Void>
+  func isFollowed(uid: String) -> Observable<Bool>
 }
