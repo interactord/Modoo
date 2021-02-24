@@ -9,7 +9,7 @@ class ProfileSocialActionNodeSpec: QuickSpec {
     var node: ProfileSocialActionNode!
 
     beforeEach {
-      node = ProfileSocialActionNode()
+      node = ProfileSocialActionNode(isFollowed: false)
     }
     afterEach {
       node = nil

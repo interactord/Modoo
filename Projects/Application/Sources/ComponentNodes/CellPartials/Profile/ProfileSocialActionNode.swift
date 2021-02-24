@@ -8,14 +8,17 @@ final class ProfileSocialActionNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(isFollowed: Bool) {
+    defer { automaticallyManagesSubnodes = true }
+    self.isFollowed = isFollowed
     super.init()
-    automaticallyManagesSubnodes = true
   }
 
   // MARK: Internal
 
-  let followButton: ASButtonNode = {
+  let isFollowed: Bool
+
+  lazy var followButton: ASButtonNode = {
     let node = ASButtonNode()
     node.setAttributedTitle("Following".styled(with: Const.normalOfStateButtonTitleStyle), for: .normal)
     node.cornerRadius = Const.buttonCornerRadius
@@ -23,6 +26,19 @@ final class ProfileSocialActionNode: ASDisplayNode {
     node.borderColor = Const.normalOfStateButtonBorderColor.cgColor
     node.style.height = Const.buttonHeight
     node.style.flexGrow = 1
+    node.isHidden = isFollowed
+    return node
+  }()
+
+  lazy var unFollowButton: ASButtonNode = {
+    let node = ASButtonNode()
+    node.setAttributedTitle("UnFollow".styled(with: Const.normalOfStateButtonTitleStyle), for: .normal)
+    node.cornerRadius = Const.buttonCornerRadius
+    node.borderWidth = Const.buttonBorderWidth
+    node.borderColor = Const.normalOfStateButtonBorderColor.cgColor
+    node.style.height = Const.buttonHeight
+    node.style.flexGrow = 1
+    node.isHidden = !isFollowed
     return node
   }()
 
@@ -71,15 +87,14 @@ extension ProfileSocialActionNode {
   // MARK: Private
 
   private func buttonGroupAreaLayoutSpec() -> ASLayoutSpec {
-    ASStackLayoutSpec(
+    let contentElement = [followButton, unFollowButton, messageButton].filter{ !$0.isHidden }
+
+    return ASStackLayoutSpec(
       direction: .horizontal,
       spacing: Const.buttonGroupSpacing,
       justifyContent: .start,
       alignItems: .stretch,
-      children: [
-        followButton,
-        messageButton,
-      ])
+      children: contentElement)
   }
 }
 
