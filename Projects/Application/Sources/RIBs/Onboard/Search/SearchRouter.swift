@@ -44,6 +44,7 @@ extension SearchRouter: SearchRouting {
 
   func routeToSubProfile(uid: String) {
     guard subProfileRouter == nil else { return }
+
     let subProfileRouter = subProfileBuilder.build(withListener: interactor, uid: uid)
     self.subProfileRouter = subProfileRouter
     attachChild(subProfileRouter)
@@ -51,4 +52,11 @@ extension SearchRouter: SearchRouting {
     viewController.push(viewControllable: subProfileRouter.viewControllable, animated: true)
   }
 
+  func routeToBack() {
+    guard let subProfileRouter = subProfileRouter else { return }
+
+    detachChild(subProfileRouter)
+    self.subProfileRouter = nil
+    viewController.pop(viewControllable: subProfileRouter.viewControllable, animated: true)
+  }
 }

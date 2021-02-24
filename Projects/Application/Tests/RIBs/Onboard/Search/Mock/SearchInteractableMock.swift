@@ -3,7 +3,9 @@ import RxRelay
 import RxSwift
 @testable import Application
 
-class SearchInteractableMock: InteractableMock, SearchInteractable {
+// MARK: - SearchInteractableMock
+
+class SearchInteractableMock: InteractableMock {
 
   // MARK: Lifecycle
 
@@ -16,4 +18,12 @@ class SearchInteractableMock: InteractableMock, SearchInteractable {
   var router: SearchRouting?
   var listener: SearchListener?
 
+}
+
+// MARK: SearchInteractable
+
+extension SearchInteractableMock: SearchInteractable {
+  func routeToBack() {
+    router?.routeToBack()
+  }
 }

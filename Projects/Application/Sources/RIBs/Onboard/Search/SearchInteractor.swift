@@ -6,6 +6,7 @@ import RxSwift
 
 protocol SearchRouting: ViewableRouting {
   func routeToSubProfile(uid: String)
+  func routeToBack()
 }
 
 // MARK: - SearchPresentable
@@ -21,7 +22,7 @@ protocol SearchListener: AnyObject {
 
 // MARK: - SearchInteractor
 
-final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchInteractable {
+final class SearchInteractor: PresentableInteractor<SearchPresentable> {
 
   // MARK: Lifecycle
 
@@ -58,6 +59,14 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable>, SearchIn
   var initialState: State
   let userUseCase: UserUseCase
 
+}
+
+// MARK: SearchInteractable
+
+extension SearchInteractor: SearchInteractable {
+  func routeToBack() {
+    router?.routeToBack()
+  }
 }
 
 // MARK: SearchPresentableListener, Reactor

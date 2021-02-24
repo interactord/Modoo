@@ -55,12 +55,15 @@ extension SubProfileContainerNode {
   }
 }
 
-// MARK: - Binding
+// MARK: - Stream
 
 extension SubProfileContainerNode {
+
   var titleBinder: Binder<String> {
-    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, title in
-      base.headerNode.title = title
-    }
+    headerNode.titleBinder
+  }
+
+  var backButtonTapStream: Observable<Void> {
+    headerNode.backButtonTapStream
   }
 }

@@ -27,9 +27,15 @@ class SubProfileAdaptorSpec: QuickSpec {
       routing = nil
     }
 
-    describe("빌드 완료") {
-      it("test") {
-        expect(routing).toNot(beNil())
+    describe("리스너 테스트") {
+      context("routeToBack 메서드가 불리면") {
+        beforeEach {
+          adapter.routeToBack()
+        }
+
+        it("listener routeToBack을 호출한다") {
+          expect(listener.routeToBackCallCount) == 1
+        }
       }
     }
   }

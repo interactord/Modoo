@@ -91,6 +91,16 @@ class SubProfileInteractorSpec: QuickSpec {
           expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
         }
       }
+
+      context("백 버튼 액션이 들어온 경우") {
+        beforeEach {
+          interactor.action.onNext(.back)
+        }
+
+        it("routeToBack 메서드가 불린다") {
+          expect(listenerMock.routeToBackCallCount) == 1
+        }
+      }
     }
   }
 }

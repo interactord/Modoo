@@ -1,6 +1,7 @@
 import AsyncDisplayKit
 import Nimble
 import Quick
+import RxSwift
 @testable import Application
 
 class SubProfileContainerNodeSpec: QuickSpec {
@@ -24,6 +25,16 @@ class SubProfileContainerNodeSpec: QuickSpec {
           max: .init(width: 600, height: 800))
 
         _ = node.layoutSpecThatFits(containedSize)
+      }
+
+      it("크래시가 발생하지 않는다") {
+        expect(node).toNot(beNil())
+      }
+    }
+
+    describe("스트림 테스트") {
+      beforeEach {
+        node.titleBinder.onNext("test")
       }
 
       it("크래시가 발생하지 않는다") {
