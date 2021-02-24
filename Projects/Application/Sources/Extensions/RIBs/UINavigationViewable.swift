@@ -16,6 +16,6 @@ extension UINavigationViewable where Self: UIViewController {
   }
 
   func pop(viewControllable: ViewControllable, animated: Bool) {
-    dismiss(animated: animated)
+    viewControllable.uiviewController.navigationController?.popViewController(animated: animated)
   }
 }
