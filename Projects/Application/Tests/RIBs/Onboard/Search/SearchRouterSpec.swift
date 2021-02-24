@@ -46,6 +46,26 @@ class SearchRouterSpec: QuickSpec {
             expect(viewController.viewControllers) == 1
           }
         }
+
+        context("routeToBack 메서드 호출 시") {
+          beforeEach {
+            router.routeToBack()
+          }
+
+          it("viewController pop 메서드가 불린다") {
+            expect(viewController.popCallCount) == 1
+          }
+        }
+      }
+
+      context("routeToBack 메서드 호출 시") {
+        beforeEach {
+          router.routeToBack()
+        }
+
+        it("viewController pop 메서드가 불리지 않는다") {
+          expect(viewController.popCallCount) == 0
+        }
       }
     }
   }

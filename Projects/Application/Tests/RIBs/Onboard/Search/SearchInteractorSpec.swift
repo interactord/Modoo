@@ -122,6 +122,18 @@ class SearchInteractorSpec: QuickSpec {
           }
         }
       }
+
+      context("메서드 테스트") {
+        context("routeToBack 메서드가 불리면") {
+          beforeEach {
+            interactor.routeToBack()
+          }
+
+          it("라우터의 routeToBack 메서드가 불린다") {
+            expect(searchRoutingMock.routeToBackCallCount) == 1
+          }
+        }
+      }
     }
   }
 }

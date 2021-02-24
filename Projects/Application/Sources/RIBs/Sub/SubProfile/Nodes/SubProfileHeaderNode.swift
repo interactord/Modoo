@@ -1,5 +1,6 @@
 import AsyncDisplayKit
 import BonMot
+import RxSwift
 
 // MARK: - SubProfileHeaderNode
 
@@ -15,14 +16,6 @@ final class SubProfileHeaderNode: ASDisplayNode {
 
   deinit {
     print("SubProfileHeaderNode deinit...")
-  }
-
-  // MARK: Internal
-
-  var title = "" {
-    didSet {
-      titleNode.attributedText = title.styled(with: Const.titleStyle)
-    }
   }
 
   // MARK: Private
@@ -41,13 +34,14 @@ final class SubProfileHeaderNode: ASDisplayNode {
     return node
   }()
 
-  private let backButton: ASButtonNode = {
+  private let backButtonNode: ASButtonNode = {
     let node = ASButtonNode()
     node.style.preferredSize = Const.buttonSize
     node.setImage(#imageLiteral(resourceName: "back-icon"), for: .normal)
     node.tintColor = Const.butrtonTintColor
     return node
   }()
+
 }
 
 // MARK: - LayoutSpec
@@ -76,9 +70,23 @@ extension SubProfileHeaderNode {
       justifyContent: .spaceBetween,
       alignItems: .center,
       children: [
-        backButton,
+        backButtonNode,
         titleNode,
         ASLayoutSpec(),
       ])
+  }
+}
+
+// MARK: - Stream
+
+extension SubProfileHeaderNode {
+  var titleBinder: Binder<String> {
+    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, title in
+      base.titleNode.attributedText = title.styled(with: Const.titleStyle)
+    }
+  }
+
+  var backButtonTapStream: Observable<Void> {
+    backButtonNode.rx.tap.asObservable()
   }
 }

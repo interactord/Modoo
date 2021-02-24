@@ -16,6 +16,7 @@ protocol SubProfilePresentable: Presentable {
 // MARK: - SubProfileListener
 
 protocol SubProfileListener: AnyObject {
+  func routeToBack()
 }
 
 // MARK: - SubProfileInteractor
@@ -76,6 +77,8 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
       return mutatingLoad(uid: uid)
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
+    case .back:
+      return mutatingBack()
     }
   }
 
@@ -109,6 +112,11 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
     .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
+  }
+
+  private func mutatingBack() -> Observable<Mutation> {
+    listener?.routeToBack()
+    return .empty()
   }
 
 }

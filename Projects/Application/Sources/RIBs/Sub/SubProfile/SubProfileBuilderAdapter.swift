@@ -24,6 +24,10 @@ final class SubProfileBuilderAdapter: Builder<SubProfileDependency> {
 // MARK: SubProfileListener
 
 extension SubProfileBuilderAdapter: SubProfileListener {
+  func routeToBack() {
+    listener?.routeToBack()
+  }
+
 }
 
 // MARK: SubProfileBuildable

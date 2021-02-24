@@ -9,6 +9,7 @@ import UIKit
 enum SubProfilePresentableAction: Equatable {
   case load
   case loading(Bool)
+  case back
 }
 
 // MARK: - SubProfilePresentableListener
@@ -53,6 +54,12 @@ extension SubProfileViewController {
       .mapTo(.load)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
+
+    node
+      .backButtonTapStream
+      .mapTo(.back)
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
   }
 
   private func bindState(listener: SubProfilePresentableListener) {
@@ -60,7 +67,7 @@ extension SubProfileViewController {
 
     state
       .map { $0.informationSectionItemModel.headerItem.userName }
-      .bind(to: node.titleBinder)
+      .bind(to: node.headerNode.titleBinder)
       .disposed(by: disposeBag)
   }
 }
