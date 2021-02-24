@@ -9,9 +9,7 @@ struct FirebaseUserUseCase: UserUseCase {
   let apiNetworking: FirebaseAPINetworking
 
   func fetchUser() -> Observable<UserRepositoryModel> {
-    apiNetworking
-      .get(uid: authenticationToken, collection: Const.userCollectionName)
-      .asObservable()
+    fetchUser(uid: authenticationToken)
   }
 
   func fetchUser(uid: String) -> Observable<UserRepositoryModel> {
@@ -74,6 +72,25 @@ struct FirebaseUserUseCase: UserUseCase {
         documentCollection: Const.documentUserFollowingCollectionName,
         documentUID: uid)
       .asObservable()
+  }
+
+  func fetchUserSocial() -> Observable<UserSocialRepositoryModel> {
+    fetchUserSocial(uid: authenticationToken)
+  }
+
+  func fetchUserSocial(uid: String) -> Observable<UserSocialRepositoryModel> {
+    Observable.zip(
+      apiNetworking.count(
+        rootUID: uid,
+        rootCollection: Const.rootUserFollowersCollectionName,
+        documentCollection: Const.documentuserFollowersCollectionName)
+        .asObservable(),
+      apiNetworking.count(
+        rootUID: uid,
+        rootCollection: Const.rootUserFollowingCollectionName,
+        documentCollection: Const.documentUserFollowingCollectionName)
+        .asObservable())
+      .map { UserSocialRepositoryModel(followers: $0.0, following: $0.1) }
   }
 
   // MARK: Private

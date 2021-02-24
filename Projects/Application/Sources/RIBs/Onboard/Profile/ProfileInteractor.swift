@@ -99,11 +99,14 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
 
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
-    let useCaseStream = userUseCase.fetchUser().flatMap { repositoryModel -> Observable<Mutation> in
-      let model = ProfileDisplayModel.InformationSectionItem(repositoryModel: repositoryModel)
-      return .just(.setUserProfile(model))
-    }
-    .catch { .just(.setError($0.localizedDescription)) }
+    let useCaseStream = Observable.zip(
+      userUseCase.fetchUser(),
+      userUseCase.fetchUserSocial())
+      .flatMap { userModel, socialModel -> Observable<Mutation> in
+        let model = ProfileDisplayModel.InformationSectionItem(userRepositoryModel: userModel, socialRepositoryModel: socialModel)
+        return .just(.setUserProfile(model))
+      }
+      .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
   }

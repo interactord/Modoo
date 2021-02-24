@@ -33,6 +33,7 @@ class ProfileViewControllerSpec: QuickSpec {
       beforeEach {
         viewController.loadView()
         viewController.viewDidLoad()
+        viewController.viewDidAppear(false)
         viewController.viewDidLayoutSubviews()
       }
 

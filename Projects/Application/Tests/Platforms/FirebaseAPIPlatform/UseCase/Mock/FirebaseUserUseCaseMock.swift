@@ -20,6 +20,12 @@ class FirebaseUserUseCaseMock: UserUseCase {
   var isFollowedCallCount: Int = 0
   var isFollowedHandler: (() -> Void)?
 
+  var fetchUserSocialCallCount: Int = 0
+  var fetchUserSocialHandler: (() -> Void)?
+
+  var fetchUserSocialUUIDCallCount: Int = 0
+  var fetchUserSocialUUIDHandler: (() -> Void)?
+
   func fetchUser() -> Observable<UserRepositoryModel> {
     fetchUserCallCount += 1
     fetchUserHandler?()
@@ -119,6 +125,42 @@ class FirebaseUserUseCaseMock: UserUseCase {
       switch self.networkState {
       case .succeed:
         observer.onNext(true)
+      case .failed:
+        observer.onError(TestUtil.TestErrors.testMockError)
+      }
+
+      observer.onCompleted()
+
+      return Disposables.create()
+    }
+  }
+
+  func fetchUserSocial() -> Observable<UserSocialRepositoryModel> {
+    fetchUserSocialCallCount += 1
+    fetchUserSocialHandler?()
+
+    return .create { observer in
+      switch self.networkState {
+      case .succeed:
+        observer.onNext(.init())
+      case .failed:
+        observer.onError(TestUtil.TestErrors.testMockError)
+      }
+
+      observer.onCompleted()
+
+      return Disposables.create()
+    }
+  }
+
+  func fetchUserSocial(uid: String) -> Observable<UserSocialRepositoryModel> {
+    fetchUserSocialUUIDCallCount += 1
+    fetchUserSocialUUIDHandler?()
+
+    return .create { observer in
+      switch self.networkState {
+      case .succeed:
+        observer.onNext(.init())
       case .failed:
         observer.onError(TestUtil.TestErrors.testMockError)
       }

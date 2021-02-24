@@ -117,9 +117,10 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
     let stopLoading = Observable.just(Mutation.setLoading(false))
     let useCaseStream = Observable.zip(
       userUseCase.fetchUser(uid: uid),
+      userUseCase.fetchUserSocial(uid: uid),
       userUseCase.isFollowed(uid: uid))
-      .flatMap { repositoryModel, isFollowed -> Observable<Mutation> in
-        let model = ProfileDisplayModel.InformationSectionItem(repositoryModel: repositoryModel, isFollowed: isFollowed)
+      .flatMap { userModel, socialModel, isFollowed -> Observable<Mutation> in
+        let model = ProfileDisplayModel.InformationSectionItem(userRepositoryModel: userModel, socialRepositoryModel: socialModel, isFollowed: isFollowed)
         return .just(.setUserProfile(model))
       }
       .catch { .just(.setError($0.localizedDescription)) }

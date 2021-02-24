@@ -105,4 +105,17 @@ class FirebaseAPINetworkingMock: FirebaseAPINetworking {
       return Disposables.create()
     }
   }
+
+  func count(rootUID: String, rootCollection: String, documentCollection: String) -> Single<Int> {
+    .create { single in
+      switch self.networkState {
+      case .succeed:
+        single(.success(1))
+      case .failed:
+        single(.failure(TestUtil.TestErrors.testMockError))
+      }
+
+      return Disposables.create()
+    }
+  }
 }

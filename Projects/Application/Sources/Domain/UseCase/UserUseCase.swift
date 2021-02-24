@@ -8,4 +8,6 @@ protocol UserUseCase {
   func follow(to uid: String) -> Observable<Void>
   func unFollow(to uid: String) -> Observable<Void>
   func isFollowed(uid: String) -> Observable<Bool>
+  func fetchUserSocial() -> Observable<UserSocialRepositoryModel>
+  func fetchUserSocial(uid: String) -> Observable<UserSocialRepositoryModel>
 }

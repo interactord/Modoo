@@ -104,4 +104,20 @@ struct FirebaseAPINetwork: FirebaseAPINetworking {
     }
   }
 
+  func count(rootUID: String, rootCollection: String, documentCollection: String) -> Single<Int> {
+    .create { single in
+      Firestore.firestore()
+        .collection(rootCollection)
+        .document(rootUID)
+        .collection(documentCollection)
+        .getDocuments { snapShot, error in
+          if let error = error { single(.failure(error)) }
+          let count = snapShot?.documents.count
+          single(.success(count ?? 0))
+        }
+
+      return Disposables.create()
+    }
+  }
+
 }

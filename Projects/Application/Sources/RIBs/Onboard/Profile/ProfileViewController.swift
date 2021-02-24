@@ -77,7 +77,7 @@ extension ProfileViewController {
   }
 
   private func bindAction(listener: ProfilePresentableListener) {
-    rx.viewDidLoad
+    rx.viewDidAppear
       .mapTo(.load)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
