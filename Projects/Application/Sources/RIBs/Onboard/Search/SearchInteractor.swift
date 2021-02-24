@@ -124,8 +124,10 @@ extension SearchInteractor: SearchPresentableListener, Reactor {
 
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
+    let uid = userUseCase.authenticationToken
     let useCaseStream = userUseCase.fetchUsers().flatMap { repositoryModels -> Observable<Mutation> in
-      let sectionItemModel = SearchDisplayModel.SearchContentSectionItem(repositoryModels: repositoryModels)
+      let filterdModel = repositoryModels.filter { $0.uid != uid }
+      let sectionItemModel = SearchDisplayModel.SearchContentSectionItem(repositoryModels: filterdModel)
       return .just(.setUserContentSectionItemModel(sectionItemModel))
     }
     .catch { .just(.setError($0.localizedDescription)) }

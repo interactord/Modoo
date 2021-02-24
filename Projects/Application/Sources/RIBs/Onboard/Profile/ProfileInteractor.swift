@@ -99,9 +99,10 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
 
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
+    let uid = userUseCase.authenticationToken
     let useCaseStream = Observable.zip(
-      userUseCase.fetchUser(),
-      userUseCase.fetchUserSocial())
+      userUseCase.fetchUser(uid: uid),
+      userUseCase.fetchUserSocial(uid: uid))
       .flatMap { userModel, socialModel -> Observable<Mutation> in
         let model = ProfileDisplayModel.InformationSectionItem(userRepositoryModel: userModel, socialRepositoryModel: socialModel)
         return .just(.setUserProfile(model))

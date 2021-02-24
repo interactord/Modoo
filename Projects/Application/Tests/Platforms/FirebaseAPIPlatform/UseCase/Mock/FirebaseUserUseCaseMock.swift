@@ -7,8 +7,6 @@ class FirebaseUserUseCaseMock: UserUseCase {
   var networkState: TestUtil.NetworkState = .succeed
   let firebaseAuthenticatingMock = FirebaseAuthenticatingMock()
   let firebaseAPINetworkingMock = FirebaseAPINetworkingMock()
-  var fetchUserCallCount: Int = 0
-  var fetchUserHandler: (() -> Void)?
   var fetchUserUIDCallCount: Int = 0
   var fetchUserUIDHandler: (() -> Void)?
   var fetchUsersCallCount: Int = 0
@@ -19,30 +17,10 @@ class FirebaseUserUseCaseMock: UserUseCase {
   var unFollowHandler: (() -> Void)?
   var isFollowedCallCount: Int = 0
   var isFollowedHandler: (() -> Void)?
+  var fetchUserSocialUIDCallCount: Int = 0
+  var fetchUserSocialUIDHandler: (() -> Void)?
 
-  var fetchUserSocialCallCount: Int = 0
-  var fetchUserSocialHandler: (() -> Void)?
-
-  var fetchUserSocialUUIDCallCount: Int = 0
-  var fetchUserSocialUUIDHandler: (() -> Void)?
-
-  func fetchUser() -> Observable<UserRepositoryModel> {
-    fetchUserCallCount += 1
-    fetchUserHandler?()
-
-    return .create { observer in
-      switch self.networkState {
-      case .succeed:
-        observer.onNext(.makeMock())
-      case .failed:
-        observer.onError(TestUtil.TestErrors.testMockError)
-      }
-
-      observer.onCompleted()
-
-      return Disposables.create()
-    }
-  }
+  var authenticationToken = ""
 
   func fetchUser(uid: String) -> Observable<UserRepositoryModel> {
     print("fetchUser(uid: String)")
@@ -135,27 +113,9 @@ class FirebaseUserUseCaseMock: UserUseCase {
     }
   }
 
-  func fetchUserSocial() -> Observable<UserSocialRepositoryModel> {
-    fetchUserSocialCallCount += 1
-    fetchUserSocialHandler?()
-
-    return .create { observer in
-      switch self.networkState {
-      case .succeed:
-        observer.onNext(.init())
-      case .failed:
-        observer.onError(TestUtil.TestErrors.testMockError)
-      }
-
-      observer.onCompleted()
-
-      return Disposables.create()
-    }
-  }
-
   func fetchUserSocial(uid: String) -> Observable<UserSocialRepositoryModel> {
-    fetchUserSocialUUIDCallCount += 1
-    fetchUserSocialUUIDHandler?()
+    fetchUserSocialUIDCallCount += 1
+    fetchUserSocialUIDHandler?()
 
     return .create { observer in
       switch self.networkState {

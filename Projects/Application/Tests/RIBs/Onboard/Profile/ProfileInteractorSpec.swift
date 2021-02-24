@@ -49,8 +49,8 @@ class ProfileInteractorSpec: QuickSpec {
           }
 
           it("유저 정보 요청을 이벤트는 발생하지 않는다") {
-            expect(userUseCaseMock.fetchUserCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
-            expect(userUseCaseMock.fetchUserSocialCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+            expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+            expect(userUseCaseMock.fetchUserSocialUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
           }
         }
       }
@@ -67,8 +67,8 @@ class ProfileInteractorSpec: QuickSpec {
           }
 
           it("유저 정보 요청 이벤트가 발생한다") {
-            expect(userUseCaseMock.fetchUserCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
-            expect(userUseCaseMock.fetchUserSocialCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCaseMock.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
 
           it("에러 메세지는 빈값이다") {
@@ -84,7 +84,8 @@ class ProfileInteractorSpec: QuickSpec {
         }
 
         it("유저 정보 요청 이벤트가 발생한다") {
-          expect(userUseCaseMock.fetchUserCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          expect(userUseCaseMock.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
         }
 
         it("에러 메세지는 빈값이 아니다") {
