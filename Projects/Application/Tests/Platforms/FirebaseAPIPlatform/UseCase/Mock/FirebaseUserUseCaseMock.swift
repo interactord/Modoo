@@ -15,6 +15,8 @@ class FirebaseUserUseCaseMock: UserUseCase {
   var fetchUsersHandler: (() -> Void)?
   var followCallCount: Int = 0
   var followHandler: (() -> Void)?
+  var unFollowCallCount: Int = 0
+  var unFollowHandler: (() -> Void)?
 
   func fetchUser() -> Observable<UserRepositoryModel> {
     fetchUserCallCount += 1
@@ -74,6 +76,24 @@ class FirebaseUserUseCaseMock: UserUseCase {
   func follow(to uid: String) -> Observable<Void> {
     followCallCount += 1
     followHandler?()
+
+    return .create { observer in
+      switch self.networkState {
+      case .succeed:
+        observer.onNext(Void())
+      case .failed:
+        observer.onError(TestUtil.TestErrors.testMockError)
+      }
+
+      observer.onCompleted()
+
+      return Disposables.create()
+    }
+  }
+
+  func unFollow(to uid: String) -> Observable<Void> {
+    unFollowCallCount += 1
+    unFollowHandler?()
 
     return .create { observer in
       switch self.networkState {

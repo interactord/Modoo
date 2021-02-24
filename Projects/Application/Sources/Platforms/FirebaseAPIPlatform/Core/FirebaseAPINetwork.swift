@@ -34,6 +34,22 @@ struct FirebaseAPINetwork: FirebaseAPINetworking {
     }
   }
 
+  func delete(rootUID: String, rootCollection: String, documentCollection: String, documentUID: String) -> Single<Void> {
+    .create { single in
+      Firestore.firestore()
+        .collection(rootCollection)
+        .document(rootUID)
+        .collection(documentCollection)
+        .document(documentUID)
+        .delete { error in
+          if let error = error { single(.failure(error)) }
+          single(.success(Void()))
+        }
+
+      return Disposables.create()
+    }
+  }
+
   func get<T: Decodable>(uid: String, collection: String) -> Single<T> {
     .create { single in
       Firestore.firestore()

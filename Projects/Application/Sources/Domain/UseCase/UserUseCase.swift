@@ -6,4 +6,5 @@ protocol UserUseCase {
   func fetchUser(uid: String) -> Observable<UserRepositoryModel>
   func fetchUsers() -> Observable<[UserRepositoryModel]>
   func follow(to uid: String) -> Observable<Void>
+  func unFollow(to uid: String) -> Observable<Void>
 }
