@@ -1,8 +1,8 @@
 import AsyncDisplayKit
 
-// MARK: - ProfileInformationCellNode
+// MARK: - SubProfileInformationCellNode
 
-final class ProfileInformationCellNode: ASCellNode {
+final class SubProfileInformationCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
@@ -11,10 +11,6 @@ final class ProfileInformationCellNode: ASCellNode {
     super.init()
     automaticallyManagesSubnodes = true
     backgroundColor = .white
-  }
-
-  deinit {
-    print("ProfileInformationCell deinit...")
   }
 
   // MARK: Internal
@@ -26,12 +22,6 @@ final class ProfileInformationCellNode: ASCellNode {
       followerCount: "\(item.followerCount)",
       followingCount: "\(item.followingCount)")
   }()
-
-  lazy var descriptionNode: ProfileDescriptionNode = {
-    ProfileDescriptionNode(descriptionString: item.bioDescription)
-  }()
-
-  let profileEditActionNode = ProfileEditActionNode()
 
   // MARK: Private
 
@@ -45,9 +35,8 @@ final class ProfileInformationCellNode: ASCellNode {
 
 // MARK: - LayoutSpec
 
-extension ProfileInformationCellNode {
+extension SubProfileInformationCellNode {
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-
     let contentLayout = ASStackLayoutSpec(
       direction: .vertical,
       spacing: .zero,
@@ -55,8 +44,6 @@ extension ProfileInformationCellNode {
       alignItems: .stretch,
       children: [
         summeryNode,
-        descriptionNode,
-        profileEditActionNode,
       ])
 
     return ASInsetLayoutSpec(insets: Const.contentPadding, child: contentLayout)
