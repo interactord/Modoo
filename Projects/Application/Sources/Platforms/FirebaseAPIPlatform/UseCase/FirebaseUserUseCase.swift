@@ -47,6 +47,25 @@ struct FirebaseUserUseCase: UserUseCase {
       .mapTo(Void())
   }
 
+  func unFollow(to uid: String) -> Observable<Void> {
+    Observable.zip(
+      apiNetworking
+        .delete(
+          rootUID: authenticationToken,
+          rootCollection: Const.rootUserFollowingCollectionName,
+          documentCollection: Const.documentUserFollowingCollectionName,
+          documentUID: uid)
+        .asObservable(),
+      apiNetworking
+        .delete(
+          rootUID: uid,
+          rootCollection: Const.rootUserFollowersCollectionName,
+          documentCollection: Const.documentuserFollowersCollectionName,
+          documentUID: authenticationToken)
+        .asObservable())
+      .mapTo(Void())
+  }
+
   // MARK: Private
 
   private struct Const {
