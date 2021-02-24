@@ -75,8 +75,7 @@ extension SearchInteractor: SearchPresentableListener, Reactor {
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
     case  let .loadUser(item):
-      print(item)
-      return .empty()
+      return mutatingLoadUser(item: item)
     }
   }
 
@@ -123,5 +122,10 @@ extension SearchInteractor: SearchPresentableListener, Reactor {
     .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
+  }
+
+  private func mutatingLoadUser(item: SearchDisplayModel.SearchContentSectionItem.Item) -> Observable<Mutation> {
+    router?.routeToSubProfile(uid: item.uid)
+    return .empty()
   }
 }

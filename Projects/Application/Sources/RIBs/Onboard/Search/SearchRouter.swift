@@ -2,7 +2,7 @@ import RIBs
 
 // MARK: - SearchInteractable
 
-protocol SearchInteractable: Interactable {
+protocol SearchInteractable: Interactable, SubProfileListener {
   var router: SearchRouting? { get set }
   var listener: SearchListener? { get set }
 }
@@ -43,7 +43,12 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
 extension SearchRouter: SearchRouting {
 
   func routeToSubProfile(uid: String) {
+    guard subProfileRouter == nil else { return }
+    let subProfileRouter = subProfileBuilder.build(withListener: interactor, uid: uid)
+    self.subProfileRouter = subProfileRouter
+    attachChild(subProfileRouter)
 
+    viewController.push(viewControllable: subProfileRouter.viewControllable, animated: true)
   }
 
 }
