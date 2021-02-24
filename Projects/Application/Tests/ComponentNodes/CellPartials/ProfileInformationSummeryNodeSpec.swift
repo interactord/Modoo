@@ -3,13 +3,17 @@ import Nimble
 import Quick
 @testable import Application
 
-class ProfileInformationCellSpec: QuickSpec {
+class ProfileInformationSummeryNodeSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
-    var node: ProfileInformationCellNode!
+    var node: ProfileInformationSummeryNode!
 
     beforeEach {
-      node = ProfileInformationCellNode(item: .init())
+      node = ProfileInformationSummeryNode(
+        imageURL: "",
+        postCount: "0",
+        followerCount: "0",
+        followingCount: "0")
     }
     afterEach {
       node = nil

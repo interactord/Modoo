@@ -3,13 +3,13 @@ import Nimble
 import Quick
 @testable import Application
 
-class ProfileInformationCellSpec: QuickSpec {
+class ProfileMediaContentActionNodeSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
-    var node: ProfileInformationCellNode!
+    var node: ProfileMediaContentActionNode!
 
     beforeEach {
-      node = ProfileInformationCellNode(item: .init())
+      node = ProfileMediaContentActionNode()
     }
     afterEach {
       node = nil

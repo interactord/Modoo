@@ -22,7 +22,6 @@ class ProfileSubMenuCellNodeSpec: QuickSpec {
           max: .init(width: 600, height: 800))
 
         _ = node.layoutSpecThatFits(containedSize)
-        _ = node.contentActionNode.layoutSpecThatFits(containedSize)
       }
 
       it("크래시가 발생하지 않는다") {
