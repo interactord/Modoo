@@ -27,6 +27,7 @@ enum SearchDisplayModel {
     init(repositoryModels: [UserRepositoryModel]) {
       items = repositoryModels.map { model in
         Item(
+          uid: model.uid,
           avatarImageURL: model.profileImageURL,
           userName: model.username,
           fullName: model.username)
@@ -36,6 +37,7 @@ enum SearchDisplayModel {
     // MARK: Internal
 
     struct Item: Equatable {
+      var uid = ""
       var avatarImageURL = ""
       var userName = ""
       var fullName = ""
