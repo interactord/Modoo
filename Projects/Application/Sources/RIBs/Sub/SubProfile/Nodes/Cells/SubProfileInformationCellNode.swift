@@ -1,4 +1,5 @@
 import AsyncDisplayKit
+import RxSwift
 
 // MARK: - SubProfileInformationCellNode
 
@@ -23,6 +24,8 @@ final class SubProfileInformationCellNode: ASCellNode {
       followingCount: "\(item.followingCount)")
   }()
 
+  lazy var actionNode = ProfileSocialActionNode()
+
   // MARK: Private
 
   private struct Const {
@@ -44,8 +47,21 @@ extension SubProfileInformationCellNode {
       alignItems: .stretch,
       children: [
         summeryNode,
+        actionNode,
       ])
 
     return ASInsetLayoutSpec(insets: Const.contentPadding, child: contentLayout)
+  }
+}
+
+// MARK: - Stream
+
+extension SubProfileInformationCellNode {
+  var followButtonTapStream: Observable<Void> {
+    actionNode.followButton.rx.tap.asObservable()
+  }
+
+  var messageButtonTapStream: Observable<Void> {
+    actionNode.messageButton.rx.tap.asObservable()
   }
 }

@@ -1,15 +1,16 @@
 import AsyncDisplayKit
 import Nimble
 import Quick
+import RxSwift
 @testable import Application
 
-class ProfileInformationCellSpec: QuickSpec {
+class SubProfileInformationCellNodeSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
-    var node: ProfileInformationCellNode!
+    var node: SubProfileInformationCellNode!
 
     beforeEach {
-      node = ProfileInformationCellNode(item: .init())
+      node = SubProfileInformationCellNode(item: .init())
     }
     afterEach {
       node = nil
@@ -17,6 +18,8 @@ class ProfileInformationCellSpec: QuickSpec {
 
     describe("화면에 렌더링이 되고난 이후") {
       beforeEach {
+        node.didLoad()
+
         let containedSize = ASSizeRange(
           min: .init(width: 300, height: 400),
           max: .init(width: 600, height: 800))
