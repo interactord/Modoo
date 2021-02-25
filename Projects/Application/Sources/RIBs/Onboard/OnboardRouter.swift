@@ -10,7 +10,7 @@ protocol OnboardInteractable: Interactable, FeedListener, SearchListener, Profil
 
 // MARK: - OnboardViewControllable
 
-protocol OnboardViewControllable: ViewControllable, UINavigationViewable {
+protocol OnboardViewControllable: ViewControllable, UIViewControllerViewable {
   func setVewControllers(viewControllers: [ViewControllable])
 }
 

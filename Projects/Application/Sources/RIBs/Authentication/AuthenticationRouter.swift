@@ -11,10 +11,7 @@ protocol AuthenticationInteractable: Interactable, LoginListener, RegisterListen
 
 // MARK: - AuthenticationViewControllable
 
-protocol AuthenticationViewControllable: ViewControllable {
-  func setRoot(viewControllable: ViewControllable, animated: Bool)
-  func push(viewControllable: ViewControllable, animated: Bool)
-  func popToRootViewControllable(animated: Bool)
+protocol AuthenticationViewControllable: ViewControllable, UIViewControllerViewable {
 }
 
 // MARK: - AuthenticationRouter

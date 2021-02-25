@@ -32,23 +32,4 @@ class RootViewController: UINavigationController, RootPresentable {
 // MARK: RootViewControllable
 
 extension RootViewController: RootViewControllable {
-  func present(viewControllable: ViewControllable, animated: Bool) {
-    let uiViewController = viewControllable.uiviewController
-    uiViewController.isModalInPresentation = true
-    uiViewController.modalPresentationStyle = .fullScreen
-    present(uiViewController, animated: animated)
-  }
-
-  func setRoot(viewControllable: ViewControllable, animated: Bool) {
-    setViewControllers([viewControllable.uiviewController], animated: false)
-  }
-
-  func clearRootViewControllable(animated: Bool) {
-    setViewControllers([], animated: animated)
-  }
-
-  func dismiss(viewControllable: ViewControllable, animated: Bool) {
-    guard presentedViewController === viewControllable.uiviewController else { return }
-    dismiss(animated: animated)
-  }
 }

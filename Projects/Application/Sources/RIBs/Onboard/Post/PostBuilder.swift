@@ -33,7 +33,7 @@ final class PostBuilder: Builder<PostDependency>, PostBuildable {
   // MARK: Internal
 
   func build(withListener listener: PostListener) -> PostRouting {
-    let component = PostComponent(dependency: dependency)
+    _ = PostComponent(dependency: dependency)
     let viewController = PostViewController()
     let interactor = PostInteractor(presenter: viewController)
     interactor.listener = listener
