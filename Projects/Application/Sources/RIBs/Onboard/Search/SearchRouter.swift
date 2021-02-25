@@ -9,7 +9,7 @@ protocol SearchInteractable: Interactable, SubProfileListener {
 
 // MARK: - SearchViewControllable
 
-protocol SearchViewControllable: ViewControllable, UINavigationViewable {
+protocol SearchViewControllable: ViewControllable, UIViewControllerViewable {
 }
 
 // MARK: - SearchRouter

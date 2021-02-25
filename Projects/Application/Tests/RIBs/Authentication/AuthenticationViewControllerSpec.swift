@@ -20,34 +20,8 @@ class AuthenticationViewControllerSpec: QuickSpec {
         viewController.viewDidAppear(false)
       }
 
-      context("setRoot 메서드가 호출 되면") {
-        beforeEach {
-          viewController.setRoot(viewControllable: ViewControllableMock(), animated: false)
-        }
-
-        it("네비게이션의 서브뷰컨트롤러는 1개가 된다") {
-          expect(viewController.viewControllers.count) == 1
-        }
-      }
-
-      context("push 메서드가 호출 되면") {
-        beforeEach {
-          viewController.push(viewControllable: ViewControllableMock(), animated: false)
-        }
-
-        it("네비게이션의 서브뷰컨트롤러는 1개가 된다") {
-          expect(viewController.viewControllers.count) == 1
-        }
-      }
-
-      context("popToRootViewControllable 메서드가 호출 되면") {
-        beforeEach {
-          viewController.popToRootViewControllable(animated: false)
-        }
-
-        it("네비게이션의 서브뷰컨트롤러는 1개가 된다") {
-          expect(viewController.viewControllers.count) == 0
-        }
+      it("viewController는 닐이 아니다") {
+        expect(viewController).toNot(beNil())
       }
     }
   }

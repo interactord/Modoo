@@ -72,10 +72,6 @@ class RootRouterSpec: QuickSpec {
               expect(viewController.viewControllers) == 0
             }
 
-            it("viewController의 presentedViewControllers는 1이 된다") {
-              expect(viewController.presentedViewControllers) == 1
-            }
-
             it("currentChild는 인증라우팅으로 넘어간다") {
               expect(router.children.last is AuthenticationRouting) == true
             }
