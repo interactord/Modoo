@@ -17,7 +17,8 @@ class OnboardRouterSpec: QuickSpec {
         viewController: viewController,
         feedBuilder: FeedBuildableMock(),
         profileBuilder: ProfileBuildableMock(),
-        searchBuilder: SearchBuildableMock())
+        searchBuilder: SearchBuildableMock(),
+        postBuilder: PostBuildableMock())
     }
     afterEach {
       viewController = nil

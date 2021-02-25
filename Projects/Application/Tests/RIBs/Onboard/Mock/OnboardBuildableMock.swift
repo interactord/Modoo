@@ -36,6 +36,7 @@ extension OnboardBuildableMock: OnboardBuildable {
       viewController: viewController,
       feedBuilder: FeedBuildableMock(),
       profileBuilder: ProfileBuildableMock(),
-      searchBuilder: SearchBuildableMock())
+      searchBuilder: SearchBuildableMock(),
+      postBuilder: PostBuildableMock())
   }
 }

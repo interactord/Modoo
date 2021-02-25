@@ -5,6 +5,7 @@ import RxSwift
 
 protocol OnboardRouting: ViewableRouting {
   func setOnceViewControllers()
+  func routeToPost()
 }
 
 // MARK: - OnboardPresentable
@@ -48,6 +49,10 @@ final class OnboardInteractor: PresentableInteractor<OnboardPresentable> {
 // MARK: OnboardPresentableListener
 
 extension OnboardInteractor: OnboardPresentableListener {
+
+  func routeToPost() {
+    router?.routeToPost()
+  }
 }
 
 // MARK: OnboardInteractable
