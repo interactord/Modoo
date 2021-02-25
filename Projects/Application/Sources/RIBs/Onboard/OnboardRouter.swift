@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - OnboardInteractable
 
-protocol OnboardInteractable: Interactable, FeedListener, SearchListener, ProfileListener {
+protocol OnboardInteractable: Interactable, FeedListener, SearchListener, ProfileListener, PostListener {
   var router: OnboardRouting? { get set }
   var listener: OnboardListener? { get set }
 }
@@ -31,12 +31,14 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
     viewController: OnboardViewControllable,
     feedBuilder: FeedBuildable,
     profileBuilder: ProfileBuildable,
-    searchBuilder: SearchBuildable)
+    searchBuilder: SearchBuildable,
+    postBuilder: PostBuildable)
   {
     defer { interactor.router = self }
     self.feedBuilder = feedBuilder
     self.profileBuilder = profileBuilder
     self.searchBuilder = searchBuilder
+    self.postBuilder = postBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -57,6 +59,7 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
   private let feedBuilder: FeedBuildable
   private let profileBuilder: ProfileBuildable
   private let searchBuilder: SearchBuildable
+  private let postBuilder: PostBuildable
 
 }
 
@@ -68,8 +71,9 @@ extension OnboardRouter: OnboardRouting {
 
   func setOnceViewControllers() {
     viewController.setVewControllers(viewControllers: [
-      applySearchRouting(),
       applyFeedRouting(),
+      applySearchRouting(),
+      applyPostRouting(),
       applyProfileRouting(),
     ])
   }
@@ -95,6 +99,13 @@ extension OnboardRouter: OnboardRouting {
       image: #imageLiteral(resourceName: "search-select"),
       unselctedImage: #imageLiteral(resourceName: "search-normal"),
       router: searchBuilder.build(withListener: interactor))
+  }
+
+  private func applyPostRouting() -> ViewControllable {
+    makeNavigationRouting(
+      image: #imageLiteral(resourceName: "photo"),
+      unselctedImage: #imageLiteral(resourceName: "photo"),
+      router: postBuilder.build(withListener: interactor))
   }
 
   private func makeNavigationRouting(image: UIImage, unselctedImage: UIImage, router: ViewableRouting) -> ViewControllable {
