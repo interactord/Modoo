@@ -8,6 +8,8 @@ import RxSwift
 class OnboardRoutingMock: RoutingMock {
   var setOnceViewControllersCallCount = 0
   var setOnceViewControllersHandler: (() -> Void)?
+  var routeToPostCallCount = 0
+  var routeToPostHandler: (() -> Void)?
 }
 
 // MARK: OnboardRouting
@@ -16,6 +18,11 @@ extension OnboardRoutingMock: OnboardRouting {
   func setOnceViewControllers() {
     childrenSetCallCount += 1
     setOnceViewControllersHandler?()
+  }
+
+  func routeToPost() {
+    routeToPostCallCount += 1
+    routeToPostHandler?()
   }
 
 }

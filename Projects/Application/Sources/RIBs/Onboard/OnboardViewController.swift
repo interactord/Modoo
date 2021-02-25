@@ -6,6 +6,7 @@ import UIKit
 // MARK: - OnboardPresentableListener
 
 protocol OnboardPresentableListener: AnyObject {
+  func routeToPost()
 }
 
 // MARK: - OnboardViewController
@@ -21,6 +22,12 @@ class OnboardViewController: UITabBarController, OnboardPresentable {
   // MARK: Internal
 
   weak var listener: OnboardPresentableListener?
+
+  override func loadView() {
+    super.loadView()
+
+    delegate = self
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -45,4 +52,20 @@ extension OnboardViewController: OnboardViewControllable {
     setViewControllers(viewControllers.map { $0.uiviewController }, animated: false)
   }
 
+}
+
+// MARK: UITabBarControllerDelegate
+
+extension OnboardViewController: UITabBarControllerDelegate {
+  func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    guard
+      let navigationController = viewController as? NavigationController,
+      navigationController.viewControllerType == .post else
+    {
+      return true
+    }
+
+    listener?.routeToPost()
+    return false
+  }
 }

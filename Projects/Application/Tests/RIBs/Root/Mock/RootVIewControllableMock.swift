@@ -13,8 +13,6 @@ class RootViewControllableMock: ViewControllableMock, RootPresentable {
 
   // MARK: Function Handler
 
-  var presentCallCount = 0
-  var presentHandler: (() -> Void)?
   var dismissCallCount = 0
   var dismissHandler: (() -> Void)?
   var setRootCallCount = 0

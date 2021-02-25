@@ -10,7 +10,7 @@ protocol OnboardInteractable: Interactable, FeedListener, SearchListener, Profil
 
 // MARK: - OnboardViewControllable
 
-protocol OnboardViewControllable: ViewControllable {
+protocol OnboardViewControllable: ViewControllable, UINavigationViewable {
   func setVewControllers(viewControllers: [ViewControllable])
 }
 
@@ -60,6 +60,7 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
   private let profileBuilder: ProfileBuildable
   private let searchBuilder: SearchBuildable
   private let postBuilder: PostBuildable
+  private var postRouting: ViewableRouting?
 
 }
 
@@ -73,9 +74,24 @@ extension OnboardRouter: OnboardRouting {
     viewController.setVewControllers(viewControllers: [
       applyFeedRouting(),
       applySearchRouting(),
-      applyPostRouting(),
+      makePeedViewController(),
       applyProfileRouting(),
     ])
+  }
+
+  func routeToPost() {
+    if let postRouting = postRouting {
+      detachChild(postRouting)
+      self.postRouting = nil
+    }
+
+    let postRouting = postBuilder.build(withListener: interactor)
+    attachChild(postRouting)
+    self.postRouting = postRouting
+    viewController.present(
+      viewControllable: postRouting.viewControllable,
+      isFullScreenSize: true,
+      animated: true)
   }
 
   // MARK: Private
@@ -84,37 +100,45 @@ extension OnboardRouter: OnboardRouting {
     makeNavigationRouting(
       image: #imageLiteral(resourceName: "feed-select"),
       unselctedImage: #imageLiteral(resourceName: "feed-normal"),
-      router: feedBuilder.build(withListener: interactor))
+      router: feedBuilder.build(withListener: interactor),
+      viewControllerType: .feed)
   }
 
   private func applyProfileRouting() -> ViewControllable {
     makeNavigationRouting(
       image: #imageLiteral(resourceName: "profile-select"),
       unselctedImage: #imageLiteral(resourceName: "profile-normal"),
-      router: profileBuilder.build(withListener: interactor))
+      router: profileBuilder.build(withListener: interactor),
+      viewControllerType: .profile)
   }
 
   private func applySearchRouting() -> ViewControllable {
     makeNavigationRouting(
       image: #imageLiteral(resourceName: "search-select"),
       unselctedImage: #imageLiteral(resourceName: "search-normal"),
-      router: searchBuilder.build(withListener: interactor))
+      router: searchBuilder.build(withListener: interactor),
+      viewControllerType: .search)
   }
 
-  private func applyPostRouting() -> ViewControllable {
-    makeNavigationRouting(
-      image: #imageLiteral(resourceName: "photo"),
-      unselctedImage: #imageLiteral(resourceName: "photo"),
-      router: postBuilder.build(withListener: interactor))
-  }
-
-  private func makeNavigationRouting(image: UIImage, unselctedImage: UIImage, router: ViewableRouting) -> ViewControllable {
+  private func makeNavigationRouting(image: UIImage, unselctedImage: UIImage, router: ViewableRouting, viewControllerType: NavigationController.ViewControllerType) -> ViewControllable {
     attachChild(router)
 
-    let navigationController = UINavigationController(
+    let navigationController = NavigationController(
+      viewControllerType: viewControllerType,
       image: image,
       unselectedImage: unselctedImage,
       root: router.viewControllable)
+    navigationController.navigationBar.isHidden = true
+
+    return navigationController
+  }
+
+  private func makePeedViewController() -> ViewControllable {
+    let navigationController = NavigationController(
+      viewControllerType: .post,
+      image: #imageLiteral(resourceName: "photo"),
+      unselectedImage: #imageLiteral(resourceName: "photo"),
+      root: EmptyViewController())
     navigationController.navigationBar.isHidden = true
 
     return navigationController
