@@ -39,6 +39,9 @@ struct CompositeRoot {
     BuilderContainer.register(
       builder: SubProfileBuilderAdapter.self,
       with: SubProfileBuilderID)
+    BuilderContainer.register(
+      builder: PostBuilderAdapter.self,
+      with: PostBuilderID)
   }
 
 }

@@ -19,9 +19,9 @@ class ViewControllableMock: ViewControllable {
   }
 }
 
-// MARK: UINavigationViewable
+// MARK: ViewControlable
 
-extension ViewControllableMock: UINavigationViewable {
+extension ViewControllableMock: ViewControlable {
   func push(viewControllable: ViewControllable, animated: Bool) {
     viewControllers += 1
     pushCallCount += 1
