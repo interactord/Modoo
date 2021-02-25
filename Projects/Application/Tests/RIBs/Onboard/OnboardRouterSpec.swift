@@ -30,8 +30,24 @@ class OnboardRouterSpec: QuickSpec {
         router.didLoad()
       }
 
-      it("test..") {
-        expect(router).toNot(beNil())
+      context("routeToPost가 불리면") {
+        beforeEach {
+          router.routeToPost()
+        }
+
+        it("viewController present메서드가 불린다") {
+          expect(viewController.presentCallCount) == 1
+        }
+
+        context("routeToPost가 불리면") {
+          beforeEach {
+            router.routeToPost()
+          }
+
+          it("viewController present메서드가 불린다") {
+            expect(viewController.presentCallCount) == 2
+          }
+        }
       }
     }
   }
