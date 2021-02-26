@@ -1,6 +1,7 @@
 ignore:
   - "**/*/Tests"
   - "**/*/Supporting Files"
+  - "**/*/Platforms"
 
 coverage:
   status:
