@@ -6,8 +6,11 @@ import UIKit
 
 // MARK: - PostPresentableAction
 
-enum PostPresentableAction {
+enum PostPresentableAction: Equatable {
   case cancel
+  case typingCaption(String)
+  case share
+  case loading(Bool)
 }
 
 // MARK: - PostPresentableListener
@@ -52,8 +55,27 @@ extension PostViewController {
       .mapTo(.cancel)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
+
+    node
+      .captionStream
+      .map { .typingCaption($0) }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
+    node
+      .shareButtonTapStream
+      .mapTo(.share)
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
   }
 
   private func bindState(listener: PostPresentableListener) {
+    let state = listener.state.share()
+
+    state
+      .map { $0.photo }
+      .bind(to: node.postImageBinder)
+      .disposed(by: disposeBag)
   }
 }

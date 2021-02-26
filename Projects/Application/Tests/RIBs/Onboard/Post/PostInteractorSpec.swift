@@ -41,6 +41,36 @@ class PostInteractorSpec: QuickSpec {
           expect(listener.dismissPostCallCount) == 1
         }
       }
+
+      context("타이핑 액션이 들어올 경우") {
+        beforeEach {
+          interactor.action.onNext(.typingCaption("test"))
+        }
+
+        it("리스너 dismissPost 메서드가 불리게 된다") {
+          expect(interactor.currentState.caption).toEventually(equal("test"), timeout: TestUtil.Const.timeout)
+        }
+      }
+
+      context("쉐어 액션이 들어올 경우") {
+        beforeEach {
+          interactor.action.onNext(.share)
+        }
+
+        it("추후작성") {
+          expect(interactor.currentState.caption).toEventually(equal(""), timeout: TestUtil.Const.timeout)
+        }
+      }
+
+      context("로딩중 액션이 들어올 경우") {
+        beforeEach {
+          interactor.action.onNext(.loading(true))
+        }
+
+        it("추후작성") {
+          expect(interactor.currentState.isLoading).toEventually(equal(true), timeout: TestUtil.Const.timeout)
+        }
+      }
     }
   }
 }

@@ -44,6 +44,8 @@ final class PostInteractor: PresentableInteractor<PostPresentable>, PostInteract
   typealias State = PostDisplayModel.State
 
   enum Mutation: Equatable {
+    case setCaption(String)
+    case setLoading(Bool)
   }
 
   weak var router: PostRouting?
@@ -62,7 +64,26 @@ extension PostInteractor: PostPresentableListener, Reactor {
     switch action {
     case .cancel:
       return mutatingCancel()
+    case let .typingCaption(text):
+      return .just(.setCaption(text))
+    case .share:
+      return mutatingShare()
+    case let .loading(isLoading):
+      return .just(.setLoading(isLoading))
     }
+  }
+
+  func reduce(state: State, mutation: Mutation) -> State {
+    var newState = state
+
+    switch mutation {
+    case let .setCaption(text):
+      newState.caption = text
+    case let .setLoading(isLoading):
+      newState.isLoading = isLoading
+    }
+
+    return newState
   }
 
   // MARK: Private
@@ -70,5 +91,9 @@ extension PostInteractor: PostPresentableListener, Reactor {
   private func mutatingCancel() -> Observable<Mutation> {
     listener?.dismissPost()
     return .empty()
+  }
+
+  private func mutatingShare() -> Observable<Mutation> {
+    .empty()
   }
 }
