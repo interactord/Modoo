@@ -1,3 +1,4 @@
+import ReactorKit
 import RIBs
 import RxSwift
 
@@ -5,7 +6,7 @@ import RxSwift
 
 protocol OnboardRouting: ViewableRouting {
   func setOnceViewControllers()
-  func routeToPost()
+  func routeToPost(image: UIImage)
 }
 
 // MARK: - OnboardPresentable
@@ -26,9 +27,13 @@ final class OnboardInteractor: PresentableInteractor<OnboardPresentable> {
 
   // MARK: Lifecycle
 
-  override init(presenter: OnboardPresentable) {
+  init(
+    presenter: OnboardPresentable,
+    initialState: OnboardDisplayModel.State)
+  {
+    self.initialState = initialState
+    defer { presenter.listener = self }
     super.init(presenter: presenter)
-    presenter.listener = self
   }
 
   deinit {
@@ -37,21 +42,41 @@ final class OnboardInteractor: PresentableInteractor<OnboardPresentable> {
 
   // MARK: Internal
 
+  typealias Action = OnboardPresentableAction
+  typealias State = OnboardDisplayModel.State
+
+  enum Mutation: Equatable {
+  }
+
   weak var router: OnboardRouting?
   weak var listener: OnboardListener?
+  var initialState: OnboardDisplayModel.State
 
   override func willResignActive() {
     super.willResignActive()
     router?.setOnceViewControllers()
   }
+
 }
 
-// MARK: OnboardPresentableListener
+// MARK: OnboardPresentableListener, Reactor
 
-extension OnboardInteractor: OnboardPresentableListener {
+extension OnboardInteractor: OnboardPresentableListener, Reactor {
 
-  func routeToPost() {
-    router?.routeToPost()
+  // MARK: Internal
+
+  func mutate(action: Action) -> Observable<Mutation> {
+    switch action {
+    case let .postImage(image):
+      return mutatingPostImage(image: image)
+    }
+  }
+
+  // MARK: Private
+
+  private func mutatingPostImage(image: UIImage) -> Observable<Mutation> {
+    router?.routeToPost(image: image)
+    return .empty()
   }
 }
 

@@ -1,12 +1,24 @@
 import FirebaseAuth
+import ReactorKit
 import RIBs
+import RxOptional
 import RxSwift
 import UIKit
+
+// MARK: - OnboardPresentableAction
+
+enum OnboardPresentableAction: Equatable {
+  case postImage(UIImage)
+}
 
 // MARK: - OnboardPresentableListener
 
 protocol OnboardPresentableListener: AnyObject {
-  func routeToPost()
+  typealias Action = OnboardPresentableAction
+  typealias State = OnboardDisplayModel.State
+
+  var action: ActionSubject<Action> { get }
+  var state: Observable<State> { get }
 }
 
 // MARK: - OnboardViewController
@@ -15,11 +27,24 @@ class OnboardViewController: UITabBarController, OnboardPresentable {
 
   // MARK: Lifecycle
 
+  init(postMediaUseCase: PostMediaPickerUseCase) {
+    self.postMediaUseCase = postMediaUseCase
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  @available(*, unavailable)
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
   deinit {
     print("OnboardViewController deinit...")
   }
 
   // MARK: Internal
+
+  var postMediaUseCase: PostMediaPickerUseCase
+  let disposeBag = DisposeBag()
 
   weak var listener: OnboardPresentableListener?
 
@@ -60,12 +85,18 @@ extension OnboardViewController: UITabBarControllerDelegate {
   func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
     guard
       let navigationController = viewController as? NavigationController,
-      navigationController.viewControllerType == .post else
+      navigationController.viewControllerType == .post,
+      let listener = self.listener else
     {
       return true
     }
 
-    listener?.routeToPost()
+    postMediaUseCase
+      .load(viewController: self)
+      .map { .postImage($0) }
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
     return false
   }
 }
