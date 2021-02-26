@@ -30,5 +30,11 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>This app use to camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app use to photo library</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app use to mic</string>
 </dict>
 </plist>

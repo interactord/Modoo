@@ -21,6 +21,7 @@ target 'Application' do
   pod 'RxOptional'
   pod 'RxKeyboard'
   pod 'RxViewController'
+  pod 'YPImagePicker'
 
   # Framework
   pod 'RIBs', :git => 'https://github.com/interactord/RIBs', :branch => 'master'

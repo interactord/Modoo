@@ -6,7 +6,7 @@ import UIKit
 
 @testable import Application
 
-class MediaPickerPlatformUseCaseSpec: QuickSpec {
+class UIMediaPickerPlatformUseCaseSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
     var picker: UIImagePickerController!

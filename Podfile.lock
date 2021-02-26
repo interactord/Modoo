@@ -375,6 +375,7 @@ PODS:
     - PINCache (~> 3.0.3)
     - PINRemoteImage/Core
   - PromisesObjC (1.2.12)
+  - PryntTrimmerView (4.0.2)
   - ReactorKit (3.0.0):
     - RxSwift (~> 6.0)
     - WeakMapTable (~> 1.1)
@@ -416,6 +417,7 @@ PODS:
   - RxViewController (2.0.0):
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
+  - SteviaLayout (4.7.3)
   - SwiftLint (0.42.0)
   - Texture (3.0.0):
     - Texture/AssetsLibrary (= 3.0.0)
@@ -442,6 +444,9 @@ PODS:
   - Texture/Video (3.0.0):
     - Texture/Core
   - WeakMapTable (1.2.0)
+  - YPImagePicker (4.4.0):
+    - PryntTrimmerView (~> 4.0.2)
+    - SteviaLayout (~> 4.7.3)
 
 DEPENDENCIES:
   - BonMot
@@ -466,6 +471,7 @@ DEPENDENCIES:
   - SwiftLint
   - Texture
   - Texture/IGListKit
+  - YPImagePicker
 
 SPEC REPOS:
   trunk:
@@ -498,6 +504,7 @@ SPEC REPOS:
     - PINOperation
     - PINRemoteImage
     - PromisesObjC
+    - PryntTrimmerView
     - ReactorKit
     - RxCocoa
     - RxDataSources-Texture
@@ -509,9 +516,11 @@ SPEC REPOS:
     - RxSwiftExt
     - RxTexture2
     - RxViewController
+    - SteviaLayout
     - SwiftLint
     - Texture
     - WeakMapTable
+    - YPImagePicker
 
 EXTERNAL SOURCES:
   RIBs:
@@ -553,6 +562,7 @@ SPEC CHECKSUMS:
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
   PINRemoteImage: f1295b29f8c5e640e25335a1b2bd9d805171bd01
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  PryntTrimmerView: 6a43cc90df5d99addeabd33d4ba09b1365322130
   ReactorKit: 5348c9881dcb546605b451e32759dccc9937d36e
   RIBs: dd8df1129289d51ed4fec6e2127613d9eaba204e
   RxCocoa: 3f79328fafa3645b34600f37c31e64c73ae3a80e
@@ -565,10 +575,12 @@ SPEC CHECKSUMS:
   RxSwiftExt: 6637802b67dd4b60c00c661cc640316b693c0387
   RxTexture2: afc37076fc7ac380642d569533ed858d296732fe
   RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
+  SteviaLayout: c2ecdcff57d44e38fd2f65e54ad52aeae28ca0c4
   SwiftLint: 4fa9579c63416865179bc416f0a92d55f009600d
   Texture: 2f109e937850d94d1d07232041c9c7313ccddb81
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
+  YPImagePicker: 15aed8bcaa4dad976e11b6114126d731a2f9f3c9
 
-PODFILE CHECKSUM: 943856039bd4491975355731e557ad52fb440f72
+PODFILE CHECKSUM: 6f541409c2d81c4fce83f570cf007bbd800962bc
 
 COCOAPODS: 1.10.1
