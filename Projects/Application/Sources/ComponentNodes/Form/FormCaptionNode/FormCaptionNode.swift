@@ -35,7 +35,7 @@ final class FormCaptionNode: ASDisplayNode, View {
 
   lazy var limitedTextNode: ASTextNode = {
     let node = ASTextNode()
-    node.attributedText = "0/\(scope.maxCount)".styled(with: Const.captionPlaceholderStyle)
+    node.attributedText = "0/\(scope.maxCount)".styled(with: Const.limitedStyle)
     return node
   }()
 
@@ -49,6 +49,7 @@ final class FormCaptionNode: ASDisplayNode, View {
   private struct Const {
     static let captionPlaceholderStyle = StringStyle(.font(.systemFont(ofSize: 13)), .color(#colorLiteral(red: 0.5882352941, green: 0.5882352941, blue: 0.5882352941, alpha: 1)))
     static let captingTypingStyle = StringStyle(.font(.systemFont(ofSize: 13)), .color(.black))
+    static let limitedStyle = StringStyle(.font(.systemFont(ofSize: 13)), .color(#colorLiteral(red: 0.5882352941, green: 0.5882352941, blue: 0.5882352941, alpha: 1)), .alignment(.right))
     static let contentsSpacing: CGFloat = 6
   }
 
