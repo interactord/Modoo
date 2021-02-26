@@ -10,11 +10,14 @@ class OnboardRoutingMock: RoutingMock {
   var setOnceViewControllersHandler: (() -> Void)?
   var routeToPostCallCount = 0
   var routeToPostHandler: (() -> Void)?
+  var dismissPostCallCount = 0
+  var dismissPostHandler: (() -> Void)?
 }
 
 // MARK: OnboardRouting
 
 extension OnboardRoutingMock: OnboardRouting {
+
   func setOnceViewControllers() {
     childrenSetCallCount += 1
     setOnceViewControllersHandler?()
@@ -23,6 +26,11 @@ extension OnboardRoutingMock: OnboardRouting {
   func routeToPost(image: UIImage) {
     routeToPostCallCount += 1
     routeToPostHandler?()
+  }
+
+  func dismissPost() {
+    dismissPostCallCount += 1
+    dismissPostHandler?()
   }
 
 }

@@ -59,5 +59,15 @@ class OnboardInteractorSpec: QuickSpec {
         }
       }
     }
+
+    context("dismissPost 메서드가 불리면") {
+      beforeEach {
+        router.dismissPost()
+      }
+
+      it("router dismissPost 호출 한다") {
+        expect(router.dismissPostCallCount) == 1
+      }
+    }
   }
 }

@@ -14,10 +14,12 @@ class PostBuildableMock: Builder<PostDependency> {
 // MARK: PostBuildable
 
 extension PostBuildableMock: PostBuildable {
-  func build(withListener listener: PostListener) -> PostRouting {
+  func build(withListener listener: PostListener, image: UIImage) -> PostRouting {
     _ = PostComponent(dependency: dependency)
     let viewController = PostViewController(node: .init())
-    let interactor = PostInteractor(presenter: viewController)
+    let interactor = PostInteractor(
+      presenter: viewController,
+      initialState: .init(photo: image, caption: "", isLoading: false, errorMessage: ""))
     interactor.listener = listener
 
     return PostRouter(

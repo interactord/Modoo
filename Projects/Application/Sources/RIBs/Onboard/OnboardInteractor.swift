@@ -7,6 +7,7 @@ import RxSwift
 protocol OnboardRouting: ViewableRouting {
   func setOnceViewControllers()
   func routeToPost(image: UIImage)
+  func dismissPost()
 }
 
 // MARK: - OnboardPresentable
@@ -85,5 +86,9 @@ extension OnboardInteractor: OnboardPresentableListener, Reactor {
 extension OnboardInteractor: OnboardInteractable {
   func routeToAuthentication() {
     listener?.routeToAuthentication()
+  }
+
+  func dismissPost() {
+    router?.dismissPost()
   }
 }
