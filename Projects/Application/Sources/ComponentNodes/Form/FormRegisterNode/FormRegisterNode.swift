@@ -22,6 +22,7 @@ final class FormRegisterNode: ASScrollNode, View {
     automaticallyManagesContentSize = true
     automaticallyManagesSubnodes = true
     backgroundColor = .clear
+    view.keyboardDismissMode = .onDrag
   }
 
   deinit {
