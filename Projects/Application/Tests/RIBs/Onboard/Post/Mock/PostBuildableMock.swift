@@ -16,7 +16,7 @@ class PostBuildableMock: Builder<PostDependency> {
 extension PostBuildableMock: PostBuildable {
   func build(withListener listener: PostListener) -> PostRouting {
     _ = PostComponent(dependency: dependency)
-    let viewController = PostViewController()
+    let viewController = PostViewController(node: .init())
     let interactor = PostInteractor(presenter: viewController)
     interactor.listener = listener
 

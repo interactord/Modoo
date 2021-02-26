@@ -31,7 +31,7 @@ final class FeedHeaderNode: ASDisplayNode {
   let sendButtonNode: ASButtonNode = {
     let node = ASButtonNode()
     node.setImage(#imageLiteral(resourceName: "share-normal"), for: .normal)
-    node.style.preferredSize = Const.buttonSize
+    node.imageNode.style.preferredSize = Const.buttonSize
     node.tintColor = .black
     return node
   }()
@@ -40,7 +40,7 @@ final class FeedHeaderNode: ASDisplayNode {
 
   private struct Const {
     static let logoImageSize = CGSize(width: 94, height: 27)
-    static let buttonSize = CGSize(width: 24, height: 24)
+    static let buttonSize = CGSize(width: 22, height:22)
     static let contentPadding = UIEdgeInsets(top: 12, left: 12, bottom: 9, right: 12)
   }
 }
@@ -52,7 +52,8 @@ extension FeedHeaderNode {
     let contentLayout = ASStackLayoutSpec(
       direction: .horizontal,
       spacing: .zero,
-      justifyContent: .spaceBetween, alignItems: .start,
+      justifyContent: .spaceBetween,
+      alignItems: .start,
       children: [
         logoImageNode,
         sendButtonNode,
