@@ -6,7 +6,12 @@ protocol OnboardDependency: Dependency {}
 
 // MARK: - OnboardComponent
 
-final class OnboardComponent: Component<OnboardDependency> {}
+final class OnboardComponent: Component<OnboardDependency> {
+  fileprivate var initailState: OnboardDisplayModel.State { .initialState() }
+  fileprivate var postMediaPickerUseCase: PostMediaPickerUseCase {
+    YPPostMediaPickerUseCase()
+  }
+}
 
 // MARK: FeedDependency
 
@@ -46,11 +51,13 @@ final class OnboardBuilder: Builder<OnboardDependency> {
 
 extension OnboardBuilder: OnboardBuildable {
   func build(withListener listener: OnboardListener) -> OnboardRouting {
-    let viewController = OnboardViewController()
-    let interactor = OnboardInteractor(presenter: viewController)
+    let component = OnboardComponent(dependency: dependency)
+    let viewController = OnboardViewController(postMediaUseCase: component.postMediaPickerUseCase)
+    let interactor = OnboardInteractor(
+      presenter: viewController,
+      initialState: component.initailState)
     interactor.listener = listener
 
-    let component = OnboardComponent(dependency: dependency)
     let feedBuilderAdapterType: FeedBuilderAdapter.Type = BuilderContainer.resolve(for: FeedBuilderID)
     let profileBuilderAdapterType: ProfileBuilderAdapter.Type = BuilderContainer.resolve(for: ProfileBuilderID)
     let searchBulderAdapterType: SearchBuilderAdapter.Type = BuilderContainer.resolve(for: SearchBuilderID)

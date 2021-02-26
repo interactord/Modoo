@@ -1,5 +1,6 @@
 import Nimble
 import Quick
+import UIKit
 
 @testable import Application
 
@@ -32,7 +33,7 @@ class OnboardRouterSpec: QuickSpec {
 
       context("routeToPost가 불리면") {
         beforeEach {
-          router.routeToPost()
+          router.routeToPost(image: UIImage())
         }
 
         it("viewController present메서드가 불린다") {
@@ -41,7 +42,7 @@ class OnboardRouterSpec: QuickSpec {
 
         context("routeToPost가 불리면") {
           beforeEach {
-            router.routeToPost()
+            router.routeToPost(image: UIImage())
           }
 
           it("viewController present메서드가 불린다") {

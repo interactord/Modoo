@@ -1,5 +1,6 @@
 import Nimble
 import Quick
+import UIKit
 
 @testable import Application
 
@@ -13,11 +14,13 @@ class OnboardInteractorSpec: QuickSpec {
     var listener: OnboardListenerMock!
     // swiftlint:disable implicitly_unwrapped_optional
     var router: OnboardRoutingMock!
+    let imageMock = UIImage()
 
     beforeEach {
       viewController = OnboardViewControllableMock()
       listener = OnboardListenerMock()
-      interactor = OnboardInteractor(presenter: viewController)
+      let state = OnboardDisplayModel.State.initialState()
+      interactor = OnboardInteractor(presenter: viewController, initialState: state)
       router = OnboardRoutingMock(
         interactable: interactor,
         viewControllable: viewController)
@@ -46,12 +49,12 @@ class OnboardInteractorSpec: QuickSpec {
         }
       }
 
-      context("포스트 페이지 이동 메서드가 불릴 경우") {
+      context("포스트 이미지가 전달될 경우") {
         beforeEach {
-          interactor.routeToPost()
+          interactor.action.onNext(.postImage(imageMock))
         }
 
-        it("router의 routeToPost가 불린다") {
+        it("라우터로 포스트페이지 이동 요청을 한다") {
           expect(router.routeToPostCallCount) == 1
         }
       }

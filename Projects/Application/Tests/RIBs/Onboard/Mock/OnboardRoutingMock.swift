@@ -20,7 +20,7 @@ extension OnboardRoutingMock: OnboardRouting {
     setOnceViewControllersHandler?()
   }
 
-  func routeToPost() {
+  func routeToPost(image: UIImage) {
     routeToPostCallCount += 1
     routeToPostHandler?()
   }

@@ -79,7 +79,7 @@ extension OnboardRouter: OnboardRouting {
     ])
   }
 
-  func routeToPost() {
+  func routeToPost(image: UIImage) {
     if let postRouting = postRouting {
       detachChild(postRouting)
       self.postRouting = nil
@@ -91,7 +91,7 @@ extension OnboardRouter: OnboardRouting {
     viewController.present(
       viewControllable: postRouting.viewControllable,
       isFullScreenSize: true,
-      animated: true)
+      animated: false)
   }
 
   // MARK: Private

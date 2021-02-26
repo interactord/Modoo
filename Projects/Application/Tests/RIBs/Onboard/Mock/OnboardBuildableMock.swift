@@ -28,8 +28,10 @@ extension OnboardBuildableMock: OnboardBuildable {
   func build(withListener listener: OnboardListener) -> OnboardRouting {
     _ = OnboardComponent(dependency: dependency)
 
-    let viewController = OnboardViewController()
-    let interactor = OnboardInteractor(presenter: viewController)
+    let viewController = OnboardViewController(postMediaUseCase: YPPostMediaPickerUseCaseMock())
+    let interactor = OnboardInteractor(
+      presenter: viewController,
+      initialState: .initialState())
     interactor.listener = listener
     return OnboardRouter(
       interactor: interactor,
