@@ -13,7 +13,7 @@ final class PostHeaderNode: ASDisplayNode {
   }
 
   deinit {
-    print("PostContainerNode deinit...")
+    print("PostHeaderNode deinit...")
   }
 
   // MARK: Internal
@@ -28,7 +28,8 @@ final class PostHeaderNode: ASDisplayNode {
 
   let shareButton: ASButtonNode = {
     let node = ASButtonNode()
-    node.setAttributedTitle("Share".styled(with: Const.buttonTitleStyle), for: .normal)
+    node.setAttributedTitle("Share".styled(with: Const.normalStateOfButtonTitleStyle), for: .normal)
+    node.setAttributedTitle("Share".styled(with: Const.disabledStateOfButtonTitleStyle), for: .disabled)
     node.tintColor = Const.buttonTintColor
     return node
   }()
@@ -48,7 +49,8 @@ final class PostHeaderNode: ASDisplayNode {
     static let buttonTintColor = UIColor.black
     static let contentPadding = UIEdgeInsets(top: 12, left: 12, bottom: 9, right: 12)
     static let titleStyle = StringStyle(.font(.systemFont(ofSize: 14, weight: .semibold)), .color(.black))
-    static let buttonTitleStyle = StringStyle(.font(.systemFont(ofSize: 13, weight: .bold)), .color(.black))
+    static let normalStateOfButtonTitleStyle = StringStyle(.font(.systemFont(ofSize: 13, weight: .bold)), .color(.black))
+    static let disabledStateOfButtonTitleStyle = StringStyle(.font(.systemFont(ofSize: 13, weight: .bold)), .color(#colorLiteral(red: 0.5882352941, green: 0.5882352941, blue: 0.5882352941, alpha: 1)))
   }
 }
 
