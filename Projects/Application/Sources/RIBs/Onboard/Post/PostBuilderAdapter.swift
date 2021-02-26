@@ -24,17 +24,20 @@ final class PostBuilderAdapter: Builder<PostDependency> {
 // MARK: PostListener
 
 extension PostBuilderAdapter: PostListener {
+  func dismissPost() {
+    listener?.dismissPost()
+  }
 }
 
 // MARK: PostBuildable
 
 extension PostBuilderAdapter: PostBuildable {
-  func build(withListener listener: PostListener) -> PostRouting {
-    let component = Component(dependency: dependency)
+  func build(withListener listener: PostListener, image: UIImage) -> PostRouting {
+    _ = Component(dependency: dependency)
     self.listener = listener
 
-    let builder = PostBuilder(dependency: component)
-    return builder.build(withListener: self)
+    let builder = PostBuilder(dependency: dependency)
+    return builder.build(withListener: self, image: image)
   }
 
 }

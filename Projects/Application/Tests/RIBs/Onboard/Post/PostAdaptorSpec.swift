@@ -1,5 +1,6 @@
 import Nimble
 import Quick
+import UIKit
 @testable import Application
 
 class PostAdaptorSpec: QuickSpec {
@@ -19,7 +20,7 @@ class PostAdaptorSpec: QuickSpec {
       let builderType: PostBuilderAdapter.Type = BuilderContainer.resolve(for: id)
       adapter = builderType.init(dependency: PostDependencyMock())
       listener = PostListenerMock()
-      routing = adapter.build(withListener: listener)
+      routing = adapter.build(withListener: listener, image: UIImage())
     }
     afterEach {
       adapter = nil
@@ -27,9 +28,20 @@ class PostAdaptorSpec: QuickSpec {
       routing = nil
     }
 
-    describe("빌드 완료") {
-      it("test") {
+    describe("빌드가 완료된 이후") {
+
+      it("routing은 nil이 아니다") {
         expect(routing).toNot(beNil())
+      }
+
+      context("dismissPost 메서드를 호출하면") {
+        beforeEach {
+          adapter.dismissPost()
+        }
+
+        it("listener dismissPost 메서드가 호출이 된다 ") {
+          expect(listener.dismissPostCallCount) == 1
+        }
       }
     }
   }

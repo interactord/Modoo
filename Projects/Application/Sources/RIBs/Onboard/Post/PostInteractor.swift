@@ -1,3 +1,4 @@
+import ReactorKit
 import RIBs
 import RxSwift
 
@@ -15,17 +16,22 @@ protocol PostPresentable: Presentable {
 // MARK: - PostListener
 
 protocol PostListener: AnyObject {
+  func dismissPost()
 }
 
 // MARK: - PostInteractor
 
-final class PostInteractor: PresentableInteractor<PostPresentable>, PostInteractable, PostPresentableListener {
+final class PostInteractor: PresentableInteractor<PostPresentable>, PostInteractable {
 
   // MARK: Lifecycle
 
-  override init(presenter: PostPresentable) {
+  init(
+    presenter: PostPresentable,
+    initialState: PostDisplayModel.State)
+  {
+    self.initialState = initialState
+    defer { presenter.listener = self }
     super.init(presenter: presenter)
-    presenter.listener = self
   }
 
   deinit {
@@ -34,7 +40,35 @@ final class PostInteractor: PresentableInteractor<PostPresentable>, PostInteract
 
   // MARK: Internal
 
+  typealias Action = PostPresentableAction
+  typealias State = PostDisplayModel.State
+
+  enum Mutation: Equatable {
+  }
+
   weak var router: PostRouting?
   weak var listener: PostListener?
+  var initialState: PostDisplayModel.State
 
+}
+
+// MARK: PostPresentableListener, Reactor
+
+extension PostInteractor: PostPresentableListener, Reactor {
+
+  // MARK: Internal
+
+  func mutate(action: Action) -> Observable<Mutation> {
+    switch action {
+    case .cancel:
+      return mutatingCancel()
+    }
+  }
+
+  // MARK: Private
+
+  private func mutatingCancel() -> Observable<Mutation> {
+    listener?.dismissPost()
+    return .empty()
+  }
 }

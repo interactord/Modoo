@@ -49,6 +49,26 @@ class OnboardRouterSpec: QuickSpec {
             expect(viewController.presentCallCount) == 2
           }
         }
+
+        context("dismissPost가 불리면") {
+          beforeEach {
+            router.dismissPost()
+          }
+
+          it("viewController dismiss 메서드가 호출된다") {
+            expect(viewController.dismissCallCount) == 1
+          }
+        }
+      }
+
+      context("dismissPost가 불리면") {
+        beforeEach {
+          router.dismissPost()
+        }
+
+        it("viewController dismiss 메서드는 불리지 않는다") {
+          expect(viewController.dismissCallCount) == 0
+        }
       }
     }
   }

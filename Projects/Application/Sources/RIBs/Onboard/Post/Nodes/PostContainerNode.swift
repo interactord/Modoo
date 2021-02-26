@@ -1,4 +1,5 @@
 import AsyncDisplayKit
+import RxSwift
 
 // MARK: - PostContainerNode
 
@@ -40,5 +41,13 @@ extension PostContainerNode {
     return ASInsetLayoutSpec(
       insets: safeAreaInsets,
       child: contentsLayout)
+  }
+}
+
+// MARK: - Stream
+
+extension PostContainerNode {
+  var cancelButtonTapStream: Observable<Void> {
+    headerNode.cancelButton.rx.tap.asObservable()
   }
 }

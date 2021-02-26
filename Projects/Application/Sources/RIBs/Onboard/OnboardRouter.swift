@@ -72,7 +72,6 @@ extension OnboardRouter: OnboardRouting {
 
   func setOnceViewControllers() {
     viewController.setVewControllers(viewControllers: [
-      applyPostRouting(),
       applyFeedRouting(),
       applySearchRouting(),
       makePeedViewController(),
@@ -86,13 +85,21 @@ extension OnboardRouter: OnboardRouting {
       self.postRouting = nil
     }
 
-    let postRouting = postBuilder.build(withListener: interactor)
+    let postRouting = postBuilder.build(withListener: interactor, image: image)
     attachChild(postRouting)
     self.postRouting = postRouting
     viewController.present(
       viewControllable: postRouting.viewControllable,
       isFullScreenSize: true,
       animated: false)
+  }
+
+  func dismissPost() {
+    guard let postRouting = postRouting else { return }
+    detachChild(postRouting)
+    self.postRouting = nil
+
+    viewController.dismiss(viewControllable: postRouting.viewControllable, animated: true)
   }
 
   // MARK: Private
@@ -118,14 +125,6 @@ extension OnboardRouter: OnboardRouting {
       image: #imageLiteral(resourceName: "search-select"),
       unselctedImage: #imageLiteral(resourceName: "search-normal"),
       router: searchBuilder.build(withListener: interactor),
-      viewControllerType: .search)
-  }
-
-  private func applyPostRouting() -> ViewControllable {
-    makeNavigationRouting(
-      image: #imageLiteral(resourceName: "search-select"),
-      unselctedImage: #imageLiteral(resourceName: "search-normal"),
-      router: postBuilder.build(withListener: interactor),
       viewControllerType: .search)
   }
 
