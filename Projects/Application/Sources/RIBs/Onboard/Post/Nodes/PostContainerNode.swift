@@ -12,8 +12,8 @@ final class PostContainerNode: ASDisplayNode {
 
     automaticallyManagesSubnodes = true
     automaticallyRelayoutOnSafeAreaChanges = true
-
     backgroundColor = .white
+    observeValidation()
   }
 
   deinit {
@@ -23,6 +23,8 @@ final class PostContainerNode: ASDisplayNode {
   // MARK: Internal
 
   let headerNode = PostHeaderNode()
+  lazy var bodyNode = PostBodyNode()
+  let disposeBag = DisposeBag()
 }
 
 // MARK: - LayoutSpec
@@ -36,6 +38,7 @@ extension PostContainerNode {
       alignItems: .stretch,
       children: [
         headerNode,
+        bodyNode,
       ])
 
     return ASInsetLayoutSpec(
@@ -44,10 +47,34 @@ extension PostContainerNode {
   }
 }
 
+// MARK: - Binding
+
+extension PostContainerNode {
+  func observeValidation() {
+    bodyNode
+      .isValidStream
+      .distinctUntilChanged()
+      .bind(to: headerNode.shareButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+  }
+}
+
 // MARK: - Stream
 
 extension PostContainerNode {
   var cancelButtonTapStream: Observable<Void> {
     headerNode.cancelButton.rx.tap.asObservable()
+  }
+
+  var captionStream: Observable<String> {
+    bodyNode.textStream
+  }
+
+  var postImageBinder: Binder<UIImage> {
+    bodyNode.postImageBinder
+  }
+
+  var shareButtonTapStream: Observable<Void> {
+    headerNode.shareButton.rx.tap.asObservable()
   }
 }
