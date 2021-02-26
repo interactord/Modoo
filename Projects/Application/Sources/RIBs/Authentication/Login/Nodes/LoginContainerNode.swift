@@ -42,7 +42,7 @@ final class LoginContainerNode: ASDisplayNode {
 
 }
 
-// MARK: Binding
+// MARK: - Binding
 
 extension LoginContainerNode {
   private func observeKeyboard() {

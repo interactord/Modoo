@@ -42,7 +42,7 @@ final class RegisterContainerNode: ASDisplayNode {
 
 }
 
-// MARK: Binding
+// MARK: - Binding
 
 extension RegisterContainerNode {
 
