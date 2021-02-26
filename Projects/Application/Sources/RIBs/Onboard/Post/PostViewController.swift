@@ -1,3 +1,4 @@
+import AsyncDisplayKit
 import RIBs
 import RxSwift
 import UIKit
@@ -9,7 +10,7 @@ protocol PostPresentableListener: AnyObject {
 
 // MARK: - PostViewController
 
-final class PostViewController: UIViewController, PostPresentable, PostViewControllable {
+final class PostViewController: ASDKViewController<PostContainerNode>, PostPresentable, PostViewControllable {
 
   // MARK: Lifecycle
 
@@ -20,10 +21,5 @@ final class PostViewController: UIViewController, PostPresentable, PostViewContr
   // MARK: Internal
 
   weak var listener: PostPresentableListener?
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    view.backgroundColor = .red
-  }
 
 }

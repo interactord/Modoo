@@ -72,6 +72,7 @@ extension OnboardRouter: OnboardRouting {
 
   func setOnceViewControllers() {
     viewController.setVewControllers(viewControllers: [
+      applyPostRouting(),
       applyFeedRouting(),
       applySearchRouting(),
       makePeedViewController(),
@@ -120,6 +121,14 @@ extension OnboardRouter: OnboardRouting {
       viewControllerType: .search)
   }
 
+  private func applyPostRouting() -> ViewControllable {
+    makeNavigationRouting(
+      image: #imageLiteral(resourceName: "search-select"),
+      unselctedImage: #imageLiteral(resourceName: "search-normal"),
+      router: postBuilder.build(withListener: interactor),
+      viewControllerType: .search)
+  }
+
   private func makeNavigationRouting(image: UIImage, unselctedImage: UIImage, router: ViewableRouting, viewControllerType: NavigationController.ViewControllerType) -> ViewControllable {
     attachChild(router)
 
@@ -136,8 +145,8 @@ extension OnboardRouter: OnboardRouting {
   private func makePeedViewController() -> ViewControllable {
     let navigationController = NavigationController(
       viewControllerType: .post,
-      image: #imageLiteral(resourceName: "photo"),
-      unselectedImage: #imageLiteral(resourceName: "photo"),
+      image: #imageLiteral(resourceName: "create-post-icon"),
+      unselectedImage: #imageLiteral(resourceName: "create-post-icon"),
       root: EmptyViewController())
     navigationController.navigationBar.isHidden = true
 
