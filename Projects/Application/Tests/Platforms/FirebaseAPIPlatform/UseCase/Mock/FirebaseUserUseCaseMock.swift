@@ -1,5 +1,4 @@
 import RxSwift
-
 @testable import Application
 
 class FirebaseUserUseCaseMock: UserUseCase {
@@ -23,7 +22,6 @@ class FirebaseUserUseCaseMock: UserUseCase {
   var authenticationToken = ""
 
   func fetchUser(uid: String) -> Observable<UserRepositoryModel> {
-    print("fetchUser(uid: String)")
     fetchUserUIDCallCount += 1
     fetchUserUIDHandler?()
 
