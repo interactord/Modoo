@@ -1,12 +1,18 @@
 import RxSwift
-import RxSwiftExt
 
 struct FirebaseUserUseCase: UserUseCase {
 
-  // MARK: Internal
+  // MARK: Lifecycle
 
-  let authenticating: FirebaseAuthenticating
-  let apiNetworking: FirebaseAPINetworking
+  init(
+    authenticating: FirebaseAuthenticating,
+    apiNetworking: FirebaseAPINetworking)
+  {
+    self.authenticating = authenticating
+    self.apiNetworking = apiNetworking
+  }
+
+  // MARK: Internal
 
   var authenticationToken: String {
     authenticating.authenticationToken
@@ -98,5 +104,8 @@ struct FirebaseUserUseCase: UserUseCase {
     static var rootUserFollowersCollectionName = "followers"
     static var documentuserFollowersCollectionName = "user-followers"
   }
+
+  private let authenticating: FirebaseAuthenticating
+  private let apiNetworking: FirebaseAPINetworking
 
 }

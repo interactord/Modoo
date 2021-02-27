@@ -29,14 +29,8 @@ struct FirebaseAuthenticationUseCase: AuthenticationUseCase {
       authenticating.create(email: domain.formState.email, password: domain.formState.password).asObservable(),
       mediaUploading.upload(image: domain.photo, directoryName: Const.directoryName).asObservable())
       .map { uid, imagePath -> (String, String, [String: Any]) in
-        let dictionary: [String: Any] = [
-          "uid": uid,
-          "email": domain.formState.email,
-          "profileImageURL": imagePath,
-          "username": domain.formState.userName,
-          "fullname": domain.formState.fullName,
-        ]
-        return (uid, Const.collectionName, dictionary)
+        let model = UserRepositoryModel(domain: domain, uid: uid, profileImageURL: imagePath)
+        return (uid, Const.collectionName, model.dictionary)
       }
       .flatMap { apiNetworking.create(rootUID: $0.0, rootCollection: $0.1, dictionary: $0.2) }
   }
