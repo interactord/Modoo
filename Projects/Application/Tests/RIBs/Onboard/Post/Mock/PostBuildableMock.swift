@@ -5,8 +5,24 @@ import RIBs
 
 class PostBuildableMock: Builder<PostDependency> {
 
+  // MARK: Lifecycle
+
   init() {
     super.init(dependency: PostDependencyMock())
+  }
+
+  // MARK: Fileprivate
+
+  fileprivate var initialState: SearchDisplayModel.State { .initialState() }
+  fileprivate var userUseCase: UserUseCase {
+    FirebaseUserUseCase(
+      authenticating: FirebaseAuthentication(),
+      apiNetworking: FirebaseAPINetwork())
+  }
+  fileprivate var postUseCase: PostUseCase {
+    FirebasePostUseCase(
+      apiNetworking: FirebaseAPINetwork(),
+      mediaUploading: FirebaseMediaUploader())
   }
 
 }
@@ -19,7 +35,9 @@ extension PostBuildableMock: PostBuildable {
     let viewController = PostViewController(node: .init())
     let interactor = PostInteractor(
       presenter: viewController,
-      initialState: .init(photo: image, caption: "", isLoading: false, errorMessage: ""))
+      initialState: .init(photo: image, caption: "", isLoading: false, errorMessage: ""),
+      postUseCase: postUseCase,
+      userUseCase: userUseCase)
     interactor.listener = listener
 
     return PostRouter(

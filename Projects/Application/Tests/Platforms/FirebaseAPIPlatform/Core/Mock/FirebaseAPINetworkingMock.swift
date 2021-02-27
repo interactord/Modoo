@@ -34,6 +34,19 @@ class FirebaseAPINetworkingMock: FirebaseAPINetworking {
     }
   }
 
+  func create(rootCollection: String, dictionary: [String: Any]) -> Single<Void> {
+    .create { single in
+      switch self.networkState {
+      case .succeed:
+        single(.success(Void()))
+      case .failed:
+        single(.failure(TestUtil.TestErrors.testMockError))
+      }
+
+      return Disposables.create()
+    }
+  }
+
   func delete(rootUID: String, rootCollection: String, documentCollection: String, documentUID: String) -> Single<Void> {
     .create { single in
       switch self.networkState {
