@@ -34,6 +34,19 @@ struct FirebaseAPINetwork: FirebaseAPINetworking {
     }
   }
 
+  func create(rootCollection: String, dictionary: [String: Any]) -> Single<Void> {
+    .create { single in
+      Firestore.firestore()
+        .collection(rootCollection)
+        .addDocument(data: dictionary) { error in
+          if let error = error { single(.failure(error)) }
+          single(.success(Void()))
+        }
+
+      return Disposables.create()
+    }
+  }
+
   func delete(rootUID: String, rootCollection: String, documentCollection: String, documentUID: String) -> Single<Void> {
     .create { single in
       Firestore.firestore()

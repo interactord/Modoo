@@ -98,11 +98,11 @@ struct FirebaseUserUseCase: UserUseCase {
   // MARK: Private
 
   private struct Const {
-    static var userCollectionName = "users"
-    static var rootUserFollowingCollectionName = "following"
-    static var documentUserFollowingCollectionName = "user-following"
-    static var rootUserFollowersCollectionName = "followers"
-    static var documentuserFollowersCollectionName = "user-followers"
+    static let userCollectionName = "users"
+    static let rootUserFollowingCollectionName = "following"
+    static let documentUserFollowingCollectionName = "user-following"
+    static let rootUserFollowersCollectionName = "followers"
+    static let documentuserFollowersCollectionName = "user-followers"
   }
 
   private let authenticating: FirebaseAuthenticating
