@@ -27,9 +27,13 @@ final class PostInteractor: PresentableInteractor<PostPresentable>, PostInteract
 
   init(
     presenter: PostPresentable,
-    initialState: PostDisplayModel.State)
+    initialState: PostDisplayModel.State,
+    postUseCase: PostUseCase,
+    userUseCase: UserUseCase)
   {
     self.initialState = initialState
+    self.postUseCase = postUseCase
+    self.userUseCase = userUseCase
     defer { presenter.listener = self }
     super.init(presenter: presenter)
   }
@@ -46,11 +50,14 @@ final class PostInteractor: PresentableInteractor<PostPresentable>, PostInteract
   enum Mutation: Equatable {
     case setCaption(String)
     case setLoading(Bool)
+    case setError(String)
   }
 
   weak var router: PostRouting?
   weak var listener: PostListener?
   var initialState: PostDisplayModel.State
+  let postUseCase: PostUseCase
+  let userUseCase: UserUseCase
 
 }
 
@@ -63,7 +70,7 @@ extension PostInteractor: PostPresentableListener, Reactor {
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {
     case .cancel:
-      return mutatingCancel()
+      return mutatingDismiss()
     case let .typingCaption(text):
       return .just(.setCaption(text))
     case .share:
@@ -81,6 +88,8 @@ extension PostInteractor: PostPresentableListener, Reactor {
       newState.caption = text
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
+    case let .setError(message):
+      newState.errorMessage = message
     }
 
     return newState
@@ -88,12 +97,25 @@ extension PostInteractor: PostPresentableListener, Reactor {
 
   // MARK: Private
 
-  private func mutatingCancel() -> Observable<Mutation> {
+  private func mutatingDismiss() -> Observable<Mutation> {
     listener?.dismissPost()
     return .empty()
   }
 
   private func mutatingShare() -> Observable<Mutation> {
-    .empty()
+    guard !currentState.isLoading else { return .empty() }
+
+    let startLoading = Observable.just(Mutation.setLoading(true))
+    let stopLoading = Observable.just(Mutation.setLoading(false))
+    let useCaseStream = userUseCase
+      .fetchUser(uid: userUseCase.authenticationToken)
+      .withUnretained(self)
+      .flatMap { $0.0.postUseCase.uploadPost(displayModel: $0.0.currentState, user: $0.1) }
+      .withUnretained(self)
+      .observe(on: MainScheduler.asyncInstance)
+      .flatMap { $0.0.mutatingDismiss() }
+      .catch { .just(.setError($0.localizedDescription)) }
+
+    return Observable.concat([startLoading, useCaseStream, stopLoading])
   }
 }
