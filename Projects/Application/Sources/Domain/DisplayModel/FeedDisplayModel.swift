@@ -15,21 +15,30 @@ enum FeedDisplayModel {
     // MARK: Internal
 
     struct Item: Equatable {
-      let caption: String
-      let likes: Int
-      let imageURL: String
-      let ownerUID: String
-      let ownerProfileImageURL: String
-      let ownerUserName: String
+
+      // MARK: Lifecycle
 
       init(repositoryModel: PostReposityModel) {
+        id = repositoryModel.id
         caption = repositoryModel.caption
         likes = repositoryModel.likes
         imageURL = repositoryModel.imageURL
         ownerUID = repositoryModel.ownerUID
         ownerProfileImageURL = repositoryModel.ownerProfileImageURL
         ownerUserName = repositoryModel.ownerUserName
+        timestamp = repositoryModel.timestamp
       }
+
+      // MARK: Internal
+
+      let id: String
+      let caption: String
+      let likes: Int
+      let imageURL: String
+      let ownerUID: String
+      let ownerProfileImageURL: String
+      let ownerUserName: String
+      let timestamp: TimeInterval
 
     }
 
@@ -38,9 +47,11 @@ enum FeedDisplayModel {
 
   struct State: PresentableState {
     var postContentSectionModel: PostContentSectionModel
+    var isLoading: Bool
+    var errorMessage: String
 
     static func initialState() -> State {
-      State(postContentSectionModel: .init())
+      State(postContentSectionModel: .init(), isLoading: false, errorMessage: "")
     }
   }
 }

@@ -24,25 +24,32 @@ struct FirebasePostUseCase: PostUseCase {
       }
   }
 
+  func fetchPosts() -> Observable<[PostReposityModel]> {
+    apiNetworking
+      .get(collection: Const.postCollectionName, orderBy: Const.orderByKey, descending: true)
+      .asObservable()
+  }
+
   // MARK: Private
 
   private struct Const {
     static let postCollectionName = "post"
     static let postUpdateImageDictoryName = "post_images"
+    static let orderByKey = "timestamp"
   }
 
   private let apiNetworking: FirebaseAPINetworking
   private let mediaUploading: FirebaseMediaUploading
 
   private func createPost(user: UserRepositoryModel, displayModel: PostDisplayModel.State, imageURL: String) -> Observable<Void> {
-    let model = PostReposityModel(
+    let model = PostUploadReposityModel(
       caption: displayModel.caption,
       likes: 0,
       imageURL: imageURL,
       ownerUID: user.uid,
       ownerProfileImageURL: user.profileImageURL,
       ownerUserName: user.username)
-    let dictionary = model.dictionary.merging(["timestamp": Timestamp()]) { $1 }
+    let dictionary = model.dictionary.merging([Const.orderByKey: Timestamp()]) { $1 }
 
     return apiNetworking
       .create(rootCollection: Const.postCollectionName, dictionary: dictionary)

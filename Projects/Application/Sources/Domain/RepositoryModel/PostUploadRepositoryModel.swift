@@ -1,19 +1,17 @@
 import Foundation
 
-// MARK: - PostReposityModel
+// MARK: - PostUploadReposityModel
 
-struct PostReposityModel: Decodable, DictionaryModelType {
-  let id: String
+struct PostUploadReposityModel: Decodable, DictionaryModelType {
   let caption: String
   let likes: Int
   let imageURL: String
   let ownerUID: String
   let ownerProfileImageURL: String
   let ownerUserName: String
-  let timestamp: TimeInterval
 }
 
 // MARK: Equatable
 
-extension PostReposityModel: Equatable {
+extension PostUploadReposityModel: Equatable {
 }
