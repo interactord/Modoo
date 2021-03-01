@@ -12,6 +12,7 @@ import UIKit
 
 enum FeedPresentableAction {
   case load
+  case loading(Bool)
 }
 
 // MARK: - FeedPresentableListener

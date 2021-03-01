@@ -26,9 +26,11 @@ final class FeedInteractor: PresentableInteractor<FeedPresentable>, FeedInteract
 
   init(
     presenter: FeedPresentable,
-    initialState: FeedDisplayModel.State)
+    initialState: FeedDisplayModel.State,
+    postUseCase: PostUseCase)
   {
     self.initialState = initialState
+    self.postUseCase = postUseCase
     defer { presenter.listener = self }
     super.init(presenter: presenter)
   }
@@ -44,12 +46,15 @@ final class FeedInteractor: PresentableInteractor<FeedPresentable>, FeedInteract
 
   enum Mutation: Equatable {
     case setPostContentSectionItem(FeedDisplayModel.PostContentSectionItem)
+    case setLoading(Bool)
+    case setError(String)
   }
 
   weak var router: FeedRouting?
   weak var listener: FeedListener?
 
   var initialState: FeedDisplayModel.State
+  let postUseCase: PostUseCase
 
 }
 
@@ -63,6 +68,8 @@ extension FeedInteractor: FeedPresentableListener, Reactor {
     switch action {
     case .load:
       return mutatingLoad()
+    case let .loading(isLoading):
+      return .just(.setLoading(isLoading))
     }
   }
 
@@ -73,6 +80,10 @@ extension FeedInteractor: FeedPresentableListener, Reactor {
     case let .setPostContentSectionItem(item):
       let sectionID = state.postContentSectionModel.sectionID
       newState.postContentSectionModel = .init(sectionID: sectionID, sectionItem: item)
+    case let .setLoading(isLoading):
+      newState.isLoading = isLoading
+    case let .setError(errorMessage):
+      newState.errorMessage = errorMessage
     }
 
     return newState
@@ -81,6 +92,15 @@ extension FeedInteractor: FeedPresentableListener, Reactor {
   // MARK: Private
 
   private func mutatingLoad() -> Observable<Mutation> {
-    .just(.setPostContentSectionItem(.init(postRepositoryModels: [])))
+    guard !currentState.isLoading else { return .empty() }
+
+    let startLoading = Observable.just(Mutation.setLoading(true))
+    let stopLoading = Observable.just(Mutation.setLoading(false))
+    let useCaseStream = postUseCase.fetchPosts().flatMap { repositoryModel -> Observable<Mutation> in
+      .just(.setPostContentSectionItem(.init(postRepositoryModels: repositoryModel)))
+    }
+    .catch { .just(.setError($0.localizedDescription)) }
+
+    return Observable.concat([startLoading, useCaseStream, stopLoading])
   }
 }

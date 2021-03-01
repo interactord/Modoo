@@ -15,6 +15,11 @@ class FeedBuildableMock: Builder<FeedDependency> {
   // MARK: Fileprivate
 
   fileprivate var initialState: FeedDisplayModel.State { .initialState() }
+  fileprivate var postUseCase: PostUseCase {
+    FirebasePostUseCase(
+      apiNetworking: FirebaseAPINetwork(),
+      mediaUploading: FirebaseMediaUploader())
+  }
 
 }
 
@@ -26,7 +31,8 @@ extension FeedBuildableMock: FeedBuildable {
     let viewController = FeedViewController(node: .init())
     let interactor = FeedInteractor(
       presenter: viewController,
-      initialState: initialState)
+      initialState: initialState,
+      postUseCase: postUseCase)
     interactor.listener = listener
 
     return FeedRouter(
