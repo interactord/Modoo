@@ -35,7 +35,7 @@ final class FeedPostDescriptionNode: ASDisplayNode {
   lazy var timeNode: ASTextNode = {
     let node = ASTextNode()
     node.maximumNumberOfLines = 1
-    node.attributedText = item.timeStampDescription.styled(with: Const.timeStyle)
+    node.attributedText = "\(item.timeStampDescription) ago".styled(with: Const.timeStyle)
     return node
   }()
   let item: FeedDisplayModel.PostContentSectionItem.Item
