@@ -74,7 +74,7 @@ extension FeedViewController {
   }
 
   private func bindAction(listener: FeedPresentableListener) {
-    rx.viewDidLoad
+    rx.viewDidAppear
       .mapTo(.load)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
