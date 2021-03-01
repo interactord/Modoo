@@ -29,6 +29,17 @@ enum FeedDisplayModel {
         timestamp = repositoryModel.timestamp
       }
 
+      init() {
+        id = ""
+        caption = ""
+        likes = 0
+        imageURL = ""
+        ownerUID = ""
+        ownerProfileImageURL = ""
+        ownerUserName = ""
+        timestamp = .zero
+      }
+
       // MARK: Internal
 
       let id: String

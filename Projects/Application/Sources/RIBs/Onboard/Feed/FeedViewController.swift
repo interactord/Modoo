@@ -51,7 +51,7 @@ final class FeedViewController: ASDKViewController<FeedContainerNode>, FeedPrese
       switch object {
       case let .postContent(itemModel):
         return SectionController<PostContentSectionModel>(
-          nodeForItemBlock: { _ in FeedPostCellNode() }
+          nodeForItemBlock: { FeedPostCellNode(item: $0) }
         )
       }
     }

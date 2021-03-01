@@ -7,7 +7,8 @@ final class FeedPostCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(item: FeedDisplayModel.PostContentSectionItem.Item) {
+    self.item = item
     super.init()
     automaticallyManagesSubnodes = true
     backgroundColor = .white
@@ -19,20 +20,28 @@ final class FeedPostCellNode: ASCellNode {
 
   // MARK: Internal
 
-  let headerNode = FeedPostHeaderNode()
+  lazy var headerNode: FeedPostHeaderNode = {
+    FeedPostHeaderNode(item: item)
+  }()
   let actionNode = FeedActionNode()
-  let pictureImageNode: ASImageNode = {
-    let node = ASImageNode()
-    node.image = #imageLiteral(resourceName: "dummy-content-image")
+  lazy var pictureImageNode: ASNetworkImageNode = {
+    let node = ASNetworkImageNode()
+    node.defaultImage = #imageLiteral(resourceName: "dummy-content-image")
+    node.placeholderEnabled = true
+    node.url = URL(string: item.imageURL)
     node.contentMode = .scaleAspectFill
     return node
   }()
-  let descriptionNode = FeedPostDescriptionNode()
+  lazy var descriptionNode: FeedPostDescriptionNode = {
+    FeedPostDescriptionNode(item: item)
+  }()
+  let item: FeedDisplayModel.PostContentSectionItem.Item
 
   // MARK: Private
 
   private struct Const {
   }
+
 }
 
 // MARK: - LayoutSpec
