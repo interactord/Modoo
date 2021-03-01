@@ -12,7 +12,10 @@ class FeedInteractorSpec: QuickSpec {
 
     beforeEach {
       viewController = FeedViewControllableMock()
-      interactor = FeedInteractor(presenter: viewController)
+      let state = FeedDisplayModel.State.initialState()
+      interactor = FeedInteractor(
+        presenter: viewController,
+        initialState: state)
       _ = FeedRoutingMock(
         interactable: interactor,
         viewControllable: viewController)

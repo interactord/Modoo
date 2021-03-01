@@ -6,9 +6,15 @@ import RIBs
 
 class FeedBuildableMock: Builder<FeedDependency> {
 
+  // MARK: Lifecycle
+
   init() {
     super.init(dependency: FeedDependencyMock())
   }
+
+  // MARK: Fileprivate
+
+  fileprivate var initialState: FeedDisplayModel.State { .initialState() }
 
 }
 
@@ -17,8 +23,10 @@ class FeedBuildableMock: Builder<FeedDependency> {
 extension FeedBuildableMock: FeedBuildable {
   func build(withListener listener: FeedListener) -> FeedRouting {
     _ = FeedComponent(dependency: dependency)
-    let viewController = FeedViewController()
-    let interactor = FeedInteractor(presenter: viewController)
+    let viewController = FeedViewController(node: .init())
+    let interactor = FeedInteractor(
+      presenter: viewController,
+      initialState: initialState)
     interactor.listener = listener
 
     return FeedRouter(

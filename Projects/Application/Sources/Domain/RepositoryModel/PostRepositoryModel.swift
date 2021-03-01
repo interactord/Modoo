@@ -1,5 +1,7 @@
 import Foundation
 
+// MARK: - PostReposityModel
+
 struct PostReposityModel: Decodable, DictionaryModelType {
   let caption: String
   let likes: Int
@@ -7,4 +9,9 @@ struct PostReposityModel: Decodable, DictionaryModelType {
   let ownerUID: String
   let ownerProfileImageURL: String
   let ownerUserName: String
+}
+
+// MARK: Equatable
+
+extension PostReposityModel: Equatable {
 }

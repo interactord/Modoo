@@ -1,15 +1,28 @@
 import AsyncDisplayKit
+import ReactorKit
 import RIBs
-import RxCocoa
-import RxDataSources_Texture
+import RxIGListKit
 import RxOptional
 import RxSwift
 import RxTexture2
+import RxViewController
 import UIKit
+
+// MARK: - FeedPresentableAction
+
+enum FeedPresentableAction {
+  case load
+}
 
 // MARK: - FeedPresentableListener
 
 protocol FeedPresentableListener: AnyObject {
+  typealias Action = FeedPresentableAction
+  typealias State = FeedDisplayModel.State
+
+  var action: ActionSubject<Action> { get }
+  var state: Observable<State> { get }
+  var currentState: State { get }
 }
 
 // MARK: - FeedViewController
@@ -24,40 +37,56 @@ final class FeedViewController: ASDKViewController<FeedContainerNode>, FeedPrese
 
   // MARK: Internal
 
-  weak var listener: FeedPresentableListener?
+  let disposeBag = DisposeBag()
 
-  var items = Array(repeating: "A", count: 10)
+  lazy var adapter: ListAdapter = {
+    let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self)
+    adapter.setASDKCollectionNode(node.collectionNode)
+    return adapter
+  }()
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    node.collectionNode.dataSource = self
-  }
-
-}
-
-// MARK: ASCollectionDataSource
-
-extension FeedViewController: ASCollectionDataSource {
-  func numberOfSections(in collectionNode: ASCollectionNode) -> Int {
-    1
-  }
-
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    items.count
-  }
-
-  func collectionNode(_ collectionNode: ASCollectionNode, nodeBlockForItemAt indexPath: IndexPath) -> ASCellNodeBlock {
-    print("indexPath -> ", indexPath)
-
-    let cellNodeBlock = { () -> ASCellNode in
-      FeedPostCellNode()
+  lazy var dataSource: RxListAdapterDataSource<FeedSectionModel> = {
+    .init { _, object in
+      switch object {
+      case let .postContent(itemModel):
+        return SectionController<PostContentSectionModel>(
+          nodeForItemBlock: { _ in FeedPostCellNode() }
+        )
+      }
     }
+  }()
 
-    return cellNodeBlock
+  weak var listener: FeedPresentableListener? {
+    didSet { bind(listener: listener) }
   }
+
 }
 
-// MARK: ASCollectionDelegate
+// MARK: - Binder
 
-extension FeedViewController: ASCollectionDelegate {
+extension FeedViewController {
+
+  private func bind(listener: FeedPresentableListener?) {
+    guard let listener = listener else { return }
+    bindAction(listener: listener)
+    bindState(listener: listener)
+  }
+
+  private func bindAction(listener: FeedPresentableListener) {
+    rx.viewDidLoad
+      .mapTo(.load)
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+  }
+
+  private func bindState(listener: FeedPresentableListener) {
+    let state = listener.state.share()
+
+    state
+      .map{[
+        FeedSectionModel.postContent(itemModel: $0.postContentSectionModel),
+      ]}
+      .bind(to: adapter.rx.objects(for: dataSource))
+      .disposed(by: disposeBag)
+  }
 }
