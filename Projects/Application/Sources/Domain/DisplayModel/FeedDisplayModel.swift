@@ -51,6 +51,14 @@ enum FeedDisplayModel {
       let ownerUserName: String
       let timestamp: TimeInterval
 
+      var timeStampDescription: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfMonth]
+        formatter.maximumUnitCount = 1
+        formatter.unitsStyle = .full
+        return formatter.string(from: Date(timeIntervalSince1970: timestamp), to: Date()) ?? ""
+      }
+
     }
 
     var items: [Item]
