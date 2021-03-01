@@ -9,6 +9,11 @@ protocol FeedDependency: Dependency {
 
 final class FeedComponent: Component<FeedDependency> {
   fileprivate var initailState: FeedDisplayModel.State { .initialState() }
+  fileprivate var postUseCase: PostUseCase {
+    FirebasePostUseCase(
+      apiNetworking: FirebaseAPINetwork(),
+      mediaUploading: FirebaseMediaUploader())
+  }
 }
 
 // MARK: - FeedBuildable
@@ -38,7 +43,8 @@ final class FeedBuilder: Builder<FeedDependency>, FeedBuildable {
     let viewController = FeedViewController(node: .init())
     let interactor = FeedInteractor(
       presenter: viewController,
-      initialState: component.initailState)
+      initialState: component.initailState,
+      postUseCase: component.postUseCase)
     interactor.listener = listener
     return FeedRouter(interactor: interactor, viewController: viewController)
   }
