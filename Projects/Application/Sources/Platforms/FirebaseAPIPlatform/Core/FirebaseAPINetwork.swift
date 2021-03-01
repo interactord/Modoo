@@ -91,9 +91,36 @@ struct FirebaseAPINetwork: FirebaseAPINetworking {
           if let error = error { single(.failure(error)) }
           guard let documents = snapshot?.documents else { return single(.failure(FirebaseError.noDocumnets)) }
 
-          let users: [T] = documents.compactMap { try? T.init(from: $0.data()) }
-          single(.success(users))
+          let objects: [T] = documents.compactMap { try? T.init(from: $0.data()) }
+          single(.success(objects))
 
+        }
+
+      return Disposables.create()
+    }
+  }
+
+  func get<T: Decodable>(collection: String, orderBy key: String, descending: Bool) -> Single<[T]> {
+    .create { single in
+      Firestore.firestore()
+        .collection(collection)
+        .order(by: key, descending: descending)
+        .getDocuments { snapshot, error in
+          if let error = error { single(.failure(error)) }
+          guard let documents = snapshot?.documents else { return single(.failure(FirebaseError.noDocumnets)) }
+
+          let objects: [T] = documents.compactMap { querySnapShot in
+            var newQuerySnapShot = querySnapShot.data()
+
+            if let timeStamp = newQuerySnapShot["timestamp"] as? Timestamp {
+              newQuerySnapShot["timestamp"] = timeStamp.dateValue().timeIntervalSince1970
+            }
+
+            newQuerySnapShot["id"] = querySnapShot.documentID
+
+            return try? T.init(from: newQuerySnapShot)
+          }
+          single(.success(objects))
         }
 
       return Disposables.create()
