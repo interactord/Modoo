@@ -9,7 +9,7 @@ class FeedPostCellNodeSpec: QuickSpec {
     var node: FeedPostCellNode!
 
     beforeEach {
-      node = FeedPostCellNode()
+      node = FeedPostCellNode(item: .init())
     }
     afterEach {
       node = nil

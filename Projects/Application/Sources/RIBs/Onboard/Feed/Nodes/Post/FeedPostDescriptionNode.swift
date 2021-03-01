@@ -7,7 +7,8 @@ final class FeedPostDescriptionNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(item: FeedDisplayModel.PostContentSectionItem.Item) {
+    self.item = item
     super.init()
     automaticallyManagesSubnodes = true
   }
@@ -18,21 +19,20 @@ final class FeedPostDescriptionNode: ASDisplayNode {
 
   // MARK: Internal
 
-  let descriptionNode: ASTextNode = {
-    let dummyText = "Lorem Ipsum is simply dummy text of the printing and ..."
+  lazy var descriptionNode: ASTextNode = {
     let node = ASTextNode()
     node.maximumNumberOfLines = .zero
-    node.attributedText = dummyText.styled(with: Const.descriptionTextStyle)
+    node.attributedText = item.caption.styled(with: Const.descriptionTextStyle)
     return node
   }()
-
-  let likeInformationNode: ASTextNode = {
-    let dummyText = "1 like"
+  lazy var likeInformationNode: ASTextNode = {
+    let text = item.likes > 1 ? "\(item.likes) likes" : "\(item.likes) like"
     let node = ASTextNode()
     node.maximumNumberOfLines = 1
-    node.attributedText = dummyText.styled(with: Const.descriptionTextStyle)
+    node.attributedText = text.styled(with: Const.descriptionTextStyle)
     return node
   }()
+  let item: FeedDisplayModel.PostContentSectionItem.Item
 
   // MARK: Private
 

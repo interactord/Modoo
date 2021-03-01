@@ -7,7 +7,8 @@ final class FeedPostHeaderNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(item: FeedDisplayModel.PostContentSectionItem.Item) {
+    self.item = item
     super.init()
     automaticallyManagesSubnodes = true
   }
@@ -18,25 +19,22 @@ final class FeedPostHeaderNode: ASDisplayNode {
 
   // MARK: Internal
 
-  let profileImageNode: ASImageNode = {
-    let node = ASImageNode()
+  lazy var profileImageNode: ASNetworkImageNode = {
+    let node = ASNetworkImageNode()
     node.style.preferredSize = Const.buttonSize
     node.cornerRadius = Const.buttonSize.width / 2
-    node.image = #imageLiteral(resourceName: "dummy-content-image")
+    node.defaultImage = #imageLiteral(resourceName: "dummy-content-image")
+    node.placeholderEnabled = true
+    node.url = URL(string: item.ownerProfileImageURL)
     node.contentMode = .scaleAspectFill
     node.isLayerBacked = true
     return node
   }()
-
-  let profileNameNode: ASButtonNode = {
+  lazy var profileNameNode: ASButtonNode = {
     let node = ASButtonNode()
-    node.setAttributedTitle(
-      "profileNameNode".styled(
-        with: Const.profileNameStyle),
-      for: .normal)
+    node.setAttributedTitle(item.ownerUserName.styled(with: Const.profileNameStyle), for: .normal)
     return  node
   }()
-
   let moreButtonNode: ASButtonNode = {
     let node = ASButtonNode()
     node.style.preferredSize = Const.buttonSize
@@ -44,6 +42,7 @@ final class FeedPostHeaderNode: ASDisplayNode {
     node.tintColor = .black
     return node
   }()
+  let item: FeedDisplayModel.PostContentSectionItem.Item
 
   // MARK: Private
 
