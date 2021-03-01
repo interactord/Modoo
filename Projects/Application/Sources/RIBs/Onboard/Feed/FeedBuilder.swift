@@ -8,6 +8,7 @@ protocol FeedDependency: Dependency {
 // MARK: - FeedComponent
 
 final class FeedComponent: Component<FeedDependency> {
+  fileprivate var initailState: FeedDisplayModel.State { .initialState() }
 }
 
 // MARK: - FeedBuildable
@@ -33,9 +34,11 @@ final class FeedBuilder: Builder<FeedDependency>, FeedBuildable {
   // MARK: Internal
 
   func build(withListener listener: FeedListener) -> FeedRouting {
-    _ = FeedComponent(dependency: dependency)
+    let component = FeedComponent(dependency: dependency)
     let viewController = FeedViewController(node: .init())
-    let interactor = FeedInteractor(presenter: viewController)
+    let interactor = FeedInteractor(
+      presenter: viewController,
+      initialState: component.initailState)
     interactor.listener = listener
     return FeedRouter(interactor: interactor, viewController: viewController)
   }
