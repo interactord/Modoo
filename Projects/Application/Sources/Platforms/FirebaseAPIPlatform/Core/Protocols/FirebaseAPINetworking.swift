@@ -9,6 +9,7 @@ protocol FirebaseAPINetworking {
   func get<T: Decodable>(uid: String, collection: String) -> Single<T>
   func get<T: Decodable>(collection: String) -> Single<[T]>
   func get<T: Decodable>(collection: String, orderBy key: String, descending: Bool) -> Single<[T]>
+  func get<T: Decodable>(collection: String, orderBy key: String, whereFeild: [String: String], descending: Bool) -> Single<[T]>
   func find(rootUID: String, rootCollection: String, documentCollection: String, documentUID: String) -> Single<Bool>
   func count(rootUID: String, rootCollection: String, documentCollection: String) -> Single<Int>
 }

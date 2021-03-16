@@ -30,12 +30,19 @@ struct FirebasePostUseCase: PostUseCase {
       .asObservable()
   }
 
+  func fetchPosts(uid: String) -> Observable<[PostReposityModel]> {
+    apiNetworking
+      .get(collection: Const.postCollectionName, orderBy: Const.orderByKey, whereFeild: [Const.postWhereFieldKey: uid], descending: true)
+      .asObservable()
+  }
+
   // MARK: Private
 
   private struct Const {
     static let postCollectionName = "post"
     static let postUpdateImageDictoryName = "post_images"
     static let orderByKey = "timestamp"
+    static let postWhereFieldKey = "ownerUID"
   }
 
   private let apiNetworking: FirebaseAPINetworking
