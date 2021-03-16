@@ -6,9 +6,10 @@ final class ProfilePostCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
-  override init() {
+  init(item: ProfileDisplayModel.MediaContentSectionItem.CellItem) {
+    defer{ automaticallyManagesSubnodes = true }
+    self.item = item
     super.init()
-    automaticallyManagesSubnodes = true
   }
 
   deinit {
@@ -17,16 +18,18 @@ final class ProfilePostCellNode: ASCellNode {
 
   // MARK: Internal
 
-  let photoNode: ASImageNode = {
-    let node = ASImageNode()
-    node.image = #imageLiteral(resourceName: "dummy-content-image")
+  lazy var photoNode: ASNetworkImageNode = {
+    let node = ASNetworkImageNode()
+    node.defaultImage = #imageLiteral(resourceName: "dummy-content-image")
+    node.placeholderEnabled = true
+    node.url = URL(string: item.imageURL)
     node.contentMode = .scaleAspectFill
     node.isLayerBacked = true
     return node
   }()
 
   let buttonNode = ASButtonNode()
-
+  let item: ProfileDisplayModel.MediaContentSectionItem.CellItem
 }
 
 // MARK: - LayoutSpec

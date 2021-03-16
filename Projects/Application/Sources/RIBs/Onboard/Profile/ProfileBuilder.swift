@@ -14,6 +14,11 @@ final class ProfileComponent: Component<ProfileDependency> {
       authenticating: FirebaseAuthentication(),
       apiNetworking: FirebaseAPINetwork())
   }
+  fileprivate var postUseCase: PostUseCase {
+    FirebasePostUseCase(
+      apiNetworking: FirebaseAPINetwork(),
+      mediaUploading: FirebaseMediaUploader())
+  }
 }
 
 // MARK: - ProfileBuildable
@@ -44,7 +49,8 @@ final class ProfileBuilder: Builder<ProfileDependency>, ProfileBuildable {
     let interactor = ProfileInteractor(
       presenter: viewController,
       initialState: component.initailState,
-      userUseCase: component.userUseCase)
+      userUseCase: component.userUseCase,
+      postUseCase: component.postUseCase)
     interactor.listener = listener
     return ProfileRouter(interactor: interactor, viewController: viewController)
   }

@@ -9,27 +9,32 @@ class SubProfileInteractorSpec: QuickSpec {
     // swiftlint:disable implicitly_unwrapped_optional
     var viewController: SubProfileViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var userUseCaseMock: FirebaseUserUseCaseMock!
+    var userUseCase: FirebaseUserUseCaseMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var listenerMock: SubProfileListenerMock!
+    var postUseCase: FirebasePostUseCaseMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var listener: SubProfileListenerMock!
 
     beforeEach {
       viewController = SubProfileViewControllableMock()
-      userUseCaseMock = FirebaseUserUseCaseMock()
+      userUseCase = FirebaseUserUseCaseMock()
+      postUseCase = FirebasePostUseCaseMock()
       let state = ProfileDisplayModel.State.initialState()
-      listenerMock = SubProfileListenerMock()
+      listener = SubProfileListenerMock()
       interactor = SubProfileInteractor(
         presenter: viewController,
         initialState: state,
-        userUseCase: userUseCaseMock,
+        userUseCase: userUseCase,
+        postUseCase: postUseCase,
         uid: "test")
-      interactor.listener = listenerMock
+      interactor.listener = listener
     }
     afterEach {
       interactor = nil
       viewController = nil
-      userUseCaseMock = nil
-      listenerMock = nil
+      userUseCase = nil
+      postUseCase = nil
+      listener = nil
     }
 
     describe("활성화 이후") {
@@ -51,9 +56,13 @@ class SubProfileInteractorSpec: QuickSpec {
           }
 
           it("유저 정보 요청을 이벤트는 발생하지 않는다") {
-            expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
-            expect(userUseCaseMock.fetchUserSocialUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
-            expect(userUseCaseMock.isFollowedCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.fetchUserUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.fetchUserSocialUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.isFollowedCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+          }
+
+          it("포스트 정보 요청 이벤트는 발생하지 않는다") {
+            expect(postUseCase.fetchPostsForUUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
           }
         }
 
@@ -63,7 +72,7 @@ class SubProfileInteractorSpec: QuickSpec {
           }
 
           it("팔로우 업데이트 이벤트는 발생하지 않는다") {
-            expect(userUseCaseMock.followCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.followCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
           }
         }
 
@@ -73,7 +82,7 @@ class SubProfileInteractorSpec: QuickSpec {
           }
 
           it("언팔로우 업데이트 이벤트는 발생하지 않는다") {
-            expect(userUseCaseMock.unFollowCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.unFollowCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
           }
         }
       }
@@ -85,14 +94,18 @@ class SubProfileInteractorSpec: QuickSpec {
 
         context("유저 정보 요청 네트워크가 성공했을 경우") {
           beforeEach {
-            userUseCaseMock.networkState = .succeed
+            userUseCase.networkState = .succeed
             interactor.action.onNext(.load)
           }
 
           it("유저 정보 요청 이벤트가 발생한다") {
-            expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
-            expect(userUseCaseMock.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
-            expect(userUseCaseMock.isFollowedCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.isFollowedCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          }
+
+          it("포스트 정보 요청 이벤트는 발생한다") {
+            expect(postUseCase.fetchPostsForUUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
 
           it("에러 메세지는 빈값이다") {
@@ -102,12 +115,37 @@ class SubProfileInteractorSpec: QuickSpec {
 
         context("유저 정보 요청 네트워크가 실패했을 경우") {
           beforeEach {
-            userUseCaseMock.networkState = .failed
+            userUseCase.networkState = .failed
+            postUseCase.networkState = .succeed
             interactor.action.onNext(.load)
           }
 
           it("유저 정보 요청 이벤트가 발생한다") {
-            expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          }
+
+          it("포스트 정보 요청 이벤트는 발생한다") {
+            expect(postUseCase.fetchPostsForUUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          }
+
+          it("에러 메세지는 빈값이 아니다") {
+            expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
+          }
+        }
+
+        context("유저 정보 요청 네트워크가 실패했을 경우") {
+          beforeEach {
+            userUseCase.networkState = .succeed
+            postUseCase.networkState = .failed
+            interactor.action.onNext(.load)
+          }
+
+          it("유저 정보 요청 이벤트가 발생한다") {
+            expect(userUseCase.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          }
+
+          it("포스트 정보 요청 이벤트는 발생한다") {
+            expect(postUseCase.fetchPostsForUUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
 
           it("에러 메세지는 빈값이 아니다") {
@@ -117,12 +155,12 @@ class SubProfileInteractorSpec: QuickSpec {
 
         context("팔로우 버튼을 눌렀고 네트워크가 성공헀을 경우") {
           beforeEach {
-            userUseCaseMock.networkState = .succeed
+            userUseCase.networkState = .succeed
             interactor.action.onNext(.follow)
           }
 
           it("팔로우 업데이트 이벤트가 발생한다") {
-            expect(userUseCaseMock.followCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.followCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
 
           it("에러 메세지는 빈값이다") {
@@ -132,12 +170,12 @@ class SubProfileInteractorSpec: QuickSpec {
 
         context("팔로우 버튼을 눌렀고 네트워크가 실패헀을 경우") {
           beforeEach {
-            userUseCaseMock.networkState = .failed
+            userUseCase.networkState = .failed
             interactor.action.onNext(.follow)
           }
 
           it("팔로우 업데이트 이벤트가 발생한다") {
-            expect(userUseCaseMock.followCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.followCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
 
           it("에러 메세지는 빈값이 아니다") {
@@ -147,12 +185,12 @@ class SubProfileInteractorSpec: QuickSpec {
 
         context("언팔로우 버튼을 눌렀고 네트워크가 성공헀을 경우") {
           beforeEach {
-            userUseCaseMock.networkState = .succeed
+            userUseCase.networkState = .succeed
             interactor.action.onNext(.unFollow)
           }
 
           it("언팔로우 업데이트 이벤트가 발생한다") {
-            expect(userUseCaseMock.unFollowCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.unFollowCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
 
           it("에러 메세지는 빈값이다") {
@@ -162,12 +200,12 @@ class SubProfileInteractorSpec: QuickSpec {
 
         context("언팔로우 버튼을 눌렀고 네트워크가 실패헀을 경우") {
           beforeEach {
-            userUseCaseMock.networkState = .failed
+            userUseCase.networkState = .failed
             interactor.action.onNext(.unFollow)
           }
 
           it("언팔로우 업데이트 이벤트가 발생한다") {
-            expect(userUseCaseMock.unFollowCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.unFollowCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
 
           it("에러 메세지는 빈값이 아니다") {
@@ -182,7 +220,7 @@ class SubProfileInteractorSpec: QuickSpec {
         }
 
         it("routeToBack 메서드가 불린다") {
-          expect(listenerMock.routeToBackCallCount) == 1
+          expect(listener.routeToBackCallCount) == 1
         }
       }
     }

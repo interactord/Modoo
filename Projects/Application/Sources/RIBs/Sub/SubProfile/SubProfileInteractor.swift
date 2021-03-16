@@ -29,12 +29,14 @@ final class SubProfileInteractor: PresentableInteractor<SubProfilePresentable>, 
     presenter: SubProfilePresentable,
     initialState: ProfileDisplayModel.State,
     userUseCase: UserUseCase,
+    postUseCase: PostUseCase,
     uid: String)
   {
     defer { presenter.listener = self }
     self.initialState = initialState
     self.uid = uid
     self.userUseCase = userUseCase
+    self.postUseCase = postUseCase
     super.init(presenter: presenter)
   }
 
@@ -49,6 +51,7 @@ final class SubProfileInteractor: PresentableInteractor<SubProfilePresentable>, 
 
   enum Mutation: Equatable {
     case setUserProfile(ProfileDisplayModel.InformationSectionItem)
+    case setPosts([ProfileDisplayModel.MediaContentSectionItem.CellItem])
     case setError(String)
     case setLoading(Bool)
     case setFollow(Bool)
@@ -63,6 +66,7 @@ final class SubProfileInteractor: PresentableInteractor<SubProfilePresentable>, 
 
   private let uid: String
   private let userUseCase: UserUseCase
+  private let postUseCase: PostUseCase
 
 }
 
@@ -94,6 +98,10 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
     case let .setUserProfile(informationSectionItem):
       let sectionID = state.informationSectionItemModel.sectionID
       newState.informationSectionItemModel = .init(sectionID: sectionID, sectionItem: informationSectionItem)
+    case let .setPosts(cellItems):
+      let sectionID = state.contentsSectionItemModel.sectionID
+      let newSectionItem = ProfileDisplayModel.MediaContentSectionItem(headerItem: state.contentsSectionItemModel.headerItem, cellItems: cellItems)
+      newState.contentsSectionItemModel = .init(sectionID: sectionID, sectionItem: newSectionItem)
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
     case let .setError(message):
@@ -115,7 +123,7 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
 
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
-    let useCaseStream = Observable.zip(
+    let userUseCaseStream = Observable.zip(
       userUseCase.fetchUser(uid: uid),
       userUseCase.fetchUserSocial(uid: uid),
       userUseCase.isFollowed(uid: uid))
@@ -124,8 +132,13 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
         return .just(.setUserProfile(model))
       }
       .catch { .just(.setError($0.localizedDescription)) }
+    let postUseCaseStream = postUseCase.fetchPosts(uid: uid).flatMap { postReposityModel -> Observable<Mutation> in
+      let models = postReposityModel.map{ ProfileDisplayModel.MediaContentSectionItem.CellItem(id: $0.id, imageURL: $0.imageURL) }
+      return .just(.setPosts(models))
+    }
+    .catch { .just(.setError($0.localizedDescription)) }
 
-    return Observable.concat([startLoading, useCaseStream, stopLoading])
+    return Observable.concat([startLoading, userUseCaseStream, postUseCaseStream, stopLoading])
   }
 
   private func mutatingBack() -> Observable<Mutation> {

@@ -21,6 +21,12 @@ class SubProfileBuildableMock: Builder<SubProfileDependency> {
       apiNetworking: FirebaseAPINetwork())
   }
 
+  fileprivate var postUseCase: PostUseCase {
+    FirebasePostUseCase(
+      apiNetworking: FirebaseAPINetwork(),
+      mediaUploading: FirebaseMediaUploader())
+  }
+
 }
 
 // MARK: SubProfileBuildable
@@ -33,6 +39,7 @@ extension SubProfileBuildableMock: SubProfileBuildable {
       presenter: viewController,
       initialState: initailState,
       userUseCase: userUseCase,
+      postUseCase: postUseCase,
       uid: uid)
     interactor.listener = listener
 
