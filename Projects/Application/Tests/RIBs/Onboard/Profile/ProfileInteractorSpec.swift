@@ -9,25 +9,31 @@ class ProfileInteractorSpec: QuickSpec {
     // swiftlint:disable implicitly_unwrapped_optional
     var viewController: ProfileViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var userUseCaseMock: FirebaseUserUseCaseMock!
+    var userUseCase: FirebaseUserUseCaseMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var listenerMock: ProfileListenerMock!
+    var postUseCase: FirebasePostUseCaseMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var listener: ProfileListenerMock!
 
     beforeEach {
       viewController = ProfileViewControllableMock()
-      userUseCaseMock = FirebaseUserUseCaseMock()
+      userUseCase = FirebaseUserUseCaseMock()
+      postUseCase = FirebasePostUseCaseMock()
       let state = ProfileDisplayModel.State.initialState()
-      listenerMock = ProfileListenerMock()
+      listener = ProfileListenerMock()
       interactor = ProfileInteractor(
         presenter: viewController,
         initialState: state,
-        userUseCase: userUseCaseMock)
-      interactor.listener = listenerMock
+        userUseCase: userUseCase,
+        postUseCase: postUseCase)
+      interactor.listener = listener
     }
     afterEach {
       interactor = nil
       viewController = nil
-      userUseCaseMock = nil
+      userUseCase = nil
+      postUseCase = nil
+      listener = nil
     }
 
     describe("활성화 이후") {
@@ -48,9 +54,13 @@ class ProfileInteractorSpec: QuickSpec {
             interactor.action.onNext(.load)
           }
 
-          it("유저 정보 요청을 이벤트는 발생하지 않는다") {
-            expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
-            expect(userUseCaseMock.fetchUserSocialUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+          it("유저 정보 요청 이벤트는 발생하지 않는다") {
+            expect(userUseCase.fetchUserUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.fetchUserSocialUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+          }
+
+          it("포스트 정보 요청 이벤트는 발생하지 않는다") {
+            expect(postUseCase.fetchPostsForUUIDCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
           }
         }
       }
@@ -62,13 +72,17 @@ class ProfileInteractorSpec: QuickSpec {
 
         context("유저 정보 요청 네트워크가 성공했을 경우") {
           beforeEach {
-            userUseCaseMock.networkState = .succeed
+            userUseCase.networkState = .succeed
             interactor.action.onNext(.load)
           }
 
           it("유저 정보 요청 이벤트가 발생한다") {
-            expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
-            expect(userUseCaseMock.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+            expect(userUseCase.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          }
+
+          it("포스트 정보 요청 이벤트는 발생한다") {
+            expect(postUseCase.fetchPostsForUUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
 
           it("에러 메세지는 빈값이다") {
@@ -79,13 +93,39 @@ class ProfileInteractorSpec: QuickSpec {
 
       context("유저 정보 요청 네트워크가 실패했을 경우") {
         beforeEach {
-          userUseCaseMock.networkState = .failed
+          userUseCase.networkState = .failed
+          postUseCase.networkState = .succeed
           interactor.action.onNext(.load)
         }
 
         it("유저 정보 요청 이벤트가 발생한다") {
-          expect(userUseCaseMock.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
-          expect(userUseCaseMock.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          expect(userUseCase.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          expect(userUseCase.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+        }
+
+        it("포스트 정보 요청 이벤트는 발생한다") {
+          expect(postUseCase.fetchPostsForUUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+        }
+
+        it("에러 메세지는 빈값이 아니다") {
+          expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
+        }
+      }
+
+      context("포스트 정보 네트워크가 실패했을 경우") {
+        beforeEach {
+          userUseCase.networkState = .succeed
+          postUseCase.networkState = .failed
+          interactor.action.onNext(.load)
+        }
+
+        it("유저 정보 요청 이벤트가 발생한다") {
+          expect(userUseCase.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          expect(userUseCase.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+        }
+
+        it("포스트 정보 요청 이벤트는 발생한다") {
+          expect(postUseCase.fetchPostsForUUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
         }
 
         it("에러 메세지는 빈값이 아니다") {
@@ -99,7 +139,7 @@ class ProfileInteractorSpec: QuickSpec {
         }
 
         it("listMock의 routeToAuthenticationCallCount는 1이 된다") {
-          expect(listenerMock.routeToAuthenticationCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          expect(listener.routeToAuthenticationCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
         }
       }
     }

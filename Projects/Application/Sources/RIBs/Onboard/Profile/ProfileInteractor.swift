@@ -28,11 +28,13 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
   init(
     presenter: ProfilePresentable,
     initialState: ProfileDisplayModel.State,
-    userUseCase: UserUseCase)
+    userUseCase: UserUseCase,
+    postUseCase: PostUseCase)
   {
     defer { presenter.listener = self }
     self.initialState = initialState
     self.userUseCase = userUseCase
+    self.postUseCase = postUseCase
     super.init(presenter: presenter)
   }
 
@@ -47,6 +49,7 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
 
   enum Mutation: Equatable {
     case setUserProfile(ProfileDisplayModel.InformationSectionItem)
+    case setPosts([ProfileDisplayModel.MediaContentSectionItem.CellItem])
     case setError(String)
     case setLoading(Bool)
   }
@@ -56,6 +59,7 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
 
   let initialState: State
   let userUseCase: UserUseCase
+  let postUseCase: PostUseCase
 
 }
 
@@ -83,6 +87,10 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
     case let .setUserProfile(informationSectionItem):
       let sectionID = state.informationSectionItemModel.sectionID
       newState.informationSectionItemModel = .init(sectionID: sectionID, sectionItem: informationSectionItem)
+    case let .setPosts(cellItems):
+      let sectionID = state.contentsSectionItemModel.sectionID
+      let newSectionItem = ProfileDisplayModel.MediaContentSectionItem(headerItem: state.contentsSectionItemModel.headerItem, cellItems: cellItems)
+      newState.contentsSectionItemModel = .init(sectionID: sectionID, sectionItem: newSectionItem)
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
     case let .setError(message):
@@ -100,7 +108,7 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
     let uid = userUseCase.authenticationToken
-    let useCaseStream = Observable.zip(
+    let userUseCaseStream = Observable.zip(
       userUseCase.fetchUser(uid: uid),
       userUseCase.fetchUserSocial(uid: uid))
       .flatMap { userModel, socialModel -> Observable<Mutation> in
@@ -108,12 +116,19 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
         return .just(.setUserProfile(model))
       }
       .catch { .just(.setError($0.localizedDescription)) }
+    let postUseCaseStream = postUseCase
+      .fetchPosts(uid: uid).flatMap { postReposityModel -> Observable<Mutation> in
+        let models = postReposityModel.map{ ProfileDisplayModel.MediaContentSectionItem.CellItem(id: $0.id, imageURL: $0.imageURL) }
+        return .just(.setPosts(models))
+      }
+      .catch { .just(.setError($0.localizedDescription)) }
 
-    return Observable.concat([startLoading, useCaseStream, stopLoading])
+    return Observable.concat([startLoading, userUseCaseStream, postUseCaseStream, stopLoading])
   }
 
   private func mutatingLogout() -> Observable<Mutation> {
     listener?.routeToAuthentication()
+
     return .empty()
   }
 }

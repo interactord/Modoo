@@ -9,15 +9,33 @@ enum ProfileDisplayModel {
   }
 
   struct MediaContentSectionItem: Equatable {
+
+    // MARK: Lifecycle
+
+    init() {
+      headerItem = HeaderItem()
+      cellItems = []
+    }
+
+    init(headerItem: HeaderItem = .init(), cellItems: [CellItem]) {
+      self.headerItem = headerItem
+      self.cellItems = cellItems
+    }
+
+    // MARK: Internal
+
     struct HeaderItem: Equatable {
       var type: MediaContentType  = .grid
     }
 
-    init() {
-      headerItem = HeaderItem()
+    struct CellItem: Equatable {
+      let id: String
+      let imageURL: String
     }
 
     var headerItem: HeaderItem
+
+    var cellItems: [CellItem]
 
   }
 

@@ -14,6 +14,11 @@ final class SubProfileComponent: Component<SubProfileDependency> {
       authenticating: FirebaseAuthentication(),
       apiNetworking: FirebaseAPINetwork())
   }
+  fileprivate var postUseCase: PostUseCase {
+    FirebasePostUseCase(
+      apiNetworking: FirebaseAPINetwork(),
+      mediaUploading: FirebaseMediaUploader())
+  }
 }
 
 // MARK: - SubProfileBuildable
@@ -45,6 +50,7 @@ final class SubProfileBuilder: Builder<SubProfileDependency>, SubProfileBuildabl
       presenter: viewController,
       initialState: component.initailState,
       userUseCase: component.userUseCase,
+      postUseCase: component.postUseCase,
       uid: uid)
     interactor.listener = listener
     return SubProfileRouter(interactor: interactor, viewController: viewController)

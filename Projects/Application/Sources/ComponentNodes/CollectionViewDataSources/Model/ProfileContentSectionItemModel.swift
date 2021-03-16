@@ -18,10 +18,12 @@ final class ProfileContentSectionItemModel: CollectionDisplayModeling {
   // MARK: Internal
 
   var sectionID: String
-  var cellItems: [String] = Array(repeating: "AA", count: 10)
   var footerItem: String = ""
   var sectionItem: ProfileDisplayModel.MediaContentSectionItem
 
+  var cellItems: [ProfileDisplayModel.MediaContentSectionItem.CellItem] {
+    sectionItem.cellItems
+  }
   var headerItem: ProfileDisplayModel.MediaContentSectionItem.HeaderItem {
     sectionItem.headerItem
   }

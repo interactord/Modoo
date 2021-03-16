@@ -10,23 +10,28 @@ class ProfileViewControllerSpec: QuickSpec {
     // swiftlint:disable implicitly_unwrapped_optional
     var interactor: ProfileInteractor!
     // swiftlint:disable implicitly_unwrapped_optional
-    var userUseCaseMock: FirebaseUserUseCaseMock!
+    var userUseCase: FirebaseUserUseCaseMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var postUseCase: FirebasePostUseCaseMock!
 
     beforeEach {
       viewController = ProfileViewController(node: .init())
       let state = ProfileDisplayModel.State.initialState()
-      userUseCaseMock = FirebaseUserUseCaseMock()
+      userUseCase = FirebaseUserUseCaseMock()
+      postUseCase = FirebasePostUseCaseMock()
       interactor = ProfileInteractor(
         presenter: viewController,
         initialState: state,
-        userUseCase: userUseCaseMock)
+        userUseCase: userUseCase,
+        postUseCase: postUseCase)
       interactor.isStubEnabled = true
       viewController.listener = interactor
     }
     afterEach {
       viewController = nil
       interactor = nil
-      userUseCaseMock = nil
+      userUseCase = nil
+      postUseCase = nil
     }
 
     describe("화면 로드가 완료되면") {

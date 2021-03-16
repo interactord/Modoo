@@ -19,6 +19,11 @@ class ProfileBuildableMock: Builder<ProfileDependency> {
       authenticating: FirebaseAuthentication(),
       apiNetworking: FirebaseAPINetwork())
   }
+  fileprivate var postUseCase: PostUseCase {
+    FirebasePostUseCase(
+      apiNetworking: FirebaseAPINetwork(),
+      mediaUploading: FirebaseMediaUploader())
+  }
 
 }
 
@@ -31,7 +36,8 @@ extension ProfileBuildableMock: ProfileBuildable {
     let interactor = ProfileInteractor(
       presenter: viewController,
       initialState: initialState,
-      userUseCase: userUseCase)
+      userUseCase: userUseCase,
+      postUseCase: postUseCase)
     interactor.listener = listener
 
     return ProfileRouter(
