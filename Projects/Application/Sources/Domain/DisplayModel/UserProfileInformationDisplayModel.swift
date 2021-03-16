@@ -47,11 +47,11 @@ enum ProfileDisplayModel {
       self.headerItem = headerItem
     }
 
-    init(userRepositoryModel: UserRepositoryModel, socialRepositoryModel: UserSocialRepositoryModel, isFollowed: Bool = false) {
+    init(userRepositoryModel: UserRepositoryModel, socialRepositoryModel: UserSocialRepositoryModel, isFollowed: Bool = false, postCount: Int = 0) {
       let headerItem = HeaderItem(
         userName: userRepositoryModel.username,
         avatarImageURL: userRepositoryModel.profileImageURL,
-        postCount: "0",
+        postCount: "\(postCount)",
         followingCount: "\(socialRepositoryModel.following)",
         followerCount: "\(socialRepositoryModel.followers)",
         bioDescription: "",

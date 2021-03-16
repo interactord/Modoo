@@ -123,22 +123,24 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
 
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
-    let userUseCaseStream = Observable.zip(
+    let useCaseStream = Observable.zip(
       userUseCase.fetchUser(uid: uid),
       userUseCase.fetchUserSocial(uid: uid),
-      userUseCase.isFollowed(uid: uid))
-      .flatMap { userModel, socialModel, isFollowed -> Observable<Mutation> in
-        let model = ProfileDisplayModel.InformationSectionItem(userRepositoryModel: userModel, socialRepositoryModel: socialModel, isFollowed: isFollowed)
-        return .just(.setUserProfile(model))
+      postUseCase.fetchPosts(uid: uid))
+      .flatMap { userModel, socialModel, postModels -> Observable<Mutation> in
+        let infomationModel = ProfileDisplayModel.InformationSectionItem(
+          userRepositoryModel: userModel,
+          socialRepositoryModel: socialModel,
+          postCount: postModels.count)
+        let postItems = postModels.map{ ProfileDisplayModel.MediaContentSectionItem.CellItem(id: $0.id, imageURL: $0.imageURL) }
+        return .concat([
+          .just(.setUserProfile(infomationModel)),
+          .just(.setPosts(postItems)),
+        ])
       }
       .catch { .just(.setError($0.localizedDescription)) }
-    let postUseCaseStream = postUseCase.fetchPosts(uid: uid).flatMap { postReposityModel -> Observable<Mutation> in
-      let models = postReposityModel.map{ ProfileDisplayModel.MediaContentSectionItem.CellItem(id: $0.id, imageURL: $0.imageURL) }
-      return .just(.setPosts(models))
-    }
-    .catch { .just(.setError($0.localizedDescription)) }
 
-    return Observable.concat([startLoading, userUseCaseStream, postUseCaseStream, stopLoading])
+    return Observable.concat([startLoading, useCaseStream, stopLoading])
   }
 
   private func mutatingBack() -> Observable<Mutation> {

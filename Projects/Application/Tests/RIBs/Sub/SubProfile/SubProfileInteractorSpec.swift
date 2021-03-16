@@ -95,13 +95,13 @@ class SubProfileInteractorSpec: QuickSpec {
         context("유저 정보 요청 네트워크가 성공했을 경우") {
           beforeEach {
             userUseCase.networkState = .succeed
+            postUseCase.networkState = .succeed
             interactor.action.onNext(.load)
           }
 
           it("유저 정보 요청 이벤트가 발생한다") {
             expect(userUseCase.fetchUserUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
             expect(userUseCase.fetchUserSocialUIDCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
-            expect(userUseCase.isFollowedCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
           }
 
           it("포스트 정보 요청 이벤트는 발생한다") {
