@@ -16,7 +16,19 @@ final class SubFeedContainerNode: ASDisplayNode {
 
   // MARK: Internal
 
-  let headerNode = SubPostsHeaderNode()
+  let headerNode = SubFeedHeaderNode()
+
+  let collectionNode: ASCollectionNode = {
+    let flowLayout = UICollectionViewFlowLayout()
+    flowLayout.scrollDirection = .vertical
+    flowLayout.minimumLineSpacing = .zero
+    flowLayout.minimumInteritemSpacing = .zero
+
+    let node = ASCollectionNode(collectionViewLayout: flowLayout)
+    node.alwaysBounceVertical = true
+    node.style.flexGrow = 1
+    return node
+  }()
 
 }
 
@@ -24,6 +36,18 @@ final class SubFeedContainerNode: ASDisplayNode {
 
 extension SubFeedContainerNode {
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-    ASLayoutSpec()
+    let contentsLayout = ASStackLayoutSpec(
+      direction: .vertical,
+      spacing: .zero,
+      justifyContent: .start,
+      alignItems: .stretch,
+      children: [
+        headerNode,
+        collectionNode,
+      ])
+
+    return ASInsetLayoutSpec(
+      insets: safeAreaInsets,
+      child: contentsLayout)
   }
 }
