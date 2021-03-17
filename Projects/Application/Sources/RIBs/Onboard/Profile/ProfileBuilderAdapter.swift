@@ -28,6 +28,10 @@ extension ProfileBuilderAdapter: ProfileListener {
     listener?.routeToAuthentication()
   }
 
+  func routeToSubFeed() {
+    listener?.routeToSubFeed()
+  }
+
 }
 
 // MARK: ProfileBuildable

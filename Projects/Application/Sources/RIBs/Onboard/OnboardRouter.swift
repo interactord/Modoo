@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - OnboardInteractable
 
-protocol OnboardInteractable: Interactable, FeedListener, SearchListener, ProfileListener, PostListener {
+protocol OnboardInteractable: Interactable, FeedListener, SearchListener, ProfileListener, PostListener, SubFeedListener {
   var router: OnboardRouting? { get set }
   var listener: OnboardListener? { get set }
 }
@@ -32,13 +32,15 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
     feedBuilder: FeedBuildable,
     profileBuilder: ProfileBuildable,
     searchBuilder: SearchBuildable,
-    postBuilder: PostBuildable)
+    postBuilder: PostBuildable,
+    subFeedBuilder: SubFeedBuildable)
   {
     defer { interactor.router = self }
     self.feedBuilder = feedBuilder
     self.profileBuilder = profileBuilder
     self.searchBuilder = searchBuilder
     self.postBuilder = postBuilder
+    self.subFeedBuilder = subFeedBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -61,6 +63,8 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
   private let searchBuilder: SearchBuildable
   private let postBuilder: PostBuildable
   private var postRouting: ViewableRouting?
+  private var subFeedBuilder: SubFeedBuildable
+  private var subFeedRouting: ViewableRouting?
 
 }
 
@@ -100,6 +104,23 @@ extension OnboardRouter: OnboardRouting {
     self.postRouting = nil
 
     viewController.dismiss(viewControllable: postRouting.viewControllable, animated: true)
+  }
+
+  func routeToSubFeed() {
+    dismissPost()
+
+    if let subFeedRouting = subFeedRouting {
+      detachChild(subFeedRouting)
+      self.subFeedRouting = nil
+    }
+
+    let subFeedRouting = subFeedBuilder.build(withListener: interactor)
+    attachChild(subFeedRouting)
+    self.subFeedRouting = subFeedRouting
+    viewController.present(
+      viewControllable: subFeedRouting.viewControllable,
+      isFullScreenSize: true,
+      animated: true)
   }
 
   // MARK: Private

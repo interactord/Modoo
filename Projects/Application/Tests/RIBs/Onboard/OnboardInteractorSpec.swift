@@ -58,15 +58,25 @@ class OnboardInteractorSpec: QuickSpec {
           expect(router.routeToPostCallCount) == 1
         }
       }
-    }
 
-    context("dismissPost 메서드가 불리면") {
-      beforeEach {
-        router.dismissPost()
+      context("dismissPost 메서드가 불리면") {
+        beforeEach {
+          interactor.dismissPost()
+        }
+
+        it("router dismissPost 호출 한다") {
+          expect(router.dismissPostCallCount) == 1
+        }
       }
 
-      it("router dismissPost 호출 한다") {
-        expect(router.dismissPostCallCount) == 1
+      context("routeToSubFeed가 불리면") {
+        beforeEach {
+          interactor.routeToSubFeed()
+        }
+
+        it("router routeToSubFeed메서드가 불린다") {
+          expect(router.routeToSubFeedCallCount) == 1
+        }
       }
     }
   }

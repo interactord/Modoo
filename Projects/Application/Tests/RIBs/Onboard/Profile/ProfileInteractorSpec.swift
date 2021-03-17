@@ -138,8 +138,18 @@ class ProfileInteractorSpec: QuickSpec {
           interactor.action.onNext(.logout)
         }
 
-        it("listMock의 routeToAuthenticationCallCount는 1이 된다") {
+        it("listMock의 routeToAuthentication가 불린다") {
           expect(listener.routeToAuthenticationCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+        }
+      }
+
+      context("피드 로드 액션이 발생한 경우") {
+        beforeEach {
+          interactor.action.onNext(.loadPost(.init(id: "test", imageURL: "")))
+        }
+
+        it("listMock의 routeToSubFeed가 불린다") {
+          expect(listener.routeToSubFeedCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
         }
       }
     }

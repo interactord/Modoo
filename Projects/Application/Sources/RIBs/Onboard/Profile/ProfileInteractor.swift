@@ -17,6 +17,7 @@ protocol ProfilePresentable: Presentable {
 
 protocol ProfileListener: AnyObject {
   func routeToAuthentication()
+  func routeToSubFeed()
 }
 
 // MARK: - ProfileInteractor
@@ -77,6 +78,8 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
       return .just(.setLoading(isLoading))
     case .logout:
       return mutatingLogout()
+    case let .loadPost(itemModel):
+      return mutatingLoadPost(model: itemModel)
     }
   }
 
@@ -130,7 +133,11 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
 
   private func mutatingLogout() -> Observable<Mutation> {
     listener?.routeToAuthentication()
+    return .empty()
+  }
 
+  private func mutatingLoadPost(model: ProfileDisplayModel.MediaContentSectionItem.CellItem) -> Observable<Mutation> {
+    listener?.routeToSubFeed()
     return .empty()
   }
 }

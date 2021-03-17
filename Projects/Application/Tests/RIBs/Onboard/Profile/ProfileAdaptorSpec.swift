@@ -33,8 +33,18 @@ class ProfileAdaptorSpec: QuickSpec {
           adapter.routeToAuthentication()
         }
 
-        it("authenticationListener routeToOnboardCallCount는 1이다") {
+        it("authenticationListener routeToOnboard가 불린다") {
           expect(listener.routeToAuthenticationCallCount) == 1
+        }
+      }
+
+      context("routeToSubFeed 호출 시") {
+        beforeEach {
+          adapter.routeToSubFeed()
+        }
+
+        it("authenticationListener routeToSubFeed가 불린다") {
+          expect(listener.routeToSubFeedCallCount) == 1
         }
       }
     }

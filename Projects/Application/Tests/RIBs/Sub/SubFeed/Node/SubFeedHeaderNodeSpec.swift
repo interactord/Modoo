@@ -11,7 +11,7 @@ class SubFeedHeaderNodeSpec: QuickSpec {
     var node: SubFeedHeaderNode!
 
     beforeEach {
-      node = SubPostsHeaderNode()
+      node = SubFeedHeaderNode()
     }
     afterEach {
       node = nil
