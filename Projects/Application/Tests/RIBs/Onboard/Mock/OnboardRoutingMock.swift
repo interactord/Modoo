@@ -12,6 +12,8 @@ class OnboardRoutingMock: RoutingMock {
   var routeToPostHandler: (() -> Void)?
   var dismissPostCallCount = 0
   var dismissPostHandler: (() -> Void)?
+  var routeToSubFeedCallCount = 0
+  var routeToSubFeedHandler: (() -> Void)?
 }
 
 // MARK: OnboardRouting
@@ -31,6 +33,11 @@ extension OnboardRoutingMock: OnboardRouting {
   func dismissPost() {
     dismissPostCallCount += 1
     dismissPostHandler?()
+  }
+
+  func routeToSubFeed() {
+    routeToSubFeedCallCount += 1
+    routeToSubFeedHandler?()
   }
 
 }

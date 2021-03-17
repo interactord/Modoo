@@ -8,6 +8,7 @@ protocol OnboardRouting: ViewableRouting {
   func setOnceViewControllers()
   func routeToPost(image: UIImage)
   func dismissPost()
+  func routeToSubFeed()
 }
 
 // MARK: - OnboardPresentable
@@ -90,5 +91,9 @@ extension OnboardInteractor: OnboardInteractable {
 
   func dismissPost() {
     router?.dismissPost()
+  }
+
+  func routeToSubFeed() {
+    router?.routeToSubFeed()
   }
 }

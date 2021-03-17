@@ -16,7 +16,7 @@ final class SubFeedHeaderNode: ASDisplayNode {
 
   let backButtonNode: ASButtonNode = {
     let node = ASButtonNode()
-    node.setImage(#imageLiteral(resourceName: "yp_arrow_left"), for: .normal)
+    node.setImage(#imageLiteral(resourceName: "back-icon"), for: .normal)
     node.tintColor = Const.butrtonTintColor
     node.style.preferredSize = Const.buttonSize
     return node

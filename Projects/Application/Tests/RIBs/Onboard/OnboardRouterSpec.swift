@@ -19,7 +19,8 @@ class OnboardRouterSpec: QuickSpec {
         feedBuilder: FeedBuildableMock(),
         profileBuilder: ProfileBuildableMock(),
         searchBuilder: SearchBuildableMock(),
-        postBuilder: PostBuildableMock())
+        postBuilder: PostBuildableMock(),
+        subFeedBuilder: SubFeedBuildableMock())
     }
     afterEach {
       viewController = nil
@@ -68,6 +69,26 @@ class OnboardRouterSpec: QuickSpec {
 
         it("viewController dismiss 메서드는 불리지 않는다") {
           expect(viewController.dismissCallCount) == 0
+        }
+      }
+
+      context("routeToSubFeed가 불리면") {
+        beforeEach {
+          router.routeToSubFeed()
+        }
+
+        it("viewController present메서드가 불린다") {
+          expect(viewController.presentCallCount) == 1
+        }
+
+        context("routeToSubFeed가 불리면") {
+          beforeEach {
+            router.routeToSubFeed()
+          }
+
+          it("viewController present메서드가 불린다") {
+            expect(viewController.presentCallCount) == 2
+          }
         }
       }
     }

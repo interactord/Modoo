@@ -21,4 +21,10 @@ final class SubFeedViewController: ASDKViewController<SubFeedContainerNode>, Sub
   // MARK: Internal
 
   weak var listener: SubFeedPresentableListener?
+
+  override func loadView() {
+    super.loadView()
+    view.backgroundColor = .white
+  }
+
 }

@@ -2,6 +2,7 @@ import AsyncDisplayKit
 import ReactorKit
 import RIBs
 import RxIGListKit
+import RxOptional
 import RxSwift
 import RxViewController
 import UIKit
@@ -12,6 +13,7 @@ enum ProfilePresentableAction: Equatable {
   case load
   case loading(Bool)
   case logout
+  case loadPost(ProfileDisplayModel.MediaContentSectionItem.CellItem)
 }
 
 // MARK: - ProfilePresentableListener
@@ -45,22 +47,29 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
 
   let disposeBag = DisposeBag()
 
-  let dataSource = RxListAdapterDataSource<ProfileSectionModel> { _, object in
-    switch object {
-    case let .userInformationSummery(itemModel):
-      return SectionController<ProfileInformationSectionItemModel>(
-        elementKindTypes: [.header],
-        supplementaryViewHeaderBlockType: { ProfileInformationCellNode(item: $0) })
-    case let .userContent(itemModel):
-      let sectionController = SectionController<ProfileContentSectionItemModel>(
-        elementKindTypes: [.header],
-        supplementaryViewHeaderBlockType: { _ in ProfileSubMenuCellNode() },
-        sizeForItemWidthBlock: { (UIScreen.main.bounds.width - 2) / 3 },
-        nodeForItemBlock: { ProfilePostCellNode(item: $0) })
-      sectionController.minimumLineSpacing = 1
-      return sectionController
+  lazy var dataSource: RxListAdapterDataSource<ProfileSectionModel> = {
+    weak var listener = self.listener
+    return .init { _, object in
+
+      switch object {
+      case let .userInformationSummery(itemModel):
+        return SectionController<ProfileInformationSectionItemModel>(
+          elementKindTypes: [.header],
+          supplementaryViewHeaderBlockType: { ProfileInformationCellNode(item: $0) })
+      case let .userContent(itemModel):
+        let sectionController = SectionController<ProfileContentSectionItemModel>(
+          elementKindTypes: [.header],
+          supplementaryViewHeaderBlockType: { _ in ProfileSubMenuCellNode() },
+          sizeForItemWidthBlock: { (UIScreen.main.bounds.width - 2) / 3 },
+          nodeForItemBlock: { ProfilePostCellNode(item: $0) },
+          selectedCellItemBlock: { item in
+            listener?.action.onNext(.loadPost(item))
+          })
+        sectionController.minimumLineSpacing = 1
+        return sectionController
+      }
     }
-  }
+  }()
 
   weak var listener: ProfilePresentableListener? {
     didSet { bind(listener: listener) }
