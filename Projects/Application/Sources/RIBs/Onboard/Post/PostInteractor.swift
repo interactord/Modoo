@@ -16,7 +16,7 @@ protocol PostPresentable: Presentable {
 // MARK: - PostListener
 
 protocol PostListener: AnyObject {
-  func dismissPost()
+  func routeToClose()
 }
 
 // MARK: - PostInteractor
@@ -70,7 +70,7 @@ extension PostInteractor: PostPresentableListener, Reactor {
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {
     case .cancel:
-      return mutatingDismiss()
+      return mutatingCancel()
     case let .typingCaption(text):
       return .just(.setCaption(text))
     case .share:
@@ -97,8 +97,8 @@ extension PostInteractor: PostPresentableListener, Reactor {
 
   // MARK: Private
 
-  private func mutatingDismiss() -> Observable<Mutation> {
-    listener?.dismissPost()
+  private func mutatingCancel() -> Observable<Mutation> {
+    listener?.routeToClose()
     return .empty()
   }
 
@@ -113,7 +113,7 @@ extension PostInteractor: PostPresentableListener, Reactor {
       .flatMap { $0.0.postUseCase.uploadPost(displayModel: $0.0.currentState, user: $0.1) }
       .withUnretained(self)
       .observe(on: MainScheduler.asyncInstance)
-      .flatMap { $0.0.mutatingDismiss() }
+      .flatMap { $0.0.mutatingCancel() }
       .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])

@@ -10,8 +10,8 @@ class OnboardRoutingMock: RoutingMock {
   var setOnceViewControllersHandler: (() -> Void)?
   var routeToPostCallCount = 0
   var routeToPostHandler: (() -> Void)?
-  var dismissPostCallCount = 0
-  var dismissPostHandler: (() -> Void)?
+  var routeToCloseCallCount = 0
+  var routeToCloseHandler: (() -> Void)?
   var routeToSubFeedCallCount = 0
   var routeToSubFeedHandler: (() -> Void)?
 }
@@ -30,9 +30,9 @@ extension OnboardRoutingMock: OnboardRouting {
     routeToPostHandler?()
   }
 
-  func dismissPost() {
-    dismissPostCallCount += 1
-    dismissPostHandler?()
+  func routeToClose() {
+    routeToCloseCallCount += 1
+    routeToCloseHandler?()
   }
 
   func routeToSubFeed() {

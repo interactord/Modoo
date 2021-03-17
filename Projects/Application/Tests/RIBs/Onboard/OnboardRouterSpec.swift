@@ -51,24 +51,24 @@ class OnboardRouterSpec: QuickSpec {
           }
         }
 
-        context("dismissPost가 불리면") {
+        context("routeToClose가 불리면") {
           beforeEach {
-            router.dismissPost()
+            router.routeToClose()
           }
 
           it("viewController dismiss 메서드가 호출된다") {
-            expect(viewController.dismissCallCount) == 1
+            expect(viewController.dismissCallCount) == 2
           }
         }
       }
 
-      context("dismissPost가 불리면") {
+      context("routeToClose가 불리면") {
         beforeEach {
-          router.dismissPost()
+          router.routeToClose()
         }
 
-        it("viewController dismiss 메서드는 불리지 않는다") {
-          expect(viewController.dismissCallCount) == 0
+        it("viewController dismiss 메서드가 호출된다") {
+          expect(viewController.dismissCallCount) == 1
         }
       }
 

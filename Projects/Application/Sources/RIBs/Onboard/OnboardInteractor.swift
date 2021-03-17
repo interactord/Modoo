@@ -7,7 +7,7 @@ import RxSwift
 protocol OnboardRouting: ViewableRouting {
   func setOnceViewControllers()
   func routeToPost(image: UIImage)
-  func dismissPost()
+  func routeToClose()
   func routeToSubFeed()
 }
 
@@ -89,8 +89,8 @@ extension OnboardInteractor: OnboardInteractable {
     listener?.routeToAuthentication()
   }
 
-  func dismissPost() {
-    router?.dismissPost()
+  func routeToClose() {
+    router?.routeToClose()
   }
 
   func routeToSubFeed() {

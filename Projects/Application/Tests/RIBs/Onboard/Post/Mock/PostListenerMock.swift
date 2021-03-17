@@ -3,15 +3,15 @@
 // MARK: - PostListenerMock
 
 class PostListenerMock {
-  var dismissPostCallCount = 0
-  var dismissPostHandler: (() -> Void)?
+  var routeToCloseCallCount = 0
+  var routeToCloseHandler: (() -> Void)?
 }
 
 // MARK: PostListener
 
 extension PostListenerMock: PostListener {
-  func dismissPost() {
-    dismissPostCallCount += 1
-    dismissPostHandler?()
+  func routeToClose() {
+    routeToCloseCallCount += 1
+    routeToCloseHandler?()
   }
 }

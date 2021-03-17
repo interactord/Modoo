@@ -24,8 +24,8 @@ final class PostBuilderAdapter: Builder<PostDependency> {
 // MARK: PostListener
 
 extension PostBuilderAdapter: PostListener {
-  func dismissPost() {
-    listener?.dismissPost()
+  func routeToClose() {
+    listener?.routeToClose()
   }
 }
 
