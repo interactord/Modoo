@@ -59,13 +59,13 @@ class OnboardInteractorSpec: QuickSpec {
         }
       }
 
-      context("dismissPost 메서드가 불리면") {
+      context("routeToClose 메서드가 불리면") {
         beforeEach {
-          interactor.dismissPost()
+          interactor.routeToClose()
         }
 
-        it("router dismissPost 호출 한다") {
-          expect(router.dismissPostCallCount) == 1
+        it("router routeToClose 호출 한다") {
+          expect(router.routeToCloseCallCount) == 1
         }
       }
 

@@ -47,8 +47,8 @@ class PostInteractorSpec: QuickSpec {
           interactor.action.onNext(.cancel)
         }
 
-        it("리스너 dismissPost 메서드가 불리게 된다") {
-          expect(listener.dismissPostCallCount) == 1
+        it("리스너 routeToClose 메서드가 불리게 된다") {
+          expect(listener.routeToCloseCallCount) == 1
         }
       }
 
@@ -72,8 +72,8 @@ class PostInteractorSpec: QuickSpec {
             interactor.action.onNext(.share)
           }
 
-          it("리스너 dismissPost 메서드가 불리지 않는다") {
-            expect(listener.dismissPostCallCount) == 0
+          it("리스너 routeToClose 메서드가 불리지 않는다") {
+            expect(listener.routeToCloseCallCount) == 0
           }
         }
       }
@@ -90,8 +90,8 @@ class PostInteractorSpec: QuickSpec {
             interactor.action.onNext(.share)
           }
 
-          it("리스너 dismissPost 메서드가 불리지 않는다") {
-            expect(listener.dismissPostCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+          it("리스너 routeToClose 메서드가 불리지 않는다") {
+            expect(listener.routeToCloseCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
             expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
           }
         }
@@ -103,8 +103,8 @@ class PostInteractorSpec: QuickSpec {
             interactor.action.onNext(.share)
           }
 
-          it("리스너 dismissPost 메서드가 불리지 않는다") {
-            expect(listener.dismissPostCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+          it("리스너 routeToClose 메서드가 불리지 않는다") {
+            expect(listener.routeToCloseCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
             expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
           }
         }
@@ -116,8 +116,8 @@ class PostInteractorSpec: QuickSpec {
             interactor.action.onNext(.share)
           }
 
-          it("리스너 dismissPost 메서드가 불리지 않는다") {
-            expect(listener.dismissPostCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
+          it("리스너 routeToClose 메서드가 불리지 않는다") {
+            expect(listener.routeToCloseCallCount).toEventually(equal(0), timeout: TestUtil.Const.timeout)
             expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
           }
         }
@@ -129,8 +129,8 @@ class PostInteractorSpec: QuickSpec {
             interactor.action.onNext(.share)
           }
 
-          it("리스너 dismissPost 메서드가 불린다") {
-            expect(listener.dismissPostCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+          it("리스너 routeToClose 메서드가 불린다") {
+            expect(listener.routeToCloseCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
             expect(interactor.currentState.errorMessage).toEventually(equal(""), timeout: TestUtil.Const.timeout)
           }
         }

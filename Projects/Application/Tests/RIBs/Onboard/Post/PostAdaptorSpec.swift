@@ -34,13 +34,13 @@ class PostAdaptorSpec: QuickSpec {
         expect(routing).toNot(beNil())
       }
 
-      context("dismissPost 메서드를 호출하면") {
+      context("routeToClose 메서드를 호출하면") {
         beforeEach {
-          adapter.dismissPost()
+          adapter.routeToClose()
         }
 
-        it("listener dismissPost 메서드가 호출이 된다 ") {
-          expect(listener.dismissPostCallCount) == 1
+        it("listener routeToClose 메서드가 호출이 된다 ") {
+          expect(listener.routeToCloseCallCount) == 1
         }
       }
     }

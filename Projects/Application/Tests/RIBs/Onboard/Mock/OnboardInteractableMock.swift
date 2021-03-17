@@ -24,8 +24,8 @@ class OnboardInteractableMock: InteractableMock {
 
   var routeToAuthenticationCallCount = 0
   var routeToAuthenticationHandler: (() -> Void)?
-  var dismissPostCallCount = 0
-  var dismissPostHandler: (() -> Void)?
+  var routeToCloseCallCount = 0
+  var routeToCloseHandler: (() -> Void)?
   var routeToSubFeedCallCount = 0
   var routeToSubFeedHandler: (() -> Void)?
 
@@ -39,9 +39,9 @@ extension OnboardInteractableMock: OnboardInteractable {
     routeToAuthenticationHandler?()
   }
 
-  func dismissPost() {
-    dismissPostCallCount += 1
-    dismissPostHandler?()
+  func routeToClose() {
+    routeToCloseCallCount += 1
+    routeToCloseHandler?()
   }
 
   func routeToSubFeed() {

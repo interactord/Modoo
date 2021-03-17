@@ -62,9 +62,8 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
   private let profileBuilder: ProfileBuildable
   private let searchBuilder: SearchBuildable
   private let postBuilder: PostBuildable
-  private var postRouting: ViewableRouting?
+  private var presentedRoutings = [ViewableRouting]()
   private var subFeedBuilder: SubFeedBuildable
-  private var subFeedRouting: ViewableRouting?
 
 }
 
@@ -84,43 +83,15 @@ extension OnboardRouter: OnboardRouting {
   }
 
   func routeToPost(image: UIImage) {
-    if let postRouting = postRouting {
-      detachChild(postRouting)
-      self.postRouting = nil
-    }
-
-    let postRouting = postBuilder.build(withListener: interactor, image: image)
-    attachChild(postRouting)
-    self.postRouting = postRouting
-    viewController.present(
-      viewControllable: postRouting.viewControllable,
-      isFullScreenSize: true,
-      animated: false)
+    presentRouting(routing: postBuilder.build(withListener: interactor, image: image), showAnimated: false)
   }
 
-  func dismissPost() {
-    guard let postRouting = postRouting else { return }
-    detachChild(postRouting)
-    self.postRouting = nil
-
-    viewController.dismiss(viewControllable: postRouting.viewControllable, animated: true)
+  func routeToClose() {
+    clearPresentRouting(animated: true)
   }
 
   func routeToSubFeed() {
-    dismissPost()
-
-    if let subFeedRouting = subFeedRouting {
-      detachChild(subFeedRouting)
-      self.subFeedRouting = nil
-    }
-
-    let subFeedRouting = subFeedBuilder.build(withListener: interactor)
-    attachChild(subFeedRouting)
-    self.subFeedRouting = subFeedRouting
-    viewController.present(
-      viewControllable: subFeedRouting.viewControllable,
-      isFullScreenSize: true,
-      animated: true)
+    presentRouting(routing: subFeedBuilder.build(withListener: interactor), showAnimated: true)
   }
 
   // MARK: Private
@@ -173,4 +144,18 @@ extension OnboardRouter: OnboardRouting {
     return navigationController
   }
 
+  private func clearPresentRouting(animated: Bool) {
+    presentedRoutings.forEach{ detachChild($0) }
+
+    viewController.dismiss(viewControllable: viewController, animated: true)
+  }
+
+  private func presentRouting(routing: ViewableRouting, showAnimated: Bool) {
+    clearPresentRouting(animated: false)
+    presentedRoutings.append(routing)
+    viewController.present(
+      viewControllable: routing.viewControllable,
+      isFullScreenSize: true,
+      animated: showAnimated)
+  }
 }
