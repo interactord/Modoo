@@ -43,8 +43,8 @@ struct CompositeRoot {
       builder: SubProfileBuilderAdapter.self,
       with: SubProfileBuilderID)
     BuilderContainer.register(
-      builder: SubPostsBuilderAdapter.self,
-      with: SubPostsBuilderID)
+      builder: SubFeedBuilderAdapter.self,
+      with: SubFeedBuilderID)
   }
 
 }
