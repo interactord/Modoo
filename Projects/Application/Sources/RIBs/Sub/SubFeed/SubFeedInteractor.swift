@@ -1,3 +1,4 @@
+import ReactorKit
 import RIBs
 import RxSwift
 
@@ -15,17 +16,22 @@ protocol SubFeedPresentable: Presentable {
 // MARK: - SubFeedListener
 
 protocol SubFeedListener: AnyObject {
+  func routeToClose()
 }
 
 // MARK: - SubFeedInteractor
 
-final class SubFeedInteractor: PresentableInteractor<SubFeedPresentable>, SubFeedInteractable, SubFeedPresentableListener {
+final class SubFeedInteractor: PresentableInteractor<SubFeedPresentable>, SubFeedInteractable {
 
   // MARK: Lifecycle
 
-  override init(presenter: SubFeedPresentable) {
+  init(
+    presenter: SubFeedPresentable,
+    initialState: SubFeedDisplayModel.State)
+  {
+    defer { presenter.listener = self }
+    self.initialState = initialState
     super.init(presenter: presenter)
-    presenter.listener = self
   }
 
   deinit {
@@ -34,7 +40,36 @@ final class SubFeedInteractor: PresentableInteractor<SubFeedPresentable>, SubFee
 
   // MARK: Internal
 
+  typealias Action = SubFeedPresentableAction
+  typealias State = SubFeedDisplayModel.State
+
+  enum Mutation: Equatable {
+  }
+
   weak var router: SubFeedRouting?
   weak var listener: SubFeedListener?
 
+  var initialState: SubFeedDisplayModel.State
+
+}
+
+// MARK: SubFeedPresentableListener, Reactor
+
+extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
+
+  // MARK: Internal
+
+  func mutate(action: Action) -> Observable<Mutation> {
+    switch action {
+    case .tapClose:
+      return mutatingTabClose()
+    }
+  }
+
+  // MARK: Private
+
+  private func mutatingTabClose() -> Observable<Mutation> {
+    listener?.routeToClose()
+    return .empty()
+  }
 }
