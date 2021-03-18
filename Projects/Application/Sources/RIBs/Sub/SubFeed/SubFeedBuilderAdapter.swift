@@ -24,6 +24,9 @@ final class SubFeedBuilderAdapter: Builder<SubFeedDependency> {
 // MARK: SubFeedListener
 
 extension SubFeedBuilderAdapter: SubFeedListener {
+  func routeToClose() {
+    listener?.routeToClose()
+  }
 }
 
 // MARK: SubFeedBuildable

@@ -10,8 +10,6 @@ class SubFeedAdaptorSpec: QuickSpec {
     var adapter: SubFeedBuilderAdapter!
     // swiftlint:disable implicitly_unwrapped_optional
     var listener: SubFeedListenerMock!
-    // swiftlint:disable implicitly_unwrapped_optional
-    var routing: SubFeedRouting!
 
     let id = "SubFeedAdaptorSpecID"
     BuilderContainer.register(builder: SubFeedBuilderAdapter.self, with: id)
@@ -20,17 +18,25 @@ class SubFeedAdaptorSpec: QuickSpec {
       let builderType: SubFeedBuilderAdapter.Type = BuilderContainer.resolve(for: id)
       adapter = builderType.init(dependency: SubFeedDependencyMock())
       listener = SubFeedListenerMock()
-      routing = adapter.build(withListener: listener)
     }
     afterEach {
       adapter = nil
       listener = nil
-      routing = nil
     }
 
-    describe("빌드 완료") {
-      it("test") {
-        expect(routing).toNot(beNil())
+    describe("빌드가 되고 나서") {
+      beforeEach {
+        _ = adapter.build(withListener: listener)
+      }
+
+      context("routeToClose 호출 시") {
+        beforeEach {
+          adapter.routeToClose()
+        }
+
+        it("listener routeToClose가 호출된다") {
+          expect(listener.routeToCloseCallCount) == 1
+        }
       }
     }
   }
