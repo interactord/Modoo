@@ -1,4 +1,5 @@
 import AsyncDisplayKit
+import RxSwift
 
 // MARK: - SubFeedContainerNode
 
@@ -49,5 +50,13 @@ extension SubFeedContainerNode {
     return ASInsetLayoutSpec(
       insets: safeAreaInsets,
       child: contentsLayout)
+  }
+}
+
+// MARK: - Stream
+
+extension SubFeedContainerNode {
+  var backButtonTabStream: Observable<Void> {
+    headerNode.backButtonTabStream
   }
 }
