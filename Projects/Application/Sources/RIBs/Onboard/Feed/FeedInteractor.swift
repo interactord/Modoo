@@ -72,9 +72,8 @@ extension FeedInteractor: FeedPresentableListener, Reactor {
     var newState = state
 
     switch mutation {
-    case let .setPostContentSectionItem(item):
-      let sectionID = state.postContentSectionModel.sectionID
-      newState.postContentSectionModel = .init(sectionID: sectionID, sectionItem: item)
+    case let .setPostContentCellItems(items):
+      newState.postContentSectionModel = .init(cellItems: items, original: state.postContentSectionModel)
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
     case let .setError(errorMessage):
@@ -91,8 +90,9 @@ extension FeedInteractor: FeedPresentableListener, Reactor {
 
     let startLoading = Observable.just(Mutation.setLoading(true))
     let stopLoading = Observable.just(Mutation.setLoading(false))
-    let useCaseStream = postUseCase.fetchPosts().flatMap { repositoryModel -> Observable<Mutation> in
-      .just(.setPostContentSectionItem(.init(postRepositoryModels: repositoryModel)))
+    let useCaseStream = postUseCase.fetchPosts().flatMap { repositoryModels -> Observable<Mutation> in
+      let itemModels = repositoryModels.map{ FeedContentSectionModel.Cell(repositoryModel: $0) }
+      return .just(.setPostContentCellItems(itemModels))
     }
     .catch { .just(.setError($0.localizedDescription)) }
 

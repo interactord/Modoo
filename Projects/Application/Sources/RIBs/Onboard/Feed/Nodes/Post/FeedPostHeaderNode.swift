@@ -7,7 +7,7 @@ final class FeedPostHeaderNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
-  init(item: FeedDisplayModel.PostContentSectionItem.Item) {
+  init(item: FeedContentSectionModel.Cell) {
     self.item = item
     super.init()
     automaticallyManagesSubnodes = true
@@ -42,7 +42,7 @@ final class FeedPostHeaderNode: ASDisplayNode {
     node.tintColor = .black
     return node
   }()
-  let item: FeedDisplayModel.PostContentSectionItem.Item
+  let item: FeedContentSectionModel.Cell
 
   // MARK: Private
 
