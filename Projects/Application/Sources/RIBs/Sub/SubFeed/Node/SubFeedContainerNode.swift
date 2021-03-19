@@ -59,4 +59,8 @@ extension SubFeedContainerNode {
   var backButtonTabStream: Observable<Void> {
     headerNode.backButtonTabStream
   }
+
+  var titleUserNameBinder: Binder<String> {
+    headerNode.titleUserNameBinder
+  }
 }

@@ -48,5 +48,8 @@ extension SubFeedViewController: ListenerBindable {
   }
 
   func bindState(listener: SubFeedPresentableListener) {
+    listener.state.map(\.cellModel.model.ownerUserName)
+      .bind(to: node.titleUserNameBinder)
+      .disposed(by: disposeBag)
   }
 }
