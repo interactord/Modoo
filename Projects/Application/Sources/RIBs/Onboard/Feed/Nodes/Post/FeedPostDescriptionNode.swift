@@ -7,7 +7,7 @@ final class FeedPostDescriptionNode: ASDisplayNode {
 
   // MARK: Lifecycle
 
-  init(item: FeedDisplayModel.PostContentSectionItem.Item) {
+  init(item: FeedContentSectionModel.Cell) {
     self.item = item
     super.init()
     automaticallyManagesSubnodes = true
@@ -38,7 +38,7 @@ final class FeedPostDescriptionNode: ASDisplayNode {
     node.attributedText = "\(item.timeStampDescription) ago".styled(with: Const.timeStyle)
     return node
   }()
-  let item: FeedDisplayModel.PostContentSectionItem.Item
+  let item: FeedContentSectionModel.Cell
 
   // MARK: Private
 

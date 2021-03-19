@@ -40,7 +40,7 @@ final class FeedViewController: ASDKViewController<FeedContainerNode>, FeedPrese
     .init { _, object in
       switch object {
       case let .postContent(itemModel):
-        return SectionController<PostContentSectionModel>(
+        return SectionController<SectionDisplayModel<EmptyItemModel, FeedContentSectionModel.Cell, EmptyItemModel>>(
           nodeForItemBlock: { FeedPostCellNode(item: $0) }
         )
       }

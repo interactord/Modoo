@@ -7,7 +7,7 @@ final class FeedPostCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
-  init(item: FeedDisplayModel.PostContentSectionItem.Item) {
+  init(item: FeedContentSectionModel.Cell) {
     self.item = item
     super.init()
     automaticallyManagesSubnodes = true
@@ -35,7 +35,7 @@ final class FeedPostCellNode: ASCellNode {
   lazy var descriptionNode: FeedPostDescriptionNode = {
     FeedPostDescriptionNode(item: item)
   }()
-  let item: FeedDisplayModel.PostContentSectionItem.Item
+  let item: FeedContentSectionModel.Cell
 
   // MARK: Private
 

@@ -4,7 +4,7 @@ import RxIGListKit
 // MARK: - FeedSectionModel
 
 enum FeedSectionModel {
-  case postContent(itemModel: PostContentSectionModel)
+  case postContent(itemModel: SectionDisplayModel<EmptyItemModel, FeedContentSectionModel.Cell, EmptyItemModel>)
 }
 
 // MARK: SectionModelType
