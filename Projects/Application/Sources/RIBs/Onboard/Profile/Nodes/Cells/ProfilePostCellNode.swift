@@ -6,7 +6,7 @@ final class ProfilePostCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
-  init(item: ProfileDisplayModel.MediaContentSectionItem.CellItem) {
+  init(item: ProfileContentSectionModel.Cell) {
     defer{ automaticallyManagesSubnodes = true }
     self.item = item
     super.init()
@@ -29,7 +29,7 @@ final class ProfilePostCellNode: ASCellNode {
   }()
 
   let buttonNode = ASButtonNode()
-  let item: ProfileDisplayModel.MediaContentSectionItem.CellItem
+  let item: ProfileContentSectionModel.Cell
 }
 
 // MARK: - LayoutSpec

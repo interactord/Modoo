@@ -82,12 +82,9 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
 
     switch mutation {
     case let .setUserProfile(informationSectionItem):
-      let sectionID = state.informationSectionItemModel.sectionID
-      newState.informationSectionItemModel = .init(sectionID: sectionID, sectionItem: informationSectionItem)
+      newState.informationSectionItemModel = .init(headerItem: informationSectionItem, original: state.informationSectionItemModel)
     case let .setPosts(cellItems):
-      let sectionID = state.contentsSectionItemModel.sectionID
-      let newSectionItem = ProfileDisplayModel.MediaContentSectionItem(headerItem: state.contentsSectionItemModel.headerItem, cellItems: cellItems)
-      newState.contentsSectionItemModel = .init(sectionID: sectionID, sectionItem: newSectionItem)
+      newState.contentsSectionItemModel = .init(cellItems: cellItems, original: currentState.contentsSectionItemModel)
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
     case let .setError(message):
@@ -110,11 +107,11 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
       userUseCase.fetchUserSocial(uid: uid),
       postUseCase.fetchPosts(uid: uid))
       .flatMap { userModel, socialModel, postModels -> Observable<Mutation> in
-        let infomationModel = ProfileDisplayModel.InformationSectionItem(
+        let infomationModel = UserInformationSectionModel.Header(
           userRepositoryModel: userModel,
           socialRepositoryModel: socialModel,
           postCount: postModels.count)
-        let postItems = postModels.map{ ProfileDisplayModel.MediaContentSectionItem.CellItem(id: $0.id, imageURL: $0.imageURL) }
+        let postItems = postModels.map{ ProfileContentSectionModel.Cell(id: $0.id, imageURL: $0.imageURL) }
         return .concat([
           .just(.setUserProfile(infomationModel)),
           .just(.setPosts(postItems)),
@@ -130,7 +127,7 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
     return .empty()
   }
 
-  private func mutatingLoadPost(model: ProfileDisplayModel.MediaContentSectionItem.CellItem) -> Observable<Mutation> {
+  private func mutatingLoadPost(model: ProfileContentSectionModel.Cell) -> Observable<Mutation> {
     listener?.routeToSubFeed()
     return .empty()
   }

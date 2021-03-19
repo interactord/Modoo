@@ -8,25 +8,25 @@ enum ProfileDisplayModel {
     case load
     case loading(Bool)
     case logout
-    case loadPost(ProfileDisplayModel.MediaContentSectionItem.CellItem)
+    case loadPost(ProfileContentSectionModel.Cell)
   }
 
   enum Mutation: Equatable {
-    case setUserProfile(ProfileDisplayModel.InformationSectionItem)
-    case setPosts([ProfileDisplayModel.MediaContentSectionItem.CellItem])
+    case setUserProfile(UserInformationSectionModel.Header)
+    case setPosts([ProfileContentSectionModel.Cell])
     case setError(String)
     case setLoading(Bool)
   }
 
   struct State: PresentableState {
-    var informationSectionItemModel: ProfileInformationSectionItemModel
-    var contentsSectionItemModel: ProfileContentSectionItemModel
+    var informationSectionItemModel: SectionDisplayModel<UserInformationSectionModel.Header, EmptyItemModel, EmptyItemModel>
+    var contentsSectionItemModel: SectionDisplayModel<ProfileContentSectionModel.Header, ProfileContentSectionModel.Cell, EmptyItemModel>
     var isLoading: Bool
     var errorMessage: String
 
     static func initialState() -> Self {
-      let informationSectionItemModel = ProfileInformationSectionItemModel()
-      let contentsSectionItemModel = ProfileContentSectionItemModel()
+      let informationSectionItemModel = SectionDisplayModel<UserInformationSectionModel.Header, EmptyItemModel, EmptyItemModel>.default()
+      let contentsSectionItemModel = SectionDisplayModel<ProfileContentSectionModel.Header, ProfileContentSectionModel.Cell, EmptyItemModel>.default()
       return State(
         informationSectionItemModel: informationSectionItemModel,
         contentsSectionItemModel: contentsSectionItemModel,
@@ -82,47 +82,4 @@ extension ProfileDisplayModel {
 // MARK: - InformationSectionItem
 
 extension ProfileDisplayModel {
-
-  struct InformationSectionItem: Equatable {
-
-    // MARK: Lifecycle
-
-    init(headerItem: HeaderItem) {
-      self.headerItem = headerItem
-    }
-
-    init(userRepositoryModel: UserRepositoryModel, socialRepositoryModel: UserSocialRepositoryModel, isFollowed: Bool = false, postCount: Int = 0) {
-      let headerItem = HeaderItem(
-        userName: userRepositoryModel.username,
-        avatarImageURL: userRepositoryModel.profileImageURL,
-        postCount: "\(postCount)",
-        followingCount: "\(socialRepositoryModel.following)",
-        followerCount: "\(socialRepositoryModel.followers)",
-        bioDescription: "",
-        isFollowed: isFollowed)
-
-      self.init(headerItem: headerItem)
-    }
-
-    init() {
-      headerItem = HeaderItem()
-    }
-
-    // MARK: Internal
-
-    struct HeaderItem: Equatable {
-      var userName = ""
-      var avatarImageURL = ""
-      var postCount = ""
-      var followingCount = ""
-      var followerCount = ""
-      var bioDescription = ""
-      var isFollowed = false
-    }
-
-    var headerItem: HeaderItem
-    var cellItems: [String] = []
-
-  }
-
 }

@@ -33,38 +33,41 @@ final class SubProfileViewController: ASDKViewController<SubProfileContainerNode
     return adapter
   }()
 
-  let dataSource = RxListAdapterDataSource<SubProfileSectionModel> { adapter, object in
-    weak var viewController = adapter.viewController as? SubProfileViewController
+  lazy var dataSource: RxListAdapterDataSource<ProfileSectionModel> = {
+    weak var listener = self.listener
+    return .init { _, object in
 
-    switch object {
-    case let .userInformationSummery(itemModel):
-      return SectionController<ProfileInformationSectionItemModel>(
-        elementKindTypes: [.header],
-        supplementaryViewHeaderBlockType: {
-          guard let listener = viewController?.listener else { return ASCellNode() }
-          let node = SubProfileInformationCellNode(item: $0)
-          node.followButtonTapStream
-            .mapTo(.follow)
-            .bind(to: listener.action)
-            .disposed(by: node.disposeBag)
+      switch object {
+      case let .information(itemModel):
+        return SectionController<SectionDisplayModel<UserInformationSectionModel.Header, EmptyItemModel, EmptyItemModel>>(
+          elementKindTypes: [.header],
+          supplementaryViewHeaderBlockType: {
 
-          node.unFollowButtonTapStream
-            .mapTo(.unFollow)
-            .bind(to: listener.action)
-            .disposed(by: node.disposeBag)
+            let node = SubProfileInformationCellNode(item: $0)
+            if let listener = listener {
+              node.followButtonTapStream
+                .mapTo(.follow)
+                .bind(to: listener.action)
+                .disposed(by: node.disposeBag)
 
-          return node
-        })
-    case let .userContent(itemModel):
-      let sectionController = SectionController<ProfileContentSectionItemModel>(
-        elementKindTypes: [.header],
-        supplementaryViewHeaderBlockType: { _ in ProfileSubMenuCellNode() },
-        sizeForItemWidthBlock: { (UIScreen.main.bounds.width - 2) / 3 },
-        nodeForItemBlock: { ProfilePostCellNode(item: $0) })
-      sectionController.minimumLineSpacing = 1
-      return sectionController
+              node.unFollowButtonTapStream
+                .mapTo(.unFollow)
+                .bind(to: listener.action)
+                .disposed(by: node.disposeBag)
+            }
+            return node
+          })
+      case let .userContent(itemModel):
+        let sectionController = SectionController<SectionDisplayModel<ProfileContentSectionModel.Header, ProfileContentSectionModel.Cell, EmptyItemModel>>(
+          elementKindTypes: [.header],
+          supplementaryViewHeaderBlockType: { _ in ProfileSubMenuCellNode() },
+          sizeForItemWidthBlock: { (UIScreen.main.bounds.width - 2) / 3 },
+          nodeForItemBlock: { ProfilePostCellNode(item: $0) })
+        sectionController.minimumLineSpacing = 1
+        return sectionController
+      }
     }
-  }
+  }()
 
   weak var listener: SubProfilePresentableListener? {
     didSet { bind(listener: listener) }
@@ -92,8 +95,8 @@ extension SubProfileViewController: ListenerBindable {
   func bindState(listener: SubProfilePresentableListener) {
     listener.state
       .map {[
-        SubProfileSectionModel.userInformationSummery(itemModel: $0.informationSectionItemModel),
-        SubProfileSectionModel.userContent(itemModel: $0.contentsSectionItemModel),
+        ProfileSectionModel.information(itemModel: $0.informationSectionItemModel),
+        ProfileSectionModel.userContent(itemModel: $0.contentsSectionItemModel),
       ]}
       .bind(to: adapter.rx.objects(for: dataSource))
       .disposed(by: disposeBag)
