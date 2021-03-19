@@ -22,7 +22,7 @@ final class ProfilePostCellNode: ASCellNode {
     let node = ASNetworkImageNode()
     node.defaultImage = #imageLiteral(resourceName: "dummy-content-image")
     node.placeholderEnabled = true
-    node.url = URL(string: item.imageURL)
+    node.url = URL(string: item.model.imageURL)
     node.contentMode = .scaleAspectFill
     node.isLayerBacked = true
     return node

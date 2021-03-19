@@ -90,8 +90,8 @@ extension OnboardRouter: OnboardRouting {
     clearPresentRouting(animated: true)
   }
 
-  func routeToSubFeed() {
-    presentRouting(routing: subFeedBuilder.build(withListener: interactor), showAnimated: true)
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
+    presentRouting(routing: subFeedBuilder.build(withListener: interactor, model: model), showAnimated: true)
   }
 
   // MARK: Private

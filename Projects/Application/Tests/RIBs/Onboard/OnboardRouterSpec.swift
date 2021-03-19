@@ -74,7 +74,7 @@ class OnboardRouterSpec: QuickSpec {
 
       context("routeToSubFeed가 불리면") {
         beforeEach {
-          router.routeToSubFeed()
+          router.routeToSubFeed(model: .defaultValue())
         }
 
         it("viewController present메서드가 불린다") {
@@ -83,7 +83,7 @@ class OnboardRouterSpec: QuickSpec {
 
         context("routeToSubFeed가 불리면") {
           beforeEach {
-            router.routeToSubFeed()
+            router.routeToSubFeed(model: .defaultValue())
           }
 
           it("viewController present메서드가 불린다") {

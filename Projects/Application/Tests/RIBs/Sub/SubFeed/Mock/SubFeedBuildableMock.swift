@@ -25,7 +25,7 @@ class SubFeedBuildableMock: Builder<SubFeedDependency> {
 // MARK: SubFeedBuildable
 
 extension SubFeedBuildableMock: SubFeedBuildable {
-  func build(withListener listener: SubFeedListener) -> SubFeedRouting {
+  func build(withListener listener: SubFeedListener, model: ProfileContentSectionModel.Cell) -> SubFeedRouting {
     _ = SubFeedComponent(dependency: dependency)
     let viewController = SubFeedViewController(node: .init())
     let interactor = SubFeedInteractor(

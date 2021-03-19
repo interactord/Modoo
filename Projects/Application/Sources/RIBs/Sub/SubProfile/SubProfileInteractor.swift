@@ -121,7 +121,7 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
           userRepositoryModel: userModel,
           socialRepositoryModel: socialModel,
           postCount: postModels.count)
-        let postItems = postModels.map{ ProfileContentSectionModel.Cell(id: $0.id, imageURL: $0.imageURL) }
+        let postItems = postModels.map{ ProfileContentSectionModel.Cell(uid: uid, postRepositoryModel: $0) }
         return .concat([
           .just(.setUserProfile(infomationModel)),
           .just(.setPosts(postItems)),

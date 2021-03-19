@@ -71,7 +71,7 @@ class OnboardInteractorSpec: QuickSpec {
 
       context("routeToSubFeed가 불리면") {
         beforeEach {
-          interactor.routeToSubFeed()
+          interactor.routeToSubFeed(model: .defaultValue())
         }
 
         it("router routeToSubFeed메서드가 불린다") {

@@ -13,7 +13,7 @@ class ProfileListenerMock: ProfileListener {
     routeToAuthenticationHandler?()
   }
 
-  func routeToSubFeed() {
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
     routeToSubFeedCallCount += 1
     routeToSubFeedHandler?()
   }
