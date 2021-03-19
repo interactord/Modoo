@@ -1,6 +1,6 @@
 import Foundation
 
-protocol CollectionDisplayModeling {
+protocol SectionDisplayModeling {
   associatedtype HeaderType
   associatedtype CellItemType
   associatedtype FooterType

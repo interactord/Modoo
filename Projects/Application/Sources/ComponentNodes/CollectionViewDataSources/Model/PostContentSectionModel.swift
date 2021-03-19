@@ -2,7 +2,7 @@ import IGListKit
 
 // MARK: - PostContentSectionModel
 
-final class PostContentSectionModel: CollectionDisplayModeling {
+final class PostContentSectionModel: SectionDisplayModeling {
 
   // MARK: Lifecycle
 

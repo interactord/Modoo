@@ -3,7 +3,7 @@ import IGListKit
 
 // MARK: - SingleHeaderSectionController
 
-final class SectionController<ItemType: ListDiffable & CollectionDisplayModeling>: ListSectionController, ASSectionController, ListSupplementaryViewSource, ASSupplementaryNodeSource {
+final class SectionController<ItemType: ListDiffable & SectionDisplayModeling>: ListSectionController, ASSectionController, ListSupplementaryViewSource, ASSupplementaryNodeSource {
 
   // MARK: Lifecycle
 
