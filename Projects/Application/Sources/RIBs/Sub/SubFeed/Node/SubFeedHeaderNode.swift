@@ -25,8 +25,6 @@ final class SubFeedHeaderNode: ASDisplayNode {
 
   lazy var titleButtonNode: ASTextNode = {
     let node = ASTextNode()
-    let titleElements = ["ASBGF123".styled(with: Const.subTitleStyle), "\n".styled(with: Const.subTitleStyle), "Feed".styled(with: Const.titleStyle)]
-    node.attributedText = NSAttributedString.composed(of: titleElements)
     node.maximumNumberOfLines = 2
     node.isLayerBacked = true
     return node
@@ -73,5 +71,12 @@ extension SubFeedHeaderNode {
 extension SubFeedHeaderNode {
   var backButtonTabStream: Observable<Void> {
     backButtonNode.rx.tap.asObservable()
+  }
+
+  var titleUserNameBinder: Binder<String> {
+    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, titleUserName in
+      let titleElements = [titleUserName.styled(with: Const.subTitleStyle), "\n".styled(with: Const.subTitleStyle), "Feed".styled(with: Const.titleStyle)]
+      base.titleButtonNode.attributedText = NSAttributedString.composed(of: titleElements)
+    }
   }
 }
