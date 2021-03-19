@@ -45,16 +45,6 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
 
   // MARK: Internal
 
-  typealias Action = ProfilePresentableAction
-  typealias State = ProfileDisplayModel.State
-
-  enum Mutation: Equatable {
-    case setUserProfile(ProfileDisplayModel.InformationSectionItem)
-    case setPosts([ProfileDisplayModel.MediaContentSectionItem.CellItem])
-    case setError(String)
-    case setLoading(Bool)
-  }
-
   weak var router: ProfileRouting?
   weak var listener: ProfileListener?
 
@@ -69,6 +59,10 @@ final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, Profil
 extension ProfileInteractor: ProfilePresentableListener, Reactor {
 
   // MARK: Internal
+
+  typealias Action = ProfileDisplayModel.Action
+  typealias State = ProfileDisplayModel.State
+  typealias Mutation = ProfileDisplayModel.Mutation
 
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {

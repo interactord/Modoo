@@ -6,24 +6,11 @@ import RxSwift
 import RxViewController
 import UIKit
 
-// MARK: - SubProfilePresentableAction
-
-enum SubProfilePresentableAction: Equatable {
-  case load
-  case loading(Bool)
-  case back
-  case follow
-  case unFollow
-}
-
 // MARK: - SubProfilePresentableListener
 
 protocol SubProfilePresentableListener: AnyObject {
-  typealias Action = SubProfilePresentableAction
-  typealias State = ProfileDisplayModel.State
-
-  var action: ActionSubject<Action> { get }
-  var state: Observable<State> { get }
+  var action: ActionSubject<SubProfileDisplayModel.Action> { get }
+  var state: Observable<SubProfileDisplayModel.State> { get }
 }
 
 // MARK: - SubProfileViewController

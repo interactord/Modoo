@@ -7,25 +7,11 @@ import RxSwift
 import RxSwiftExt
 import UIKit
 
-// MARK: - RegisterPresentableAction
-
-enum RegisterPresentableAction: Equatable {
-  case signUp
-  case login
-  case photo(UIImage?)
-  case registerFormState(RegisterDisplayModel.FormState)
-  case loading(Bool)
-}
-
 // MARK: - RegisterPresentableListener
 
 protocol RegisterPresentableListener: AnyObject {
-  typealias Action = RegisterPresentableAction
-  typealias State = RegisterDisplayModel.State
-
-  var action: ActionSubject<Action> { get }
-  var state: Observable<State> { get }
-  var currentState: State { get }
+  var action: ActionSubject<RegisterDisplayModel.Action> { get }
+  var state: Observable<RegisterDisplayModel.State> { get }
 }
 
 // MARK: - RegisterViewController

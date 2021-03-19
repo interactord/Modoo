@@ -5,20 +5,11 @@ import RxOptional
 import RxSwift
 import UIKit
 
-// MARK: - OnboardPresentableAction
-
-enum OnboardPresentableAction: Equatable {
-  case postImage(UIImage)
-}
-
 // MARK: - OnboardPresentableListener
 
 protocol OnboardPresentableListener: AnyObject {
-  typealias Action = OnboardPresentableAction
-  typealias State = OnboardDisplayModel.State
-
-  var action: ActionSubject<Action> { get }
-  var state: Observable<State> { get }
+  var action: ActionSubject<OnboardDisplayModel.Action> { get }
+  var state: Observable<OnboardDisplayModel.State> { get }
 }
 
 // MARK: - OnboardViewController

@@ -7,24 +7,11 @@ import RxSwift
 import RxSwiftExt
 import RxTexture2
 
-// MARK: - LoginPresentableAction
-
-enum LoginPresentableAction: Equatable {
-  case loginState(FormLoginReactor.State)
-  case login
-  case register
-  case loading(Bool)
-}
-
 // MARK: - LoginPresentableListener
 
 protocol LoginPresentableListener: AnyObject {
-  typealias Action = LoginPresentableAction
-  typealias State = LoginDisplayModel.State
-
-  var action: ActionSubject<Action> { get }
-  var state: Observable<State> { get }
-  var currentState: State { get }
+  var action: ActionSubject<LoginDisplayModel.Action> { get }
+  var state: Observable<LoginDisplayModel.State> { get }
 }
 
 // MARK: - LoginViewController

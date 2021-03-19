@@ -8,7 +8,7 @@ protocol SubProfileDependency: Dependency {
 // MARK: - SubProfileComponent
 
 final class SubProfileComponent: Component<SubProfileDependency> {
-  fileprivate var initailState: ProfileDisplayModel.State { .initialState() }
+  fileprivate var initialState: SubProfileDisplayModel.State { .initialState() }
   fileprivate var userUseCase: UserUseCase {
     FirebaseUserUseCase(
       authenticating: FirebaseAuthentication(),
@@ -48,7 +48,7 @@ final class SubProfileBuilder: Builder<SubProfileDependency>, SubProfileBuildabl
     let viewController = SubProfileViewController(node: .init())
     let interactor = SubProfileInteractor(
       presenter: viewController,
-      initialState: component.initailState,
+      initialState: component.initialState,
       userUseCase: component.userUseCase,
       postUseCase: component.postUseCase,
       uid: uid)

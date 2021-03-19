@@ -42,16 +42,6 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
 
   // MARK: Internal
 
-  enum Mutation: Equatable {
-    case setPhoto(UIImage?)
-    case setFormState(RegisterDisplayModel.FormState)
-    case setLoading(Bool)
-    case setError(String)
-  }
-
-  typealias Action = RegisterPresentableAction
-  typealias State = RegisterDisplayModel.State
-
   weak var router: RegisterRouting?
   weak var listener: RegisterListener?
 
@@ -65,6 +55,10 @@ final class RegisterInteractor: PresentableInteractor<RegisterPresentable>, Regi
 extension RegisterInteractor: RegisterPresentableListener, Reactor {
 
   // MARK: Internal
+
+  typealias Action = RegisterDisplayModel.Action
+  typealias State = RegisterDisplayModel.State
+  typealias Mutation = RegisterDisplayModel.Mutation
 
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {

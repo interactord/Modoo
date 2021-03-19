@@ -13,19 +13,23 @@ final class FormLoginReactor {
 
   // MARK: Internal
 
-  enum Action {
+  enum Action: Equatable {
     case typingEmail(String)
     case typingPassword(String)
     case isAllInputValid(Bool)
   }
 
-  enum Mutation {
+  enum Mutation: Equatable {
     case setEmail(String)
     case setPassword(String)
     case setIsAllInputValid(Bool)
   }
 
-  typealias State = LoginDisplayModel.FormState
+  struct State: Equatable {
+    var email = ""
+    var password = ""
+    var isAllInputValid = false
+  }
 
   var initialState: State = .init()
 }
@@ -54,7 +58,6 @@ extension FormLoginReactor: Reactor {
     case let .setPassword(password):
       newState.password = password
     case let .setIsAllInputValid(isValid):
-      print("aaaaa 1111 : ", isValid)
       newState.isAllInputValid = isValid
     }
 

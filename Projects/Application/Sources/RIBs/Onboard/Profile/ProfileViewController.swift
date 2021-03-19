@@ -7,24 +7,11 @@ import RxSwift
 import RxViewController
 import UIKit
 
-// MARK: - ProfilePresentableAction
-
-enum ProfilePresentableAction: Equatable {
-  case load
-  case loading(Bool)
-  case logout
-  case loadPost(ProfileDisplayModel.MediaContentSectionItem.CellItem)
-}
-
 // MARK: - ProfilePresentableListener
 
 protocol ProfilePresentableListener: AnyObject {
-  typealias Action = ProfilePresentableAction
-  typealias State = ProfileDisplayModel.State
-
-  var action: ActionSubject<Action> { get }
-  var state: Observable<State> { get }
-  var currentState: State { get }
+  var action: ActionSubject<ProfileDisplayModel.Action> { get }
+  var state: Observable<ProfileDisplayModel.State> { get }
 }
 
 // MARK: - ProfileViewController

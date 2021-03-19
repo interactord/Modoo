@@ -45,7 +45,7 @@ class PostViewControllerSpec: QuickSpec {
         }
 
         it("cancel 액션이 호출된다") {
-          expect(interactor.stub.actions.last) == PostPresentableAction.cancel
+          expect(interactor.stub.actions.last) == PostDisplayModel.Action.cancel
         }
       }
 
@@ -55,7 +55,7 @@ class PostViewControllerSpec: QuickSpec {
         }
 
         it("cancel 액션이 호출된다") {
-          expect(interactor.stub.actions.last) == PostPresentableAction.share
+          expect(interactor.stub.actions.last) == PostDisplayModel.Action.share
         }
       }
     }

@@ -2,6 +2,17 @@ import Foundation
 
 enum FeedDisplayModel {
 
+  enum Action {
+    case load
+    case loading(Bool)
+  }
+
+  enum Mutation: Equatable {
+    case setPostContentSectionItem(FeedDisplayModel.PostContentSectionItem)
+    case setLoading(Bool)
+    case setError(String)
+  }
+
   struct PostContentSectionItem: Equatable {
 
     // MARK: Lifecycle

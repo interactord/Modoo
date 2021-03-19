@@ -44,7 +44,7 @@ final class OnboardInteractor: PresentableInteractor<OnboardPresentable> {
 
   // MARK: Internal
 
-  typealias Action = OnboardPresentableAction
+  typealias Action = OnboardDisplayModel.Action
   typealias State = OnboardDisplayModel.State
 
   enum Mutation: Equatable {

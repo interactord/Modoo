@@ -43,7 +43,7 @@ class ProfileViewControllerSpec: QuickSpec {
       }
 
       it("interactor의 액션 load로 전달된다") {
-        expect(interactor.stub.actions.last) == ProfilePresentableAction.load
+        expect(interactor.stub.actions.last) == ProfileDisplayModel.Action.load
       }
     }
 
@@ -53,7 +53,7 @@ class ProfileViewControllerSpec: QuickSpec {
       }
 
       it("interactor의 액션 logout으로 전달된다") {
-        expect(interactor.stub.actions.last) == ProfilePresentableAction.logout
+        expect(interactor.stub.actions.last) == ProfileDisplayModel.Action.logout
       }
     }
   }

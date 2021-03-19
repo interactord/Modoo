@@ -1,6 +1,45 @@
 import Foundation
 
+// MARK: - ProfileDisplayModel
+
 enum ProfileDisplayModel {
+
+  enum Action: Equatable {
+    case load
+    case loading(Bool)
+    case logout
+    case loadPost(ProfileDisplayModel.MediaContentSectionItem.CellItem)
+  }
+
+  enum Mutation: Equatable {
+    case setUserProfile(ProfileDisplayModel.InformationSectionItem)
+    case setPosts([ProfileDisplayModel.MediaContentSectionItem.CellItem])
+    case setError(String)
+    case setLoading(Bool)
+  }
+
+  struct State: PresentableState {
+    var informationSectionItemModel: ProfileInformationSectionItemModel
+    var contentsSectionItemModel: ProfileContentSectionItemModel
+    var isLoading: Bool
+    var errorMessage: String
+
+    static func initialState() -> Self {
+      let informationSectionItemModel = ProfileInformationSectionItemModel()
+      let contentsSectionItemModel = ProfileContentSectionItemModel()
+      return State(
+        informationSectionItemModel: informationSectionItemModel,
+        contentsSectionItemModel: contentsSectionItemModel,
+        isLoading: false,
+        errorMessage: "")
+    }
+  }
+
+}
+
+// MARK: - MediaContentSectionItem
+
+extension ProfileDisplayModel {
 
   enum MediaContentType: Equatable {
     case grid
@@ -38,6 +77,11 @@ enum ProfileDisplayModel {
     var cellItems: [CellItem]
 
   }
+}
+
+// MARK: - InformationSectionItem
+
+extension ProfileDisplayModel {
 
   struct InformationSectionItem: Equatable {
 
@@ -79,23 +123,6 @@ enum ProfileDisplayModel {
     var headerItem: HeaderItem
     var cellItems: [String] = []
 
-  }
-
-  struct State: PresentableState {
-    var informationSectionItemModel: ProfileInformationSectionItemModel
-    var contentsSectionItemModel: ProfileContentSectionItemModel
-    var isLoading: Bool
-    var errorMessage: String
-
-    static func initialState() -> Self {
-      let informationSectionItemModel = ProfileInformationSectionItemModel()
-      let contentsSectionItemModel = ProfileContentSectionItemModel()
-      return State(
-        informationSectionItemModel: informationSectionItemModel,
-        contentsSectionItemModel: contentsSectionItemModel,
-        isLoading: false,
-        errorMessage: "")
-    }
   }
 
 }
