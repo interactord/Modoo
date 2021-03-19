@@ -18,15 +18,15 @@ enum ProfileDisplayModel {
     case setLoading(Bool)
   }
 
-  struct State: PresentableState {
+  struct State: Equatable, DefaultValueUsable {
     var informationSectionItemModel: SectionDisplayModel<UserInformationSectionModel.Header, EmptyItemModel, EmptyItemModel>
     var contentsSectionItemModel: SectionDisplayModel<ProfileContentSectionModel.Header, ProfileContentSectionModel.Cell, EmptyItemModel>
     var isLoading: Bool
     var errorMessage: String
 
-    static func initialState() -> Self {
-      let informationSectionItemModel = SectionDisplayModel<UserInformationSectionModel.Header, EmptyItemModel, EmptyItemModel>.default()
-      let contentsSectionItemModel = SectionDisplayModel<ProfileContentSectionModel.Header, ProfileContentSectionModel.Cell, EmptyItemModel>.default()
+    static func defaultValue() -> Self {
+      let informationSectionItemModel = SectionDisplayModel<UserInformationSectionModel.Header, EmptyItemModel, EmptyItemModel>.defaultValue()
+      let contentsSectionItemModel = SectionDisplayModel<ProfileContentSectionModel.Header, ProfileContentSectionModel.Cell, EmptyItemModel>.defaultValue()
       return State(
         informationSectionItemModel: informationSectionItemModel,
         contentsSectionItemModel: contentsSectionItemModel,

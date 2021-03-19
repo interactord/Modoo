@@ -14,7 +14,7 @@ class SubFeedBuildableMock: Builder<SubFeedDependency> {
 
   // MARK: Fileprivate
 
-  fileprivate var initialState: SubFeedDisplayModel.State { .initialState() }
+  fileprivate var initialState: SubFeedDisplayModel.State { .defaultValue() }
 }
 
 // MARK: SubFeedBuildable

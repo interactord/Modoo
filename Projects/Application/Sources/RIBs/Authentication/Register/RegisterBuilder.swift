@@ -21,7 +21,7 @@ final class RegisterComponent: Component<RegisterDependency> {
   }
 
   fileprivate var initialState: RegisterDisplayModel.State {
-    RegisterDisplayModel.State.initialState()
+    RegisterDisplayModel.State.defaultValue()
   }
 
 }

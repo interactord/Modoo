@@ -16,7 +16,7 @@ class ProfileViewControllerSpec: QuickSpec {
 
     beforeEach {
       viewController = ProfileViewController(node: .init())
-      let state = ProfileDisplayModel.State.initialState()
+      let state = ProfileDisplayModel.State.defaultValue()
       userUseCase = FirebaseUserUseCaseMock()
       postUseCase = FirebasePostUseCaseMock()
       interactor = ProfileInteractor(

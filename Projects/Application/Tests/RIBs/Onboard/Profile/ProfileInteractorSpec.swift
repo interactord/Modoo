@@ -19,7 +19,7 @@ class ProfileInteractorSpec: QuickSpec {
       viewController = ProfileViewControllableMock()
       userUseCase = FirebaseUserUseCaseMock()
       postUseCase = FirebasePostUseCaseMock()
-      let state = ProfileDisplayModel.State.initialState()
+      let state = ProfileDisplayModel.State.defaultValue()
       listener = ProfileListenerMock()
       interactor = ProfileInteractor(
         presenter: viewController,

@@ -8,7 +8,7 @@ protocol ProfileDependency: Dependency {
 // MARK: - ProfileComponent
 
 final class ProfileComponent: Component<ProfileDependency> {
-  fileprivate var initailState: ProfileDisplayModel.State { .initialState() }
+  fileprivate var initailState: ProfileDisplayModel.State { .defaultValue() }
   fileprivate var userUseCase: UserUseCase {
     FirebaseUserUseCase(
       authenticating: FirebaseAuthentication(),

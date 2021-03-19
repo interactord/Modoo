@@ -16,7 +16,7 @@ class SearchInteractorSpec: QuickSpec {
     beforeEach {
       viewController = SearchViewControllableMock()
       userUseCaseMock = FirebaseUserUseCaseMock()
-      let state = SearchDisplayModel.State.initialState()
+      let state = SearchDisplayModel.State.defaultValue()
       interactor = SearchInteractor(
         presenter: viewController,
         initialState: state,

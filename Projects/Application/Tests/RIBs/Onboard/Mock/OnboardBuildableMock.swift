@@ -31,7 +31,7 @@ extension OnboardBuildableMock: OnboardBuildable {
     let viewController = OnboardViewController(postMediaUseCase: YPPostMediaPickerUseCaseMock())
     let interactor = OnboardInteractor(
       presenter: viewController,
-      initialState: .initialState())
+      initialState: .defaultValue())
     interactor.listener = listener
     return OnboardRouter(
       interactor: interactor,

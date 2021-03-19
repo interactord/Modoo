@@ -22,7 +22,7 @@ class PostInteractorSpec: QuickSpec {
       listener = PostListenerMock()
       interactor = PostInteractor(
         presenter: viewController,
-        initialState: .initialState(),
+        initialState: .defaultValue(),
         postUseCase: postUseCase,
         userUseCase: userUseCase)
       interactor.listener = listener

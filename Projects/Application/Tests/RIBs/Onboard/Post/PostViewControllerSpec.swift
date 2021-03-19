@@ -19,7 +19,7 @@ class PostViewControllerSpec: QuickSpec {
       userUseCase = FirebaseUserUseCaseMock()
       interactor = PostInteractor(
         presenter: viewController,
-        initialState: .initialState(),
+        initialState: .defaultValue(),
         postUseCase: postUseCase,
         userUseCase: userUseCase)
       interactor.isStubEnabled = true

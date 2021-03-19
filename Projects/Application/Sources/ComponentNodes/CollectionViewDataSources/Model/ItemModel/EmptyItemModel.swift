@@ -1,7 +1,7 @@
 import Foundation
 
-struct EmptyItemModel: Equatable, Defaultable {
-  static func `default`() -> Self {
+struct EmptyItemModel: Equatable, DefaultValueUsable {
+  static func defaultValue() -> Self {
     Self.init()
   }
 }

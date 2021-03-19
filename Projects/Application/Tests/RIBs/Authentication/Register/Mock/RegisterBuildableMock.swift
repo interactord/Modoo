@@ -32,7 +32,7 @@ extension RegisterBuildableMock: RegisterBuildable {
 
     let interactor = RegisterInteractor(
       presenter: viewController,
-      initialState: RegisterDisplayModel.State.initialState(),
+      initialState: RegisterDisplayModel.State.defaultValue(),
       authenticationUseCase: authenticationUseCase)
     interactor.listener = listener
     return RegisterRouter(interactor: interactor, viewController: viewController)

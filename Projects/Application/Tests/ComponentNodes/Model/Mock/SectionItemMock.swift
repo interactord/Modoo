@@ -2,10 +2,10 @@ import Foundation
 
 @testable import Application
 
-struct SectionItemMock: Equatable, Defaultable {
+struct SectionItemMock: Equatable, DefaultValueUsable {
   let title: String
 
-  static func `default`() -> SectionItemMock {
-    self.init(title: "")
+  static func defaultValue() -> Self {
+    SectionItemMock(title: "")
   }
 }

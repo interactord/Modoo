@@ -8,7 +8,7 @@ protocol FeedDependency: Dependency {
 // MARK: - FeedComponent
 
 final class FeedComponent: Component<FeedDependency> {
-  fileprivate var initailState: FeedDisplayModel.State { .initialState() }
+  fileprivate var initailState: FeedDisplayModel.State { .defaultValue() }
   fileprivate var postUseCase: PostUseCase {
     FirebasePostUseCase(
       apiNetworking: FirebaseAPINetwork(),

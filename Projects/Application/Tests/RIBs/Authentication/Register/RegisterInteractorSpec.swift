@@ -19,7 +19,7 @@ class RegisterInteractorSpec: QuickSpec {
       viewController = RegisterViewControllableMock()
       listener = RegisterListenerMock()
       authenticationUseCaseMock = FirebaseAuthenticationUseCaseMock()
-      let state = RegisterDisplayModel.State.initialState()
+      let state = RegisterDisplayModel.State.defaultValue()
       interactor = RegisterInteractor(
         presenter: viewController,
         initialState: state,

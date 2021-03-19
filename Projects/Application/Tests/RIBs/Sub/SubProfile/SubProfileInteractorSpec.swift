@@ -19,7 +19,7 @@ class SubProfileInteractorSpec: QuickSpec {
       viewController = SubProfileViewControllableMock()
       userUseCase = FirebaseUserUseCaseMock()
       postUseCase = FirebasePostUseCaseMock()
-      let state = SubProfileDisplayModel.State.initialState()
+      let state = SubProfileDisplayModel.State.defaultValue()
       listener = SubProfileListenerMock()
       interactor = SubProfileInteractor(
         presenter: viewController,

@@ -31,7 +31,7 @@ extension LoginBuildableMock: LoginBuildable {
     let viewController = LoginViewController(node: .init())
     let interactor = LoginInteractor(
       presenter: viewController,
-      initialState: LoginDisplayModel.State.initialState(),
+      initialState: LoginDisplayModel.State.defaultValue(),
       authenticationUseCase: authenticationUseCase)
     interactor.listener = listener
     return LoginRouter(interactor: interactor, viewController: viewController)

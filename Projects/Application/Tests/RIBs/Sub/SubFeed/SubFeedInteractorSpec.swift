@@ -17,7 +17,7 @@ class SubFeedInteractorSpec: QuickSpec {
       listener = SubFeedListenerMock()
       interactor = SubFeedInteractor(
         presenter: viewController,
-        initialState: .initialState())
+        initialState: .defaultValue())
       interactor.listener = listener
     }
     afterEach {
