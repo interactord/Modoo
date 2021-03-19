@@ -40,12 +40,6 @@ final class SubFeedInteractor: PresentableInteractor<SubFeedPresentable>, SubFee
 
   // MARK: Internal
 
-  typealias Action = SubFeedPresentableAction
-  typealias State = SubFeedDisplayModel.State
-
-  enum Mutation: Equatable {
-  }
-
   weak var router: SubFeedRouting?
   weak var listener: SubFeedListener?
 
@@ -59,10 +53,18 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
 
   // MARK: Internal
 
+  typealias Action = SubFeedDisplayModel.Action
+  typealias State = SubFeedDisplayModel.State
+  typealias Mutation = SubFeedDisplayModel.Mutation
+
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {
     case .tapClose:
       return mutatingTabClose()
+    case .load:
+      return mutatingLoading()
+    case let .loading(isLoading):
+      return .just(.setLoading(isLoading))
     }
   }
 
@@ -71,5 +73,9 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
   private func mutatingTabClose() -> Observable<Mutation> {
     listener?.routeToClose()
     return .empty()
+  }
+
+  private func mutatingLoading() -> Observable<Mutation> {
+    .empty()
   }
 }

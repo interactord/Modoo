@@ -4,21 +4,11 @@ import RIBs
 import RxSwift
 import UIKit
 
-// MARK: - SubFeedPresentableAction
-
-enum SubFeedPresentableAction {
-  case tapClose
-}
-
 // MARK: - SubFeedPresentableListener
 
 protocol SubFeedPresentableListener: AnyObject {
-  typealias Action = SubFeedPresentableAction
-  typealias State = SubFeedDisplayModel.State
-
-  var action: ActionSubject<Action> { get }
-  var state: Observable<State> { get }
-  var currentState: State { get }
+  var action: ActionSubject<SubFeedDisplayModel.Action> { get }
+  var state: Observable<SubFeedDisplayModel.State> { get }
 }
 
 // MARK: - SubFeedViewController
