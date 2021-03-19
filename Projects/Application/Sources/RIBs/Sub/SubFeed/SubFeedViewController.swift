@@ -46,23 +46,17 @@ final class SubFeedViewController: ASDKViewController<SubFeedContainerNode>, Sub
 
 }
 
-// MARK: - Binder
+// MARK: ListenerBindable
 
-extension SubFeedViewController {
+extension SubFeedViewController: ListenerBindable {
 
-  private func bind(listener: SubFeedPresentableListener?) {
-    guard let listener = listener else { return }
-    bindAction(listener: listener)
-    bindState(listener: listener)
-  }
-
-  private func bindAction(listener: SubFeedPresentableListener) {
+  func bindAction(listener: SubFeedPresentableListener) {
     node.backButtonTabStream
       .mapTo(.tapClose)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
   }
 
-  private func bindState(listener: SubFeedPresentableListener) {
+  func bindState(listener: SubFeedPresentableListener) {
   }
 }

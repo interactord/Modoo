@@ -53,27 +53,19 @@ final class FeedViewController: ASDKViewController<FeedContainerNode>, FeedPrese
 
 }
 
-// MARK: - Binder
+// MARK: ListenerBindable
 
-extension FeedViewController {
+extension FeedViewController: ListenerBindable {
 
-  private func bind(listener: FeedPresentableListener?) {
-    guard let listener = listener else { return }
-    bindAction(listener: listener)
-    bindState(listener: listener)
-  }
-
-  private func bindAction(listener: FeedPresentableListener) {
+  func bindAction(listener: FeedPresentableListener) {
     rx.viewDidAppear
       .mapTo(.load)
       .bind(to: listener.action)
       .disposed(by: disposeBag)
   }
 
-  private func bindState(listener: FeedPresentableListener) {
-    let state = listener.state.share()
-
-    state
+  func bindState(listener: FeedPresentableListener) {
+    listener.state
       .map{[
         FeedSectionModel.postContent(itemModel: $0.postContentSectionModel),
       ]}

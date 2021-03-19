@@ -55,15 +55,11 @@ final class SearchViewController: ASDKViewController<SearchContainerNode>, Searc
 
 }
 
-extension SearchViewController {
+// MARK: ListenerBindable
 
-  private func bind(listener: SearchPresentableListener?) {
-    guard let listener = listener else { return }
-    bindAction(listener: listener)
-    bindState(listener: listener)
-  }
+extension SearchViewController: ListenerBindable {
 
-  private func bindAction(listener: SearchPresentableListener) {
+  func bindAction(listener: SearchPresentableListener) {
     rx.viewDidLoad
       .mapTo(.load)
       .bind(to: listener.action)
@@ -76,10 +72,8 @@ extension SearchViewController {
       .disposed(by: disposeBag)
   }
 
-  private func bindState(listener: SearchPresentableListener) {
-    let state = listener.state.share()
-
-    state
+  func bindState(listener: SearchPresentableListener) {
+    listener.state
       .map{[
         SearchUserSectionModel.userContent(itemModel: $0.userContentSectionItemModel),
       ]}

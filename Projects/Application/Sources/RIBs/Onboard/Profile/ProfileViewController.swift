@@ -64,15 +64,11 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
 
 }
 
-extension ProfileViewController {
+// MARK: ListenerBindable
 
-  private func bind(listener: ProfilePresentableListener?) {
-    guard let listener = listener else { return }
-    bindAction(listener: listener)
-    bindState(listener: listener)
-  }
+extension ProfileViewController: ListenerBindable {
 
-  private func bindAction(listener: ProfilePresentableListener) {
+  func bindAction(listener: ProfilePresentableListener) {
     rx.viewDidAppear
       .mapTo(.load)
       .bind(to: listener.action)
@@ -84,10 +80,8 @@ extension ProfileViewController {
       .disposed(by: disposeBag)
   }
 
-  private func bindState(listener: ProfilePresentableListener) {
-    let state = listener.state.share()
-
-    state
+  func bindState(listener: ProfilePresentableListener) {
+    listener.state
       .map {[
         ProfileSectionModel.userInformationSummery(itemModel: $0.informationSectionItemModel),
         ProfileSectionModel.userContent(itemModel: $0.contentsSectionItemModel),
@@ -95,7 +89,7 @@ extension ProfileViewController {
       .bind(to: adapter.rx.objects(for: dataSource))
       .disposed(by: disposeBag)
 
-    state
+    listener.state
       .map { $0.informationSectionItemModel.headerItem.userName }
       .bind(to: node.titleBinder)
       .disposed(by: disposeBag)

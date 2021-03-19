@@ -30,14 +30,11 @@ final class PostViewController: ASDKViewController<PostContainerNode>, PostPrese
   }
 }
 
-extension PostViewController {
-  private func bind(listener: PostPresentableListener?) {
-    guard let listener = listener else { return }
-    bindAction(listener: listener)
-    bindState(listener: listener)
-  }
+// MARK: ListenerBindable
 
-  private func bindAction(listener: PostPresentableListener) {
+extension PostViewController: ListenerBindable {
+
+  func bindAction(listener: PostPresentableListener) {
     node
       .cancelButtonTapStream
       .mapTo(.cancel)
@@ -58,10 +55,8 @@ extension PostViewController {
 
   }
 
-  private func bindState(listener: PostPresentableListener) {
-    let state = listener.state.share()
-
-    state
+  func bindState(listener: PostPresentableListener) {
+    listener.state
       .map { $0.photo }
       .bind(to: node.postImageBinder)
       .disposed(by: disposeBag)
