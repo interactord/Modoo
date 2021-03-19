@@ -27,10 +27,12 @@ final class SubFeedInteractor: PresentableInteractor<SubFeedPresentable>, SubFee
 
   init(
     presenter: SubFeedPresentable,
-    initialState: SubFeedDisplayModel.State)
+    initialState: SubFeedDisplayModel.State,
+    postUseCase: PostUseCase)
   {
     defer { presenter.listener = self }
     self.initialState = initialState
+    self.postUseCase = postUseCase
     super.init(presenter: presenter)
   }
 
@@ -44,6 +46,7 @@ final class SubFeedInteractor: PresentableInteractor<SubFeedPresentable>, SubFee
   weak var listener: SubFeedListener?
 
   var initialState: SubFeedDisplayModel.State
+  let postUseCase: PostUseCase
 
 }
 

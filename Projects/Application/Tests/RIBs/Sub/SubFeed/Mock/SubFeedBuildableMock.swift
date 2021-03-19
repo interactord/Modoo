@@ -15,6 +15,11 @@ class SubFeedBuildableMock: Builder<SubFeedDependency> {
   // MARK: Fileprivate
 
   fileprivate var initialState: SubFeedDisplayModel.State { .defaultValue() }
+  fileprivate var postUseCase: PostUseCase {
+    FirebasePostUseCase(
+      apiNetworking: FirebaseAPINetwork(),
+      mediaUploading: FirebaseMediaUploader())
+  }
 }
 
 // MARK: SubFeedBuildable
@@ -25,7 +30,8 @@ extension SubFeedBuildableMock: SubFeedBuildable {
     let viewController = SubFeedViewController(node: .init())
     let interactor = SubFeedInteractor(
       presenter: viewController,
-      initialState: initialState)
+      initialState: initialState,
+      postUseCase: postUseCase)
     interactor.listener = listener
 
     return SubFeedRouter(
