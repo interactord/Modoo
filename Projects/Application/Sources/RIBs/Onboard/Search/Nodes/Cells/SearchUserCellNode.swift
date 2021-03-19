@@ -7,7 +7,7 @@ final class SearchUserCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
-  init(item: SearchDisplayModel.SearchContentSectionItem.Item) {
+  init(item: SearchSectionItemModel.Cell) {
     self.item = item
     super.init()
     automaticallyManagesSubnodes = true
@@ -19,7 +19,7 @@ final class SearchUserCellNode: ASCellNode {
 
   // MARK: Internal
 
-  let item: SearchDisplayModel.SearchContentSectionItem.Item
+  let item: SearchSectionItemModel.Cell
 
   // MARK: Private
 

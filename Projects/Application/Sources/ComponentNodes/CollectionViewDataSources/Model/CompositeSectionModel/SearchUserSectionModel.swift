@@ -4,15 +4,16 @@ import RxIGListKit
 // MARK: - SearchUserSectionModel
 
 enum SearchUserSectionModel {
-  case userContent(itemModel: SearchUserContentSectionItemModel)
+  case userContent(itemModel: SectionDisplayModel<EmptyItemModel, SearchSectionItemModel.Cell, EmptyItemModel>)
 }
 
 // MARK: SectionModelType
 
 extension SearchUserSectionModel: SectionModelType {
+
   var object: ListDiffable {
     switch self {
-    case let .userContent(itemModel: itemModel):
+    case  let .userContent(itemModel):
       return itemModel
     }
   }
