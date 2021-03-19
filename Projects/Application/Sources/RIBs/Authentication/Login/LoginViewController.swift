@@ -35,14 +35,11 @@ final class LoginViewController: ASDKViewController<LoginContainerNode>, LoginPr
 
 }
 
-extension LoginViewController {
+// MARK: ListenerBindable
 
-  private func bind(listener: LoginPresentableListener?) {
-    guard let listener = listener else { return }
-    bindAction(listener: listener)
-  }
+extension LoginViewController: ListenerBindable {
 
-  private func bindAction(listener: LoginPresentableListener) {
+  func bindAction(listener: LoginPresentableListener) {
     node.loginFormNode
       .stateStream
       .map { .loginState($0) }

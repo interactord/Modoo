@@ -72,14 +72,11 @@ final class SubProfileViewController: ASDKViewController<SubProfileContainerNode
 
 }
 
-extension SubProfileViewController {
-  private func bind(listener: SubProfilePresentableListener?) {
-    guard let listener = listener else { return }
-    bindAction(listener: listener)
-    bindState(listener: listener)
-  }
+// MARK: ListenerBindable
 
-  private func bindAction(listener: SubProfilePresentableListener) {
+extension SubProfileViewController: ListenerBindable {
+
+  func bindAction(listener: SubProfilePresentableListener) {
     rx.viewDidLoad
       .mapTo(.load)
       .bind(to: listener.action)
@@ -92,10 +89,8 @@ extension SubProfileViewController {
       .disposed(by: disposeBag)
   }
 
-  private func bindState(listener: SubProfilePresentableListener) {
-    let state = listener.state.share()
-
-    state
+  func bindState(listener: SubProfilePresentableListener) {
+    listener.state
       .map {[
         SubProfileSectionModel.userInformationSummery(itemModel: $0.informationSectionItemModel),
         SubProfileSectionModel.userContent(itemModel: $0.contentsSectionItemModel),
@@ -103,7 +98,7 @@ extension SubProfileViewController {
       .bind(to: adapter.rx.objects(for: dataSource))
       .disposed(by: disposeBag)
 
-    state
+    listener.state
       .map { $0.informationSectionItemModel.headerItem.userName }
       .bind(to: node.headerNode.titleBinder)
       .disposed(by: disposeBag)

@@ -50,16 +50,11 @@ final class RegisterViewController: ASDKViewController<RegisterContainerNode>, R
 extension RegisterViewController: RegisterViewControllable {
 }
 
-// MARK: Binding
+// MARK: ListenerBindable
 
-extension RegisterViewController {
+extension RegisterViewController: ListenerBindable {
 
-  private func bind(listener: RegisterPresentableListener?) {
-    guard let listener = listener else { return }
-    bindAction(listener: listener)
-  }
-
-  private func bindAction(listener: RegisterPresentableListener) {
+  func bindAction(listener: RegisterPresentableListener) {
     node.registerFormNode.signUpButtonTapStream
       .mapTo(.signUp)
       .bind(to: listener.action)
@@ -96,7 +91,7 @@ extension RegisterViewController {
       .disposed(by: disposeBag)
   }
 
-  private func bindState(listener: RegisterPresentableListener) {
+  func bindState(listener: RegisterPresentableListener) {
     listener.state
       .map { $0.errorMessage }
       .filterEmpty()
