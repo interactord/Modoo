@@ -17,7 +17,8 @@ class SubFeedInteractorSpec: QuickSpec {
       listener = SubFeedListenerMock()
       interactor = SubFeedInteractor(
         presenter: viewController,
-        initialState: .defaultValue())
+        initialState: .defaultValue(),
+        postUseCase: FirebasePostUseCaseMock())
       interactor.listener = listener
     }
     afterEach {
