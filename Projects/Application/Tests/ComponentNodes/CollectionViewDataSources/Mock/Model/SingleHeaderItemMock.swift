@@ -3,7 +3,7 @@ import IGListKit
 
 // MARK: - SingleHeaderItemMock
 
-final class SingleHeaderItemMock: CollectionDisplayModeling {
+final class SingleHeaderItemMock: SectionDisplayModeling {
 
   // MARK: Lifecycle
 

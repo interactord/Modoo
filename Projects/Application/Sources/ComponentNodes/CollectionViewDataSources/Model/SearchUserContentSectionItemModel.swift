@@ -2,7 +2,7 @@ import IGListKit
 
 // MARK: - SearchUserContentSectionItemModel
 
-final class SearchUserContentSectionItemModel: CollectionDisplayModeling {
+final class SearchUserContentSectionItemModel: SectionDisplayModeling {
 
   // MARK: Lifecycle
 
