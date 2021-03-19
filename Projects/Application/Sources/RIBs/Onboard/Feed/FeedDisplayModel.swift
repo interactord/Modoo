@@ -2,7 +2,7 @@ import Foundation
 
 enum FeedDisplayModel {
 
-  enum Action {
+  enum Action: Equatable {
     case load
     case loading(Bool)
   }
