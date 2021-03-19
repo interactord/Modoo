@@ -86,22 +86,19 @@ extension SearchInteractor: SearchPresentableListener, Reactor {
     var newState = state
 
     switch mutation {
-    case let .setUserContentSectionItemModel(sectionItemModel):
-      let sectionItemModel = SearchUserContentSectionItemModel(
-        sectionID: state.userContentSectionItemModel.sectionID,
-        sectionItem: sectionItemModel)
-      newState.userContentSectionItemModel = sectionItemModel
-      newState.tempUserContentSectionItemModel = sectionItemModel
+    case let .setUserContentSectionItemModel(cellItems):
+      let newSectionItemModel = SectionDisplayModel<EmptyItemModel, SearchSectionItemModel.Cell, EmptyItemModel>(cellItems: cellItems, original: state.userContentSectionItemModel)
+      newState.userContentSectionItemModel = newSectionItemModel
+      newState.tempUserContentSectionItemModel = newSectionItemModel
     case let .setSearch(text):
-      let filterCellItem = !text.isEmpty
+      let filterCellItems = !text.isEmpty
         ? state.tempUserContentSectionItemModel.cellItems.filter({
           $0.userName.lowercased().contains(text.lowercased())
             || $0.fullName.lowercased().contains(text.lowercased())
         })
         : state.tempUserContentSectionItemModel.cellItems
 
-      newState.userContentSectionItemModel = SearchUserContentSectionItemModel(
-        sectionID: state.userContentSectionItemModel.sectionID, sectionItem: .init(items: filterCellItem))
+      newState.userContentSectionItemModel = .init(cellItems: filterCellItems, original: state.userContentSectionItemModel)
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
     case let .setError(errorMessage):
@@ -120,16 +117,15 @@ extension SearchInteractor: SearchPresentableListener, Reactor {
     let stopLoading = Observable.just(Mutation.setLoading(false))
     let uid = userUseCase.authenticationToken
     let useCaseStream = userUseCase.fetchUsers().flatMap { repositoryModels -> Observable<Mutation> in
-      let filterdModel = repositoryModels.filter { $0.uid != uid }
-      let sectionItemModel = SearchDisplayModel.SearchContentSectionItem(repositoryModels: filterdModel)
-      return .just(.setUserContentSectionItemModel(sectionItemModel))
+      let filterdModels = repositoryModels.filter { $0.uid != uid }.map{ SearchSectionItemModel.Cell(repositoryModel: $0) }
+      return .just(.setUserContentSectionItemModel(filterdModels))
     }
     .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
   }
 
-  private func mutatingLoadUser(item: SearchDisplayModel.SearchContentSectionItem.Item) -> Observable<Mutation> {
+  private func mutatingLoadUser(item: SearchSectionItemModel.Cell) -> Observable<Mutation> {
     router?.routeToSubProfile(uid: item.uid)
     return .empty()
   }

@@ -40,7 +40,7 @@ final class SearchViewController: ASDKViewController<SearchContainerNode>, Searc
     return .init{ _, object in
       switch object {
       case let .userContent(itemModel):
-        return SectionController<SearchUserContentSectionItemModel>(
+        return SectionController<SectionDisplayModel<EmptyItemModel, SearchSectionItemModel.Cell, EmptyItemModel>>(
           nodeForItemBlock: { SearchUserCellNode(item: $0) },
           selectedCellItemBlock: { item in
             listener?.action.onNext(.loadUser(item))
