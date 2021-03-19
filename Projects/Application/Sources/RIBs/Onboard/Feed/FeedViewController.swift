@@ -8,22 +8,12 @@ import RxTexture2
 import RxViewController
 import UIKit
 
-// MARK: - FeedPresentableAction
-
-enum FeedPresentableAction {
-  case load
-  case loading(Bool)
-}
-
 // MARK: - FeedPresentableListener
 
 protocol FeedPresentableListener: AnyObject {
-  typealias Action = FeedPresentableAction
-  typealias State = FeedDisplayModel.State
-
-  var action: ActionSubject<Action> { get }
-  var state: Observable<State> { get }
-  var currentState: State { get }
+  var action: ActionSubject<FeedDisplayModel.Action> { get }
+  var state: Observable<FeedDisplayModel.State> { get }
+  var currentState: FeedDisplayModel.State { get }
 }
 
 // MARK: - FeedViewController

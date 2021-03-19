@@ -44,15 +44,6 @@ final class PostInteractor: PresentableInteractor<PostPresentable>, PostInteract
 
   // MARK: Internal
 
-  typealias Action = PostPresentableAction
-  typealias State = PostDisplayModel.State
-
-  enum Mutation: Equatable {
-    case setCaption(String)
-    case setLoading(Bool)
-    case setError(String)
-  }
-
   weak var router: PostRouting?
   weak var listener: PostListener?
   var initialState: PostDisplayModel.State
@@ -66,6 +57,10 @@ final class PostInteractor: PresentableInteractor<PostPresentable>, PostInteract
 extension PostInteractor: PostPresentableListener, Reactor {
 
   // MARK: Internal
+
+  typealias Action = PostDisplayModel.Action
+  typealias State = PostDisplayModel.State
+  typealias Mutation = PostDisplayModel.Mutation
 
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {

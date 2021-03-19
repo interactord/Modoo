@@ -4,23 +4,11 @@ import RIBs
 import RxSwift
 import UIKit
 
-// MARK: - PostPresentableAction
-
-enum PostPresentableAction: Equatable {
-  case cancel
-  case typingCaption(String)
-  case share
-  case loading(Bool)
-}
-
 // MARK: - PostPresentableListener
 
 protocol PostPresentableListener: AnyObject {
-  typealias Action = PostPresentableAction
-  typealias State = PostDisplayModel.State
-
-  var action: ActionSubject<Action> { get }
-  var state: Observable<State> { get }
+  var action: ActionSubject<PostDisplayModel.Action> { get }
+  var state: Observable<PostDisplayModel.State> { get }
 }
 
 // MARK: - PostViewController

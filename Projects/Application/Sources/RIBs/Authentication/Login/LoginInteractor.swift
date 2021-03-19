@@ -43,15 +43,6 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
 
   // MARK: Internal
 
-  typealias Action = LoginPresentableAction
-  typealias State = LoginDisplayModel.State
-
-  enum Mutation: Equatable {
-    case setLoginState(FormLoginReactor.State)
-    case setError(String)
-    case setLoading(Bool)
-  }
-
   weak var router: LoginRouting?
   weak var listener: LoginListener?
 
@@ -65,6 +56,10 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
 extension LoginInteractor: LoginPresentableListener, Reactor {
 
   // MARK: Internal
+
+  typealias Action = LoginDisplayModel.Action
+  typealias State = LoginDisplayModel.State
+  typealias Mutation = LoginDisplayModel.Mutation
 
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {

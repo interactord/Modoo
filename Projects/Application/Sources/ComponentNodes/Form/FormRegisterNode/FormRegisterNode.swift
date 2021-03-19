@@ -154,7 +154,7 @@ extension FormRegisterNode {
 extension FormRegisterNode: FormRegisterNodeViewable {
   var node: ASScrollNode { self }
 
-  var stateStream: Observable<RegisterDisplayModel.FormState> {
+  var stateStream: Observable<FormRegisterReactor.State> {
     reactor?.state ?? .empty()
   }
 

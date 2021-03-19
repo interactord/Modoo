@@ -27,7 +27,7 @@ final class SubProfileInteractor: PresentableInteractor<SubProfilePresentable>, 
 
   init(
     presenter: SubProfilePresentable,
-    initialState: ProfileDisplayModel.State,
+    initialState: SubProfileDisplayModel.State,
     userUseCase: UserUseCase,
     postUseCase: PostUseCase,
     uid: String)
@@ -46,21 +46,10 @@ final class SubProfileInteractor: PresentableInteractor<SubProfilePresentable>, 
 
   // MARK: Internal
 
-  typealias Action = SubProfilePresentableAction
-  typealias State = ProfileDisplayModel.State
-
-  enum Mutation: Equatable {
-    case setUserProfile(ProfileDisplayModel.InformationSectionItem)
-    case setPosts([ProfileDisplayModel.MediaContentSectionItem.CellItem])
-    case setError(String)
-    case setLoading(Bool)
-    case setFollow(Bool)
-  }
-
   weak var router: SubProfileRouting?
   weak var listener: SubProfileListener?
 
-  var initialState: ProfileDisplayModel.State
+  var initialState: SubProfileDisplayModel.State
 
   // MARK: Private
 
@@ -75,6 +64,10 @@ final class SubProfileInteractor: PresentableInteractor<SubProfilePresentable>, 
 extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
 
   // MARK: Internal
+
+  typealias Action = SubProfileDisplayModel.Action
+  typealias State = SubProfileDisplayModel.State
+  typealias Mutation = SubProfileDisplayModel.Mutation
 
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {

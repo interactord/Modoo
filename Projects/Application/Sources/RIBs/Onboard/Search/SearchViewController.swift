@@ -8,24 +8,11 @@ import RxTexture2
 import RxViewController
 import UIKit
 
-// MARK: - SearchPresentableAction
-
-enum SearchPresentableAction: Equatable {
-  case load
-  case typingSearch(String)
-  case loading(Bool)
-  case loadUser(SearchDisplayModel.SearchContentSectionItem.Item)
-}
-
 // MARK: - SearchPresentableListener
 
 protocol SearchPresentableListener: AnyObject {
-  typealias Action = SearchPresentableAction
-  typealias State = SearchDisplayModel.State
-
-  var action: ActionSubject<Action> { get }
-  var state: Observable<State> { get }
-  var currentState: State { get }
+  var action: ActionSubject<SearchDisplayModel.Action> { get }
+  var state: Observable<SearchDisplayModel.State> { get }
 }
 
 // MARK: - SearchViewController

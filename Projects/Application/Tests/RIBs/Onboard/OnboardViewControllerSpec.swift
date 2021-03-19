@@ -76,7 +76,7 @@ class OnboardViewControllerSpec: QuickSpec {
           }
 
           it("인터렉션으로 postImage가 전달된다") {
-            expect(interactor.stub.actions.last) == OnboardPresentableAction.postImage(imageMock)
+            expect(interactor.stub.actions.last) == OnboardDisplayModel.Action.postImage(imageMock)
           }
         }
       }

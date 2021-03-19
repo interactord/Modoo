@@ -13,7 +13,7 @@ class SubProfileBuildableMock: Builder<SubProfileDependency> {
 
   // MARK: Fileprivate
 
-  fileprivate var initailState: ProfileDisplayModel.State { .initialState() }
+  fileprivate var initailState: SubProfileDisplayModel.State { .initialState() }
 
   fileprivate var userUseCase: UserUseCase {
     FirebaseUserUseCase(

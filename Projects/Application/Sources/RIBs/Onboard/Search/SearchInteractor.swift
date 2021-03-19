@@ -43,16 +43,6 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable> {
 
   // MARK: Internal
 
-  typealias Action = SearchPresentableAction
-  typealias State = SearchDisplayModel.State
-
-  enum Mutation: Equatable {
-    case setLoading(Bool)
-    case setError(String)
-    case setUserContentSectionItemModel(SearchDisplayModel.SearchContentSectionItem)
-    case setSearch(String)
-  }
-
   weak var router: SearchRouting?
   weak var listener: SearchListener?
 
@@ -74,6 +64,10 @@ extension SearchInteractor: SearchInteractable {
 extension SearchInteractor: SearchPresentableListener, Reactor {
 
   // MARK: Internal
+
+  typealias Action = SearchDisplayModel.Action
+  typealias State = SearchDisplayModel.State
+  typealias Mutation = SearchDisplayModel.Mutation
 
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {

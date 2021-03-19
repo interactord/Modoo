@@ -21,6 +21,14 @@ final class FormRegisterReactor {
     case isAllInputValid(Bool)
   }
 
+  struct State: Equatable {
+    var email = ""
+    var password = ""
+    var fullName = ""
+    var userName = ""
+    var isAllInputValid = false
+  }
+
   enum Mutation {
     case setEmail(String)
     case setPassword(String)
@@ -28,8 +36,6 @@ final class FormRegisterReactor {
     case setUserName(String)
     case setIsAllInputValid(Bool)
   }
-
-  typealias State = RegisterDisplayModel.FormState
 
   var initialState: State = .init()
 }

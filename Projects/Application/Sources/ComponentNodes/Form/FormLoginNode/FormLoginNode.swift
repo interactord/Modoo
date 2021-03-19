@@ -106,7 +106,7 @@ extension FormLoginNode {
 extension FormLoginNode: FormLoginNodeViewable {
   var node: ASScrollNode { self }
 
-  var stateStream: Observable<LoginDisplayModel.FormState> {
+  var stateStream: Observable<FormLoginReactor.State> {
     reactor?.state ?? .empty()
   }
 

@@ -41,15 +41,6 @@ final class FeedInteractor: PresentableInteractor<FeedPresentable>, FeedInteract
 
   // MARK: Internal
 
-  typealias Action = FeedPresentableAction
-  typealias State = FeedDisplayModel.State
-
-  enum Mutation: Equatable {
-    case setPostContentSectionItem(FeedDisplayModel.PostContentSectionItem)
-    case setLoading(Bool)
-    case setError(String)
-  }
-
   weak var router: FeedRouting?
   weak var listener: FeedListener?
 
@@ -63,6 +54,10 @@ final class FeedInteractor: PresentableInteractor<FeedPresentable>, FeedInteract
 extension FeedInteractor: FeedPresentableListener, Reactor {
 
   // MARK: Internal
+
+  typealias Action = FeedDisplayModel.Action
+  typealias Mutation = FeedDisplayModel.Mutation
+  typealias State = FeedDisplayModel.State
 
   func mutate(action: Action) -> Observable<Mutation> {
     switch action {
