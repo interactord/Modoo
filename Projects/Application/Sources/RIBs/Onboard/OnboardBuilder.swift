@@ -7,7 +7,7 @@ protocol OnboardDependency: Dependency {}
 // MARK: - OnboardComponent
 
 final class OnboardComponent: Component<OnboardDependency> {
-  fileprivate var initailState: OnboardDisplayModel.State { .initialState() }
+  fileprivate var initailState: OnboardDisplayModel.State { .defaultValue() }
   fileprivate var postMediaPickerUseCase: PostMediaPickerUseCase {
     YPPostMediaPickerUseCase()
   }

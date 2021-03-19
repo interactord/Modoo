@@ -2,10 +2,10 @@ import Foundation
 
 enum SubFeedDisplayModel {
 
-  struct State: PresentableState {
+  struct State: DefaultValueUsable {
     var userName: String
 
-    static func initialState() -> State {
+    static func defaultValue() -> Self {
       State(userName: "")
     }
   }

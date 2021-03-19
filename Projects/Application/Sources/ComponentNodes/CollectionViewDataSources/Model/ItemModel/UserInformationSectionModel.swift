@@ -1,7 +1,7 @@
 import Foundation
 
 enum UserInformationSectionModel {
-  struct Header: Equatable, Defaultable {
+  struct Header: Equatable, DefaultValueUsable {
 
     // MARK: Lifecycle
 
@@ -35,7 +35,7 @@ enum UserInformationSectionModel {
     var bioDescription: String
     var isFollowed: Bool
 
-    static func `default`() -> Self {
+    static func defaultValue() -> Self {
       Self.init()
     }
   }

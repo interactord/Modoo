@@ -3,7 +3,7 @@ import IGListKit
 // MARK: - ProfileContentSectionItemModel
 
 enum FeedContentSectionModel {
-  struct Cell: Equatable, Defaultable {
+  struct Cell: Equatable, DefaultValueUsable {
 
     // MARK: Lifecycle
 
@@ -48,7 +48,7 @@ enum FeedContentSectionModel {
       return formatter.string(from: Date(timeIntervalSince1970: timestamp), to: Date()) ?? ""
     }
 
-    static func `default`() -> Self {
+    static func defaultValue() -> Self {
       Self.init()
     }
   }

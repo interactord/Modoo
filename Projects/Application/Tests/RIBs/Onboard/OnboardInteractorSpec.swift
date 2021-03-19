@@ -19,7 +19,7 @@ class OnboardInteractorSpec: QuickSpec {
     beforeEach {
       viewController = OnboardViewControllableMock()
       listener = OnboardListenerMock()
-      let state = OnboardDisplayModel.State.initialState()
+      let state = OnboardDisplayModel.State.defaultValue()
       interactor = OnboardInteractor(presenter: viewController, initialState: state)
       router = OnboardRoutingMock(
         interactable: interactor,

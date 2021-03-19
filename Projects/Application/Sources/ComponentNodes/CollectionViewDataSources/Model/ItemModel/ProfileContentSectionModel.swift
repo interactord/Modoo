@@ -9,19 +9,19 @@ enum ProfileContentSectionModel {
     case bookmark
   }
 
-  struct Header: Equatable, Defaultable {
+  struct Header: Equatable, DefaultValueUsable {
     var type = HeaderType.grid
 
-    static func `default`() -> Self {
+    static func defaultValue() -> Self {
       Self.init()
     }
   }
 
-  struct Cell: Equatable, Defaultable {
+  struct Cell: Equatable, DefaultValueUsable {
     let id: String
     let imageURL: String
 
-    static func `default`() -> Self {
+    static func defaultValue() -> Self {
       Self.init(id: "", imageURL: "")
     }
   }

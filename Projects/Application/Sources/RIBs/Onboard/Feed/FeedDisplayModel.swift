@@ -13,13 +13,13 @@ enum FeedDisplayModel {
     case setError(String)
   }
 
-  struct State: PresentableState {
+  struct State: Equatable, DefaultValueUsable {
     var postContentSectionModel: SectionDisplayModel<EmptyItemModel, FeedContentSectionModel.Cell, EmptyItemModel>
     var isLoading: Bool
     var errorMessage: String
 
-    static func initialState() -> State {
-      State(postContentSectionModel: .default(), isLoading: false, errorMessage: "")
+    static func defaultValue() -> Self {
+      State(postContentSectionModel: .defaultValue(), isLoading: false, errorMessage: "")
     }
   }
 }

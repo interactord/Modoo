@@ -8,7 +8,7 @@ protocol SubFeedDependency: Dependency {
 // MARK: - SubFeedComponent
 
 final class SubFeedComponent: Component<SubFeedDependency> {
-  fileprivate var initailState: SubFeedDisplayModel.State { .initialState() }
+  fileprivate var initailState: SubFeedDisplayModel.State { .defaultValue() }
 }
 
 // MARK: - SubFeedBuildable

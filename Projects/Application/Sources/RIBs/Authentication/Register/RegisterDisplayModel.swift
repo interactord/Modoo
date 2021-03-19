@@ -17,13 +17,13 @@ enum RegisterDisplayModel {
     case setError(String)
   }
 
-  struct State: Equatable, PresentableState {
+  struct State: Equatable, DefaultValueUsable {
     var photo: UIImage?
     var formState: FormRegisterReactor.State
     var errorMessage: String
     var isLoading: Bool
 
-    static func initialState() -> Self {
+    static func defaultValue() -> Self {
       State(
         photo: nil,
         formState: .init(),

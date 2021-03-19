@@ -8,7 +8,7 @@ protocol SubProfileDependency: Dependency {
 // MARK: - SubProfileComponent
 
 final class SubProfileComponent: Component<SubProfileDependency> {
-  fileprivate var initialState: SubProfileDisplayModel.State { .initialState() }
+  fileprivate var initialState: SubProfileDisplayModel.State { .defaultValue() }
   fileprivate var userUseCase: UserUseCase {
     FirebaseUserUseCase(
       authenticating: FirebaseAuthentication(),

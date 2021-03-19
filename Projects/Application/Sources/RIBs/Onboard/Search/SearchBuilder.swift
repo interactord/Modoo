@@ -8,7 +8,7 @@ protocol SearchDependency: Dependency {
 // MARK: - SearchComponent
 
 final class SearchComponent: Component<SearchDependency> {
-  fileprivate var initailState: SearchDisplayModel.State { .initialState() }
+  fileprivate var initailState: SearchDisplayModel.State { .defaultValue() }
   fileprivate var userUseCase: UserUseCase {
     FirebaseUserUseCase(
       authenticating: FirebaseAuthentication(),

@@ -15,13 +15,13 @@ enum LoginDisplayModel {
     case setLoading(Bool)
   }
 
-  struct State: Equatable, PresentableState {
+  struct State: Equatable, DefaultValueUsable {
 
     var formState: FormLoginReactor.State
     var isLoading: Bool
     var errorMessage: String
 
-    static func initialState() -> Self {
+    static func defaultValue() -> Self {
       State(formState: .init(), isLoading: false, errorMessage: "")
     }
   }

@@ -13,7 +13,7 @@ class PostBuildableMock: Builder<PostDependency> {
 
   // MARK: Fileprivate
 
-  fileprivate var initialState: SearchDisplayModel.State { .initialState() }
+  fileprivate var initialState: SearchDisplayModel.State { .defaultValue() }
   fileprivate var userUseCase: UserUseCase {
     FirebaseUserUseCase(
       authenticating: FirebaseAuthentication(),

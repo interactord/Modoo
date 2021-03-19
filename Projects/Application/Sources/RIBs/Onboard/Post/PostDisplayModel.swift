@@ -15,13 +15,13 @@ enum PostDisplayModel {
     case setError(String)
   }
 
-  struct State: Equatable, PresentableState {
+  struct State: Equatable, DefaultValueUsable {
     var photo: UIImage
     var caption: String
     var isLoading: Bool
     var errorMessage: String
 
-    static func initialState() -> State {
+    static func defaultValue() -> Self {
       State(
         photo: .init(),
         caption: "",

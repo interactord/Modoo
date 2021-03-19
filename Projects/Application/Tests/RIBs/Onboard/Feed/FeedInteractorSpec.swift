@@ -14,7 +14,7 @@ class FeedInteractorSpec: QuickSpec {
 
     beforeEach {
       viewController = FeedViewControllableMock()
-      let state = FeedDisplayModel.State.initialState()
+      let state = FeedDisplayModel.State.defaultValue()
       postUseCase = FirebasePostUseCaseMock()
       interactor = FeedInteractor(
         presenter: viewController,

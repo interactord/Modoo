@@ -32,7 +32,7 @@ class OnboardViewControllerSpec: QuickSpec {
       ]
       interactor = OnboardInteractor(
         presenter: viewController,
-        initialState: .initialState())
+        initialState: .defaultValue())
       interactor.isStubEnabled = true
       router = OnboardRoutingMock(interactable: interactor, viewControllable: viewController)
       interactor.router = router

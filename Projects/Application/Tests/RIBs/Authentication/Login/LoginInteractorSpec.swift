@@ -18,7 +18,7 @@ class LoginInteractorSpec: QuickSpec {
 
     beforeEach {
       viewController = LoginViewControllableMock()
-      let state = LoginDisplayModel.State.initialState()
+      let state = LoginDisplayModel.State.defaultValue()
       authenticationUseCaseMock = FirebaseAuthenticationUseCaseMock()
       interactor = LoginInteractor(
         presenter: viewController,

@@ -6,9 +6,9 @@ enum OnboardDisplayModel {
     case postImage(UIImage)
   }
 
-  struct State: Equatable, PresentableState {
+  struct State: Equatable, DefaultValueUsable {
 
-    static func initialState() -> State {
+    static func defaultValue() -> Self {
       State()
     }
   }

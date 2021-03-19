@@ -14,7 +14,7 @@ class FeedBuildableMock: Builder<FeedDependency> {
 
   // MARK: Fileprivate
 
-  fileprivate var initialState: FeedDisplayModel.State { .initialState() }
+  fileprivate var initialState: FeedDisplayModel.State { .defaultValue() }
   fileprivate var postUseCase: PostUseCase {
     FirebasePostUseCase(
       apiNetworking: FirebaseAPINetwork(),

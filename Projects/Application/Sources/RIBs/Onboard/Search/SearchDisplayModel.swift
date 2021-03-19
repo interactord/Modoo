@@ -26,13 +26,13 @@ enum SearchDisplayModel {
     case setSearch(String)
   }
 
-  struct State: PresentableState {
+  struct State: DefaultValueUsable {
     var userContentSectionItemModel: SearchUserContentSectionItemModel
     var tempUserContentSectionItemModel: SearchUserContentSectionItemModel
     var isLoading: Bool
     var errorMessage: String
 
-    static func initialState() -> State {
+    static func defaultValue() -> Self {
       let userContentSectionItemModel = SearchUserContentSectionItemModel()
       return State(
         userContentSectionItemModel: userContentSectionItemModel,

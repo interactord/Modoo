@@ -1,7 +1,7 @@
 import Foundation
 import IGListKit
 
-final class SectionDisplayModel<HeaderItem: Equatable & Defaultable, CellItem: Equatable & Defaultable, FooterItem: Equatable & Defaultable>: SectionDisplayModeling, ListDiffable, Equatable, Defaultable {
+final class SectionDisplayModel<HeaderItem: Equatable & DefaultValueUsable, CellItem: Equatable & DefaultValueUsable, FooterItem: Equatable & DefaultValueUsable>: SectionDisplayModeling, ListDiffable, Equatable, DefaultValueUsable {
 
   // MARK: Lifecycle
 
@@ -37,8 +37,8 @@ final class SectionDisplayModel<HeaderItem: Equatable & Defaultable, CellItem: E
     lhs.isEqual(toDiffableObject: rhs)
   }
 
-  static func `default`() -> Self {
-    Self.init(sectionID: UUID().uuidString, headerItem: .default(), cellItems: [], footerItem: .default())
+  static func defaultValue() -> Self {
+    Self.init(sectionID: UUID().uuidString, headerItem: .defaultValue(), cellItems: [], footerItem: .defaultValue())
   }
 
   func diffIdentifier() -> NSObjectProtocol {

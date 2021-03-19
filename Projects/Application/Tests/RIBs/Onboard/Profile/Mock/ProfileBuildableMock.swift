@@ -13,7 +13,7 @@ class ProfileBuildableMock: Builder<ProfileDependency> {
 
   // MARK: Fileprivate
 
-  fileprivate var initialState: ProfileDisplayModel.State { .initialState() }
+  fileprivate var initialState: ProfileDisplayModel.State { .defaultValue() }
   fileprivate var userUseCase: UserUseCase {
     FirebaseUserUseCase(
       authenticating: FirebaseAuthentication(),
