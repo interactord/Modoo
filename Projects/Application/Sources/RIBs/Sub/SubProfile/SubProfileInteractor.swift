@@ -88,22 +88,18 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
     var newState = state
 
     switch mutation {
-    case let .setUserProfile(informationSectionItem):
-      let sectionID = state.informationSectionItemModel.sectionID
-      newState.informationSectionItemModel = .init(sectionID: sectionID, sectionItem: informationSectionItem)
+    case let .setUserProfile(headerItem):
+      newState.informationSectionItemModel = .init(headerItem: headerItem, original: state.informationSectionItemModel)
     case let .setPosts(cellItems):
-      let sectionID = state.contentsSectionItemModel.sectionID
-      let newSectionItem = ProfileDisplayModel.MediaContentSectionItem(headerItem: state.contentsSectionItemModel.headerItem, cellItems: cellItems)
-      newState.contentsSectionItemModel = .init(sectionID: sectionID, sectionItem: newSectionItem)
+      newState.contentsSectionItemModel = .init(cellItems: cellItems, original: state.contentsSectionItemModel)
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
     case let .setError(message):
       newState.errorMessage = message
     case let .setFollow(isFollow):
-      let sectionID = state.informationSectionItemModel.sectionID
       var headerItem = newState.informationSectionItemModel.headerItem
       headerItem.isFollowed = isFollow
-      newState.informationSectionItemModel = .init(sectionID: sectionID, sectionItem: .init(headerItem: headerItem))
+      newState.informationSectionItemModel = .init(headerItem: headerItem, original: state.informationSectionItemModel)
     }
 
     return newState
@@ -121,11 +117,11 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
       userUseCase.fetchUserSocial(uid: uid),
       postUseCase.fetchPosts(uid: uid))
       .flatMap { userModel, socialModel, postModels -> Observable<Mutation> in
-        let infomationModel = ProfileDisplayModel.InformationSectionItem(
+        let infomationModel = UserInformationSectionModel.Header(
           userRepositoryModel: userModel,
           socialRepositoryModel: socialModel,
           postCount: postModels.count)
-        let postItems = postModels.map{ ProfileDisplayModel.MediaContentSectionItem.CellItem(id: $0.id, imageURL: $0.imageURL) }
+        let postItems = postModels.map{ ProfileContentSectionModel.Cell(id: $0.id, imageURL: $0.imageURL) }
         return .concat([
           .just(.setUserProfile(infomationModel)),
           .just(.setPosts(postItems)),

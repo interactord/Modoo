@@ -39,12 +39,12 @@ final class ProfileViewController: ASDKViewController<ProfileContainerNode>, Pro
     return .init { _, object in
 
       switch object {
-      case let .userInformationSummery(itemModel):
-        return SectionController<ProfileInformationSectionItemModel>(
+      case let .information(itemModel):
+        return SectionController<SectionDisplayModel<UserInformationSectionModel.Header, EmptyItemModel, EmptyItemModel>>(
           elementKindTypes: [.header],
           supplementaryViewHeaderBlockType: { ProfileInformationCellNode(item: $0) })
       case let .userContent(itemModel):
-        let sectionController = SectionController<ProfileContentSectionItemModel>(
+        let sectionController = SectionController<SectionDisplayModel<ProfileContentSectionModel.Header, ProfileContentSectionModel.Cell, EmptyItemModel>>(
           elementKindTypes: [.header],
           supplementaryViewHeaderBlockType: { _ in ProfileSubMenuCellNode() },
           sizeForItemWidthBlock: { (UIScreen.main.bounds.width - 2) / 3 },
@@ -83,7 +83,7 @@ extension ProfileViewController: ListenerBindable {
   func bindState(listener: ProfilePresentableListener) {
     listener.state
       .map {[
-        ProfileSectionModel.userInformationSummery(itemModel: $0.informationSectionItemModel),
+        ProfileSectionModel.information(itemModel: $0.informationSectionItemModel),
         ProfileSectionModel.userContent(itemModel: $0.contentsSectionItemModel),
       ]}
       .bind(to: adapter.rx.objects(for: dataSource))

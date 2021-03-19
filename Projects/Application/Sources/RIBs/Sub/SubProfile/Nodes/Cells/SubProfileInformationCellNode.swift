@@ -7,7 +7,7 @@ final class SubProfileInformationCellNode: ASCellNode {
 
   // MARK: Lifecycle
 
-  init(item: ProfileDisplayModel.InformationSectionItem.HeaderItem) {
+  init(item: UserInformationSectionModel.Header) {
     self.item = item
     super.init()
     automaticallyManagesSubnodes = true
@@ -36,7 +36,7 @@ final class SubProfileInformationCellNode: ASCellNode {
     static let contentPadding = UIEdgeInsets(top: 12, left: 12, bottom: 0, right: 12)
   }
 
-  private let item: ProfileDisplayModel.InformationSectionItem.HeaderItem
+  private let item: UserInformationSectionModel.Header
 
 }
 

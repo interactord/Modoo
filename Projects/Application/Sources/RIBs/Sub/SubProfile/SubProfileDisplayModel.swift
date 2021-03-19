@@ -11,22 +11,22 @@ enum SubProfileDisplayModel {
   }
 
   enum Mutation: Equatable {
-    case setUserProfile(ProfileDisplayModel.InformationSectionItem)
-    case setPosts([ProfileDisplayModel.MediaContentSectionItem.CellItem])
+    case setUserProfile(UserInformationSectionModel.Header)
+    case setPosts([ProfileContentSectionModel.Cell])
     case setError(String)
     case setLoading(Bool)
     case setFollow(Bool)
   }
 
   struct State: PresentableState {
-    var informationSectionItemModel: ProfileInformationSectionItemModel
-    var contentsSectionItemModel: ProfileContentSectionItemModel
+    var informationSectionItemModel: SectionDisplayModel<UserInformationSectionModel.Header, EmptyItemModel, EmptyItemModel>
+    var contentsSectionItemModel: SectionDisplayModel<ProfileContentSectionModel.Header, ProfileContentSectionModel.Cell, EmptyItemModel>
     var isLoading: Bool
     var errorMessage: String
 
     static func initialState() -> Self {
-      let informationSectionItemModel = ProfileInformationSectionItemModel()
-      let contentsSectionItemModel = ProfileContentSectionItemModel()
+      let informationSectionItemModel = SectionDisplayModel<UserInformationSectionModel.Header, EmptyItemModel, EmptyItemModel>.default()
+      let contentsSectionItemModel = SectionDisplayModel<ProfileContentSectionModel.Header, ProfileContentSectionModel.Cell, EmptyItemModel>.default()
       return State(
         informationSectionItemModel: informationSectionItemModel,
         contentsSectionItemModel: contentsSectionItemModel,
