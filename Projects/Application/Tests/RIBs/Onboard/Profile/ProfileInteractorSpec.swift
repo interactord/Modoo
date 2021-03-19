@@ -145,7 +145,7 @@ class ProfileInteractorSpec: QuickSpec {
 
       context("피드 로드 액션이 발생한 경우") {
         beforeEach {
-          interactor.action.onNext(.loadPost(.init(id: "test", imageURL: "")))
+          interactor.action.onNext(.loadPost(.defaultValue()))
         }
 
         it("listMock의 routeToSubFeed가 불린다") {

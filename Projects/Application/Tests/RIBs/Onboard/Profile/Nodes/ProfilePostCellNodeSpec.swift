@@ -9,7 +9,7 @@ class ProfilePostCellNodeSpec: QuickSpec {
     var node: ProfilePostCellNode!
 
     beforeEach {
-      node = ProfilePostCellNode(item: .init(id: "test", imageURL: ""))
+      node = ProfilePostCellNode(item: .defaultValue())
     }
     afterEach {
       node = nil

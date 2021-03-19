@@ -17,7 +17,7 @@ protocol ProfilePresentable: Presentable {
 
 protocol ProfileListener: AnyObject {
   func routeToAuthentication()
-  func routeToSubFeed()
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell)
 }
 
 // MARK: - ProfileInteractor
@@ -111,7 +111,7 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
           userRepositoryModel: userModel,
           socialRepositoryModel: socialModel,
           postCount: postModels.count)
-        let postItems = postModels.map{ ProfileContentSectionModel.Cell(id: $0.id, imageURL: $0.imageURL) }
+        let postItems = postModels.map{ ProfileContentSectionModel.Cell(uid: uid, postRepositoryModel: $0) }
         return .concat([
           .just(.setUserProfile(infomationModel)),
           .just(.setPosts(postItems)),
@@ -128,7 +128,7 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
   }
 
   private func mutatingLoadPost(model: ProfileContentSectionModel.Cell) -> Observable<Mutation> {
-    listener?.routeToSubFeed()
+    listener?.routeToSubFeed(model: model)
     return .empty()
   }
 }

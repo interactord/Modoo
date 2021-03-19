@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - PostReposityModel
 
-struct PostReposityModel: Decodable, DictionaryModelType {
+struct PostReposityModel: Decodable, DictionaryModelType, DefaultValueUsable {
   let id: String
   let caption: String
   let likes: Int
@@ -11,6 +11,10 @@ struct PostReposityModel: Decodable, DictionaryModelType {
   let ownerProfileImageURL: String
   let ownerUserName: String
   let timestamp: TimeInterval
+
+  static func defaultValue() -> PostReposityModel {
+    Self.init(id: "", caption: "", likes: 0, imageURL: "", ownerUID: "", ownerProfileImageURL: "", ownerUserName: "", timestamp: .zero)
+  }
 }
 
 // MARK: Equatable

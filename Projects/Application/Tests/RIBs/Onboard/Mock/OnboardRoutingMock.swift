@@ -35,7 +35,7 @@ extension OnboardRoutingMock: OnboardRouting {
     routeToCloseHandler?()
   }
 
-  func routeToSubFeed() {
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
     routeToSubFeedCallCount += 1
     routeToSubFeedHandler?()
   }

@@ -8,7 +8,6 @@ protocol SubFeedDependency: Dependency {
 // MARK: - SubFeedComponent
 
 final class SubFeedComponent: Component<SubFeedDependency> {
-  fileprivate var initailState: SubFeedDisplayModel.State { .defaultValue() }
 
   fileprivate var postUseCase: PostUseCase {
     FirebasePostUseCase(
@@ -20,7 +19,7 @@ final class SubFeedComponent: Component<SubFeedDependency> {
 // MARK: - SubFeedBuildable
 
 protocol SubFeedBuildable: Buildable {
-  func build(withListener listener: SubFeedListener) -> SubFeedRouting
+  func build(withListener listener: SubFeedListener, model: ProfileContentSectionModel.Cell) -> SubFeedRouting
 }
 
 // MARK: - SubFeedBuilder
@@ -39,12 +38,13 @@ final class SubFeedBuilder: Builder<SubFeedDependency>, SubFeedBuildable {
 
   // MARK: Internal
 
-  func build(withListener listener: SubFeedListener) -> SubFeedRouting {
+  func build(withListener listener: SubFeedListener, model: ProfileContentSectionModel.Cell) -> SubFeedRouting {
     let component = SubFeedComponent(dependency: dependency)
     let viewController = SubFeedViewController(node: .init())
+    let state = SubFeedDisplayModel.State(cellModel: model, postContentSectionModel: .defaultValue(), isLoading: false, errorMessage: "")
     let interactor = SubFeedInteractor(
       presenter: viewController,
-      initialState: component.initailState,
+      initialState: state,
       postUseCase: component.postUseCase)
     interactor.listener = listener
     return SubFeedRouter(interactor: interactor, viewController: viewController)

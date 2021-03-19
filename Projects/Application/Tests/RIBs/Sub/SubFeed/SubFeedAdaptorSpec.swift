@@ -26,7 +26,7 @@ class SubFeedAdaptorSpec: QuickSpec {
 
     describe("빌드가 되고 나서") {
       beforeEach {
-        _ = adapter.build(withListener: listener)
+        _ = adapter.build(withListener: listener, model: .defaultValue())
       }
 
       context("routeToClose 호출 시") {

@@ -40,7 +40,7 @@ class ProfileAdaptorSpec: QuickSpec {
 
       context("routeToSubFeed 호출 시") {
         beforeEach {
-          adapter.routeToSubFeed()
+          adapter.routeToSubFeed(model: .defaultValue())
         }
 
         it("authenticationListener routeToSubFeed가 불린다") {

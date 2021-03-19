@@ -14,13 +14,13 @@ enum SubFeedDisplayModel {
   }
 
   struct State: DefaultValueUsable {
-    var userName: String
+    let cellModel: ProfileContentSectionModel.Cell
     var postContentSectionModel: SectionDisplayModel<EmptyItemModel, FeedContentSectionModel.Cell, EmptyItemModel>
     var isLoading: Bool
     var errorMessage: String
 
     static func defaultValue() -> Self {
-      State(userName: "", postContentSectionModel: .defaultValue(), isLoading: false, errorMessage: "")
+      State(cellModel: .defaultValue(), postContentSectionModel: .defaultValue(), isLoading: false, errorMessage: "")
     }
   }
 }

@@ -28,8 +28,8 @@ extension ProfileBuilderAdapter: ProfileListener {
     listener?.routeToAuthentication()
   }
 
-  func routeToSubFeed() {
-    listener?.routeToSubFeed()
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
+    listener?.routeToSubFeed(model: model)
   }
 
 }

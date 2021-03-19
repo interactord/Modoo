@@ -18,11 +18,16 @@ enum ProfileContentSectionModel {
   }
 
   struct Cell: Equatable, DefaultValueUsable {
-    let id: String
-    let imageURL: String
+    let uid: String
+    let model: PostReposityModel
+
+    init(uid: String, postRepositoryModel: PostReposityModel) {
+      self.uid = uid
+      model = postRepositoryModel
+    }
 
     static func defaultValue() -> Self {
-      Self.init(id: "", imageURL: "")
+      Self.init(uid: "", postRepositoryModel: .defaultValue())
     }
   }
 }

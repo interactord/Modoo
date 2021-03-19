@@ -32,12 +32,12 @@ extension SubFeedBuilderAdapter: SubFeedListener {
 // MARK: SubFeedBuildable
 
 extension SubFeedBuilderAdapter: SubFeedBuildable {
-  func build(withListener listener: SubFeedListener) -> SubFeedRouting {
+  func build(withListener listener: SubFeedListener, model: ProfileContentSectionModel.Cell) -> SubFeedRouting {
     let component = Component(dependency: dependency)
     self.listener = listener
 
     let builder = SubFeedBuilder(dependency: component)
-    return builder.build(withListener: self)
+    return builder.build(withListener: self, model: model)
   }
 
 }
