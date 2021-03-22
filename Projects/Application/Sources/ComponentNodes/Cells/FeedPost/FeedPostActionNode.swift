@@ -1,4 +1,5 @@
 import AsyncDisplayKit
+import RxSwift
 
 // MARK: - FeedActionNode
 
@@ -94,5 +95,13 @@ extension FeedActionNode {
         commentButtonNode,
         shareButtonNode,
       ])
+  }
+}
+
+// MARK: - Stream
+
+extension FeedActionNode {
+  var commentTabStream: Observable<Void> {
+    commentButtonNode.rx.tap.asObservable()
   }
 }

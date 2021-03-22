@@ -68,6 +68,8 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
       return mutatingLoad(cellModel: currentState.cellModel)
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
+    case let .tabComment(item):
+      return mutatingComment(item: item)
     }
   }
 
@@ -111,6 +113,11 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
     .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
+  }
+
+  private func mutatingComment(item: FeedContentSectionModel.Cell) -> Observable<Mutation> {
+
+    .empty()
   }
 
 }

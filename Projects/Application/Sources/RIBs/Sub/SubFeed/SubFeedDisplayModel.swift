@@ -6,6 +6,7 @@ enum SubFeedDisplayModel {
     case tapClose
     case load
     case loading(Bool)
+    case tabComment(FeedContentSectionModel.Cell)
   }
 
   enum Mutation: Equatable {

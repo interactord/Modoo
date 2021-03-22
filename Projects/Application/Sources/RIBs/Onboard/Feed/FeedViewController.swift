@@ -37,11 +37,22 @@ final class FeedViewController: ASDKViewController<FeedContainerNode>, FeedPrese
   }()
 
   lazy var dataSource: RxListAdapterDataSource<FeedSectionModel> = {
-    .init { _, object in
+    weak var listener = self.listener
+    return .init { _, object in
       switch object {
       case let .postContent(itemModel):
         return SectionController<SectionDisplayModel<EmptyItemModel, FeedContentSectionModel.Cell, EmptyItemModel>>(
-          nodeForItemBlock: { FeedPostCellNode(item: $0) }
+          nodeForItemBlock: {
+            let node = FeedPostCellNode(item: $0)
+            if let listener = listener {
+              node.commentTabStream
+                .withUnretained(node)
+                .map{ .tabComment($0.0.item) }
+                .bind(to: listener.action)
+                .disposed(by: node.disposeBag)
+            }
+            return node
+          }
         )
       }
     }

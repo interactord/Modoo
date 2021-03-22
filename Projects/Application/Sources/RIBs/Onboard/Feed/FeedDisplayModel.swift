@@ -5,6 +5,7 @@ enum FeedDisplayModel {
   enum Action: Equatable {
     case load
     case loading(Bool)
+    case tabComment(FeedContentSectionModel.Cell)
   }
 
   enum Mutation: Equatable {

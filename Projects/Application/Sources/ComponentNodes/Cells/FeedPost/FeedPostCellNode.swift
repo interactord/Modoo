@@ -1,5 +1,6 @@
 import AsyncDisplayKit
 import BonMot
+import RxSwift
 
 // MARK: - FeedPostCellNode
 
@@ -36,6 +37,7 @@ final class FeedPostCellNode: ASCellNode {
     FeedPostDescriptionNode(item: item)
   }()
   let item: FeedContentSectionModel.Cell
+  let disposeBag = DisposeBag()
 
   // MARK: Private
 
@@ -63,5 +65,13 @@ extension FeedPostCellNode {
 
   func pictureAreaLayoutSpec() -> ASLayoutSpec {
     ASRatioLayoutSpec(ratio: 1 / 1.5, child: pictureImageNode)
+  }
+}
+
+// MARK: - Stream
+
+extension FeedPostCellNode {
+  var commentTabStream: Observable<Void> {
+    actionNode.commentTabStream
   }
 }
