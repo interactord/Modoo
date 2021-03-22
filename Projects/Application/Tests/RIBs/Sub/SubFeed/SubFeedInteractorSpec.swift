@@ -10,21 +10,25 @@ class SubFeedInteractorSpec: QuickSpec {
     // swiftlint:disable implicitly_unwrapped_optional
     var viewController: SubFeedViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
+    var postUseCase: FirebasePostUseCaseMock!
+    // swiftlint:disable implicitly_unwrapped_optional
     var listener: SubFeedListenerMock!
 
     beforeEach {
       viewController = SubFeedViewControllableMock()
       listener = SubFeedListenerMock()
+      postUseCase = FirebasePostUseCaseMock()
       interactor = SubFeedInteractor(
         presenter: viewController,
         initialState: .defaultValue(),
-        postUseCase: FirebasePostUseCaseMock())
+        postUseCase: postUseCase)
       interactor.listener = listener
     }
     afterEach {
       interactor = nil
       viewController = nil
       listener = nil
+      postUseCase = nil
     }
 
     describe("활성화 이후") {
@@ -42,6 +46,50 @@ class SubFeedInteractorSpec: QuickSpec {
 
         it("listener routeToClose가 호출 된다") {
           expect(listener.routeToCloseCallCount) == 1
+        }
+      }
+
+      context("현재 로딩중일 경우") {
+        beforeEach {
+          interactor.action.onNext(.loading(true))
+        }
+
+        context("load 액션이 들어올 경우") {
+          beforeEach {
+            interactor.action.onNext(.load)
+          }
+
+          it("PostUseCase fetchPosts를 호출하지 않는다") {
+            expect(postUseCase.fetchPostsCallCount) == 0
+          }
+        }
+      }
+
+      context("현재 로딩중이 아닐 경우") {
+        beforeEach {
+          interactor.action.onNext(.loading(false))
+        }
+
+        context("load 액션이 들어오고 PostUseCase에서 에러가 발생하면") {
+          beforeEach {
+            postUseCase.networkState = .failed
+            interactor.action.onNext(.load)
+          }
+
+          it("state error message는 빈값이 아니다") {
+            expect(interactor.currentState.errorMessage).toNotEventually(equal(""), timeout: TestUtil.Const.timeout)
+          }
+        }
+
+        context("load 액션이 들어오고 PostUseCase에서 에러가 발생하지 않는다면") {
+          beforeEach {
+            postUseCase.networkState = .succeed
+            interactor.action.onNext(.load)
+          }
+
+          it("state error message는 빈값이다") {
+            expect(interactor.currentState.errorMessage).toEventually(equal(""), timeout: TestUtil.Const.timeout)
+          }
         }
       }
     }

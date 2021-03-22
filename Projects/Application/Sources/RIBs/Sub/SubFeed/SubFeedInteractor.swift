@@ -65,10 +65,27 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
     case .tapClose:
       return mutatingTabClose()
     case .load:
-      return mutatingLoading()
+      return mutatingLoad(cellModel: currentState.cellModel)
     case let .loading(isLoading):
       return .just(.setLoading(isLoading))
     }
+  }
+
+  func reduce(state: SubFeedDisplayModel.State, mutation: SubFeedDisplayModel.Mutation) -> SubFeedDisplayModel.State {
+    var newState = state
+
+    switch mutation {
+    case let .setError(errorMessage):
+      newState.errorMessage = errorMessage
+    case let .setLoading(isLoading):
+      newState.isLoading = isLoading
+    case let .setPostContentCellItems(items):
+      newState.postContentSectionModel = .init(cellItems: items, original: state.postContentSectionModel)
+    case  let .setFocusIndex(index):
+      newState.focusIndex = index
+    }
+
+    return newState
   }
 
   // MARK: Private
@@ -78,7 +95,22 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
     return .empty()
   }
 
-  private func mutatingLoading() -> Observable<Mutation> {
-    .empty()
+  private func mutatingLoad(cellModel: ProfileContentSectionModel.Cell) -> Observable<Mutation> {
+    guard !currentState.isLoading else { return .empty() }
+
+    let startLoading = Observable.just(Mutation.setLoading(true))
+    let stopLoading = Observable.just(Mutation.setLoading(false))
+    let useCaseStream = postUseCase.fetchPosts(uid: cellModel.uid).flatMap { repositoryModels -> Observable<Mutation> in
+      let itemModels = repositoryModels.map{ FeedContentSectionModel.Cell(repositoryModel: $0) }
+      let index = itemModels.firstIndex(where: { $0.id == cellModel.model.id }) ?? -1
+      return .concat([
+        .just(.setPostContentCellItems(itemModels)),
+        .just(.setFocusIndex(index)),
+      ])
+    }
+    .catch { .just(.setError($0.localizedDescription)) }
+
+    return Observable.concat([startLoading, useCaseStream, stopLoading])
   }
+
 }

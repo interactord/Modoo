@@ -41,7 +41,7 @@ final class SubFeedBuilder: Builder<SubFeedDependency>, SubFeedBuildable {
   func build(withListener listener: SubFeedListener, model: ProfileContentSectionModel.Cell) -> SubFeedRouting {
     let component = SubFeedComponent(dependency: dependency)
     let viewController = SubFeedViewController(node: .init())
-    let state = SubFeedDisplayModel.State(cellModel: model, postContentSectionModel: .defaultValue(), isLoading: false, errorMessage: "")
+    let state = SubFeedDisplayModel.State(cellModel: model, originalState: .defaultValue())
     let interactor = SubFeedInteractor(
       presenter: viewController,
       initialState: state,
