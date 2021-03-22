@@ -8,9 +8,9 @@ enum FeedDisplayModel {
   }
 
   enum Mutation: Equatable {
-    case setPostContentCellItems([FeedContentSectionModel.Cell])
     case setLoading(Bool)
     case setError(String)
+    case setPostContentCellItems([FeedContentSectionModel.Cell])
   }
 
   struct State: Equatable, DefaultValueUsable {

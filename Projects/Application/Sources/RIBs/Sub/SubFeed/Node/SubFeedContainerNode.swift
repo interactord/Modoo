@@ -63,4 +63,11 @@ extension SubFeedContainerNode {
   var titleUserNameBinder: Binder<String> {
     headerNode.titleUserNameBinder
   }
+
+  var scrollToItemBinder: Binder<IndexPath> {
+    Binder(self, scheduler: CurrentThreadScheduler.instance) { base, indexPath in
+      base.collectionNode.scrollToItem(at: indexPath, at: .top, animated: false)
+      base.collectionNode.isHidden = false
+    }
+  }
 }
