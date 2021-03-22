@@ -3,7 +3,9 @@ import RxRelay
 import RxSwift
 @testable import Application
 
-class FeedInteractableMock: InteractableMock, FeedInteractable {
+// MARK: - FeedInteractableMock
+
+class FeedInteractableMock: InteractableMock {
 
   // MARK: Lifecycle
 
@@ -16,4 +18,12 @@ class FeedInteractableMock: InteractableMock, FeedInteractable {
   var router: FeedRouting?
   var listener: FeedListener?
 
+}
+
+// MARK: FeedInteractable
+
+extension FeedInteractableMock: FeedInteractable {
+  func routeToBackFromComment() {
+    router?.routeToBackFromComment()
+  }
 }

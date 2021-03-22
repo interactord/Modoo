@@ -54,4 +54,8 @@ extension FeedRouter: FeedRouting, NavigatingViewableRouting {
     let routing = commentBuilder.build(withListener: interactor)
     navigatingRoutings = push(router: routing, id: Const.commentID)
   }
+
+  func routeToBackFromComment() {
+    navigatingRoutings = pop(id: Const.commentID)
+  }
 }

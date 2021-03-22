@@ -18,11 +18,12 @@ protocol SubFeedPresentable: Presentable {
 protocol SubFeedListener: AnyObject {
   func routeToComment(item: FeedContentSectionModel.Cell)
   func routeToBackFromSubFeed()
+  func routeToBackFromComment()
 }
 
 // MARK: - SubFeedInteractor
 
-final class SubFeedInteractor: PresentableInteractor<SubFeedPresentable>, SubFeedInteractable {
+final class SubFeedInteractor: PresentableInteractor<SubFeedPresentable> {
 
   // MARK: Lifecycle
 
@@ -121,4 +122,12 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
     return .empty()
   }
 
+}
+
+// MARK: SubFeedInteractable
+
+extension SubFeedInteractor: SubFeedInteractable {
+  func routeToBackFromComment() {
+    listener?.routeToBackFromComment()
+  }
 }

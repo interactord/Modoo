@@ -10,6 +10,7 @@ protocol SearchRouting: ViewableRouting {
   func routeToBackFromSubFeed()
   func routeToBackFromSubProfile()
   func routeToComment(item: FeedContentSectionModel.Cell)
+  func routeToBackFromComment()
 }
 
 // MARK: - SearchPresentable
@@ -71,6 +72,10 @@ extension SearchInteractor: SearchInteractable {
 
   func routeToComment(item: FeedContentSectionModel.Cell) {
     router?.routeToComment(item: item)
+  }
+
+  func routeToBackFromComment() {
+    router?.routeToBackFromComment()
   }
 }
 

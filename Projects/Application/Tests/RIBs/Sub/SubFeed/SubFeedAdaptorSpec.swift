@@ -48,6 +48,16 @@ class SubFeedAdaptorSpec: QuickSpec {
           expect(listener.routeToCommentCallCount) == 1
         }
       }
+
+      context("routeToBackFromComment 호출 시") {
+        beforeEach {
+          adapter.routeToBackFromComment()
+        }
+
+        it("listener routeToBackFromComment가 호출된다") {
+          expect(listener.routeToBackFromCommentCallCount) == 1
+        }
+      }
     }
   }
 }

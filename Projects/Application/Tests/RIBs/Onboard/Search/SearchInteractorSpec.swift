@@ -167,6 +167,16 @@ class SearchInteractorSpec: QuickSpec {
             expect(router.routeToCommentCallCount) == 1
           }
         }
+
+        context("routeToBackFromComment 메서드가 불리면") {
+          beforeEach {
+            interactor.routeToBackFromComment()
+          }
+
+          it("라우터의 routeToComment 메서드가 불린다") {
+            expect(router.routeToBackFromCommentCallCount) == 1
+          }
+        }
       }
     }
   }

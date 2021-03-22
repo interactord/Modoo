@@ -43,3 +43,11 @@ extension CommentContainerNode {
     return ASInsetLayoutSpec(insets: safeAreaInsets, child: contentLayout)
   }
 }
+
+// MARK: - Stream
+
+extension CommentContainerNode {
+  var backButtonTapStream: Observable<Void> {
+    header.backButtonTapStream
+  }
+}

@@ -79,4 +79,7 @@ extension SearchRouter: SearchRouting, NavigatingViewableRouting {
     navigatingRoutings = pop(id: Const.subProfileID)
   }
 
+  func routeToBackFromComment() {
+    navigatingRoutings = pop(id: Const.commentID)
+  }
 }

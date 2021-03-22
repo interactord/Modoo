@@ -9,8 +9,6 @@ class SubProfileAdaptorSpec: QuickSpec {
     var adapter: SubProfileBuilderAdapter!
     // swiftlint:disable implicitly_unwrapped_optional
     var listener: SubProfileListenerMock!
-    // swiftlint:disable implicitly_unwrapped_optional
-    var routing: SubProfileRouting!
 
     let id = "SubProfileAdaptorSpecID"
     BuilderContainer.register(builder: SubProfileBuilderAdapter.self, with: id)
@@ -19,15 +17,27 @@ class SubProfileAdaptorSpec: QuickSpec {
       let builderType: SubProfileBuilderAdapter.Type = BuilderContainer.resolve(for: id)
       adapter = builderType.init(dependency: SubProfileDependencyMock())
       listener = SubProfileListenerMock()
-      routing = adapter.build(withListener: listener, uid: "test")
     }
     afterEach {
       adapter = nil
       listener = nil
-      routing = nil
     }
 
-    describe("리스너 테스트") {
+    describe("빌드가 되고나서") {
+      beforeEach {
+        _ = adapter.build(withListener: listener, uid: "test")
+      }
+
+      context("routeToSubFeed 메서드가 불리면") {
+        beforeEach {
+          adapter.routeToSubFeed(model: .defaultValue())
+        }
+
+        it("listener routeToSubFeed을 호출한다") {
+          expect(listener.routeToSubFeedCallCount) == 1
+        }
+      }
+
       context("routeToBack 메서드가 불리면") {
         beforeEach {
           adapter.routeToBackFromSubProfile()

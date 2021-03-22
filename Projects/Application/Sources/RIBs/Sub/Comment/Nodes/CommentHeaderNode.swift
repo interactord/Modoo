@@ -20,6 +20,16 @@ final class CommentHeaderNode: ASDisplayNode {
     print("CommentHeaderNode deinit...")
   }
 
+  // MARK: Internal
+
+  let backButtonNode: ASButtonNode = {
+    let node = ASButtonNode()
+    node.style.preferredSize = Const.buttonSize
+    node.setImage(#imageLiteral(resourceName: "back-icon"), for: .normal)
+    node.tintColor = Const.butrtonTintColor
+    return node
+  }()
+
   // MARK: Private
 
   private struct Const {
@@ -34,14 +44,6 @@ final class CommentHeaderNode: ASDisplayNode {
     node.maximumNumberOfLines = 1
     node.attributedText = "Comment".styled(with: Const.titleStyle)
     node.isLayerBacked = true
-    return node
-  }()
-
-  private let backButtonNode: ASButtonNode = {
-    let node = ASButtonNode()
-    node.style.preferredSize = Const.buttonSize
-    node.setImage(#imageLiteral(resourceName: "back-icon"), for: .normal)
-    node.tintColor = Const.butrtonTintColor
     return node
   }()
 
@@ -80,5 +82,13 @@ extension CommentHeaderNode {
         titleNode,
         flexibleSpacer,
       ])
+  }
+}
+
+// MARK: - Stream
+
+extension CommentHeaderNode {
+  var backButtonTapStream: Observable<Void> {
+    backButtonNode.rx.tap.asObservable()
   }
 }

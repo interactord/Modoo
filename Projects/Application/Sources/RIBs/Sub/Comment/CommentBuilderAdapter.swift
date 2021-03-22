@@ -24,6 +24,9 @@ final class CommentBuilderAdapter: Builder<CommentDependency> {
 // MARK: CommentListener
 
 extension CommentBuilderAdapter: CommentListener {
+  func routeToBackFromComment() {
+    listener?.routeToBackFromComment()
+  }
 }
 
 // MARK: CommentBuildable

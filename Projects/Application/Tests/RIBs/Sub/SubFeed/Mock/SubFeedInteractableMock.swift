@@ -4,7 +4,9 @@ import RxSwift
 
 @testable import Application
 
-class SubFeedInteractableMock: InteractableMock, SubFeedInteractable {
+// MARK: - SubFeedInteractableMock
+
+class SubFeedInteractableMock: InteractableMock {
 
   // MARK: Lifecycle
 
@@ -17,4 +19,12 @@ class SubFeedInteractableMock: InteractableMock, SubFeedInteractable {
   var router: SubFeedRouting?
   var listener: SubFeedListener?
 
+}
+
+// MARK: SubFeedInteractable
+
+extension SubFeedInteractableMock: SubFeedInteractable {
+  func routeToBackFromComment() {
+    listener?.routeToBackFromComment()
+  }
 }

@@ -7,6 +7,7 @@ class SubFeedViewControllerSpec: QuickSpec {
   override func spec() {
     // swiftlint:disable implicitly_unwrapped_optional
     var viewController: SubFeedViewController!
+    // swiftlint:disable implicitly_unwrapped_optional
     var interactor: SubFeedInteractor!
 
     beforeEach {

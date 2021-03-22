@@ -1,3 +1,4 @@
+import ReactorKit
 import RIBs
 import RxSwift
 
@@ -15,17 +16,22 @@ protocol CommentPresentable: Presentable {
 // MARK: - CommentListener
 
 protocol CommentListener: AnyObject {
+  func routeToBackFromComment()
 }
 
 // MARK: - CommentInteractor
 
-final class CommentInteractor: PresentableInteractor<CommentPresentable>, CommentInteractable, CommentPresentableListener {
+final class CommentInteractor: PresentableInteractor<CommentPresentable>, CommentInteractable {
 
   // MARK: Lifecycle
 
-  override init(presenter: CommentPresentable) {
+  init(
+    presenter: CommentPresentable,
+    initialState: CommentDisplayModel.State)
+  {
+    defer { presenter.listener = self }
+    self.initialState = initialState
     super.init(presenter: presenter)
-    presenter.listener = self
   }
 
   deinit {
@@ -37,4 +43,31 @@ final class CommentInteractor: PresentableInteractor<CommentPresentable>, Commen
   weak var router: CommentRouting?
   weak var listener: CommentListener?
 
+  var initialState: CommentDisplayModel.State
+
+}
+
+// MARK: CommentPresentableListener, Reactor
+
+extension CommentInteractor: CommentPresentableListener, Reactor {
+
+  // MARK: Internal
+
+  typealias Action = CommentDisplayModel.Action
+  typealias State = CommentDisplayModel.State
+  typealias Mutation = CommentDisplayModel.Mutation
+
+  func mutate(action: Action) -> Observable<Mutation> {
+    switch action {
+    case .back:
+      return mutatingBack()
+    }
+  }
+
+  // MARK: Private
+
+  private func mutatingBack() -> Observable<Mutation> {
+    listener?.routeToBackFromComment()
+    return .empty()
+  }
 }

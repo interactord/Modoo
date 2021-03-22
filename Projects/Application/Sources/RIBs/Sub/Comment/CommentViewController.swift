@@ -1,11 +1,15 @@
 import AsyncDisplayKit
+import ReactorKit
 import RIBs
 import RxSwift
+import RxSwiftExt
 import UIKit
 
 // MARK: - CommentPresentableListener
 
 protocol CommentPresentableListener: AnyObject {
+  var action: ActionSubject<CommentDisplayModel.Action> { get }
+  var state: Observable<CommentDisplayModel.State> { get }
 }
 
 // MARK: - CommentViewController
@@ -20,6 +24,23 @@ final class CommentViewController: ASDKViewController<CommentContainerNode>, Com
 
   // MARK: Internal
 
-  weak var listener: CommentPresentableListener?
+  weak var listener: CommentPresentableListener? {
+    didSet { bind(listener: listener) }
+  }
 
+  // MARK: Private
+
+  private let disposeBag = DisposeBag()
+}
+
+// MARK: ListenerBindable
+
+extension CommentViewController: ListenerBindable {
+  func bindAction(listener: CommentPresentableListener) {
+    node
+      .backButtonTapStream
+      .mapTo(.back)
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+  }
 }

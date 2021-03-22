@@ -20,6 +20,9 @@ class SearchRoutingMock: RoutingMock {
 
   var routeToCommentCallCount = 0
   var routeToCommentHandler: (() -> Void)?
+
+  var routeToBackFromCommentCallCount = 0
+  var routeToBackFromCommentHandler: (() -> Void)?
 }
 
 // MARK: SearchRouting
@@ -48,5 +51,10 @@ extension SearchRoutingMock: SearchRouting {
   func routeToComment(item: FeedContentSectionModel.Cell) {
     routeToCommentCallCount += 1
     routeToCommentHandler?()
+  }
+
+  func routeToBackFromComment() {
+    routeToBackFromCommentCallCount += 1
+    routeToBackFromCommentHandler?()
   }
 }

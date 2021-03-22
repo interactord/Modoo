@@ -66,4 +66,8 @@ extension ProfileRouter: ProfileRouting, NavigatingViewableRouting {
     let router = commentBuilder.build(withListener: interactor)
     navigatingRoutings = push(router: router, id: Const.commentID)
   }
+
+  func routeToBackFromComment() {
+    navigatingRoutings = pop(id: Const.commentID)
+  }
 }

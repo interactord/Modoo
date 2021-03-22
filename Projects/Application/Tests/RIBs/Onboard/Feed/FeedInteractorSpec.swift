@@ -95,6 +95,18 @@ class FeedInteractorSpec: QuickSpec {
           expect(router.routeToCommentCallCount) == 1
         }
       }
+
+      context("메서드 테스트") {
+        context("routeToBackFromComment 메서드가 불리면") {
+          beforeEach {
+            interactor.routeToBackFromComment()
+          }
+
+          it("라우터의 routeToBackFromComment 메서드가 불린다") {
+            expect(router.routeToBackFromCommentCallCount) == 1
+          }
+        }
+      }
     }
   }
 }

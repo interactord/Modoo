@@ -8,6 +8,7 @@ protocol ProfileRouting: ViewableRouting {
   func routeToSubFeed(model: ProfileContentSectionModel.Cell)
   func routeToComment(item: FeedContentSectionModel.Cell)
   func routeToBackFromSubFeed()
+  func routeToBackFromComment()
 }
 
 // MARK: - ProfilePresentable
@@ -144,5 +145,9 @@ extension ProfileInteractor: ProfileInteractable {
 
   func routeToComment(item: FeedContentSectionModel.Cell) {
     router?.routeToComment(item: item)
+  }
+
+  func routeToBackFromComment() {
+    router?.routeToBackFromComment()
   }
 }
