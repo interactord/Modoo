@@ -24,10 +24,6 @@ final class SearchBuilderAdapter: Builder<SearchDependency> {
 // MARK: SearchListener
 
 extension SearchBuilderAdapter: SearchListener {
-
-  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
-    listener?.routeToSubFeed(model: model)
-  }
 }
 
 // MARK: SearchBuildable

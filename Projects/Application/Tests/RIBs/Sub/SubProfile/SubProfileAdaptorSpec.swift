@@ -30,7 +30,7 @@ class SubProfileAdaptorSpec: QuickSpec {
     describe("리스너 테스트") {
       context("routeToBack 메서드가 불리면") {
         beforeEach {
-          adapter.routeToBack()
+          adapter.routeToBackFromSubProfile()
         }
 
         it("listener routeToBack을 호출한다") {

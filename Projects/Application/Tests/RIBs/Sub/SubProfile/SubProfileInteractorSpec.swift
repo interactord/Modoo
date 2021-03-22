@@ -214,6 +214,16 @@ class SubProfileInteractorSpec: QuickSpec {
         }
       }
 
+      context("피드 로드 액션이 발생한 경우") {
+        beforeEach {
+          interactor.action.onNext(.loadPost(.defaultValue()))
+        }
+
+        it("router의 routeToSubFeed가 불린다") {
+          expect(listener.routeToSubFeedCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+        }
+      }
+
       context("백 버튼 액션이 들어온 경우") {
         beforeEach {
           interactor.action.onNext(.back)

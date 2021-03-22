@@ -2,7 +2,7 @@ import RIBs
 
 // MARK: - SearchInteractable
 
-protocol SearchInteractable: Interactable, SubProfileListener {
+protocol SearchInteractable: Interactable, SubProfileListener, SubFeedListener {
   var router: SearchRouting? { get set }
   var listener: SearchListener? { get set }
 }
@@ -21,10 +21,12 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
   init(
     interactor: SearchInteractable,
     viewController: SearchViewControllable,
-    subProfileBuilder: SubProfileBuildable)
+    subProfileBuilder: SubProfileBuildable,
+    subFeedBuilder: SubFeedBuildable)
   {
     defer { interactor.router = self }
     self.subProfileBuilder = subProfileBuilder
+    self.subFeedBuilder = subFeedBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -35,28 +37,39 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
   // MARK: Internal
 
   let subProfileBuilder: SubProfileBuildable
-  var subProfileRouter: SubProfileRouting?
+  var subProfileRouter: ViewableRouting?
+  let subFeedBuilder: SubFeedBuildable
+  var subFeedRouter: ViewableRouting?
+  var navigatingRoutings = [String: ViewableRouting]()
+
+  // MARK: Private
+
+  private struct Const {
+    static let subProfileID = "subProfileID"
+    static let subFeedID = "subFeedID"
+  }
 }
 
-// MARK: SearchRouting
+// MARK: SearchRouting, NavigatingViewableRouting
 
-extension SearchRouter: SearchRouting {
+extension SearchRouter: SearchRouting, NavigatingViewableRouting {
 
   func routeToSubProfile(uid: String) {
-    guard subProfileRouter == nil else { return }
-
-    let subProfileRouter = subProfileBuilder.build(withListener: interactor, uid: uid)
-    self.subProfileRouter = subProfileRouter
-    attachChild(subProfileRouter)
-
-    viewController.push(viewControllable: subProfileRouter.viewControllable, animated: true)
+    let router = subProfileBuilder.build(withListener: interactor, uid: uid)
+    navigatingRoutings = push(router: router, id: Const.subProfileID)
   }
 
-  func routeToBack() {
-    guard let subProfileRouter = subProfileRouter else { return }
-
-    detachChild(subProfileRouter)
-    self.subProfileRouter = nil
-    viewController.pop(viewControllable: subProfileRouter.viewControllable, animated: true)
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
+    let router = subFeedBuilder.build(withListener: interactor, model: model)
+    navigatingRoutings = push(router: router, id: Const.subFeedID)
   }
+
+  func routeToBackFromSubFeed() {
+    navigatingRoutings = pop(id: Const.subFeedID)
+  }
+
+  func routeToBackFromSubProfile() {
+    navigatingRoutings = pop(id: Const.subProfileID)
+  }
+
 }

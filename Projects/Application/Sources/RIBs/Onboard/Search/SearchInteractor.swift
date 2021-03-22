@@ -6,7 +6,9 @@ import RxSwift
 
 protocol SearchRouting: ViewableRouting {
   func routeToSubProfile(uid: String)
-  func routeToBack()
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell)
+  func routeToBackFromSubFeed()
+  func routeToBackFromSubProfile()
 }
 
 // MARK: - SearchPresentable
@@ -18,7 +20,6 @@ protocol SearchPresentable: Presentable {
 // MARK: - SearchListener
 
 protocol SearchListener: AnyObject {
-  func routeToSubFeed(model: ProfileContentSectionModel.Cell)
 }
 
 // MARK: - SearchInteractor
@@ -55,12 +56,16 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable> {
 // MARK: SearchInteractable
 
 extension SearchInteractor: SearchInteractable {
-  func routeToBack() {
-    router?.routeToBack()
+  func routeToBackFromSubFeed() {
+    router?.routeToBackFromSubFeed()
+  }
+
+  func routeToBackFromSubProfile() {
+    router?.routeToBackFromSubProfile()
   }
 
   func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
-    listener?.routeToSubFeed(model: model)
+    router?.routeToSubFeed(model: model)
   }
 }
 

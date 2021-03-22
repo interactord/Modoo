@@ -39,7 +39,6 @@ extension OnboardBuildableMock: OnboardBuildable {
       feedBuilder: FeedBuildableMock(),
       profileBuilder: ProfileBuildableMock(),
       searchBuilder: SearchBuildableMock(),
-      postBuilder: PostBuildableMock(),
-      subFeedBuilder: SubFeedBuildableMock())
+      postBuilder: PostBuildableMock())
   }
 }

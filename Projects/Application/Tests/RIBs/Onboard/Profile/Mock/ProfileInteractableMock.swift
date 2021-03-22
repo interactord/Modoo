@@ -1,9 +1,12 @@
 import RIBs
 import RxRelay
 import RxSwift
+
 @testable import Application
 
-class ProfileInteractableMock: InteractableMock, ProfileInteractable {
+// MARK: - ProfileInteractableMock
+
+class ProfileInteractableMock: InteractableMock {
 
   // MARK: Lifecycle
 
@@ -16,4 +19,12 @@ class ProfileInteractableMock: InteractableMock, ProfileInteractable {
   var router: ProfileRouting?
   var listener: ProfileListener?
 
+}
+
+// MARK: ProfileInteractable
+
+extension ProfileInteractableMock: ProfileInteractable {
+  func routeToBackFromSubFeed() {
+    router?.routeToBackFromSubFeed()
+  }
 }

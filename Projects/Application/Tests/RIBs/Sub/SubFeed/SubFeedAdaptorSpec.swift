@@ -29,13 +29,13 @@ class SubFeedAdaptorSpec: QuickSpec {
         _ = adapter.build(withListener: listener, model: .defaultValue())
       }
 
-      context("routeToClose 호출 시") {
+      context("routeToBack 호출 시") {
         beforeEach {
-          adapter.routeToClose()
+          adapter.routeToBackFromSubFeed()
         }
 
-        it("listener routeToClose가 호출된다") {
-          expect(listener.routeToCloseCallCount) == 1
+        it("listener routeToBack가 호출된다") {
+          expect(listener.routeToBackCallCount) == 1
         }
       }
     }

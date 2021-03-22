@@ -13,7 +13,8 @@ class ProfileRouterSpec: QuickSpec {
       viewController = ProfileViewControllableMock()
       router = ProfileRouter(
         interactor: ProfileInteractableMock(),
-        viewController: viewController)
+        viewController: viewController,
+        subFeedBuilder: SubFeedBuildableMock())
     }
     afterEach {
       viewController = nil
@@ -25,8 +26,46 @@ class ProfileRouterSpec: QuickSpec {
         router.didLoad()
       }
 
-      it("test..") {
-        expect(router).toNot(beNil())
+      context("routeToBack 메서드 호출 시") {
+        beforeEach {
+          router.routeToBackFromSubFeed()
+        }
+
+        it("viewController pop 메서드가 불리지 않는다") {
+          expect(viewController.popCallCount) == 0
+        }
+      }
+
+      context("routeToSubFeed 메서드 호출 시") {
+        beforeEach {
+          router.routeToSubFeed(model: .defaultValue())
+        }
+
+        it("viewController push 메서드를 호출 한다") {
+          expect(viewController.pushCallCount) == 1
+          expect(viewController.viewControllers) == 1
+        }
+
+        context("routeToSubFeed 중복 메서드 호출 시") {
+          beforeEach {
+            router.routeToSubFeed(model: .defaultValue())
+          }
+
+          it("viewController push 메서드를 하지 않는다") {
+            expect(viewController.pushCallCount) == 1
+            expect(viewController.viewControllers) == 1
+          }
+        }
+
+        context("routeToBackFromSubFeed 메서드 호출 시") {
+          beforeEach {
+            router.routeToBackFromSubFeed()
+          }
+
+          it("viewController pop 메서드가 불린다") {
+            expect(viewController.popCallCount) == 1
+          }
+        }
       }
     }
   }

@@ -44,8 +44,8 @@ class SubFeedInteractorSpec: QuickSpec {
           interactor.action.onNext(.tapClose)
         }
 
-        it("listener routeToClose가 호출 된다") {
-          expect(listener.routeToCloseCallCount) == 1
+        it("listener routeToBack가 호출 된다") {
+          expect(listener.routeToBackCallCount) == 1
         }
       }
 

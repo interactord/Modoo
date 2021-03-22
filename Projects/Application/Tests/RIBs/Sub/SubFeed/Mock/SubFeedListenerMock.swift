@@ -3,13 +3,13 @@
 // MARK: - SubFeedListenerMock
 
 class SubFeedListenerMock: SubFeedListener {
-  var routeToCloseCallCount = 0
-  var routeToCloseHandler: (() -> Void)?
+  var routeToBackCallCount = 0
+  var routeToBackHandler: (() -> Void)?
 }
 
 extension SubFeedListenerMock {
-  func routeToClose() {
-    routeToCloseCallCount += 1
-    routeToCloseHandler?()
+  func routeToBackFromSubFeed() {
+    routeToBackCallCount += 1
+    routeToBackHandler?()
   }
 }

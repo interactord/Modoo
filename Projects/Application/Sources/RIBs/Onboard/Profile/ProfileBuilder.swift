@@ -21,6 +21,11 @@ final class ProfileComponent: Component<ProfileDependency> {
   }
 }
 
+// MARK: SubFeedDependency
+
+extension ProfileComponent: SubFeedDependency {
+}
+
 // MARK: - ProfileBuildable
 
 protocol ProfileBuildable: Buildable {
@@ -52,6 +57,12 @@ final class ProfileBuilder: Builder<ProfileDependency>, ProfileBuildable {
       userUseCase: component.userUseCase,
       postUseCase: component.postUseCase)
     interactor.listener = listener
-    return ProfileRouter(interactor: interactor, viewController: viewController)
+
+    let subFeedBuilderAdapterType: SubFeedBuilderAdapter.Type = BuilderContainer.resolve(for: SubFeedBuilderID)
+
+    return ProfileRouter(
+      interactor: interactor,
+      viewController: viewController,
+      subFeedBuilder: subFeedBuilderAdapterType.init(dependency: component))
   }
 }

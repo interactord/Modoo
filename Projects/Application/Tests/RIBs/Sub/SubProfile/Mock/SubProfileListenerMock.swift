@@ -8,7 +8,7 @@ class SubProfileListenerMock: SubProfileListener {
   var routeToSubFeedCallCount = 0
   var routeToSubFeedHandler: (() -> Void)?
 
-  func routeToBack() {
+  func routeToBackFromSubProfile() {
     routeToBackCallCount += 1
     routeToBackHandler?()
   }

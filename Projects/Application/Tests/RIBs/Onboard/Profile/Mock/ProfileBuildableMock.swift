@@ -42,7 +42,8 @@ extension ProfileBuildableMock: ProfileBuildable {
 
     return ProfileRouter(
       interactor: interactor,
-      viewController: viewController)
+      viewController: viewController,
+      subFeedBuilder: SubFeedBuildableMock())
   }
 
 }

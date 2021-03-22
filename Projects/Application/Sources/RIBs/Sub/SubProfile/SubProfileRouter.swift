@@ -14,14 +14,19 @@ protocol SubProfileViewControllable: ViewControllable {
 
 // MARK: - SubProfileRouter
 
-final class SubProfileRouter: ViewableRouter<SubProfileInteractable, SubProfileViewControllable>, SubProfileRouting {
+final class SubProfileRouter: ViewableRouter<SubProfileInteractable, SubProfileViewControllable>{
 
-  override init(interactor: SubProfileInteractable, viewController: SubProfileViewControllable) {
+  override init(interactor: SubProfileInteractable, viewController: SubProfileViewControllable){
+    defer { interactor.router = self }
     super.init(interactor: interactor, viewController: viewController)
-    interactor.router = self
   }
 
   deinit {
     print("SubProfileRouter deinit...")
   }
+}
+
+// MARK: SubProfileRouting
+
+extension SubProfileRouter: SubProfileRouting {
 }

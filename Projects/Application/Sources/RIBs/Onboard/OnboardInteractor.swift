@@ -8,7 +8,6 @@ protocol OnboardRouting: ViewableRouting {
   func setOnceViewControllers()
   func routeToPost(image: UIImage)
   func routeToClose()
-  func routeToSubFeed(model: ProfileContentSectionModel.Cell)
 }
 
 // MARK: - OnboardPresentable
@@ -92,9 +91,4 @@ extension OnboardInteractor: OnboardInteractable {
   func routeToClose() {
     router?.routeToClose()
   }
-
-  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
-    router?.routeToSubFeed(model: model)
-  }
-
 }

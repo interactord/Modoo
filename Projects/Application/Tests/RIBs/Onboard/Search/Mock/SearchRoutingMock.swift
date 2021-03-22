@@ -8,8 +8,15 @@ import RxSwift
 class SearchRoutingMock: RoutingMock {
   var routeToSubProfileUUIDCallCount = 0
   var routeToSubProfileUUIDHandler: (() -> Void)?
-  var routeToBackCallCount = 0
-  var routeToBackHandler: (() -> Void)?
+
+  var routeToBackFromSubFeedCallCount = 0
+  var routeToBackFromSubFeedHandler: (() -> Void)?
+
+  var routeToBackFromSubProfileCallCount = 0
+  var routeToBackFromSubProfileHandler: (() -> Void)?
+
+  var routeToSubFeedCallCount = 0
+  var routeToSubFeedHandler: (() -> Void)?
 }
 
 // MARK: SearchRouting
@@ -20,8 +27,18 @@ extension SearchRoutingMock: SearchRouting {
     routeToSubProfileUUIDHandler?()
   }
 
-  func routeToBack() {
-    routeToBackCallCount += 1
-    routeToBackHandler?()
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
+    routeToSubFeedCallCount += 1
+    routeToSubFeedHandler?()
+  }
+
+  func routeToBackFromSubFeed() {
+    routeToBackFromSubFeedCallCount += 1
+    routeToBackFromSubFeedHandler?()
+  }
+
+  func routeToBackFromSubProfile() {
+    routeToBackFromSubProfileCallCount += 1
+    routeToBackFromSubProfileHandler?()
   }
 }

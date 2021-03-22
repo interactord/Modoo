@@ -5,6 +5,8 @@ import RxSwift
 // MARK: - ProfileRouting
 
 protocol ProfileRouting: ViewableRouting {
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell)
+  func routeToBackFromSubFeed()
 }
 
 // MARK: - ProfilePresentable
@@ -17,12 +19,11 @@ protocol ProfilePresentable: Presentable {
 
 protocol ProfileListener: AnyObject {
   func routeToAuthentication()
-  func routeToSubFeed(model: ProfileContentSectionModel.Cell)
 }
 
 // MARK: - ProfileInteractor
 
-final class ProfileInteractor: PresentableInteractor<ProfilePresentable>, ProfileInteractable {
+final class ProfileInteractor: PresentableInteractor<ProfilePresentable> {
 
   // MARK: Lifecycle
 
@@ -128,7 +129,15 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
   }
 
   private func mutatingLoadPost(model: ProfileContentSectionModel.Cell) -> Observable<Mutation> {
-    listener?.routeToSubFeed(model: model)
+    router?.routeToSubFeed(model: model)
     return .empty()
+  }
+}
+
+// MARK: ProfileInteractable
+
+extension ProfileInteractor: ProfileInteractable {
+  func routeToBackFromSubFeed() {
+    router?.routeToBackFromSubFeed()
   }
 }

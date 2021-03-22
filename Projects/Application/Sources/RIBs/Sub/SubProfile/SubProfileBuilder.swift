@@ -21,6 +21,11 @@ final class SubProfileComponent: Component<SubProfileDependency> {
   }
 }
 
+// MARK: SubFeedDependency
+
+extension SubProfileComponent: SubFeedDependency {
+}
+
 // MARK: - SubProfileBuildable
 
 protocol SubProfileBuildable: Buildable {
@@ -53,6 +58,9 @@ final class SubProfileBuilder: Builder<SubProfileDependency>, SubProfileBuildabl
       postUseCase: component.postUseCase,
       uid: uid)
     interactor.listener = listener
-    return SubProfileRouter(interactor: interactor, viewController: viewController)
+
+    return SubProfileRouter(
+      interactor: interactor,
+      viewController: viewController)
   }
 }

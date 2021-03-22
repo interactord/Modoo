@@ -37,16 +37,6 @@ class ProfileAdaptorSpec: QuickSpec {
           expect(listener.routeToAuthenticationCallCount) == 1
         }
       }
-
-      context("routeToSubFeed 호출 시") {
-        beforeEach {
-          adapter.routeToSubFeed(model: .defaultValue())
-        }
-
-        it("authenticationListener routeToSubFeed가 불린다") {
-          expect(listener.routeToSubFeedCallCount) == 1
-        }
-      }
     }
   }
 }

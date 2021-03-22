@@ -1,6 +1,7 @@
 import RIBs
 import RxRelay
 import RxSwift
+
 @testable import Application
 
 // MARK: - SearchInteractableMock
@@ -23,11 +24,15 @@ class SearchInteractableMock: InteractableMock {
 // MARK: SearchInteractable
 
 extension SearchInteractableMock: SearchInteractable {
-  func routeToBack() {
-    router?.routeToBack()
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
+    router?.routeToSubFeed(model: model)
   }
 
-  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
-    listener?.routeToSubFeed(model: model)
+  func routeToBackFromSubFeed() {
+    router?.routeToBackFromSubFeed()
+  }
+
+  func routeToBackFromSubProfile() {
+    router?.routeToBackFromSubProfile()
   }
 }

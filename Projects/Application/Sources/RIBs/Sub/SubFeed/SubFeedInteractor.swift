@@ -5,6 +5,7 @@ import RxSwift
 // MARK: - SubFeedRouting
 
 protocol SubFeedRouting: ViewableRouting {
+  func routeToComment(item: FeedContentSectionModel.Cell)
 }
 
 // MARK: - SubFeedPresentable
@@ -16,7 +17,7 @@ protocol SubFeedPresentable: Presentable {
 // MARK: - SubFeedListener
 
 protocol SubFeedListener: AnyObject {
-  func routeToClose()
+  func routeToBackFromSubFeed()
 }
 
 // MARK: - SubFeedInteractor
@@ -93,7 +94,7 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
   // MARK: Private
 
   private func mutatingTabClose() -> Observable<Mutation> {
-    listener?.routeToClose()
+    listener?.routeToBackFromSubFeed()
     return .empty()
   }
 
@@ -116,8 +117,8 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
   }
 
   private func mutatingComment(item: FeedContentSectionModel.Cell) -> Observable<Mutation> {
-
-    .empty()
+    router?.routeToComment(item: item)
+    return .empty()
   }
 
 }

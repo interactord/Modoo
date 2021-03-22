@@ -68,16 +68,6 @@ class OnboardInteractorSpec: QuickSpec {
           expect(router.routeToCloseCallCount) == 1
         }
       }
-
-      context("routeToSubFeed가 불리면") {
-        beforeEach {
-          interactor.routeToSubFeed(model: .defaultValue())
-        }
-
-        it("router routeToSubFeed메서드가 불린다") {
-          expect(router.routeToSubFeedCallCount) == 1
-        }
-      }
     }
   }
 }

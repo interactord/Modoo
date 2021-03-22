@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - OnboardInteractable
 
-protocol OnboardInteractable: Interactable, FeedListener, SearchListener, ProfileListener, PostListener, SubFeedListener {
+protocol OnboardInteractable: Interactable, FeedListener, SearchListener, ProfileListener, PostListener {
   var router: OnboardRouting? { get set }
   var listener: OnboardListener? { get set }
 }
@@ -32,15 +32,13 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
     feedBuilder: FeedBuildable,
     profileBuilder: ProfileBuildable,
     searchBuilder: SearchBuildable,
-    postBuilder: PostBuildable,
-    subFeedBuilder: SubFeedBuildable)
+    postBuilder: PostBuildable)
   {
     defer { interactor.router = self }
     self.feedBuilder = feedBuilder
     self.profileBuilder = profileBuilder
     self.searchBuilder = searchBuilder
     self.postBuilder = postBuilder
-    self.subFeedBuilder = subFeedBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -49,6 +47,8 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
   enum TabBarType {
     case feed
   }
+
+  var presentedRoutings = [ViewableRouting]()
 
   override func didLoad() {
     super.didLoad()
@@ -62,14 +62,11 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
   private let profileBuilder: ProfileBuildable
   private let searchBuilder: SearchBuildable
   private let postBuilder: PostBuildable
-  private var presentedRoutings = [ViewableRouting]()
-  private var subFeedBuilder: SubFeedBuildable
-
 }
 
-// MARK: OnboardRouting
+// MARK: OnboardRouting, PresentingViewableRouting
 
-extension OnboardRouter: OnboardRouting {
+extension OnboardRouter: OnboardRouting, PresentingViewableRouting {
 
   // MARK: Internal
 
@@ -83,15 +80,12 @@ extension OnboardRouter: OnboardRouting {
   }
 
   func routeToPost(image: UIImage) {
-    presentRouting(routing: postBuilder.build(withListener: interactor, image: image), showAnimated: false)
+    let routing = postBuilder.build(withListener: interactor, image: image)
+    presentedRoutings = present(routings: presentedRoutings, routing: routing, showAnimated: true)
   }
 
   func routeToClose() {
-    clearPresentRouting(animated: true)
-  }
-
-  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
-    presentRouting(routing: subFeedBuilder.build(withListener: interactor, model: model), showAnimated: true)
+    presentedRoutings = clearPresent(routings: presentedRoutings, animated: false)
   }
 
   // MARK: Private
@@ -142,20 +136,5 @@ extension OnboardRouter: OnboardRouting {
     navigationController.navigationBar.isHidden = true
 
     return navigationController
-  }
-
-  private func clearPresentRouting(animated: Bool) {
-    presentedRoutings.forEach{ detachChild($0) }
-
-    viewController.dismiss(viewControllable: viewController, animated: true)
-  }
-
-  private func presentRouting(routing: ViewableRouting, showAnimated: Bool) {
-    clearPresentRouting(animated: false)
-    presentedRoutings.append(routing)
-    viewController.present(
-      viewControllable: routing.viewControllable,
-      isFullScreenSize: true,
-      animated: showAnimated)
   }
 }

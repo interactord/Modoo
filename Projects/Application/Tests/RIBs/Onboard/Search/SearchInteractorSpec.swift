@@ -128,13 +128,23 @@ class SearchInteractorSpec: QuickSpec {
       }
 
       context("메서드 테스트") {
-        context("routeToBack 메서드가 불리면") {
+        context("routeToBackFromSubFeed 메서드가 불리면") {
           beforeEach {
-            interactor.routeToBack()
+            interactor.routeToBackFromSubFeed()
           }
 
-          it("라우터의 routeToBack 메서드가 불린다") {
-            expect(searchRouting.routeToBackCallCount) == 1
+          it("라우터의 routeToBackFromSubFeed 메서드가 불린다") {
+            expect(searchRouting.routeToBackFromSubFeedCallCount) == 1
+          }
+        }
+
+        context("routeToBackFromSubProfile 메서드가 불리면") {
+          beforeEach {
+            interactor.routeToBackFromSubProfile()
+          }
+
+          it("라우터의 routeToBackFromSubProfile 메서드가 불린다") {
+            expect(searchRouting.routeToBackFromSubProfileCallCount) == 1
           }
         }
 
@@ -144,7 +154,7 @@ class SearchInteractorSpec: QuickSpec {
           }
 
           it("라우터의 routeToSubFeed 메서드가 불린다") {
-            expect(listener.routeToSubFeedCallCount) == 1
+            expect(searchRouting.routeToSubFeedCallCount) == 1
           }
         }
       }

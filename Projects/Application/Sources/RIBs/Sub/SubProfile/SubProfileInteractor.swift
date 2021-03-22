@@ -16,7 +16,7 @@ protocol SubProfilePresentable: Presentable {
 // MARK: - SubProfileListener
 
 protocol SubProfileListener: AnyObject {
-  func routeToBack()
+  func routeToBackFromSubProfile()
   func routeToSubFeed(model: ProfileContentSectionModel.Cell)
 }
 
@@ -136,7 +136,7 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
   }
 
   private func mutatingBack() -> Observable<Mutation> {
-    listener?.routeToBack()
+    listener?.routeToBackFromSubProfile()
     return .empty()
   }
 

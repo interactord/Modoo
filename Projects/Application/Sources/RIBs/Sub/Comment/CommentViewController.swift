@@ -20,4 +20,10 @@ final class CommentViewController: UIViewController, CommentPresentable, Comment
   // MARK: Internal
 
   weak var listener: CommentPresentableListener?
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    view.backgroundColor = .red
+  }
+
 }

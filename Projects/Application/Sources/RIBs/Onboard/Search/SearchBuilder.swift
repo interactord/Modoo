@@ -21,6 +21,11 @@ final class SearchComponent: Component<SearchDependency> {
 extension SearchComponent: SubProfileDependency {
 }
 
+// MARK: SubFeedDependency
+
+extension SearchComponent: SubFeedDependency {
+}
+
 // MARK: - SearchBuildable
 
 protocol SearchBuildable: Buildable {
@@ -51,11 +56,14 @@ final class SearchBuilder: Builder<SearchDependency>, SearchBuildable {
       initialState: component.initailState,
       userUseCase: component.userUseCase)
     interactor.listener = listener
+
     let subProfileBuilderAdapterType: SubProfileBuilderAdapter.Type = BuilderContainer.resolve(for: SubProfileBuilderID)
+    let subFeedBuilderAdapterType: SubFeedBuilderAdapter.Type = BuilderContainer.resolve(for: SubFeedBuilderID)
 
     return SearchRouter(
       interactor: interactor,
       viewController: viewController,
-      subProfileBuilder: subProfileBuilderAdapterType.init(dependency: component))
+      subProfileBuilder: subProfileBuilderAdapterType.init(dependency: component),
+      subFeedBuilder: subFeedBuilderAdapterType.init(dependency: component))
   }
 }

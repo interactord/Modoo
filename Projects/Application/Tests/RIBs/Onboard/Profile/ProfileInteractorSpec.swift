@@ -14,6 +14,8 @@ class ProfileInteractorSpec: QuickSpec {
     var postUseCase: FirebasePostUseCaseMock!
     // swiftlint:disable implicitly_unwrapped_optional
     var listener: ProfileListenerMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var router: ProfileRoutingMock!
 
     beforeEach {
       viewController = ProfileViewControllableMock()
@@ -26,7 +28,11 @@ class ProfileInteractorSpec: QuickSpec {
         initialState: state,
         userUseCase: userUseCase,
         postUseCase: postUseCase)
+      router = ProfileRoutingMock(
+        interactable: interactor,
+        viewControllable: viewController)
       interactor.listener = listener
+      interactor.router = router
     }
     afterEach {
       interactor = nil
@@ -34,6 +40,7 @@ class ProfileInteractorSpec: QuickSpec {
       userUseCase = nil
       postUseCase = nil
       listener = nil
+      router = nil
     }
 
     describe("활성화 이후") {
@@ -138,7 +145,7 @@ class ProfileInteractorSpec: QuickSpec {
           interactor.action.onNext(.logout)
         }
 
-        it("listMock의 routeToAuthentication가 불린다") {
+        it("listener의 routeToAuthentication가 불린다") {
           expect(listener.routeToAuthenticationCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
         }
       }
@@ -148,8 +155,20 @@ class ProfileInteractorSpec: QuickSpec {
           interactor.action.onNext(.loadPost(.defaultValue()))
         }
 
-        it("listMock의 routeToSubFeed가 불린다") {
-          expect(listener.routeToSubFeedCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+        it("router의 routeToSubFeed가 불린다") {
+          expect(router.routeToSubFeedCallCount).toEventually(equal(1), timeout: TestUtil.Const.timeout)
+        }
+      }
+
+      context("메서드 테스트") {
+        context("routeToBackFromSubFeed 메서드가 불리면") {
+          beforeEach {
+            interactor.routeToBackFromSubFeed()
+          }
+
+          it("라우터의 routeToBackFromSubFeed 메서드가 불린다") {
+            expect(router.routeToBackFromSubFeedCallCount) == 1
+          }
         }
       }
     }

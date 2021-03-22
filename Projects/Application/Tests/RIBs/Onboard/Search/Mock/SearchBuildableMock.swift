@@ -37,7 +37,8 @@ extension SearchBuildableMock: SearchBuildable {
     return SearchRouter(
       interactor: interactor,
       viewController: viewController,
-      subProfileBuilder: SubProfileBuildableMock())
+      subProfileBuilder: SubProfileBuildableMock(),
+      subFeedBuilder: SubFeedBuildableMock())
   }
 
 }

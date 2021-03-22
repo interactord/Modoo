@@ -27,11 +27,6 @@ extension ProfileBuilderAdapter: ProfileListener {
   func routeToAuthentication() {
     listener?.routeToAuthentication()
   }
-
-  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
-    listener?.routeToSubFeed(model: model)
-  }
-
 }
 
 // MARK: ProfileBuildable

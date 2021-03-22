@@ -2,14 +2,14 @@ import RIBs
 
 // MARK: - FeedInteractable
 
-protocol FeedInteractable: Interactable {
+protocol FeedInteractable: Interactable, CommentListener {
   var router: FeedRouting? { get set }
   var listener: FeedListener? { get set }
 }
 
 // MARK: - FeedViewControllable
 
-protocol FeedViewControllable: ViewControllable {
+protocol FeedViewControllable: ViewControllable, UIViewControllerViewable {
 }
 
 // MARK: - FeedRouter
@@ -32,12 +32,21 @@ final class FeedRouter: ViewableRouter<FeedInteractable, FeedViewControllable> {
     print("FeedRouter deinit...")
   }
 
+  // MARK: Internal
+
+  var presentedRoutings = [ViewableRouting]()
+
   // MARK: Private
 
   private let commentBuilder: CommentBuildable
 }
 
-// MARK: FeedRouting
+// MARK: FeedRouting, PresentingViewableRouting
 
-extension FeedRouter: FeedRouting {
+extension FeedRouter: FeedRouting, PresentingViewableRouting {
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    let routing = commentBuilder.build(withListener: interactor)
+    presentedRoutings = present(routings: presentedRoutings, routing: routing, showAnimated: true)
+  }
 }
