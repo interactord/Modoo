@@ -45,6 +45,9 @@ struct CompositeRoot {
     BuilderContainer.register(
       builder: SubFeedBuilderAdapter.self,
       with: SubFeedBuilderID)
+    BuilderContainer.register(
+      builder: CommentBuilderAdapter.self,
+      with: CommentBuilderID)
   }
 
 }
