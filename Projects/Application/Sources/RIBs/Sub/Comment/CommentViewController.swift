@@ -1,3 +1,4 @@
+import AsyncDisplayKit
 import RIBs
 import RxSwift
 import UIKit
@@ -9,7 +10,7 @@ protocol CommentPresentableListener: AnyObject {
 
 // MARK: - CommentViewController
 
-final class CommentViewController: UIViewController, CommentPresentable, CommentViewControllable {
+final class CommentViewController: ASDKViewController<CommentContainerNode>, CommentPresentable, CommentViewControllable {
 
   // MARK: Lifecycle
 
@@ -20,10 +21,5 @@ final class CommentViewController: UIViewController, CommentPresentable, Comment
   // MARK: Internal
 
   weak var listener: CommentPresentableListener?
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    view.backgroundColor = .red
-  }
 
 }

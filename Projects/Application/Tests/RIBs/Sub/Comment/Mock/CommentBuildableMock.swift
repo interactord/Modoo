@@ -17,7 +17,7 @@ class CommentBuildableMock: Builder<CommentDependency> {
 extension CommentBuildableMock: CommentBuildable {
   func build(withListener listener: CommentListener) -> CommentRouting {
     _ = CommentComponent(dependency: dependency)
-    let viewController = CommentViewController()
+    let viewController = CommentViewController(node: .init())
     let interactor = CommentInteractor(presenter: viewController)
     interactor.listener = listener
 

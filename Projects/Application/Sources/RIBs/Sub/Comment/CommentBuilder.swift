@@ -34,7 +34,7 @@ final class CommentBuilder: Builder<CommentDependency>, CommentBuildable {
 
   func build(withListener listener: CommentListener) -> CommentRouting {
     let component = CommentComponent(dependency: dependency)
-    let viewController = CommentViewController()
+    let viewController = CommentViewController(node: .init())
     let interactor = CommentInteractor(presenter: viewController)
     interactor.listener = listener
     return CommentRouter(interactor: interactor, viewController: viewController)

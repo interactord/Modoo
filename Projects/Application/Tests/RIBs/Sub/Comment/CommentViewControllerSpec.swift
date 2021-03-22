@@ -9,7 +9,7 @@ class CommentViewControllerSpec: QuickSpec {
     var viewController: CommentViewController!
 
     beforeEach {
-      viewController = CommentViewController()
+      viewController = CommentViewController(node: .init())
     }
     afterEach {
       viewController = nil
