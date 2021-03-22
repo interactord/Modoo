@@ -8,6 +8,7 @@ enum SubProfileDisplayModel {
     case back
     case follow
     case unFollow
+    case loadPost(ProfileContentSectionModel.Cell)
   }
 
   enum Mutation: Equatable {

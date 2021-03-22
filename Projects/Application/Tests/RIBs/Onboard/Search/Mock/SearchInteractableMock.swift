@@ -26,4 +26,8 @@ extension SearchInteractableMock: SearchInteractable {
   func routeToBack() {
     router?.routeToBack()
   }
+
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
+    listener?.routeToSubFeed(model: model)
+  }
 }

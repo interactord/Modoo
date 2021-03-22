@@ -67,6 +67,7 @@ class SearchRouterSpec: QuickSpec {
           expect(viewController.popCallCount) == 0
         }
       }
+
     }
   }
 }

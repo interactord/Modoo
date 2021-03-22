@@ -28,6 +28,10 @@ extension SubProfileBuilderAdapter: SubProfileListener {
     listener?.routeToBack()
   }
 
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
+    listener?.routeToSubFeed(model: model)
+  }
+
 }
 
 // MARK: SubProfileBuildable

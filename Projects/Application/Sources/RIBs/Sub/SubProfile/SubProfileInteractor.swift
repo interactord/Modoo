@@ -17,6 +17,7 @@ protocol SubProfilePresentable: Presentable {
 
 protocol SubProfileListener: AnyObject {
   func routeToBack()
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell)
 }
 
 // MARK: - SubProfileInteractor
@@ -81,6 +82,8 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
       return mutatingFollow(uid: uid)
     case .unFollow:
       return mutatingUnFollow(uid: uid)
+    case let .loadPost(itemModel):
+      return mutatingLoadPost(model: itemModel)
     }
   }
 
@@ -161,6 +164,11 @@ extension SubProfileInteractor: SubProfilePresentableListener, Reactor {
     .catch { .just(.setError($0.localizedDescription)) }
 
     return Observable.concat([startLoading, useCaseStream, stopLoading])
+  }
+
+  private func mutatingLoadPost(model: ProfileContentSectionModel.Cell) -> Observable<Mutation> {
+    listener?.routeToSubFeed(model: model)
+    return .empty()
   }
 
 }

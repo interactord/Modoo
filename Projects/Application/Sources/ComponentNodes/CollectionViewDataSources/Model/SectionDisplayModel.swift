@@ -1,7 +1,7 @@
 import Foundation
 import IGListKit
 
-final class SectionDisplayModel<HeaderItem: Equatable & DefaultValueUsable, CellItem: Equatable & DefaultValueUsable, FooterItem: Equatable & DefaultValueUsable>: SectionDisplayModeling, ListDiffable, Equatable, DefaultValueUsable {
+final class SectionDisplayModel<HeaderItem: Equatable & DefaultValueUsable, CellItem: Equatable, FooterItem: Equatable & DefaultValueUsable>: SectionDisplayModeling, ListDiffable, Equatable, DefaultValueUsable {
 
   // MARK: Lifecycle
 

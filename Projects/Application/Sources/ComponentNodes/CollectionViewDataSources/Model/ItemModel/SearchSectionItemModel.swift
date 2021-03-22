@@ -1,16 +1,9 @@
 import Foundation
 
 enum SearchSectionItemModel {
-  struct Cell: Equatable, DefaultValueUsable {
+  struct Cell: Equatable {
 
     // MARK: Lifecycle
-
-    init(uid: String, avatarImageURL: String, userName: String, fullName: String) {
-      self.uid = uid
-      self.avatarImageURL = avatarImageURL
-      self.userName = userName
-      self.fullName = fullName
-    }
 
     init() {
       uid = ""
@@ -32,9 +25,5 @@ enum SearchSectionItemModel {
     var avatarImageURL = ""
     var userName = ""
     var fullName = ""
-
-    static func defaultValue() -> SearchSectionItemModel.Cell {
-      Cell()
-    }
   }
 }

@@ -18,6 +18,7 @@ protocol SearchPresentable: Presentable {
 // MARK: - SearchListener
 
 protocol SearchListener: AnyObject {
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell)
 }
 
 // MARK: - SearchInteractor
@@ -56,6 +57,10 @@ final class SearchInteractor: PresentableInteractor<SearchPresentable> {
 extension SearchInteractor: SearchInteractable {
   func routeToBack() {
     router?.routeToBack()
+  }
+
+  func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
+    listener?.routeToSubFeed(model: model)
   }
 }
 

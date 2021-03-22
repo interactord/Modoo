@@ -9,8 +9,6 @@ class SearchAdaptorSpec: QuickSpec {
     var adapter: SearchBuilderAdapter!
     // swiftlint:disable implicitly_unwrapped_optional
     var listener: SearchListenerMock!
-    // swiftlint:disable implicitly_unwrapped_optional
-    var routing: SearchRouting!
 
     let id = "SearchAdaptorSpecID"
     BuilderContainer.register(builder: SearchBuilderAdapter.self, with: id)
@@ -19,17 +17,25 @@ class SearchAdaptorSpec: QuickSpec {
       let builderType: SearchBuilderAdapter.Type = BuilderContainer.resolve(for: id)
       adapter = builderType.init(dependency: SearchDependencyMock())
       listener = SearchListenerMock()
-      routing = adapter.build(withListener: listener)
     }
     afterEach {
       adapter = nil
       listener = nil
-      routing = nil
     }
 
-    describe("빌드 완료") {
-      it("test") {
-        expect(routing).toNot(beNil())
+    describe("빌드가 되고나서") {
+      beforeEach {
+        _ = adapter.build(withListener: listener)
+      }
+
+      context("routeToSubFeed 호출 시") {
+        beforeEach {
+          adapter.routeToSubFeed(model: .defaultValue())
+        }
+
+        it("listener routeToSubFeed가 불린다") {
+          expect(listener.routeToSubFeedCallCount) == 1
+        }
       }
     }
   }

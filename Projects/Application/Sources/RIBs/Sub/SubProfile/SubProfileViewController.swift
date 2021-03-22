@@ -62,7 +62,10 @@ final class SubProfileViewController: ASDKViewController<SubProfileContainerNode
           elementKindTypes: [.header],
           supplementaryViewHeaderBlockType: { _ in ProfileSubMenuCellNode() },
           sizeForItemWidthBlock: { (UIScreen.main.bounds.width - 2) / 3 },
-          nodeForItemBlock: { ProfilePostCellNode(item: $0) })
+          nodeForItemBlock: { ProfilePostCellNode(item: $0) },
+          selectedCellItemBlock: { item in
+            listener?.action.onNext(.loadPost(item))
+          })
         sectionController.minimumLineSpacing = 1
         return sectionController
       }

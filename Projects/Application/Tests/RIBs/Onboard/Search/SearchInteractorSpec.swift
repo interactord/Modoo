@@ -9,27 +9,31 @@ class SearchInteractorSpec: QuickSpec {
     // swiftlint:disable implicitly_unwrapped_optional
     var viewController: SearchViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var userUseCaseMock: FirebaseUserUseCaseMock!
+    var userUseCase: FirebaseUserUseCaseMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var searchRoutingMock: SearchRoutingMock!
+    var searchRouting: SearchRoutingMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var listener: SearchListenerMock!
 
     beforeEach {
       viewController = SearchViewControllableMock()
-      userUseCaseMock = FirebaseUserUseCaseMock()
+      userUseCase = FirebaseUserUseCaseMock()
+      listener = SearchListenerMock()
       let state = SearchDisplayModel.State.defaultValue()
       interactor = SearchInteractor(
         presenter: viewController,
         initialState: state,
-        userUseCase: userUseCaseMock)
-      searchRoutingMock = SearchRoutingMock(
+        userUseCase: userUseCase)
+      searchRouting = SearchRoutingMock(
         interactable: interactor,
         viewControllable: viewController)
-      interactor.router = searchRoutingMock
+      interactor.router = searchRouting
+      interactor.listener = listener
     }
     afterEach {
       interactor = nil
       viewController = nil
-      userUseCaseMock = nil
+      userUseCase = nil
     }
 
     describe("활성화 이후") {
@@ -64,7 +68,7 @@ class SearchInteractorSpec: QuickSpec {
 
         context("load 액션이 불리고 useCase에서 성공적으로 데이터를 가져올 경우") {
           beforeEach {
-            userUseCaseMock.networkState = .succeed
+            userUseCase.networkState = .succeed
             interactor.action.onNext(.load)
           }
 
@@ -100,7 +104,7 @@ class SearchInteractorSpec: QuickSpec {
 
         context("load 액션이 불리고 useCase에서 데이터를 가져오는데 에러가 발생한 경우") {
           beforeEach {
-            userUseCaseMock.networkState = .failed
+            userUseCase.networkState = .failed
             interactor.action.onNext(.load)
           }
 
@@ -118,7 +122,7 @@ class SearchInteractorSpec: QuickSpec {
           }
 
           it("라우터의 routeToSubProfileUUID 메서드를 호출한다") {
-            expect(searchRoutingMock.routeToSubProfileUUIDCallCount) == 1
+            expect(searchRouting.routeToSubProfileUUIDCallCount) == 1
           }
         }
       }
@@ -130,7 +134,17 @@ class SearchInteractorSpec: QuickSpec {
           }
 
           it("라우터의 routeToBack 메서드가 불린다") {
-            expect(searchRoutingMock.routeToBackCallCount) == 1
+            expect(searchRouting.routeToBackCallCount) == 1
+          }
+        }
+
+        context("routeToSubFeed 메서드가 불리면") {
+          beforeEach {
+            interactor.routeToSubFeed(model: .defaultValue())
+          }
+
+          it("라우터의 routeToSubFeed 메서드가 불린다") {
+            expect(listener.routeToSubFeedCallCount) == 1
           }
         }
       }
