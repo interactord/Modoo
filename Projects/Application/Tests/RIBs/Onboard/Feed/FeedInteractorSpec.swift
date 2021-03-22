@@ -11,6 +11,8 @@ class FeedInteractorSpec: QuickSpec {
     var viewController: FeedViewControllableMock!
     // swiftlint:disable implicitly_unwrapped_optional
     var postUseCase: FirebasePostUseCaseMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var router: FeedRoutingMock!
 
     beforeEach {
       viewController = FeedViewControllableMock()
@@ -20,12 +22,16 @@ class FeedInteractorSpec: QuickSpec {
         presenter: viewController,
         initialState: state,
         postUseCase: postUseCase)
-
+      router = FeedRoutingMock(
+        interactable: interactor,
+        viewControllable: viewController)
+      interactor.router = router
     }
     afterEach {
       interactor = nil
       viewController = nil
       postUseCase = nil
+      router = nil
     }
 
     describe("활성화 이후") {
@@ -77,6 +83,16 @@ class FeedInteractorSpec: QuickSpec {
           it("state error message는 빈값이다") {
             expect(interactor.currentState.errorMessage).toEventually(equal(""), timeout: TestUtil.Const.timeout)
           }
+        }
+      }
+
+      context("tabComment 액션이 들어올 경우") {
+        beforeEach {
+          interactor.action.onNext(.tabComment(.defaultValue()))
+        }
+
+        it("라우터의 routeToComment를 호출한다") {
+          expect(router.routeToCommentCallCount) == 1
         }
       }
     }

@@ -27,4 +27,8 @@ extension ProfileInteractableMock: ProfileInteractable {
   func routeToBackFromSubFeed() {
     router?.routeToBackFromSubFeed()
   }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    router?.routeToComment(item: item)
+  }
 }

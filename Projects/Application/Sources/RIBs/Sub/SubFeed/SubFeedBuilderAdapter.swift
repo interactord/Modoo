@@ -27,6 +27,10 @@ extension SubFeedBuilderAdapter: SubFeedListener {
   func routeToBackFromSubFeed() {
     listener?.routeToBackFromSubFeed()
   }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    listener?.routeToComment(item: item)
+  }
 }
 
 // MARK: SubFeedBuildable

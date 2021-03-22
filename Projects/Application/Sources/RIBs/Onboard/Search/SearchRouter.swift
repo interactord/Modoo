@@ -2,7 +2,7 @@ import RIBs
 
 // MARK: - SearchInteractable
 
-protocol SearchInteractable: Interactable, SubProfileListener, SubFeedListener {
+protocol SearchInteractable: Interactable, SubProfileListener, SubFeedListener, CommentListener {
   var router: SearchRouting? { get set }
   var listener: SearchListener? { get set }
 }
@@ -22,11 +22,13 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
     interactor: SearchInteractable,
     viewController: SearchViewControllable,
     subProfileBuilder: SubProfileBuildable,
-    subFeedBuilder: SubFeedBuildable)
+    subFeedBuilder: SubFeedBuildable,
+    commentBuilder: CommentBuildable)
   {
     defer { interactor.router = self }
     self.subProfileBuilder = subProfileBuilder
     self.subFeedBuilder = subFeedBuilder
+    self.commentBuilder = commentBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -37,9 +39,8 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
   // MARK: Internal
 
   let subProfileBuilder: SubProfileBuildable
-  var subProfileRouter: ViewableRouting?
   let subFeedBuilder: SubFeedBuildable
-  var subFeedRouter: ViewableRouting?
+  let commentBuilder: CommentBuildable
   var navigatingRoutings = [String: ViewableRouting]()
 
   // MARK: Private
@@ -47,6 +48,7 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
   private struct Const {
     static let subProfileID = "subProfileID"
     static let subFeedID = "subFeedID"
+    static let commentID = "commentBuilder"
   }
 }
 
@@ -62,6 +64,11 @@ extension SearchRouter: SearchRouting, NavigatingViewableRouting {
   func routeToSubFeed(model: ProfileContentSectionModel.Cell) {
     let router = subFeedBuilder.build(withListener: interactor, model: model)
     navigatingRoutings = push(router: router, id: Const.subFeedID)
+  }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    let router = commentBuilder.build(withListener: interactor)
+    navigatingRoutings = push(router: router, id: Const.commentID)
   }
 
   func routeToBackFromSubFeed() {

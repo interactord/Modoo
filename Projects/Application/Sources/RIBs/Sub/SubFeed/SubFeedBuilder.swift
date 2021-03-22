@@ -53,11 +53,8 @@ final class SubFeedBuilder: Builder<SubFeedDependency>, SubFeedBuildable {
       postUseCase: component.postUseCase)
     interactor.listener = listener
 
-    let commentBuilderAdapterType: CommentBuilderAdapter.Type = BuilderContainer.resolve(for: CommentBuilderID)
-
     return SubFeedRouter(
       interactor: interactor,
-      viewController: viewController,
-      commentBuilder: commentBuilderAdapterType.init(dependency: component))
+      viewController: viewController)
   }
 }

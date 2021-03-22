@@ -34,19 +34,24 @@ final class FeedRouter: ViewableRouter<FeedInteractable, FeedViewControllable> {
 
   // MARK: Internal
 
-  var presentedRoutings = [ViewableRouting]()
+  var navigatingRoutings = [String: ViewableRouting]()
 
   // MARK: Private
 
+  private struct Const {
+    static var commentID = "commentID"
+  }
+
   private let commentBuilder: CommentBuildable
+
 }
 
-// MARK: FeedRouting, PresentingViewableRouting
+// MARK: FeedRouting, NavigatingViewableRouting
 
-extension FeedRouter: FeedRouting, PresentingViewableRouting {
+extension FeedRouter: FeedRouting, NavigatingViewableRouting {
 
   func routeToComment(item: FeedContentSectionModel.Cell) {
     let routing = commentBuilder.build(withListener: interactor)
-    presentedRoutings = present(routings: presentedRoutings, routing: routing, showAnimated: true)
+    navigatingRoutings = push(router: routing, id: Const.commentID)
   }
 }

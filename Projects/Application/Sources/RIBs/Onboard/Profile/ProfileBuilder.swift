@@ -26,6 +26,11 @@ final class ProfileComponent: Component<ProfileDependency> {
 extension ProfileComponent: SubFeedDependency {
 }
 
+// MARK: CommentDependency
+
+extension ProfileComponent: CommentDependency {
+}
+
 // MARK: - ProfileBuildable
 
 protocol ProfileBuildable: Buildable {
@@ -59,10 +64,12 @@ final class ProfileBuilder: Builder<ProfileDependency>, ProfileBuildable {
     interactor.listener = listener
 
     let subFeedBuilderAdapterType: SubFeedBuilderAdapter.Type = BuilderContainer.resolve(for: SubFeedBuilderID)
+    let commentBuilderAdapterType: CommentBuilderAdapter.Type = BuilderContainer.resolve(for: CommentBuilderID)
 
     return ProfileRouter(
       interactor: interactor,
       viewController: viewController,
-      subFeedBuilder: subFeedBuilderAdapterType.init(dependency: component))
+      subFeedBuilder: subFeedBuilderAdapterType.init(dependency: component),
+      commentBuilder: commentBuilderAdapterType.init(dependency: component))
   }
 }

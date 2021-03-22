@@ -5,7 +5,6 @@ import RxSwift
 // MARK: - SubFeedRouting
 
 protocol SubFeedRouting: ViewableRouting {
-  func routeToComment(item: FeedContentSectionModel.Cell)
 }
 
 // MARK: - SubFeedPresentable
@@ -17,6 +16,7 @@ protocol SubFeedPresentable: Presentable {
 // MARK: - SubFeedListener
 
 protocol SubFeedListener: AnyObject {
+  func routeToComment(item: FeedContentSectionModel.Cell)
   func routeToBackFromSubFeed()
 }
 
@@ -117,7 +117,7 @@ extension SubFeedInteractor: SubFeedPresentableListener, Reactor {
   }
 
   private func mutatingComment(item: FeedContentSectionModel.Cell) -> Observable<Mutation> {
-    router?.routeToComment(item: item)
+    listener?.routeToComment(item: item)
     return .empty()
   }
 

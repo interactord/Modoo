@@ -170,6 +170,16 @@ class ProfileInteractorSpec: QuickSpec {
             expect(router.routeToBackFromSubFeedCallCount) == 1
           }
         }
+
+        context("routeToComment 메서드가 불리면") {
+          beforeEach {
+            interactor.routeToComment(item: .defaultValue())
+          }
+
+          it("라우터의 routeToComment 메서드가 불린다") {
+            expect(router.routeToCommentCallCount) == 1
+          }
+        }
       }
     }
   }

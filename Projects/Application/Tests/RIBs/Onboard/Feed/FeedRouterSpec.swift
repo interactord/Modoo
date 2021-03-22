@@ -27,8 +27,26 @@ class FeedRouterSpec: QuickSpec {
         router.didLoad()
       }
 
-      it("test..") {
-        expect(router).toNot(beNil())
+      context("routeToComment 메서드 호출 시") {
+        beforeEach {
+          router.routeToComment(item: .defaultValue())
+        }
+
+        it("viewController push 메서드를 호출 한다") {
+          expect(viewController.pushCallCount) == 1
+          expect(viewController.viewControllers) == 1
+        }
+
+        context("routeToComment 중복 메서드 호출 시") {
+          beforeEach {
+            router.routeToComment(item: .defaultValue())
+          }
+
+          it("viewController push 메서드를 하지 않는다") {
+            expect(viewController.pushCallCount) == 1
+            expect(viewController.viewControllers) == 1
+          }
+        }
       }
     }
   }

@@ -16,37 +16,17 @@ protocol SubFeedViewControllable: ViewControllable, UIViewControllerViewable {
 
 final class SubFeedRouter: ViewableRouter<SubFeedInteractable, SubFeedViewControllable> {
 
-  // MARK: Lifecycle
-
-  init(
-    interactor: SubFeedInteractable,
-    viewController: SubFeedViewControllable,
-    commentBuilder: CommentBuildable)
-  {
+  override init(interactor: SubFeedInteractable, viewController: SubFeedViewControllable){
     defer { interactor.router = self }
-    self.commentBuilder = commentBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
   deinit {
     print("SubFeedRouter deinit...")
   }
-
-  // MARK: Internal
-
-  var presentedRoutings = [ViewableRouting]()
-
-  // MARK: Private
-
-  private let commentBuilder: CommentBuildable
 }
 
-// MARK: SubFeedRouting, PresentingViewableRouting
+// MARK: SubFeedRouting
 
-extension SubFeedRouter: SubFeedRouting, PresentingViewableRouting {
-
-  func routeToComment(item: FeedContentSectionModel.Cell) {
-    let routing = commentBuilder.build(withListener: interactor)
-    presentedRoutings = present(routings: presentedRoutings, routing: routing, showAnimated: true)
-  }
+extension SubFeedRouter: SubFeedRouting {
 }

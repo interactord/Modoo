@@ -14,7 +14,8 @@ class ProfileRouterSpec: QuickSpec {
       router = ProfileRouter(
         interactor: ProfileInteractableMock(),
         viewController: viewController,
-        subFeedBuilder: SubFeedBuildableMock())
+        subFeedBuilder: SubFeedBuildableMock(),
+        commentBuilder: CommentBuildableMock())
     }
     afterEach {
       viewController = nil
@@ -64,6 +65,17 @@ class ProfileRouterSpec: QuickSpec {
 
           it("viewController pop 메서드가 불린다") {
             expect(viewController.popCallCount) == 1
+          }
+        }
+
+        context("routeToComment 메서드 호출 시") {
+          beforeEach {
+            router.routeToComment(item: .defaultValue())
+          }
+
+          it("viewController push 메서드를 호출 한다") {
+            expect(viewController.pushCallCount) == 2
+            expect(viewController.viewControllers) == 2
           }
         }
       }

@@ -35,4 +35,8 @@ extension SearchInteractableMock: SearchInteractable {
   func routeToBackFromSubProfile() {
     router?.routeToBackFromSubProfile()
   }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    router?.routeToComment(item: item)
+  }
 }

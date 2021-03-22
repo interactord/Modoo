@@ -11,6 +11,9 @@ class ProfileRoutingMock: RoutingMock {
 
   var routeToBackFromSubFeedCallCount = 0
   var routeToBackFromSubFeedHandler: (() -> Void)?
+
+  var routeToCommentCallCount = 0
+  var routeToCommentHandler: (() -> Void)?
 }
 
 // MARK: ProfileRouting
@@ -24,5 +27,10 @@ extension ProfileRoutingMock: ProfileRouting {
   func routeToBackFromSubFeed() {
     routeToBackFromSubFeedCallCount += 1
     routeToBackFromSubFeedHandler?()
+  }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    routeToCommentCallCount += 1
+    routeToCommentHandler?()
   }
 }

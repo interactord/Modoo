@@ -26,6 +26,11 @@ extension SearchComponent: SubProfileDependency {
 extension SearchComponent: SubFeedDependency {
 }
 
+// MARK: CommentDependency
+
+extension SearchComponent: CommentDependency {
+}
+
 // MARK: - SearchBuildable
 
 protocol SearchBuildable: Buildable {
@@ -59,11 +64,13 @@ final class SearchBuilder: Builder<SearchDependency>, SearchBuildable {
 
     let subProfileBuilderAdapterType: SubProfileBuilderAdapter.Type = BuilderContainer.resolve(for: SubProfileBuilderID)
     let subFeedBuilderAdapterType: SubFeedBuilderAdapter.Type = BuilderContainer.resolve(for: SubFeedBuilderID)
+    let commentBuilderAdapterType: CommentBuilderAdapter.Type = BuilderContainer.resolve(for: CommentBuilderID)
 
     return SearchRouter(
       interactor: interactor,
       viewController: viewController,
       subProfileBuilder: subProfileBuilderAdapterType.init(dependency: component),
-      subFeedBuilder: subFeedBuilderAdapterType.init(dependency: component))
+      subFeedBuilder: subFeedBuilderAdapterType.init(dependency: component),
+      commentBuilder: commentBuilderAdapterType.init(dependency: component))
   }
 }

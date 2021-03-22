@@ -11,7 +11,7 @@ class SearchInteractorSpec: QuickSpec {
     // swiftlint:disable implicitly_unwrapped_optional
     var userUseCase: FirebaseUserUseCaseMock!
     // swiftlint:disable implicitly_unwrapped_optional
-    var searchRouting: SearchRoutingMock!
+    var router: SearchRoutingMock!
     // swiftlint:disable implicitly_unwrapped_optional
     var listener: SearchListenerMock!
 
@@ -24,10 +24,10 @@ class SearchInteractorSpec: QuickSpec {
         presenter: viewController,
         initialState: state,
         userUseCase: userUseCase)
-      searchRouting = SearchRoutingMock(
+      router = SearchRoutingMock(
         interactable: interactor,
         viewControllable: viewController)
-      interactor.router = searchRouting
+      interactor.router = router
       interactor.listener = listener
     }
     afterEach {
@@ -122,7 +122,7 @@ class SearchInteractorSpec: QuickSpec {
           }
 
           it("라우터의 routeToSubProfileUUID 메서드를 호출한다") {
-            expect(searchRouting.routeToSubProfileUUIDCallCount) == 1
+            expect(router.routeToSubProfileUUIDCallCount) == 1
           }
         }
       }
@@ -134,7 +134,7 @@ class SearchInteractorSpec: QuickSpec {
           }
 
           it("라우터의 routeToBackFromSubFeed 메서드가 불린다") {
-            expect(searchRouting.routeToBackFromSubFeedCallCount) == 1
+            expect(router.routeToBackFromSubFeedCallCount) == 1
           }
         }
 
@@ -144,7 +144,7 @@ class SearchInteractorSpec: QuickSpec {
           }
 
           it("라우터의 routeToBackFromSubProfile 메서드가 불린다") {
-            expect(searchRouting.routeToBackFromSubProfileCallCount) == 1
+            expect(router.routeToBackFromSubProfileCallCount) == 1
           }
         }
 
@@ -154,7 +154,17 @@ class SearchInteractorSpec: QuickSpec {
           }
 
           it("라우터의 routeToSubFeed 메서드가 불린다") {
-            expect(searchRouting.routeToSubFeedCallCount) == 1
+            expect(router.routeToSubFeedCallCount) == 1
+          }
+        }
+
+        context("routeToComment 메서드가 불리면") {
+          beforeEach {
+            interactor.routeToComment(item: .defaultValue())
+          }
+
+          it("라우터의 routeToComment 메서드가 불린다") {
+            expect(router.routeToCommentCallCount) == 1
           }
         }
       }

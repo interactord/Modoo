@@ -92,6 +92,17 @@ class SubFeedInteractorSpec: QuickSpec {
           }
         }
       }
+
+      context("tabComment 액션이 들어올 경우") {
+        beforeEach {
+          interactor.action.onNext(.tabComment(.defaultValue()))
+        }
+
+        it("listener routeToComment를 호출한다") {
+
+          expect(listener.routeToCommentCallCount) == 1
+        }
+      }
     }
   }
 }

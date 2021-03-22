@@ -6,6 +6,7 @@ import RxSwift
 
 protocol ProfileRouting: ViewableRouting {
   func routeToSubFeed(model: ProfileContentSectionModel.Cell)
+  func routeToComment(item: FeedContentSectionModel.Cell)
   func routeToBackFromSubFeed()
 }
 
@@ -139,5 +140,9 @@ extension ProfileInteractor: ProfilePresentableListener, Reactor {
 extension ProfileInteractor: ProfileInteractable {
   func routeToBackFromSubFeed() {
     router?.routeToBackFromSubFeed()
+  }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    router?.routeToComment(item: item)
   }
 }

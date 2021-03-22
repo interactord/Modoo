@@ -2,7 +2,7 @@ import RIBs
 
 // MARK: - ProfileInteractable
 
-protocol ProfileInteractable: Interactable, SubFeedListener {
+protocol ProfileInteractable: Interactable, SubFeedListener, CommentListener {
   var router: ProfileRouting? { get set }
   var listener: ProfileListener? { get set }
 }
@@ -21,10 +21,12 @@ final class ProfileRouter: ViewableRouter<ProfileInteractable, ProfileViewContro
   init(
     interactor: ProfileInteractable,
     viewController: ProfileViewControllable,
-    subFeedBuilder: SubFeedBuildable)
+    subFeedBuilder: SubFeedBuildable,
+    commentBuilder: CommentBuildable)
   {
     defer { interactor.router = self }
     self.subFeedBuilder = subFeedBuilder
+    self.commentBuilder = commentBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -40,9 +42,11 @@ final class ProfileRouter: ViewableRouter<ProfileInteractable, ProfileViewContro
 
   private struct Const {
     static let subFeedID = "subFeedID"
+    static let commentID = "commentID"
   }
 
   private var subFeedBuilder: SubFeedBuildable
+  private var commentBuilder: CommentBuildable
 
 }
 
@@ -56,5 +60,10 @@ extension ProfileRouter: ProfileRouting, NavigatingViewableRouting {
 
   func routeToBackFromSubFeed() {
     navigatingRoutings = pop(id: Const.subFeedID)
+  }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    let router = commentBuilder.build(withListener: interactor)
+    navigatingRoutings = push(router: router, id: Const.commentID)
   }
 }
