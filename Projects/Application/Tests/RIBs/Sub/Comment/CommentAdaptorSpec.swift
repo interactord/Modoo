@@ -26,7 +26,7 @@ class CommentAdaptorSpec: QuickSpec {
 
     describe("빌드가 되고나서") {
       beforeEach {
-        _ = adapter.build(withListener: listener)
+        _ = adapter.build(withListener: listener, item: .defaultValue())
       }
 
       context("routeToBackFromComment 호출 시") {

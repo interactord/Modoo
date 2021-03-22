@@ -32,12 +32,12 @@ extension CommentBuilderAdapter: CommentListener {
 // MARK: CommentBuildable
 
 extension CommentBuilderAdapter: CommentBuildable {
-  func build(withListener listener: CommentListener) -> CommentRouting {
+  func build(withListener listener: CommentListener, item: FeedContentSectionModel.Cell) -> CommentRouting {
     let component = Component(dependency: dependency)
     self.listener = listener
 
     let builder = CommentBuilder(dependency: component)
-    return builder.build(withListener: self)
+    return builder.build(withListener: self, item: item)
   }
 
 }

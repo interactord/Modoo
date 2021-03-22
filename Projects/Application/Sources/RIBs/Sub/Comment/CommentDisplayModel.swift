@@ -10,8 +10,10 @@ enum CommentDisplayModel {
   }
 
   struct State: Equatable, DefaultValueUsable {
+    var postItem: FeedContentSectionModel.Cell
+
     static func defaultValue() -> Self {
-      Self()
+      Self(postItem: .defaultValue())
     }
   }
 

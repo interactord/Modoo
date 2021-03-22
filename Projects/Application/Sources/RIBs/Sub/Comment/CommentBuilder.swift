@@ -8,13 +8,12 @@ protocol CommentDependency: Dependency {
 // MARK: - CommentComponent
 
 final class CommentComponent: Component<CommentDependency> {
-  fileprivate var initailState: CommentDisplayModel.State { .defaultValue() }
 }
 
 // MARK: - CommentBuildable
 
 protocol CommentBuildable: Buildable {
-  func build(withListener listener: CommentListener) -> CommentRouting
+  func build(withListener listener: CommentListener, item: FeedContentSectionModel.Cell) -> CommentRouting
 }
 
 // MARK: - CommentBuilder
@@ -33,12 +32,13 @@ final class CommentBuilder: Builder<CommentDependency>, CommentBuildable {
 
   // MARK: Internal
 
-  func build(withListener listener: CommentListener) -> CommentRouting {
-    let component = CommentComponent(dependency: dependency)
+  func build(withListener listener: CommentListener, item: FeedContentSectionModel.Cell) -> CommentRouting {
+    _ = CommentComponent(dependency: dependency)
     let viewController = CommentViewController(node: .init())
+    let state = CommentDisplayModel.State(postItem: item)
     let interactor = CommentInteractor(
       presenter: viewController,
-      initialState: component.initailState)
+      initialState: state)
     interactor.listener = listener
     return CommentRouter(interactor: interactor, viewController: viewController)
   }

@@ -6,27 +6,22 @@ import RIBs
 
 class CommentBuildableMock: Builder<CommentDependency> {
 
-  // MARK: Lifecycle
-
   init() {
     super.init(dependency: CommentDependencyMock())
   }
-
-  // MARK: Fileprivate
-
-  fileprivate var initialState: CommentDisplayModel.State { .defaultValue() }
 
 }
 
 // MARK: CommentBuildable
 
 extension CommentBuildableMock: CommentBuildable {
-  func build(withListener listener: CommentListener) -> CommentRouting {
+  func build(withListener listener: CommentListener, item: FeedContentSectionModel.Cell) -> CommentRouting {
     _ = CommentComponent(dependency: dependency)
     let viewController = CommentViewController(node: .init())
+    let state = CommentDisplayModel.State(postItem: item)
     let interactor = CommentInteractor(
       presenter: viewController,
-      initialState: initialState)
+      initialState: state)
     interactor.listener = listener
 
     return CommentRouter(

@@ -63,7 +63,7 @@ extension ProfileRouter: ProfileRouting, NavigatingViewableRouting {
   }
 
   func routeToComment(item: FeedContentSectionModel.Cell) {
-    let router = commentBuilder.build(withListener: interactor)
+    let router = commentBuilder.build(withListener: interactor, item: item)
     navigatingRoutings = push(router: router, id: Const.commentID)
   }
 

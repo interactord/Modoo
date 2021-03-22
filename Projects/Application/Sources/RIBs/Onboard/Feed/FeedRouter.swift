@@ -51,7 +51,7 @@ final class FeedRouter: ViewableRouter<FeedInteractable, FeedViewControllable> {
 extension FeedRouter: FeedRouting, NavigatingViewableRouting {
 
   func routeToComment(item: FeedContentSectionModel.Cell) {
-    let routing = commentBuilder.build(withListener: interactor)
+    let routing = commentBuilder.build(withListener: interactor, item: item)
     navigatingRoutings = push(router: routing, id: Const.commentID)
   }
 
