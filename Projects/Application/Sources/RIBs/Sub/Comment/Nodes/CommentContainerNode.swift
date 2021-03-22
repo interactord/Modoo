@@ -5,6 +5,8 @@ import RxSwift
 
 final class CommentContainerNode: ASDisplayNode {
 
+  // MARK: Lifecycle
+
   override init() {
     super.init()
 
@@ -17,12 +19,27 @@ final class CommentContainerNode: ASDisplayNode {
     print("CommentContainerNode deinit...")
   }
 
+  // MARK: Internal
+
+  let header = CommentHeaderNode()
 }
 
 // MARK: - LayoutSpec
 
 extension CommentContainerNode {
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-    ASStackLayoutSpec()
+    let flexibleSpacer = ASLayoutSpec()
+    flexibleSpacer.style.flexGrow = 1
+    let contentLayout = ASStackLayoutSpec(
+      direction: .vertical,
+      spacing: .zero,
+      justifyContent: .start,
+      alignItems: .stretch,
+      children: [
+        header,
+        flexibleSpacer,
+      ])
+
+    return ASInsetLayoutSpec(insets: safeAreaInsets, child: contentLayout)
   }
 }
