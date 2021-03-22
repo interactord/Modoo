@@ -14,7 +14,8 @@ class FeedRouterSpec: QuickSpec {
       viewController = FeedViewControllableMock()
       router = FeedRouter(
         interactor: FeedInteractableMock(),
-        viewController: viewController)
+        viewController: viewController,
+        commentBuilder: CommentBuildableMock())
     }
     afterEach {
       viewController = nil

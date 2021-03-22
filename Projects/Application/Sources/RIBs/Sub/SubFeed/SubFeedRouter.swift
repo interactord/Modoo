@@ -16,12 +16,23 @@ protocol SubFeedViewControllable: ViewControllable {
 
 final class SubFeedRouter: ViewableRouter<SubFeedInteractable, SubFeedViewControllable>, SubFeedRouting {
 
-  override init(interactor: SubFeedInteractable, viewController: SubFeedViewControllable) {
+  // MARK: Lifecycle
+
+  init(
+    interactor: SubFeedInteractable,
+    viewController: SubFeedViewControllable,
+    commentBuilder: CommentBuildable)
+  {
+    defer { interactor.router = self }
+    self.commentBuilder = commentBuilder
     super.init(interactor: interactor, viewController: viewController)
-    interactor.router = self
   }
 
   deinit {
     print("SubFeedRouter deinit...")
   }
+
+  // MARK: Private
+
+  private let commentBuilder: CommentBuildable
 }

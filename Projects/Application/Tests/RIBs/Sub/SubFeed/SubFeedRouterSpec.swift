@@ -14,7 +14,8 @@ class SubFeedRouterSpec: QuickSpec {
       viewController = SubFeedViewControllableMock()
       router = SubFeedRouter(
         interactor: SubFeedInteractableMock(),
-        viewController: viewController)
+        viewController: viewController,
+        commentBuilder: CommentBuildableMock())
     }
     afterEach {
       viewController = nil

@@ -16,6 +16,11 @@ final class SubFeedComponent: Component<SubFeedDependency> {
   }
 }
 
+// MARK: CommentDependency
+
+extension SubFeedComponent: CommentDependency {
+}
+
 // MARK: - SubFeedBuildable
 
 protocol SubFeedBuildable: Buildable {
@@ -47,6 +52,12 @@ final class SubFeedBuilder: Builder<SubFeedDependency>, SubFeedBuildable {
       initialState: state,
       postUseCase: component.postUseCase)
     interactor.listener = listener
-    return SubFeedRouter(interactor: interactor, viewController: viewController)
+
+    let commentBuilderAdapterType: CommentBuilderAdapter.Type = BuilderContainer.resolve(for: CommentBuilderID)
+
+    return SubFeedRouter(
+      interactor: interactor,
+      viewController: viewController,
+      commentBuilder: commentBuilderAdapterType.init(dependency: component))
   }
 }

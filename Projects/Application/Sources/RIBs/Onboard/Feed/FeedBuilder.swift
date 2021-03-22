@@ -16,6 +16,11 @@ final class FeedComponent: Component<FeedDependency> {
   }
 }
 
+// MARK: CommentDependency
+
+extension FeedComponent: CommentDependency {
+}
+
 // MARK: - FeedBuildable
 
 protocol FeedBuildable: Buildable {
@@ -46,6 +51,12 @@ final class FeedBuilder: Builder<FeedDependency>, FeedBuildable {
       initialState: component.initailState,
       postUseCase: component.postUseCase)
     interactor.listener = listener
-    return FeedRouter(interactor: interactor, viewController: viewController)
+
+    let commentBuilderAdapterType: CommentBuilderAdapter.Type = BuilderContainer.resolve(for: CommentBuilderID)
+
+    return FeedRouter(
+      interactor: interactor,
+      viewController: viewController,
+      commentBuilder: commentBuilderAdapterType.init(dependency: component))
   }
 }

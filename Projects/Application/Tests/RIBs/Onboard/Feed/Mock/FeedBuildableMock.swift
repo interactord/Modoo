@@ -37,7 +37,8 @@ extension FeedBuildableMock: FeedBuildable {
 
     return FeedRouter(
       interactor: interactor,
-      viewController: viewController)
+      viewController: viewController,
+      commentBuilder: CommentBuildableMock())
   }
 
 }

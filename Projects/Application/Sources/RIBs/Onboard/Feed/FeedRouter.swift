@@ -16,14 +16,25 @@ protocol FeedViewControllable: ViewControllable {
 
 final class FeedRouter: ViewableRouter<FeedInteractable, FeedViewControllable> {
 
-  override init(interactor: FeedInteractable, viewController: FeedViewControllable) {
+  // MARK: Lifecycle
+
+  init(
+    interactor: FeedInteractable,
+    viewController: FeedViewControllable,
+    commentBuilder: CommentBuildable)
+  {
+    defer { interactor.router = self }
+    self.commentBuilder = commentBuilder
     super.init(interactor: interactor, viewController: viewController)
-    interactor.router = self
   }
 
   deinit {
     print("FeedRouter deinit...")
   }
+
+  // MARK: Private
+
+  private let commentBuilder: CommentBuildable
 }
 
 // MARK: FeedRouting

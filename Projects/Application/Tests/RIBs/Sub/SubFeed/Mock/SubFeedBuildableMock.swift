@@ -36,7 +36,8 @@ extension SubFeedBuildableMock: SubFeedBuildable {
 
     return SubFeedRouter(
       interactor: interactor,
-      viewController: viewController)
+      viewController: viewController,
+      commentBuilder: CommentBuildableMock())
   }
 
 }
