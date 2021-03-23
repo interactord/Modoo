@@ -13,7 +13,7 @@ extension SearchUserSectionModel: SectionModelType {
 
   var object: ListDiffable {
     switch self {
-    case  let .userContent(itemModel):
+    case let .userContent(itemModel):
       return itemModel
     }
   }

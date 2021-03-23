@@ -1,8 +1,10 @@
 import AsyncDisplayKit
 import ReactorKit
 import RIBs
+import RxIGListKit
+import RxOptional
 import RxSwift
-import RxSwiftExt
+import RxTexture2
 import RxViewController
 import UIKit
 
@@ -31,6 +33,23 @@ final class CommentViewController: ASDKViewController<CommentContainerNode>, Com
 
   // MARK: Private
 
+  private lazy var adapter: ListAdapter = {
+    let adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self)
+    adapter.setASDKCollectionNode(node.collectionNode)
+    return adapter
+  }()
+
+  private lazy var dataSource: RxListAdapterDataSource<CommentSectionModel> = {
+    .init { _, object in
+      switch object {
+      case let .commentConent(itemModel):
+        return SectionController<SectionDisplayModel<EmptyItemModel, CommentSectionItemModel.Cell, EmptyItemModel>>(
+          sizeForItemWidthBlock: { UIScreen.main.bounds.width },
+          nodeForItemBlock: { CommentCellNode(item: $0) })
+      }
+    }
+  }()
+
   private let disposeBag = DisposeBag()
 }
 
@@ -47,6 +66,15 @@ extension CommentViewController: ListenerBindable {
       .backButtonTapStream
       .mapTo(.back)
       .bind(to: listener.action)
+      .disposed(by: disposeBag)
+  }
+
+  func bindState(listener: CommentPresentableListener) {
+    listener.state
+      .map{[
+        CommentSectionModel.commentConent(itemModel: $0.commentSectionItemModel),
+      ]}
+      .bind(to: adapter.rx.objects(for: dataSource))
       .disposed(by: disposeBag)
   }
 }

@@ -85,8 +85,8 @@ extension SearchUserCellNode {
   }
 
   private func contentsAreaLayoutSpec() -> ASLayoutSpec {
-    let aaa = ASLayoutSpec()
-    aaa.style.flexGrow = 1
+    let flexibleSpacer = ASLayoutSpec()
+    flexibleSpacer.style.flexGrow = 1
 
     let contentLayout = ASStackLayoutSpec(
       direction: .horizontal,
@@ -96,7 +96,7 @@ extension SearchUserCellNode {
       children: [
         photoNodes,
         textAreaLayoutSpec(),
-        aaa,
+        flexibleSpacer,
       ])
 
     contentLayout.style.width = .init(unit: .fraction, value: 1.0)

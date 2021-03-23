@@ -22,14 +22,25 @@ final class CommentContainerNode: ASDisplayNode {
   // MARK: Internal
 
   let header = CommentHeaderNode()
+  let collectionNode: ASCollectionNode = {
+    let flowLayout = UICollectionViewFlowLayout()
+    flowLayout.scrollDirection = .vertical
+    flowLayout.minimumLineSpacing = .zero
+    flowLayout.minimumInteritemSpacing = .zero
+
+    let node = ASCollectionNode(collectionViewLayout: flowLayout)
+    node.registerSupplementaryNode(ofKind: UICollectionView.elementKindSectionHeader)
+    node.alwaysBounceVertical = true
+    node.style.flexGrow = 1
+
+    return node
+  }()
 }
 
 // MARK: - LayoutSpec
 
 extension CommentContainerNode {
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
-    let flexibleSpacer = ASLayoutSpec()
-    flexibleSpacer.style.flexGrow = 1
     let contentLayout = ASStackLayoutSpec(
       direction: .vertical,
       spacing: .zero,
@@ -37,7 +48,7 @@ extension CommentContainerNode {
       alignItems: .stretch,
       children: [
         header,
-        flexibleSpacer,
+        collectionNode,
       ])
 
     return ASInsetLayoutSpec(insets: safeAreaInsets, child: contentLayout)

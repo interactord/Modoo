@@ -79,6 +79,8 @@ extension CommentInteractor: CommentPresentableListener, Reactor {
       newState.errorMessage = errorMessage
     case let .setLoading(isLoading):
       newState.isLoading = isLoading
+    case let .setCommentSectionItemModel(items):
+      newState.commentSectionItemModel = .init(cellItems: items, original: state.commentSectionItemModel)
     }
 
     return newState
@@ -99,7 +101,8 @@ extension CommentInteractor: CommentPresentableListener, Reactor {
     let useCaseStream = commentUseCase
       .fetchComment(postID: postID)
       .flatMap { repositoryModel -> Observable<Mutation> in
-        .just(.setLoading(false))
+        let items = repositoryModel.map{ CommentSectionItemModel.Cell(repositoryModel: $0) }
+        return .just(.setCommentSectionItemModel(items))
       }
       .catch{ .just(.setError($0.localizedDescription)) }
 
