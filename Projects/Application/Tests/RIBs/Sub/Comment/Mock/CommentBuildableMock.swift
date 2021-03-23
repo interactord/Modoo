@@ -26,7 +26,7 @@ extension CommentBuildableMock: CommentBuildable {
   func build(withListener listener: CommentListener, item: FeedContentSectionModel.Cell) -> CommentRouting {
     _ = CommentComponent(dependency: dependency)
     let viewController = CommentViewController(node: .init())
-    let state = CommentDisplayModel.State(postItem: item)
+    let state = CommentDisplayModel.State(postItem: item, oritinalState: .defaultValue())
     let interactor = CommentInteractor(
       presenter: viewController,
       initialState: state,

@@ -3,6 +3,7 @@ import ReactorKit
 import RIBs
 import RxSwift
 import RxSwiftExt
+import RxViewController
 import UIKit
 
 // MARK: - CommentPresentableListener
@@ -37,6 +38,11 @@ final class CommentViewController: ASDKViewController<CommentContainerNode>, Com
 
 extension CommentViewController: ListenerBindable {
   func bindAction(listener: CommentPresentableListener) {
+    rx.viewDidLoad
+      .mapTo(.load)
+      .bind(to: listener.action)
+      .disposed(by: disposeBag)
+
     node
       .backButtonTapStream
       .mapTo(.back)

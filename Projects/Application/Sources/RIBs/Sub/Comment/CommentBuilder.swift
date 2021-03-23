@@ -38,7 +38,7 @@ final class CommentBuilder: Builder<CommentDependency>, CommentBuildable {
   func build(withListener listener: CommentListener, item: FeedContentSectionModel.Cell) -> CommentRouting {
     let component = CommentComponent(dependency: dependency)
     let viewController = CommentViewController(node: .init())
-    let state = CommentDisplayModel.State(postItem: item)
+    let state = CommentDisplayModel.State(postItem: item, oritinalState: .defaultValue())
     let interactor = CommentInteractor(
       presenter: viewController,
       initialState: state,
