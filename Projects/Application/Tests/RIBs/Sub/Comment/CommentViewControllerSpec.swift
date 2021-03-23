@@ -13,7 +13,10 @@ class CommentViewControllerSpec: QuickSpec {
     beforeEach {
       viewController = CommentViewController(node: .init())
       let state = CommentDisplayModel.State.defaultValue()
-      interactor = CommentInteractor(presenter: viewController, initialState: state)
+      interactor = CommentInteractor(
+        presenter: viewController,
+        initialState: state,
+        commentUseCase: FirebaseCommentUseCaseMock())
       interactor.isStubEnabled = true
     }
     afterEach {

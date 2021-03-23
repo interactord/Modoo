@@ -6,8 +6,16 @@ import RIBs
 
 class CommentBuildableMock: Builder<CommentDependency> {
 
+  // MARK: Lifecycle
+
   init() {
     super.init(dependency: CommentDependencyMock())
+  }
+
+  // MARK: Fileprivate
+
+  fileprivate var commentUseCase: CommentUseCase {
+    FirebaseCommentUseCase(apiNetworking: FirebaseAPINetwork())
   }
 
 }
@@ -21,7 +29,8 @@ extension CommentBuildableMock: CommentBuildable {
     let state = CommentDisplayModel.State(postItem: item)
     let interactor = CommentInteractor(
       presenter: viewController,
-      initialState: state)
+      initialState: state,
+      commentUseCase: commentUseCase)
     interactor.listener = listener
 
     return CommentRouter(

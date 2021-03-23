@@ -17,7 +17,8 @@ class CommentInteractorSpec: QuickSpec {
       let state = CommentDisplayModel.State.defaultValue()
       interactor = CommentInteractor(
         presenter: viewController,
-        initialState: state)
+        initialState: state,
+        commentUseCase: FirebaseCommentUseCaseMock())
       listener = CommentListenerMock()
       interactor.listener = listener
     }

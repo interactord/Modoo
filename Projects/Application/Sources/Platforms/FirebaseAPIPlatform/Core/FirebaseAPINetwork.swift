@@ -127,6 +127,35 @@ struct FirebaseAPINetwork: FirebaseAPINetworking {
     }
   }
 
+  func get<T: Decodable>(rootCollection: String, documentID: String, collection: String, orderBy key: String, descending: Bool) -> Single<[T]> {
+    .create { single in
+      Firestore.firestore()
+        .collection(rootCollection)
+        .document(documentID)
+        .collection(collection)
+        .order(by: key, descending: descending)
+        .getDocuments { snapshot, error in
+          if let error = error { single(.failure(error)) }
+          guard let documents = snapshot?.documents else { return single(.failure(FirebaseError.noDocumnets)) }
+
+          let objects: [T] = documents.compactMap { querySnapShot in
+            var newQuerySnapShot = querySnapShot.data()
+
+            if let timeStamp = newQuerySnapShot["timestamp"] as? Timestamp {
+              newQuerySnapShot["timestamp"] = timeStamp.dateValue().timeIntervalSince1970
+            }
+
+            newQuerySnapShot["id"] = querySnapShot.documentID
+
+            return try? T.init(from: newQuerySnapShot)
+          }
+          single(.success(objects))
+        }
+
+      return Disposables.create()
+    }
+  }
+
   func get<T: Decodable>(collection: String, orderBy key: String, whereFeild: [String: String], descending: Bool) -> Single<[T]> {
     .create { single in
       Firestore.firestore()

@@ -27,10 +27,12 @@ final class CommentInteractor: PresentableInteractor<CommentPresentable>, Commen
 
   init(
     presenter: CommentPresentable,
-    initialState: CommentDisplayModel.State)
+    initialState: CommentDisplayModel.State,
+    commentUseCase: CommentUseCase)
   {
     defer { presenter.listener = self }
     self.initialState = initialState
+    self.commentUseCase = commentUseCase
     super.init(presenter: presenter)
   }
 
@@ -44,6 +46,7 @@ final class CommentInteractor: PresentableInteractor<CommentPresentable>, Commen
   weak var listener: CommentListener?
 
   var initialState: CommentDisplayModel.State
+  let commentUseCase: CommentUseCase
 
 }
 
