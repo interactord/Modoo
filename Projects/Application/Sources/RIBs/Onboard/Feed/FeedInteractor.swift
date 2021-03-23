@@ -5,8 +5,6 @@ import RxSwift
 // MARK: - FeedRouting
 
 protocol FeedRouting: ViewableRouting {
-  func routeToComment(item: FeedContentSectionModel.Cell)
-  func routeToBackFromComment()
 }
 
 // MARK: - FeedPresentable
@@ -18,6 +16,8 @@ protocol FeedPresentable: Presentable {
 // MARK: - FeedListener
 
 protocol FeedListener: AnyObject {
+  func routeToComment(item: FeedContentSectionModel.Cell)
+  func routeToBackFromComment()
 }
 
 // MARK: - FeedInteractor
@@ -104,7 +104,7 @@ extension FeedInteractor: FeedPresentableListener, Reactor {
   }
 
   private func mutatingComment(item: FeedContentSectionModel.Cell) -> Observable<Mutation> {
-    router?.routeToComment(item: item)
+    listener?.routeToComment(item: item)
     return .empty()
   }
 }
@@ -113,6 +113,6 @@ extension FeedInteractor: FeedPresentableListener, Reactor {
 
 extension FeedInteractor: FeedInteractable {
   func routeToBackFromComment() {
-    router?.routeToBackFromComment()
+    listener?.routeToBackFromComment()
   }
 }

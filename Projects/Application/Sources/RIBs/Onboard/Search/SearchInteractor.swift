@@ -9,8 +9,6 @@ protocol SearchRouting: ViewableRouting {
   func routeToSubFeed(model: ProfileContentSectionModel.Cell)
   func routeToBackFromSubFeed()
   func routeToBackFromSubProfile()
-  func routeToComment(item: FeedContentSectionModel.Cell)
-  func routeToBackFromComment()
 }
 
 // MARK: - SearchPresentable
@@ -22,6 +20,8 @@ protocol SearchPresentable: Presentable {
 // MARK: - SearchListener
 
 protocol SearchListener: AnyObject {
+  func routeToComment(item: FeedContentSectionModel.Cell)
+  func routeToBackFromComment()
 }
 
 // MARK: - SearchInteractor
@@ -71,11 +71,11 @@ extension SearchInteractor: SearchInteractable {
   }
 
   func routeToComment(item: FeedContentSectionModel.Cell) {
-    router?.routeToComment(item: item)
+    listener?.routeToComment(item: item)
   }
 
   func routeToBackFromComment() {
-    router?.routeToBackFromComment()
+    listener?.routeToBackFromComment()
   }
 }
 

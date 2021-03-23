@@ -163,8 +163,8 @@ class SearchInteractorSpec: QuickSpec {
             interactor.routeToComment(item: .defaultValue())
           }
 
-          it("라우터의 routeToComment 메서드가 불린다") {
-            expect(router.routeToCommentCallCount) == 1
+          it("listener routeToComment 메서드가 불린다") {
+            expect(listener.routeToCommentCallCount) == 1
           }
         }
 
@@ -173,8 +173,8 @@ class SearchInteractorSpec: QuickSpec {
             interactor.routeToBackFromComment()
           }
 
-          it("라우터의 routeToComment 메서드가 불린다") {
-            expect(router.routeToBackFromCommentCallCount) == 1
+          it("listener routeToComment 메서드가 불린다") {
+            expect(listener.routeToBackFromCommentCallCount) == 1
           }
         }
       }

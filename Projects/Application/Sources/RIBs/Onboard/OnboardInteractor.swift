@@ -8,6 +8,8 @@ protocol OnboardRouting: ViewableRouting {
   func setOnceViewControllers()
   func routeToPost(image: UIImage)
   func routeToClose()
+  func routeToComment(item: FeedContentSectionModel.Cell)
+  func routeToBackFromComment()
 }
 
 // MARK: - OnboardPresentable
@@ -90,5 +92,13 @@ extension OnboardInteractor: OnboardInteractable {
 
   func routeToClose() {
     router?.routeToClose()
+  }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    router?.routeToComment(item: item)
+  }
+
+  func routeToBackFromComment() {
+    router?.routeToBackFromComment()
   }
 }

@@ -24,6 +24,13 @@ final class SearchBuilderAdapter: Builder<SearchDependency> {
 // MARK: SearchListener
 
 extension SearchBuilderAdapter: SearchListener {
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    listener?.routeToComment(item: item)
+  }
+
+  func routeToBackFromComment() {
+    listener?.routeToBackFromComment()
+  }
 }
 
 // MARK: SearchBuildable

@@ -24,6 +24,15 @@ final class FeedBuilderAdapter: Builder<FeedDependency> {
 // MARK: FeedListener
 
 extension FeedBuilderAdapter: FeedListener {
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    listener?.routeToComment(item: item)
+  }
+
+  func routeToBackFromComment() {
+    listener?.routeToBackFromComment()
+  }
+
 }
 
 // MARK: FeedBuildable

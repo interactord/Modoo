@@ -13,11 +13,14 @@ class FeedInteractorSpec: QuickSpec {
     var postUseCase: FirebasePostUseCaseMock!
     // swiftlint:disable implicitly_unwrapped_optional
     var router: FeedRoutingMock!
+    // swiftlint:disable implicitly_unwrapped_optional
+    var listener: FeedListenerMock!
 
     beforeEach {
       viewController = FeedViewControllableMock()
       let state = FeedDisplayModel.State.defaultValue()
       postUseCase = FirebasePostUseCaseMock()
+      listener = FeedListenerMock()
       interactor = FeedInteractor(
         presenter: viewController,
         initialState: state,
@@ -26,6 +29,7 @@ class FeedInteractorSpec: QuickSpec {
         interactable: interactor,
         viewControllable: viewController)
       interactor.router = router
+      interactor.listener = listener
     }
     afterEach {
       interactor = nil
@@ -91,8 +95,9 @@ class FeedInteractorSpec: QuickSpec {
           interactor.action.onNext(.tabComment(.defaultValue()))
         }
 
-        it("라우터의 routeToComment를 호출한다") {
-          expect(router.routeToCommentCallCount) == 1
+        it("listener routeToComment를 호출한다") {
+
+          expect(listener.routeToCommentCallCount) == 1
         }
       }
 
@@ -102,8 +107,8 @@ class FeedInteractorSpec: QuickSpec {
             interactor.routeToBackFromComment()
           }
 
-          it("라우터의 routeToBackFromComment 메서드가 불린다") {
-            expect(router.routeToBackFromCommentCallCount) == 1
+          it("listener routeToBackFromComment 메서드가 불린다") {
+            expect(listener.routeToBackFromCommentCallCount) == 1
           }
         }
       }

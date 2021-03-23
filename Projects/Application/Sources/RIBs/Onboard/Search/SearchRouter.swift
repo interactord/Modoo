@@ -22,13 +22,11 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
     interactor: SearchInteractable,
     viewController: SearchViewControllable,
     subProfileBuilder: SubProfileBuildable,
-    subFeedBuilder: SubFeedBuildable,
-    commentBuilder: CommentBuildable)
+    subFeedBuilder: SubFeedBuildable)
   {
     defer { interactor.router = self }
     self.subProfileBuilder = subProfileBuilder
     self.subFeedBuilder = subFeedBuilder
-    self.commentBuilder = commentBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -40,7 +38,6 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
 
   let subProfileBuilder: SubProfileBuildable
   let subFeedBuilder: SubFeedBuildable
-  let commentBuilder: CommentBuildable
   var navigatingRoutings = [String: ViewableRouting]()
 
   // MARK: Private
@@ -48,7 +45,6 @@ final class SearchRouter: ViewableRouter<SearchInteractable, SearchViewControlla
   private struct Const {
     static let subProfileID = "subProfileID"
     static let subFeedID = "subFeedID"
-    static let commentID = "commentBuilder"
   }
 }
 
@@ -66,20 +62,11 @@ extension SearchRouter: SearchRouting, NavigatingViewableRouting {
     navigatingRoutings = push(router: router, id: Const.subFeedID)
   }
 
-  func routeToComment(item: FeedContentSectionModel.Cell) {
-    let router = commentBuilder.build(withListener: interactor, item: item)
-    navigatingRoutings = push(router: router, id: Const.commentID)
-  }
-
   func routeToBackFromSubFeed() {
     navigatingRoutings = pop(id: Const.subFeedID)
   }
 
   func routeToBackFromSubProfile() {
     navigatingRoutings = pop(id: Const.subProfileID)
-  }
-
-  func routeToBackFromComment() {
-    navigatingRoutings = pop(id: Const.commentID)
   }
 }

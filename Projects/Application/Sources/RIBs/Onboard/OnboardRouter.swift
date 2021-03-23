@@ -3,7 +3,7 @@ import UIKit
 
 // MARK: - OnboardInteractable
 
-protocol OnboardInteractable: Interactable, FeedListener, SearchListener, ProfileListener, PostListener {
+protocol OnboardInteractable: Interactable, FeedListener, SearchListener, ProfileListener, PostListener, CommentListener {
   var router: OnboardRouting? { get set }
   var listener: OnboardListener? { get set }
 }
@@ -32,13 +32,15 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
     feedBuilder: FeedBuildable,
     profileBuilder: ProfileBuildable,
     searchBuilder: SearchBuildable,
-    postBuilder: PostBuildable)
+    postBuilder: PostBuildable,
+    commentBuilder: CommentBuildable)
   {
     defer { interactor.router = self }
     self.feedBuilder = feedBuilder
     self.profileBuilder = profileBuilder
     self.searchBuilder = searchBuilder
     self.postBuilder = postBuilder
+    self.commentBuilder = commentBuilder
     super.init(interactor: interactor, viewController: viewController)
   }
 
@@ -50,6 +52,8 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
 
   var presentedRoutings = [ViewableRouting]()
 
+  var navigatingRoutings = [String : ViewableRouting]()
+
   override func didLoad() {
     super.didLoad()
 
@@ -58,15 +62,21 @@ final class OnboardRouter: ViewableRouter<OnboardInteractable, OnboardViewContro
 
   // MARK: Private
 
+  private struct Const {
+    static let commentID = "commentID"
+  }
+
   private let feedBuilder: FeedBuildable
   private let profileBuilder: ProfileBuildable
   private let searchBuilder: SearchBuildable
   private let postBuilder: PostBuildable
+  private let commentBuilder: CommentBuildable
+
 }
 
-// MARK: OnboardRouting, PresentingViewableRouting
+// MARK: OnboardRouting, PresentingViewableRouting, NavigatingViewableRouting
 
-extension OnboardRouter: OnboardRouting, PresentingViewableRouting {
+extension OnboardRouter: OnboardRouting, PresentingViewableRouting, NavigatingViewableRouting {
 
   // MARK: Internal
 
@@ -86,6 +96,15 @@ extension OnboardRouter: OnboardRouting, PresentingViewableRouting {
 
   func routeToClose() {
     presentedRoutings = clearPresent(routings: presentedRoutings, animated: false)
+  }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    let router = commentBuilder.build(withListener: interactor, item: item)
+    navigatingRoutings = push(router: router, id: Const.commentID)
+  }
+
+  func routeToBackFromComment() {
+    navigatingRoutings = pop(id: Const.commentID)
   }
 
   // MARK: Private

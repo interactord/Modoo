@@ -14,8 +14,7 @@ class FeedRouterSpec: QuickSpec {
       viewController = FeedViewControllableMock()
       router = FeedRouter(
         interactor: FeedInteractableMock(),
-        viewController: viewController,
-        commentBuilder: CommentBuildableMock())
+        viewController: viewController)
     }
     afterEach {
       viewController = nil
@@ -27,46 +26,8 @@ class FeedRouterSpec: QuickSpec {
         router.didLoad()
       }
 
-      context("routeToComment 메서드 호출 시") {
-        beforeEach {
-          router.routeToComment(item: .defaultValue())
-        }
-
-        it("viewController push 메서드를 호출 한다") {
-          expect(viewController.pushCallCount) == 1
-          expect(viewController.viewControllers) == 1
-        }
-
-        context("routeToComment 중복 메서드 호출 시") {
-          beforeEach {
-            router.routeToComment(item: .defaultValue())
-          }
-
-          it("viewController push 메서드를 하지 않는다") {
-            expect(viewController.pushCallCount) == 1
-            expect(viewController.viewControllers) == 1
-          }
-
-          context("routeToBack 메서드 호출 시") {
-            beforeEach {
-              router.routeToBackFromComment()
-            }
-
-            it("viewController pop 메서드가 불린다") {
-              expect(viewController.popCallCount) == 1
-            }
-          }
-        }
-      }
-
-      context("routeToBack 메서드 호출 시") {
-        beforeEach {
-          router.routeToBackFromComment()
-        }
-
-        it("viewController pop 메서드가 불리지 않는다") {
-          expect(viewController.popCallCount) == 0
-        }
+      it("test...") {
+        expect(router).notTo(beNil())
       }
     }
   }

@@ -19,7 +19,8 @@ class OnboardRouterSpec: QuickSpec {
         feedBuilder: FeedBuildableMock(),
         profileBuilder: ProfileBuildableMock(),
         searchBuilder: SearchBuildableMock(),
-        postBuilder: PostBuildableMock())
+        postBuilder: PostBuildableMock(),
+        commentBuilder: CommentBuildableMock())
     }
     afterEach {
       viewController = nil
@@ -68,6 +69,68 @@ class OnboardRouterSpec: QuickSpec {
 
         it("viewController dismiss 메서드가 호출된다") {
           expect(viewController.dismissCallCount) == 1
+        }
+      }
+
+      context("routeToComment가 불리면") {
+        beforeEach {
+          router.routeToComment(item: .defaultValue())
+        }
+
+        it("viewController push 메서드가 호출된다") {
+          expect(viewController.pushCallCount) == 1
+        }
+      }
+
+      context("routeToClose가 불리면") {
+        beforeEach {
+          router.routeToClose()
+        }
+
+        it("viewController dismiss 메서드가 호출된다") {
+          expect(viewController.dismissCallCount) == 1
+        }
+      }
+
+      context("routeToComment 메서드 호출 시") {
+        beforeEach {
+          router.routeToComment(item: .defaultValue())
+        }
+
+        it("viewController push 메서드를 호출 한다") {
+          expect(viewController.pushCallCount) == 1
+          expect(viewController.viewControllers) == 1
+        }
+
+        context("routeToComment 중복 메서드 호출 시") {
+          beforeEach {
+            router.routeToComment(item: .defaultValue())
+          }
+
+          it("viewController push 메서드를 하지 않는다") {
+            expect(viewController.pushCallCount) == 1
+            expect(viewController.viewControllers) == 1
+          }
+        }
+
+        context("routeToBackFromComment 메서드 호출 시") {
+          beforeEach {
+            router.routeToBackFromComment()
+          }
+
+          it("viewController pop 메서드가 불린다") {
+            expect(viewController.popCallCount) == 1
+          }
+        }
+      }
+
+      context("routeToBackFromComment 메서드 호출 시") {
+        beforeEach {
+          router.routeToBackFromComment()
+        }
+
+        it("viewController pop 메서드가 불리지 않는다") {
+          expect(viewController.popCallCount) == 0
         }
       }
     }

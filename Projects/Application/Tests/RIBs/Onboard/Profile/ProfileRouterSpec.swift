@@ -67,48 +67,6 @@ class ProfileRouterSpec: QuickSpec {
             expect(viewController.popCallCount) == 1
           }
         }
-
-        context("routeToComment 메서드 호출 시") {
-          beforeEach {
-            router.routeToComment(item: .defaultValue())
-          }
-
-          it("viewController push 메서드를 호출 한다") {
-            expect(viewController.pushCallCount) == 2
-            expect(viewController.viewControllers) == 2
-          }
-
-          context("routeToComment 중복 메서드 호출 시") {
-            beforeEach {
-              router.routeToComment(item: .defaultValue())
-            }
-
-            it("viewController push 메서드를 하지 않는다") {
-              expect(viewController.pushCallCount) == 2
-              expect(viewController.viewControllers) == 2
-            }
-          }
-
-          context("routeToBackFromComment 메서드 호출 시") {
-            beforeEach {
-              router.routeToBackFromComment()
-            }
-
-            it("viewController pop 메서드가 불린다") {
-              expect(viewController.popCallCount) == 1
-            }
-          }
-        }
-
-        context("routeToBackFromComment 메서드 호출 시") {
-          beforeEach {
-            router.routeToBackFromComment()
-          }
-
-          it("viewController pop 메서드가 불리지 않는다") {
-            expect(viewController.popCallCount) == 0
-          }
-        }
       }
     }
   }

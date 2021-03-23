@@ -24,6 +24,6 @@ class FeedInteractableMock: InteractableMock {
 
 extension FeedInteractableMock: FeedInteractable {
   func routeToBackFromComment() {
-    router?.routeToBackFromComment()
+    listener?.routeToBackFromComment()
   }
 }

@@ -176,8 +176,8 @@ class ProfileInteractorSpec: QuickSpec {
             interactor.routeToComment(item: .defaultValue())
           }
 
-          it("라우터의 routeToComment 메서드가 불린다") {
-            expect(router.routeToCommentCallCount) == 1
+          it("listener의 routeToComment 메서드가 불린다") {
+            expect(listener.routeToCommentCallCount) == 1
           }
         }
 
@@ -186,8 +186,8 @@ class ProfileInteractorSpec: QuickSpec {
             interactor.routeToBackFromComment()
           }
 
-          it("라우터의 routeToBackFromComment 메서드가 불린다") {
-            expect(router.routeToBackFromCommentCallCount) == 1
+          it("listener의 routeToBackFromComment 메서드가 불린다") {
+            expect(listener.routeToBackFromCommentCallCount) == 1
           }
         }
       }

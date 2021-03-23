@@ -27,6 +27,14 @@ extension ProfileBuilderAdapter: ProfileListener {
   func routeToAuthentication() {
     listener?.routeToAuthentication()
   }
+
+  func routeToComment(item: FeedContentSectionModel.Cell) {
+    listener?.routeToComment(item: item)
+  }
+
+  func routeToBackFromComment() {
+    listener?.routeToBackFromComment()
+  }
 }
 
 // MARK: ProfileBuildable

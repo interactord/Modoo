@@ -42,7 +42,6 @@ final class ProfileRouter: ViewableRouter<ProfileInteractable, ProfileViewContro
 
   private struct Const {
     static let subFeedID = "subFeedID"
-    static let commentID = "commentID"
   }
 
   private var subFeedBuilder: SubFeedBuildable
@@ -60,14 +59,5 @@ extension ProfileRouter: ProfileRouting, NavigatingViewableRouting {
 
   func routeToBackFromSubFeed() {
     navigatingRoutings = pop(id: Const.subFeedID)
-  }
-
-  func routeToComment(item: FeedContentSectionModel.Cell) {
-    let router = commentBuilder.build(withListener: interactor, item: item)
-    navigatingRoutings = push(router: router, id: Const.commentID)
-  }
-
-  func routeToBackFromComment() {
-    navigatingRoutings = pop(id: Const.commentID)
   }
 }

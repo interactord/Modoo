@@ -38,8 +38,7 @@ extension SearchBuildableMock: SearchBuildable {
       interactor: interactor,
       viewController: viewController,
       subProfileBuilder: SubProfileBuildableMock(),
-      subFeedBuilder: SubFeedBuildableMock(),
-      commentBuilder: CommentBuildableMock())
+      subFeedBuilder: SubFeedBuildableMock())
   }
 
 }
